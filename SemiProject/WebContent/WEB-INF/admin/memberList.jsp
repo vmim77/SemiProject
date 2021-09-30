@@ -37,28 +37,40 @@
 			
 			// alert("userid 확인용 => " + userid);
 			
-			// $("button#modalBtn").click();
 			
-			// $("#exampleModalLabel").html("<span>"+userid+" 님의 상세정보입니다.</span>")
 			
 			$.ajax({
-				url:"<%= ctxPath%>/admin/memberDetail.sh",
+				url:"<%=ctxPath%>/admin/memberDetail.sh",
 				type:"post",
 				data:{"userid":userid},
 				dataType:"json",
 				success:function(json) {
 					
-					alert("json 머야?" + json.name);
+					// alert(json.name);
+					
+					var html = "<ol>"+
+	           		"<li>아이디 : "+json.userid+"</li>" +
+	           		"<li>이름 : "+json.name+"</li>" +
+	           		"<li>이메일 : "+json.email+"</li>" +
+	           		"<li>핸드폰 번호 : "+json.mobile+"</li>" +
+	           		"<li>우편번호 : "+json.postcode+"</li>" +
+	           		"<li>기본주소 : "+json.address+"</li>" +
+	           		"<li>성별 : "+ json.gender +"</li>" +
+	           		"<li>생년월일 : "+ json.birthday +"</li>" +
+	           		"<li>추천인 : "+ json.referral +"</li>" +
+	              	"</ol>";
+	              	
+	              	$("div.modal-body").html(html);
 					
 					
 				},
-				error: function(request, status, error){
-		            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	            }
+				error: function(request, status, error) {
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
 				
 			});
 			
-			
+			$("button#modalBtn").click();
 			
 		});// end of $(document).on("click", "tr.memberInfo", function(){})----------------------
 		
@@ -154,7 +166,7 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	        ...
+	        
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -163,6 +175,7 @@
 	    </div>
 	  </div>
 	</div>
+	
 	
 </div>
 

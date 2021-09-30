@@ -119,16 +119,16 @@ public class MemberDAO implements InterMemberDAO {
 						 " , address "+
 						 " , detailaddress "+
 						 " , extraaddress "+
-						 " , gender "+
+						 " , case gender when '1' then '남자' else '여자' end as gender "+
 						 " , birthday "+
-						 " , referral "+
+						 " , nvl(referral, '추천인 없음') as referral "+
 						 " , point "+
 						 " , registerday "+
 						 " , lastpwdchangedate "+
 						 " , status "+
 						 " , idle "+
 						 " from tbl_member "+
-						 " where userid = '?' ";
+						 " where userid = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userid);
@@ -137,7 +137,7 @@ public class MemberDAO implements InterMemberDAO {
 			
 			if(rs.next()) {
 				
-				System.out.println("멤버찾았다.");
+				// System.out.println("멤버찾았다.");
 				
 				member = new MemberVO();
 				
