@@ -22,6 +22,54 @@
 
 </style>
 
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+
+		
+		
+		$(document).on("click", "tr.memberInfo", function(){
+			
+			// alert("행 클릭함");
+			
+			var userid = $(this).find("td:nth-child(2)").text();
+			
+			// alert("userid 확인용 => " + userid);
+			
+			// $("button#modalBtn").click();
+			
+			// $("#exampleModalLabel").html("<span>"+userid+" 님의 상세정보입니다.</span>")
+			
+			$.ajax({
+				url:"<%= ctxPath%>/admin/memberDetail.sh",
+				type:"post",
+				data:{"userid":userid},
+				dataType:"json",
+				success:function(json) {
+					
+					alert("json 머야?" + json.name);
+					
+					
+				},
+				error: function(request, status, error){
+		            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	            }
+				
+			});
+			
+			
+			
+		});// end of $(document).on("click", "tr.memberInfo", function(){})----------------------
+		
+		
+	});
+
+
+
+
+</script>
+
 
 	<%-- 상단 이미지 --%>
 	<section class="hero-wrap hero-wrap-2" style="background-image: url('<%= ctxPath%>/images/about.jpg');" data-stellar-background-ratio="0.5">
@@ -38,30 +86,24 @@
 	<%-- 상단 이미지 --%>
 		
 <div class="container">
-	<table class="table-dark my-5 text-center">
+	<table class="table table-dark my-5 text-center justify-content-center">
 		<thead>
 			<tr>
 				<th>회원번호</th>
 				<th>아이디</th>
 				<th>성명</th>
-				<th>이메일</th>
 				<th>성별</th>
-				<th>연락처</th>
-				<th>추천인</th>
-				<th>포인트</th>
 				<th>가입일자</th>
-				<th>비밀번호 변경일자</th>
 				<th>회원상태</th>
 				<th>휴면상태</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="mbr" items="${requestScope.mbrList}" varStatus="status">
-				<tr>
+				<tr class="memberInfo">
 					<td>${status.index}</td>
 					<td>${mbr.userid}</td>
 					<td>${mbr.name}</td>
-					<td>${mbr.email}</td>
 					
 					<c:if test="${mbr.gender == 1}">
 						<td>남자</td>
@@ -70,18 +112,7 @@
 						<td>여자</td>
 					</c:if>
 					
-					<td>${mbr.mobile}</td>
-					
-					<c:if test="${ empty mbr.referral }"> <%-- 추천인 없으면 NULL이니깐 '없음'으로 표시합니다. --%>
-						<td>없음</td>
-					</c:if>
-					<c:if test="${ not empty mbr.referral }"> <%-- 있으면 그 추천인으로 --%>
-						<td>${mbr.referral}</td>
-					</c:if>
-					
-					<td>${mbr.point}</td>
 					<td>${fn:substring(mbr.registerday, 0, 10)}</td> <%-- 시간은 짜르고 날짜만 가져옵니다. --%>
-					<td>${fn:substring(mbr.lastpwdchangedate, 0, 10)}</td> <%-- 시간은 짜르고 날짜만 가져옵니다. --%>
 					
 					<c:if test="${mbr.status == 1}">
 						<td>사용가능</td>
@@ -106,6 +137,32 @@
 		<button type="button" class="btn btn-dark mx-5">회원정보 수정하기<br>(update)</button><%-- 운영자가 정보 수정해주기? --%>
 		<button type="button" class="btn btn-dark">회원정보 삭제하기[미정]<br>(update or delete)</button><%-- 휴면처리가 오래된 회원은 운영자가 정책에 따라 탈퇴로 바꾸게 하는 것?> --%>
 	</p>
+	
+	<!-- Button trigger modal -->
+	<button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;">
+		회원상세정보
+	</button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel"></h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        ...
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
 </div>
 
