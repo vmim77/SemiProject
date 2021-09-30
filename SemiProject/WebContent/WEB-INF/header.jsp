@@ -74,6 +74,8 @@
 			location.href="https://accounts.kakao.com/login?continue=http%3A%2F%2Fpf.kakao.com%2F_xeplFV%2Ffriend";
 		});
 	
+		console.log("컨텍스트패스명"+<%= ctxPath%>);
+	
 	});
 </script>	
 	
