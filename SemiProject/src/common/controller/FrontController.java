@@ -11,7 +11,7 @@ import javax.servlet.http.*;
 		description = "사용자가 웹에서 *.sh 을 했을 경우 이 서블릿이 먼저 응답을 해주도록 한다.", 
 		urlPatterns = { "*.sh" }, 
 		initParams = { 
-				@WebInitParam(name = "propertyConfig", value = "C:\\git\\SemiProject\\SemiProject\\WebContent\\WEB-INF\\Command.properties", description = "*.sh 에 대한 클래스의 매핑파일")
+				@WebInitParam(name = "propertyConfig", value = "C:/NCS/workspace(jsp)/Subject/WebContent/WEB-INF/Command.properties", description = "*.sh 에 대한 클래스의 매핑파일")
 		})
 //================================================================================================
 public class FrontController extends HttpServlet {

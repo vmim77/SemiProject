@@ -4,13 +4,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-class IndexController extends AbstractController {
+class AboutController extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/index.jsp");
+		super.setViewPage("/WEB-INF/about.jsp");
 		
 	}
 
