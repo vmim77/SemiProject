@@ -13,7 +13,7 @@
 
 </style>
 
-	<jsp:include page="/WEB-INF/header.jsp" />
+	<jsp:include page="/WEB-INF/header_success.jsp" />
 	
 		<%-- 상단 이미지 시작 --%>
 			<div class="hero-wrap" style="background-image: url('images/main.jpg');" data-stellar-background-ratio="0.5">

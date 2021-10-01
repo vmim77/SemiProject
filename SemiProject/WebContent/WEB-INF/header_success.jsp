@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>  
+    
 <% String ctxPath= request.getContextPath(); %>
 
 <!DOCTYPE html>
@@ -44,13 +46,13 @@
 							</div>
 						</li>
 						<li class="nav-item dropdown" style="opacity: 0.8;">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Menu</a>
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
-								<a class="dropdown-item" href="<%= ctxPath%>/login/login.sh">로그인     </a>
-								<a class="dropdown-item" href="<%= ctxPath%>/member/memberRegister.sh">회원가입  </a>
+								<a class="dropdown-item" href="<%=ctxPath%>/login/logout.sh">로그아웃  </a>
 								<a class="dropdown-item" href="#">장바구니  </a>
 								<a class="dropdown-item" href="#">주문조회  </a>
 								<a class="dropdown-item" href="#">배송조회   </a>
+								<a class="dropdown-item" href="#">내정보</a>
 								<a class="dropdown-item" href="#">내정보수정</a>
 							</div>
 						</li>
