@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>    
 <% String ctxPath= request.getContextPath(); %>
     
 <!DOCTYPE html>
@@ -116,17 +117,36 @@
 						</li>
 						
 						<%-- 회원 메뉴입니다. --%>
-						<li class="nav-item dropdown" style="opacity: 0.8;">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MY MENU</a>
-							<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
-								<a class="dropdown-item" href="#">로그인     </a>
-								<a class="dropdown-item" href="#">회원가입  </a>
-								<a class="dropdown-item" href="#">장바구니  </a>
-								<a class="dropdown-item" href="#">주문조회  </a>
-								<a class="dropdown-item" href="#">배송조회   </a>
-								<a class="dropdown-item" href="#">내정보수정</a>
-							</div>
-						</li>
+						
+						<!-- 로그인 전-->
+						<c:if test="${empty sessionScope.loginuser}">
+							<li class="nav-item dropdown" style="opacity: 0.8;">
+								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Menu</a>
+								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
+									<a class="dropdown-item" href="<%= ctxPath%>/login/login.sh">로그인     </a>
+									<a class="dropdown-item" href="<%= ctxPath%>/member/memberRegister.sh">회원가입  </a>
+									<a class="dropdown-item" href="#">장바구니  </a>
+									<a class="dropdown-item" href="#">주문조회  </a>
+									<a class="dropdown-item" href="#">배송조회   </a>
+									<a class="dropdown-item" href="#">내정보수정</a>
+								</div>
+							</li>	
+						</c:if>
+						
+						<!-- 로그인 후 -->
+						<c:if test="${not empty sessionScope.loginuser}">
+							<li class="nav-item dropdown" style="opacity: 0.8;">
+								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">로그인됨</a>
+								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
+									<a class="dropdown-item" href="<%= ctxPath%>/login/logout.sh">로그아웃  </a>
+									<a class="dropdown-item" href="#">장바구니  </a>
+									<a class="dropdown-item" href="#">주문조회  </a>
+									<a class="dropdown-item" href="#">배송조회   </a>
+									<a class="dropdown-item" href="<%= ctxPath%>/member/memberProfile.sh">내정보</a>
+									<a class="dropdown-item" href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');">내정보수정</a>
+								</div>
+							</li>
+						</c:if>
 						
 						<%-- 관리자 메뉴입니다. --%>
 						<li class="nav-item dropdown" style="opacity: 0.8;">
