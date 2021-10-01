@@ -1,5 +1,7 @@
 package member.model;
 
+import java.util.Calendar;
+
 public class MemberVO {
 	
 	private String userid; 				// 유저아이디
@@ -19,6 +21,9 @@ public class MemberVO {
 	private String lastpwdchangedate;	// 비번변경일자
 	private int status;					// 회원상태  1(사용가능) 0(탈퇴)
 	private int idle;					// 휴면유무  0(활동중)  1(휴면처리)
+	
+	
+	private int age; // 회원 상세조회용입니다.
 	
 	
 	public String getUserid() {
@@ -99,14 +104,26 @@ public class MemberVO {
 	
 	public void setGender(String gender) {
 		this.gender = gender;
+
+		
 	}
 	
 	public String getBirthday() {
 		return birthday;
 	}
 	
-	public void setBirthday(String birthday) {
+	public void setBirthday(String birthday) { // 생년월일에서 연도만 알면 나이를 알 수 있습니다.
 		this.birthday = birthday;
+		
+		
+		Calendar now = Calendar.getInstance(); // 현재날짜와 시간을 얻어온다.
+		int currentYear = now.get(Calendar.YEAR); // 현재년도를 얻어온다.
+		
+		String strBirthYear = birthday.substring(0, 4);
+		int birthYear = Integer.parseInt(strBirthYear);
+		
+		this.age = currentYear - birthYear + 1;
+		
 	}
 	
 	public String getReferral() {
@@ -156,5 +173,11 @@ public class MemberVO {
 	public void setIdle(int idle) {
 		this.idle = idle;
 	}
+
+	public int getAge() { // 생년월일을 이용해서 나이를 얻어옵니다.
+		return age;
+	}
+	
+	
 	
 }

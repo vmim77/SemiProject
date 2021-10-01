@@ -66,13 +66,16 @@ public class MemberDAO implements InterMemberDAO {
 			String sql = " select userid "+
 						 " , name "+
 						 " , gender "+
-						 " , registerday "+
+						 " , to_char(registerday, 'yyyy-mm-dd') AS registerday "+
 						 " , status "+
 						 " , idle "+
 						 " from tbl_member "+
-						 " order by registerday asc ";
+						 " order by registerday desc ";
+						 
 			
+						 
 			pstmt = conn.prepareStatement(sql);
+			
 			
 			rs = pstmt.executeQuery();
 			
@@ -123,7 +126,7 @@ public class MemberDAO implements InterMemberDAO {
 						 " , birthday "+
 						 " , nvl(referral, '추천인 없음') as referral "+
 						 " , point "+
-						 " , registerday "+
+						 " , to_char(registerday, 'yyyy-mm-dd') AS registerday "+
 						 " , lastpwdchangedate "+
 						 " , status "+
 						 " , idle "+
