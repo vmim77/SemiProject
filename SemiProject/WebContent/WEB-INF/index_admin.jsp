@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<% String ctxPath = request.getContextPath(); %>    
 
 <style type="text/css">
 
@@ -16,7 +18,7 @@
 	<jsp:include page="/WEB-INF/header_success.jsp" />
 	
 		<%-- 상단 이미지 시작 --%>
-			<div class="hero-wrap" style="background-image: url('images/main.jpg');" data-stellar-background-ratio="0.5">
+			<div class="hero-wrap" style="background-image: url('<%= ctxPath%>/images/main.jpg');" data-stellar-background-ratio="0.5">
 				<div class="overlay"></div>
 				<div class="container">
 					<div class="row no-gutters slider-text align-items-center justify-content-center">
@@ -40,7 +42,7 @@
 			<div class="row justify-content-center my-5" style="border:solid 0px gray;">
 				<div class="col-sm-6">
 					<div class="card border-light">
-					  <img src="/Subject/images/event1.jpg" class="card-img-top" alt="...">
+					  <img src="<%= ctxPath%>/images/event1.jpg" class="card-img-top" alt="...">
 					  <div class="card-body">
 					    <h4>EVENT1<br>
 					    	EVENT1 SUB1
@@ -51,7 +53,7 @@
 				</div>
 				<div class="col-sm-6">
 					<div class="card border-light">
-					  <img src="/Subject/images/event2.jpg" class="card-img-top" alt="...">
+					  <img src="<%= ctxPath%>/images/event2.jpg" class="card-img-top" alt="...">
 					  <div class="card-body">
 					    <h4>EVENT2<br>
 					    	EVENT SUB2
@@ -73,7 +75,7 @@
 					<div class="card-deck">
 						<div class="col">
 							<div class="card border-light">
-							  <img src="/Subject/images/product1.jpg" class="card-img-top" alt="...">
+							  <img src="<%= ctxPath%>/images/product1.jpg" class="card-img-top" alt="...">
 							  <div class="card-body">
 							  	<p>Product1</p>
 							    <h4>Product1<br>
@@ -84,7 +86,7 @@
 					
 						<div class="col">
 							<div class="card border-light">
-							  <img src="/Subject/images/product2.jpg" class="card-img-top" alt="...">
+							  <img src="<%= ctxPath%>/images/product2.jpg" class="card-img-top" alt="...">
 							  <div class="card-body">
 							  	<p>Product2</p>
 							    <h4>Product2</h4>
@@ -94,7 +96,7 @@
 					
 						<div class="col">
 							<div class="card border-light">
-							  <img src="/Subject/images/product3.jpg" class="card-img-top" alt="...">
+							  <img src="<%= ctxPath%>/images/product3.jpg" class="card-img-top" alt="...">
 							  <div class="card-body">
 							  	<p>Product3</p>
 							    <h4>Product3<br>
@@ -105,7 +107,7 @@
 					
 						<div class="col">
 							<div class="card border-light">
-							  <img src="/Subject/images/product4.jpg" class="card-img-top" alt="...">
+							  <img src="<%= ctxPath%>/images/product4.jpg" class="card-img-top" alt="...">
 							  <div class="card-body">
 							  	<p>Product4</p>
 							    <h4>Product4<br>
@@ -131,7 +133,7 @@
 					<div class="card-deck">
 						<div class="col">
 							<div class="card border-light">
-							  <img src="/Subject/images/product5.jpg" class="card-img-top" alt="...">
+							  <img src="<%= ctxPath%>/images/product5.jpg" class="card-img-top" alt="...">
 							  <div class="card-body">
 							  	<p>Product5</p>
 							    <h4>Product5<br>
@@ -142,7 +144,7 @@
 					
 						<div class="col">
 							<div class="card border-light">
-							  <img src="/Subject/images/product6.jpg" class="card-img-top" alt="...">
+							  <img src="<%= ctxPath%>/images/product6.jpg" class="card-img-top" alt="...">
 							  <div class="card-body">
 							  	<p>Product6</p>
 							    <h4>Product6</h4>
@@ -152,7 +154,7 @@
 					
 						<div class="col">
 							<div class="card border-light">
-							  <img src="/Subject/images/product7.jpg" class="card-img-top" alt="...">
+							  <img src="<%= ctxPath%>/images/product7.jpg" class="card-img-top" alt="...">
 							  <div class="card-body">
 							  	<p>Product7</p>
 							    <h4>Product7<br>
@@ -163,7 +165,7 @@
 					
 						<div class="col">
 							<div class="card border-light">
-							  <img src="/Subject/images/product8.jpg" class="card-img-top" alt="...">
+							  <img src="<%= ctxPath%>/images/product8.jpg" class="card-img-top" alt="...">
 							  <div class="card-body">
 							  	<p>Product8</p>
 							    <h4>Product8<br>
@@ -181,7 +183,7 @@
 		</div>
 		
     	<%-- 하단 이미지 시작 --%>
-		<div class="hero-wrap" style="background-image: url('images/backimage1.jpg');" data-stellar-background-ratio="0.5">
+		<div class="hero-wrap" style="background-image: url('<%= ctxPath%>/images/backimage1.jpg');" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 			<div class="container">
 				<div class="row no-gutters slider-text align-items-center justify-content-center">

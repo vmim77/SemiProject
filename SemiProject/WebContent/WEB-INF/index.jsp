@@ -3,7 +3,7 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
-<jsp:include page="/WEB-INF/header.jsp" />
+<jsp:include page="/WEB-INF/header_success.jsp" />
 
 <%-- 메인페이지 입니다. --%>
 

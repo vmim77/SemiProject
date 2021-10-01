@@ -13,12 +13,12 @@
 		
 		<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;1,200;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/Subject/css/animate.css">
-		<link rel="stylesheet" href="/Subject/css/owl.carousel.min.css">
-		<link rel="stylesheet" href="/Subject/css/owl.theme.default.min.css">
-		<link rel="stylesheet" href="/Subject/css/magnific-popup.css">
-		<link rel="stylesheet" href="/Subject/css/flaticon.css">
-		<link rel="stylesheet" href="/Subject/css/style.css">
+		<link rel="stylesheet" href="<%= ctxPath%>/css/animate.css">
+		<link rel="stylesheet" href="<%= ctxPath%>/css/owl.carousel.min.css">
+		<link rel="stylesheet" href="<%= ctxPath%>/css/owl.theme.default.min.css">
+		<link rel="stylesheet" href="<%= ctxPath%>/css/magnific-popup.css">
+		<link rel="stylesheet" href="<%= ctxPath%>/css/flaticon.css">
+		<link rel="stylesheet" href="<%= ctxPath%>/css/style.css">
 	</head>
 	
 	<body style='font-family:맑은고딕;'> <%-- CSS에 글씨체들이 너무 섞여있어서 여기에 직접 쓰시면 우선순위 높아서 가장 먼저 적용됩니다!! --%>
@@ -45,18 +45,58 @@
 								<a class="dropdown-item" href="#">Shoes C</a>
 							</div>
 						</li>
+						
+					    <!-- 로그인 전-->
+	                    <c:if test="${empty sessionScope.loginuser}">
+	                       <li class="nav-item dropdown" style="opacity: 0.8;">
+	                          <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Menu</a>
+	                          <div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
+	                             <a class="dropdown-item" href="<%= ctxPath%>/login/login.sh">로그인     </a>
+	                             <a class="dropdown-item" href="<%= ctxPath%>/member/memberRegister.sh">회원가입  </a>
+	                             <a class="dropdown-item" href="#">장바구니  </a>
+	                             <a class="dropdown-item" href="#">주문조회  </a>
+	                             <a class="dropdown-item" href="#">배송조회   </a>
+	                             <a class="dropdown-item" href="#">내정보수정</a>
+	                          </div>
+	                       </li>   
+	                    </c:if>
+	                    
+	                    <!-- 로그인 후 -->
+	                    <c:if test="${not empty sessionScope.loginuser}">
+	                       <li class="nav-item dropdown" style="opacity: 0.8;">
+	                          <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">로그인됨</a>
+	                          <div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
+	                             <a class="dropdown-item" href="#">장바구니  </a>
+	                             <a class="dropdown-item" href="#">주문조회  </a>
+	                             <a class="dropdown-item" href="#">배송조회   </a>
+	                             <a class="dropdown-item" href="<%= ctxPath%>/member/memberProfile.sh">내정보</a>
+	                             <a class="dropdown-item" href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');">내정보수정</a>
+	                          </div>
+	                       </li>
+	                    </c:if>
+						
+						
+						<%-- 관리자 메뉴입니다. --%>
 						<li class="nav-item dropdown" style="opacity: 0.8;">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN MENU</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
-								<a class="dropdown-item" href="<%=ctxPath%>/login/logout.sh">로그아웃  </a>
-								<a class="dropdown-item" href="#">장바구니  </a>
-								<a class="dropdown-item" href="#">주문조회  </a>
-								<a class="dropdown-item" href="#">배송조회   </a>
-								<a class="dropdown-item" href="#">내정보</a>
-								<a class="dropdown-item" href="#">내정보수정</a>
+								<a class="dropdown-item" href="<%= ctxPath%>/admin/memberList.sh">회원목록      </a>
+								<a class="dropdown-item" href="#">제품등록      </a>
+								<a class="dropdown-item" href="#">전체주문내역</a>
 							</div>
 						</li>
-						<li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+						
+						
+						<%-- 오프라인 메장 메뉴입니다. --%>
+						<li class="nav-item"><a href="<%= ctxPath%>/store.sh" class="nav-link">STORE</a></li>
+						
+						
+						
+						
+						
+						
+						
+						
 					</ul>
 				</div>
 			</div>

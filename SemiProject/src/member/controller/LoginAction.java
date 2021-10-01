@@ -13,21 +13,26 @@ public class LoginAction extends AbstractController {
 		String method = request.getMethod(); // "GET" 또는 "POST"
 		
 		if(!"POST".equalsIgnoreCase(method)) {
-			// POST 방식으로 넘어온 것이 아니라면 
+			// GET 방식으로 들어옴 ▶ 처음으로 로그인하는 경우
 			
-			String message = "비정상적인 경로로 들어왔습니다.";
-			String loc = "javascript:history.back()";
 			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
+			// [ 여기 아래 얘네는 지워도 될거같아요 ] 
+			// String message = "비정상적인 경로로 들어왔습니다.";
+			// String loc = "javascript:history.back()";
 			
-		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/login/login.jsp");
+			// request.setAttribute("message", message);
+			// request.setAttribute("loc", loc);
 			
-			return; //  execute(HttpServletRequest request, HttpServletResponse response) 메소드 종료하기
+			//	super.setRedirect(false);
+			// [ 여기 위에 얘네는 지워도 될거같아요 ] 
+			
+			
+			super.setViewPage("/WEB-INF/login/login.jsp"); 
+			
+			// return; //  execute(HttpServletRequest request, HttpServletResponse response) 메소드 종료하기
 		}
 		
-		// POST 방식으로 넘어온 것이라면
+		// POST 방식으로 넘어온 것이라면 ▶  로그인을 함 
 		String userid = request.getParameter("userid");
 		String pwd = request.getParameter("pwd");
 		
@@ -86,7 +91,7 @@ public class LoginAction extends AbstractController {
 				// 비밀번호를 변경한지 3개월이내인 경우
 				// 페이지 이동을 시킨다.
 				super.setRedirect(true);
-				super.setViewPage(request.getContextPath()+"/index_1.sh");
+				super.setViewPage(request.getContextPath()+"/index.sh");
 				
 			
 				

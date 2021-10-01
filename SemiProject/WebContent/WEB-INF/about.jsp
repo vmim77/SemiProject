@@ -4,7 +4,7 @@
 <% String ctxPath = request.getContextPath(); %>    
     
 
-<jsp:include page="/WEB-INF/header.jsp" />
+<jsp:include page="/WEB-INF/header_success.jsp" />
 	
 
 	<%-- 상단 이미지 --%>
