@@ -277,9 +277,9 @@ h2 {
         <div class="login">
             <h2 style="color: black;">LOGIN</h2>
             <div class="login_sns">
-      
-            <a href="<%= ctxPath%>/index.sh"><img src="../images/home1.PNG" style="width: 70px;"/></a>
-            <li><a href="<%= ctxPath%>/member/memberRegister.sh"></a></li>
+            <a href="<%= ctxPath%>/index.sh"><img src="../images/home1.PNG" style="width: 70px;"/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <a href="<%= ctxPath%>/member/memberRegister.sh"><img src="../images/regi.PNG" style="width: 75px;"/></a>
             </div>
             <div class="login_id">
                 <h4>아이디</h4>
