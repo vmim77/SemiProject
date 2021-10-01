@@ -86,7 +86,7 @@ public class LoginAction extends AbstractController {
 				// 비밀번호를 변경한지 3개월이내인 경우
 				// 페이지 이동을 시킨다.
 				super.setRedirect(true);
-				super.setViewPage(request.getContextPath()+"/index_1.sh");
+				super.setViewPage(request.getContextPath()+"/index.sh");
 				
 			
 				
