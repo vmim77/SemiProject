@@ -86,17 +86,17 @@
 	
 	
 	// Function Declaration 
-	function goSearch() {
+	function goSearch() { // 검색창에 검색타입과 검색어를 입력하면 해당 회원들을 조회해서 찾아줍니다.
 		
-		var frm = $(document).memberFrm;
+		var frm = document.memberFrm;
 		
-		frm.action = "<%= ctxPath%>/admin/memberSearch.sh";
+		frm.action = "<%= ctxPath%>/admin/memberList.sh";
 		frm.method = "get";
 		frm.submit();
 		
 		window.reload(true);
 		
-	}
+	}// end of function goSearch()---------------------------
 
 
 </script>
@@ -116,94 +116,98 @@
 	</section>
 	<%-- 상단 이미지 --%>
 	
-	 <form name="memberFrm">
+	<%-- 검색을 위한 정보를 보냅니다. --%>
+	<form name="memberFrm" class="text-center my-5"> 
 		<select id="searchType" name="searchType">
-         <option value="name">성명</option>
-         <option value="userid">아이디</option>
-      </select>
-      <input type="text" id="searchWord" name="searchWord" />
-      
-      <button type="button" onclick="goSearch();" style="margin-right: 30px;">검색</button>
-      </form>
+			<option value="name">성명</option>
+			<option value="userid">아이디</option>
+		</select>
+		<input type="text" id="searchWord" name="searchWord" />
+		   
+		<button type="button" class="btn btn-dark" onclick="goSearch();" style="margin-right: 30px;">검색</button>
 		
-<div class="container">
-	<table class="table table-dark my-5 text-center justify-content-center" >
-		<thead>
-			<tr>
-				<th>회원번호</th>
-				<th>아이디</th>
-				<th>성명</th>
-				<th>성별</th>
-				<th>가입일자</th>
-				<th>회원상태</th>
-				<th>휴면상태</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="mbr" items="${requestScope.mbrList}" varStatus="status">
-				<tr class="memberInfo">
-					<td>${status.index}</td>
-					<td>${mbr.userid}</td>
-					<td>${mbr.name}</td>
-					
-					<c:if test="${mbr.gender == 1}">
-						<td>남자</td>
-					</c:if>
-					<c:if test="${mbr.gender == 2}">
-						<td>여자</td>
-					</c:if>
-					
-					<td>${fn:substring(mbr.registerday, 0, 10)}</td> <%-- 시간은 짜르고 날짜만 가져옵니다. --%>
-					
-					<c:if test="${mbr.status == 1}">
-						<td>사용가능</td>
-					</c:if>
-					<c:if test="${mbr.status == 0}">
-						<td>탈퇴</td>
-					</c:if>
-					
-					<c:if test="${mbr.idle == 0}">
-						<td>활동</td>
-					</c:if>
-					<c:if test="${mbr.idle == 1}">
-						<td>휴면</td>
-					</c:if>
+		<span style="color: red; font-weight: bold; font-size: 12pt;">페이지당 회원명수-</span>
+		<select id="sizePerPage" name="sizePerPage">
+		   <option value="10">10</option>
+		   <option value="5">5</option>
+		   <option value="3">3</option>
+		</select>
+	</form>
+	<%-- 검색을 위한 정보를 보냅니다. --%>
+	<%-- 검색어를 넣지 않고 검색하면 전체회원 조회 // 검색어를 넣고 검색하면 특정회원들 조회 --%>
+	
+		
+	<div class="container">
+		<table class="table table-dark my-5 text-center justify-content-center" >
+			<thead>
 				<tr>
-			</c:forEach>			
-		</tbody>
-	</table>
-	
-	<p class="text-center my-5">
-		<button type="button" class="btn btn-dark mx-5">회원정보 수정하기<br>(update)</button><%-- 운영자가 정보 수정해주기? --%>
-		<button type="button" class="btn btn-dark">회원정보 삭제하기[미정]<br>(update or delete)</button><%-- 휴면처리가 오래된 회원은 운영자가 정책에 따라 탈퇴로 바꾸게 하는 것?> --%>
-	</p>
-	
-	<!-- Button trigger modal -->
-	<button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;">
-		회원상세정보
-	</button>
-	
-	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title " id="exampleModalLabel"></h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" onclick="javascript:sendToMsg()">문자발송하기</button>
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">나가기</button>
-	      </div>
-	    </div>
-	  </div>
+					<th>회원번호</th>
+					<th>아이디</th>
+					<th>성명</th>
+					<th>성별</th>
+					<th>가입일자</th>
+					<th>회원상태</th>
+					<th>휴면상태</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="mbr" items="${requestScope.mbrList}" varStatus="status">
+					<tr class="memberInfo">
+						<td>${status.index}</td>
+						<td>${mbr.userid}</td>
+						<td>${mbr.name}</td>
+						<td>${mbr.gender}</td>
+						
+						<td>${fn:substring(mbr.registerday, 0, 10)}</td> <%-- 시간은 짜르고 날짜만 가져옵니다. --%>
+						
+						<c:if test="${mbr.status == 1}">
+							<td>사용가능</td>
+						</c:if>
+						<c:if test="${mbr.status == 0}">
+							<td>탈퇴</td>
+						</c:if>
+						
+						<c:if test="${mbr.idle == 0}">
+							<td>활동</td>
+						</c:if>
+						<c:if test="${mbr.idle == 1}">
+							<td>휴면</td>
+						</c:if>
+					<tr>
+				</c:forEach>			
+			</tbody>
+		</table>
+		
+		<p class="text-center my-5">
+			<button type="button" class="btn btn-dark mx-1">회원정보 수정하기<br>(update)</button><%-- 운영자가 정보 수정해주기? --%>
+			<button type="button" class="btn btn-dark mx-1">회원정보 삭제하기[미정]<br>(update or delete)</button><%-- 휴면처리가 오래된 회원은 운영자가 정책에 따라 탈퇴로 바꾸게 하는 것?> --%>
+		</p>
+		
+		<!-- Button trigger modal -->
+		<button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;">
+			회원상세정보
+		</button>
+		
+		<!-- 회원의 상세정보를 띄워주는 Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title " id="exampleModalLabel"></h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body"></div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" onclick="javascript:sendToMsg()">문자발송하기</button>
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">나가기</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- 회원의 상세정보를 띄워주는 Modal -->
+		
 	</div>
-	
-</div>
 
 <jsp:include page="/WEB-INF/footer.jsp" />

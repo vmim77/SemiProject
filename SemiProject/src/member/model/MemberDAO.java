@@ -376,9 +376,12 @@ public class MemberDAO implements InterMemberDAO {
 
 		
 		// 전체회원을 조회한 후에 반복문으로 VO 객체를 생성해서 각각의 정보를 넣어서 가져옵니다. 
+		// 또는 검색어와 검색타입으로 특정 회원들을 검색해줍니다.
 		@Override
-		public List<MemberVO> selectAllUser() throws SQLException {
-
+		public List<MemberVO> selectAllUser(Map<String, String> paraMap) throws SQLException {
+			
+			String searchType = paraMap.get("searchType"); // 만약에 처음으로 회원조회 메뉴에 들어왔다면 NULL
+			String searchWord = paraMap.get("searchWord"); // 만약에 처음으로 회원조회 메뉴에 들어왔다면 NULL
 
 			List<MemberVO> mbrList = new ArrayList<>(); // 회원이 없다면 길이가 0인 리스트를 반환합니다.
 			
@@ -386,16 +389,44 @@ public class MemberDAO implements InterMemberDAO {
 				
 				conn = ds.getConnection();
 				
-				String sql = " select userid "+
-							 " , name "+
-							 " , gender "+
-							 " , registerday "+
-							 " , status "+
-							 " , idle "+
-							 " from tbl_member "+
-							 " order by registerday asc ";
+				String sql = " select userid, name, gender, registerday, status, idle "+
+									 " from "+
+									 " ( "+
+									 "     select rownum AS rno, userid, name, gender, registerday, status, idle "+
+									 "     from "+
+									 "     (  "+
+									 "         select userid, name, gender, registerday, status, idle "+
+									 "         from tbl_member "+
+									 "         where userid != 'admin' ";
+				
+				if( searchWord != null && !searchWord.trim().isEmpty() ) { // 검색어를 입력했다면 이 안으로 떨어집니다.
+					sql += " and "+searchType+" like '%' || ? || '%' ";
+				 }
+				
+				
+				
+									 sql +=  "  "+
+											 "         order by registerday desc "+
+											 "     ) V "+
+											 " ) T "+
+											 " where rno between ? and ? ";			 
+							 
+				String currentShowPageNo = paraMap.get("currentShowPageNo"); // 수업듣고 나중에 구현해야 함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				String sizePerPage = paraMap.get("sizePerPage");
 				
 				pstmt = conn.prepareStatement(sql);
+				
+				if( searchWord != null && !searchWord.trim().isEmpty() ) { // 검색어가 있다면 다음과 같이 위치홀더를 잡아줍니다.
+					pstmt.setString(1, searchWord);
+					pstmt.setString(2, currentShowPageNo); // 처음으로 페이지에 들어왔다면 1페이지
+					pstmt.setString(3, sizePerPage); // 기본값 10
+				}
+				
+				else { // 검색타입과 검색어가 없는 경우
+					pstmt.setString(1, currentShowPageNo); // 처음으로 페이지에 들어왔다면 1페이지
+					pstmt.setString(2, sizePerPage); // 기본값 10
+				}
+				
 				
 				rs = pstmt.executeQuery();
 				
@@ -424,7 +455,7 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public Map<String, MemberVO> selectAllUser()----------------------------------
 		
 		
-		// 특정회원을 조회해옵니다.
+		// 특정한 한 명의 회원의 상세정보를 가져옵니다.
 		@Override
 		public MemberVO selectOneUser(String userid) throws SQLException {
 			
@@ -490,7 +521,9 @@ public class MemberDAO implements InterMemberDAO {
 			}
 			
 			return member;
-		}
+		}// end of public MemberVO selectOneUser(String userid)---------------------------------------------------------
+		
+		
 		
 		
 }
