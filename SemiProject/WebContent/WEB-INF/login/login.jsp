@@ -277,7 +277,8 @@ h2 {
         <div class="login">
             <h2 style="color: black;">LOGIN</h2>
             <div class="login_sns">
-            <li><a href="<%= ctxPath%>/index.sh" ></a></li>
+      
+            <a href="<%= ctxPath%>/index.sh"><img src="../images/home1.PNG" style="width: 70px;"/></a>
             <li><a href="<%= ctxPath%>/member/memberRegister.sh"></a></li>
             </div>
             <div class="login_id">
