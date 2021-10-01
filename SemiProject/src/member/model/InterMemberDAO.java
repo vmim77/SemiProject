@@ -1,10 +1,12 @@
 package member.model;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 public interface InterMemberDAO {
 	
+
 	// ID 중복검사 (tbl_member 테이블에서 userid 가 존재하면 true를 리턴해주고, userid 가 존재하지 않으면 false를 리턴한다) 
 	boolean idDuplicateCheck(String userid) throws SQLException;
 
@@ -29,7 +31,12 @@ public interface InterMemberDAO {
 	// DB에 회원의 코인 및 포인트 증가하기
 	int coinUpdate(Map<String, String> paraMap) throws SQLException;
 
-
+	
+	// 전체회원을 조회한 후에 반복문으로 VO 객체를 생성해서 각각의 정보를 넣어서 가져옵니다. 
+	List<MemberVO> selectAllUser() throws SQLException;
+		
+	// 특정회원을 조회해옵니다.
+	MemberVO selectOneUser(String userid) throws SQLException;
 
 
 }

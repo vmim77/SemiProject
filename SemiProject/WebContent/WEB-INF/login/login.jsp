@@ -39,21 +39,17 @@
 
 	$(document).ready(function(){
 		
-		
-		
 		// === 로컬스토리지(localStorage)에 저장된 key 가 "saveid"인  userid 값을 불러와서 input 태그 userid에 넣어주기 === //
 		var loginUserid = localStorage.getItem('saveid');
       
       	if(loginUserid != null) {
          $("input#loginUserid").val(loginUserid);
          $("input:checkbox[id=saveid]").prop("checked", true);
-         
       	}
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 	 	$("button#btnSubmit").click(function(){
 	 		goLogin();// 로그인 시도한다.
-	 		console.log("확인용 ->" + ctxPath)
 	 		
 	 	});
 	 	

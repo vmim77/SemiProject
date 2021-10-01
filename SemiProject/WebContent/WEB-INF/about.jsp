@@ -1,25 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<style type="text/css">
-
-	body {
-		font-family: 'Malgun Gothic';
-	}
-	
-
-</style>
+    
+<% String ctxPath = request.getContextPath(); %>    
+    
 
 <jsp:include page="/WEB-INF/header.jsp" />
 	
 
 	<%-- 상단 이미지 --%>
-	<section class="hero-wrap hero-wrap-2" style="background-image: url('images/main.jpg');" data-stellar-background-ratio="0.5">
+	<section class="hero-wrap hero-wrap-2" style="background-image: url('<%= ctxPath%>/images/main.jpg');" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 			<div class="container">
 				<div class="row no-gutters slider-text align-items-end justify-content-center">
 				<div class="col-md-9 ftco-animate mb-5 text-center">
-					<h2 class="mb-0 bread">Company Introduce</h2>
+					<h2 class="mb-0 bread">About us</h2>
 					<br><br>
 				</div>
 			</div>
@@ -31,7 +25,7 @@
     <section class="ftco-section ftco-no-pb">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6 img img-3 d-flex justify-content-center align-items-center" style="background-image: url(images/about.jpg);">
+				<div class="col-md-6 img img-3 d-flex justify-content-center align-items-center" style="background-image: url(<%= ctxPath%>/images/about.jpg);">
 				</div>
 				<div class="col-md-6 wrap-about pl-md-5 ftco-animate py-5">
 					<div class="heading-section">
@@ -55,43 +49,43 @@
 			
 				<div class="col-lg-2 col-md-4 ">
 					<div class="sort w-100 text-center ftco-animate">
-						<div class="img" style="background-image: url(images/더비.jpg);"></div>
-						<h3>A Product</h3>
+						<div class="img" style="background-image: url(<%= ctxPath%>/images/Derby.jpg);"></div>
+						<h3>Derby</h3>
 					</div>
 				</div>
 				
 				<div class="col-lg-2 col-md-4 ">
 					<div class="sort w-100 text-center ftco-animate">
-						<div class="img" style="background-image: url(images/뮬.jpg);"></div>
-						<h3>B Product</h3>
+						<div class="img" style="background-image: url(<%= ctxPath%>/images/Mule.jpg);"></div>
+						<h3>Mule</h3>
 					</div>
 				</div>
 				
 				<div class="col-lg-2 col-md-4 ">
 					<div class="sort w-100 text-center ftco-animate">
-						<div class="img" style="background-image: url(images/부츠.jpg);"></div>
-						<h3>C Product</h3>
+						<div class="img" style="background-image: url(<%= ctxPath%>/images/Boots.jpg);"></div>
+						<h3>Boots</h3>
 					</div>
 				</div>
 				
 				<div class="col-lg-2 col-md-4 ">
 					<div class="sort w-100 text-center ftco-animate">
-						<div class="img" style="background-image: url(images/로퍼.jpg);"></div>
-						<h3>D Product</h3>
+						<div class="img" style="background-image: url(<%= ctxPath%>/images/Loafer.jpg);"></div>
+						<h3>Loafer</h3>
 					</div>
 				</div>
 				
 				<div class="col-lg-2 col-md-4 ">
 					<div class="sort w-100 text-center ftco-animate">
-						<div class="img" style="background-image: url(images/옥스포드.jpg);"></div>
-						<h3>E Product</h3>
+						<div class="img" style="background-image: url(<%= ctxPath%>/images/Oxford.jpg);"></div>
+						<h3>Oxford</h3>
 					</div>
 				</div>
 				
 				<div class="col-lg-2 col-md-4 ">
 					<div class="sort w-100 text-center ftco-animate">
-						<div class="img" style="background-image: url(images/몽크.jpg);"></div>
-						<h3>F Product</h3>
+						<div class="img" style="background-image: url(<%= ctxPath%>/images/Monk.jpg);"></div>
+						<h3>Monk</h3>
 					</div>
 				</div>
 				
