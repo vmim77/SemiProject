@@ -13,12 +13,12 @@
 		
 		<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;1,200;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/Subject/css/animate.css">
-		<link rel="stylesheet" href="/Subject/css/owl.carousel.min.css">
-		<link rel="stylesheet" href="/Subject/css/owl.theme.default.min.css">
-		<link rel="stylesheet" href="/Subject/css/magnific-popup.css">
-		<link rel="stylesheet" href="/Subject/css/flaticon.css">
-		<link rel="stylesheet" href="/Subject/css/style.css">
+		<link rel="stylesheet" href="/SemiProject/css/animate.css">
+		<link rel="stylesheet" href="/SemiProject/css/owl.carousel.min.css">
+		<link rel="stylesheet" href="/SemiProject/css/owl.theme.default.min.css">
+		<link rel="stylesheet" href="/SemiProject/css/magnific-popup.css">
+		<link rel="stylesheet" href="/SemiProject/css/flaticon.css">
+		<link rel="stylesheet" href="/SemiProject/css/style.css">
 	</head>
 	
 	<body style='font-family:맑은고딕;'> <%-- CSS에 글씨체들이 너무 섞여있어서 여기에 직접 쓰시면 우선순위 높아서 가장 먼저 적용됩니다!! --%>
@@ -76,6 +76,7 @@
 								</div>
 							</li>
 						</c:if>
+						
 						
 						
 						<li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
