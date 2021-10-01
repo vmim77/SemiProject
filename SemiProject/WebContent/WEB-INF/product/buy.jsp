@@ -141,7 +141,7 @@
 									+"</td>"
 									+"<td style='width:140px; text-align:right; font-size:10pt;'>"
 										+"<input id='num' type='number' min='1' value='1' max='20' style='width:40px; height:20px; text-align:left;' onclick='flag5();'/>"
-										+"<img id='close' src='/Subject/images/close.png' style='width:15px; height:15px; margin-left:5px'/>"
+										+"<img id='close' src='/SemiProject/images/close.png' style='width:15px; height:15px; margin-left:5px'/>"
 										+"<input class='delnum' type='hidden' value='"+cnt+"'/>"
 										+"<div id='upprice'>"+num*pcd+"원</div>"
 										+"<div>+ 45,000원</div>"
@@ -229,13 +229,13 @@
 							<span id="product_ceil_price" style="font-size:13pt; color:red;">140,000</span>&nbsp;
 							<span style="font-size:10pt; color:gray;">/</span>
 							<span id="product_price" style="font-size:10pt; color:gray;">180,000</span>
-							<span><img id="plus" src="/Subject/images/plus.png" style="width:30px; height:30px; margin-left:165px;"/></span>
-							<span><img id="cart" src="/Subject/images/cart.jpg" style="width:50px; height:50px;"></span>
+							<span><img id="plus" src="/SemiProject/images/plus.png" style="width:30px; height:30px; margin-left:165px;"/></span>
+							<span><img id="cart" src="/SemiProject/images/cart.jpg" style="width:50px; height:50px;"></span>
 						</td>
 					</tr>
 					<tr style="height:50px;">
 						<td style="width:150px; text-align:left; font-size:10pt; color:black; padding-left:7px; border-bottom:solid 1px gray;">적립금</td>
-						<td style="width:300px; font-size:10pt; padding-left:20px; border-bottom:solid 1px gray;"><span>1,800원 (10%)</span><span style="margin-left:145px; font-size:9pt; color:gray;">포인트사용<img src="/Subject/images/point.png" style="width:40px; height:35px;"></span></td>
+						<td style="width:300px; font-size:10pt; padding-left:20px; border-bottom:solid 1px gray;"><span>1,800원 (10%)</span><span style="margin-left:145px; font-size:9pt; color:gray;">포인트사용<img src="/SemiProject/images/point.png" style="width:40px; height:35px;"></span></td>
 					</tr>
 					<tr style="height:50px;">
 						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:0px 0px 0px 7px;">사이즈</td>
