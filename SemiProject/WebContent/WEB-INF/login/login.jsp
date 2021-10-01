@@ -9,8 +9,131 @@
  
 %>
 
+<!-- Bootstrap CSS -->
+		<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
 
 <style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+li {
+  list-style: none;
+}
+
+.wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.login {
+  width: 30%;
+  height: 600px;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h2 {
+  color: tomato;
+  font-size: 2em;
+}
+.login_sns {
+  padding: 20px;
+  display: flex;
+}
+
+.login_sns li {
+  padding: 0px 15px;
+}
+
+.login_sns a {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 50px;
+  background: white;
+  font-size: 20px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4), -3px -3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.login_id {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_id input {
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.login_pw {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_pw input {
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.login_etc {
+  padding: 10px;
+  width: 80%;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.submit {
+  margin-top: 50px;
+  width: 80%;
+}
+.submit input {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  outline: none;
+  border-radius: 40px;
+  background: linear-gradient(to left, rgb(255, 77, 46), rgb(255, 155, 47));
+  color: white;
+  font-size: 1.2em;
+  letter-spacing: 2px;
+}
 
 
    table#loginTbl , table#snsloginTbl{
@@ -147,64 +270,44 @@
 <%-- *** 로그인을 하기 위한 폼을 생성 *** --%>
 <c:if test="${empty sessionScope.loginuser}">
    
-   <div class="alert alert-dark" role="alert">
-   	 <a class="navbar-brand" href="<%= ctxPath%>/index.sh">HOME</a>
-   	 <a class="navbar-brand" href="<%= ctxPath%>/member/memberRegister.sh">회원가입</a>
-	</div>
-   
    <form name="loginFrm">
        <table id="loginTbl">
-         <thead>
-         
-            <tr>
-            	<%-- 아래의 ${name_scope_request} 은 <c:set var="변수명" value="${값}" scope="" /> 를 테스트 하기 위해서 사용하는 것임. --%>  
-               	<%-- 변수의 선언은 header.jsp 파일에서 선언 하였음 --%>
-               		<th colspan="2" id="th">${name_scope_request}&nbsp;LOGIN</th>
-            	<%-- 끝 --%>
-            </tr>
-         </thead>
-         
          <tbody>
-            <tr>
-               <td style="width: 20%; border-bottom: hidden; border-right: hidden; padding: 10px;">ID</td>
-               <td style="width: 80%; border-bottom: hidden; border-left: hidden; padding: 10px;"><input type="text" id="loginUserid" name="userid" size="20" class="box" autocomplete="off" /></td>
-            </tr>   
-            <tr>
-               <td style="width: 20%; border-top: hidden; border-bottom: hidden; border-right: hidden; padding: 10px;">암호</td>
-               <td style="width: 80%; border-top: hidden; border-bottom: hidden; border-left: hidden; padding: 10px;"><input type="password" id="loginPwd" name="pwd" size="20" class="box" /></td>
-            </tr>
+           <div class="wrap">
+        <div class="login">
+            <h2 style="color: black;">LOGIN</h2>
+            <div class="login_sns">
+            <li><a href="<%= ctxPath%>/index.sh" ></a></li>
+            <li><a href="<%= ctxPath%>/member/memberRegister.sh"></a></li>
+            </div>
+            <div class="login_id">
+                <h4>아이디</h4>
+                <input type="email" name="userid" id="loginUserid" placeholder="아이디">
+            </div>
+            <div class="login_pw">
+                <h4>비밀번호</h4>
+                <input type="password" name="pwd" id="loginPwd" placeholder="비밀번호">
+            </div>
+            <div class="login_etc">
+                <div class="checkbox">
+                <input type="checkbox" name="saveid" id="saveid"> 아이디저장
+                </div>
+                <div class="forgot_pw">
+                   <button type="button" id="userIdfind" class="btn btn-light">아이디찾기</button>
+           		   <button type="button" id="passwdfind" class="btn btn-light">비밀번호찾기</button>
+            	</div>
+            </div>
+              <button type="button" id="btnSubmit" class="btn btn-dark">로그인</button>
+        </div>
+    </div>
+    
             
-             <tr>
-               <td colspan="2" align="center">
-                   <button type="button" id="userIdfind" >아이디찾기</button>
-           		   <button type="button" id="passwdfind" >비밀번호찾기</button>
-               </td>
-            </tr>
-            
-            <tr>
-               <td colspan="2" align="center" style="padding: 10px;">
-                  <input type="checkbox" id="saveid" name="saveid" /><label for="saveid">아이디저장</label>
-               <%--    
-                  <button type="button" id="btnSubmit" style="width: 67px; height: 27px; background-image: url('<%= request.getContextPath()%>/images/login.png'); vertical-align: middle; border: none;"></button>
-               --%>
-                   <button type="button" id="btnSubmit" class="btn btn-primary btn-sm ml-5">로그인</button>
-               </td>
-            </tr>
          </tbody>
        </table>
    </form>
 </c:if>
 
-
-
-
-
-<p class="displaynone" id="noMemberWrap">
-                <strong>비회원주문하기</strong>
-				<span>비회원으로 구매가 가능합니다.<br>단, 비회원으로 구매시 여러가지 혜택에서 제외될 수 있습니다.</span>
-                <a href="" onclick="" class="btn-nomem-buy btn-hover">비회원주문하기</a>
-            </p>
-      
+   
 
 
 
