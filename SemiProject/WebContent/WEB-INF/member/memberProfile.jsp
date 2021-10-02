@@ -76,7 +76,7 @@
    });// end of $(document).ready(function(){})-------------------------------
    
    function goMain(){
-		location.href="<%= request.getContextPath()%>/index_1.sh";
+		location.href="<%= request.getContextPath()%>/index.sh";
    }
 
 </script>
@@ -88,7 +88,7 @@
 
    <form name="editFrm">
    <div id="head" align="center">
-         ::: 회원보여주기 (<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) :::
+         	 회원보여주기 (<span style="font-size: 10pt; font-style:oblique;"><span class="star">*</span>표시는 필수입력사항</span>)
    </div>
    <table id="tblMember">
 
