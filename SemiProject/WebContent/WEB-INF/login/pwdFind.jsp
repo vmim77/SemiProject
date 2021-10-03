@@ -221,7 +221,7 @@ h2 {
             <div class="login_pw">
                 <input type="text" name="email" id="email" placeholder="abc@def.com" autocomplete="off" required>
             </div>
-            <div class="login_etc">
+            <div class="login_etc" id="div_btnFind">
             </div>
               <button type="button" id="btnFind" class="btn btn-dark">찾기</button>
         </div>
@@ -249,6 +249,7 @@ h2 {
 		 
       </p>
    </div>   
+  </form>
    
    <form name="verifyCertificationFrm">
 	<input type="hidden" name="userid" />
