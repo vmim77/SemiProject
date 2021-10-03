@@ -88,14 +88,19 @@
 		
 		
 		
-		$(document).on("mouseover", "tr.memberInfo", function(){
+		$(document).on("mouseover", "tr.memberInfo", function(){ // 행에 hover가 되면 나오는 CSS 효과
 			$("tr.memberInfo").removeClass("effect");
 			$(this).addClass("effect");
-		});
-		$(document).on("mouseout", "tr.memberInfo", function(){
-			$(this).removeClass("effect");
-		});
+		});// end of $(document).on("mouseover", "tr.memberInfo", function(){})-------------------------------
 		
+		$(document).on("mouseout", "tr.memberInfo", function(){ // 행에 mouseout이 되면 사라지는 CSS 효과
+			$(this).removeClass("effect");
+		});// end of $(document).on("mouseout", "tr.memberInfo", function(){})--------------------------------
+		
+		
+		$("select#sizePerPage").change(function(){
+			goSearch();
+		})// end of $("select#sizePerPage").change(function(){})-----------------------------------		
 		
 		
 	});// end of $(document).ready(function(){})--------------------------------------------------
@@ -163,7 +168,7 @@
 		   
 		<button type="button" class="btn btn-dark" onclick="goSearch();" style="margin-right: 30px;">검색</button>
 		
-		<span style="color: red; font-weight: bold; font-size: 12pt;">페이지당 회원명수-</span>
+		<span style="font-weight: bold; font-size: 14pt;">페이지당 회원명수-</span>
 		<select id="sizePerPage" name="sizePerPage">
 		   <option value="10">10</option>
 		   <option value="5">5</option>
@@ -214,10 +219,6 @@
 				</c:forEach>			
 			</tbody>
 		</table>
-		
-		<p class="text-center my-5">
-			<button type="button" class="btn btn-dark mx-1">회원정보 삭제하기[미정]<br>(update or delete)</button><%-- 휴면처리가 오래된 회원은 운영자가 정책에 따라 탈퇴로 바꾸게 하는 것?> --%>
-		</p>
 		
 		<!-- Button trigger modal -->
 		<button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;">

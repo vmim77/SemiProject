@@ -74,55 +74,58 @@
 </head>
 <body>
 		
-	<div class="justify-content-center">
-			<form name="adminEditUser" class="my-3">
-				<input type="hidden" name="userid" value="${requestScope.member.userid}"/> <%-- where절에 쓸 userid --%>
-				<table class="table-dark mx-auto" >
-					<tr>
-						<td class="title"><h4 style="color:white;">${requestScope.member.userid} 님의 회원정보 변경하기</h4></td>
-					</tr>
-					<tr>
-						<td class="title">포인트</td>
-						<td>
-							<input type="text" name="point" value="${requestScope.member.point}" size="6" autocomplete="off" /><span> 원</span>
-						</td>
-					</tr>
-					<tr>
-						<td class="title">회원상태</td>
-						<td>
-							<select name="status"> <%-- DB에서 1이라면 '사용가능'이 먼저 올라와져있습니다. --%>
-								<c:choose>
-									<c:when test="${requestScope.member.status eq 1}">
-										<option selected="selected" value="1">사용가능</option>
-										<option value="0">탈퇴</option>
-									</c:when>
-									<c:otherwise>
-										<option value="1">사용가능</option>
-										<option selected="selected" value="0">탈퇴</option>
-									</c:otherwise>
-								</c:choose>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td class="title">휴면처리</td> <%-- DB에서 0이라면 '활동중'이 먼저 올라와져있습니다. --%>
-						<td>
-							<select name="idle">
-								<c:choose>
-									<c:when test="${requestScope.member.idle eq 0}">
-										<option selected="selected" value="0">활동중</option>
-										<option value="1">휴면처리</option>
-									</c:when>
-									<c:otherwise>
-										<option selected="selected" value="1">휴면처리</option>
-										<option value="0">활동중</option>
-									</c:otherwise>
-								</c:choose>
-							</select>
-						</td>
-					</tr>
-				</table>
-		</form>
+	<div class="container">
+		<div class="row justify-content-center">
+				<form name="adminEditUser" class="my-3">
+					<input type="hidden" name="userid" value="${requestScope.member.userid}"/> <%-- where절에 쓸 userid --%>
+					<table class="table-dark" >
+						<tr>
+							<td class="title"><h4 style="color:white;">${requestScope.member.userid} 님의 회원정보 변경하기</h4></td>
+						</tr>
+						<tr>
+							<td class="title">포인트</td>
+							<td>
+								<input type="text" name="point" value="${requestScope.member.point}" size="6" autocomplete="off" /><span> 원</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="title">회원상태</td>
+							<td>
+								<select name="status"> <%-- DB에서 1이라면 '사용가능'이 먼저 올라와져있습니다. --%>
+									<c:choose>
+										<c:when test="${requestScope.member.status eq 1}">
+											<option selected="selected" value="1">사용가능</option>
+											<option value="0">탈퇴</option>
+										</c:when>
+										<c:otherwise>
+											<option value="1">사용가능</option>
+											<option selected="selected" value="0">탈퇴</option>
+										</c:otherwise>
+									</c:choose>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="title">휴면처리</td> <%-- DB에서 0이라면 '활동중'이 먼저 올라와져있습니다. --%>
+							<td>
+								<select name="idle">
+									<c:choose>
+										<c:when test="${requestScope.member.idle eq 0}">
+											<option selected="selected" value="0">활동중</option>
+											<option value="1">휴면처리</option>
+										</c:when>
+										<c:otherwise>
+											<option selected="selected" value="1">휴면처리</option>
+											<option value="0">활동중</option>
+										</c:otherwise>
+									</c:choose>
+								</select>
+							</td>
+						</tr>
+					</table>
+			</form>
+		</div>
+
 		<p class="text-center">
 			<button id="btnEditUserInfo" class="btn btn-dark btn-md">수정하기</button>
 		</p>
