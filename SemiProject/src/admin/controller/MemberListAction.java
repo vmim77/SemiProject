@@ -22,6 +22,8 @@ public class MemberListAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// 추후에 로그인한 유저정보가 '운영자'인지 아닌지 확인하는 if절을 걸어서 걸러낼겁니다.
+		// HttpSession session = request.getSession();
+		// MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		// if( loginuser != null && "admin".equal(loginuser.getUserid()) {}
 		
 		Map<String, String> paraMap = new HashMap<>(); // DAO에 보낼 파라미터들을 담아줄 해쉬맵입니다.

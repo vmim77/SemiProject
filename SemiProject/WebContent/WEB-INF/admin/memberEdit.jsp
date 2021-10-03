@@ -76,7 +76,7 @@
 		
 	<div class="justify-content-center">
 			<form name="adminEditUser" class="my-3">
-				<input type="hidden" name="userid" value="${requestScope.member.userid}"/>
+				<input type="hidden" name="userid" value="${requestScope.member.userid}"/> <%-- where절에 쓸 userid --%>
 				<table class="table-dark mx-auto" >
 					<tr>
 						<td class="title"><h4 style="color:white;">${requestScope.member.userid} 님의 회원정보 변경하기</h4></td>
