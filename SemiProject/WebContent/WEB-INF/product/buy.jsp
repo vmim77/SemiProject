@@ -226,49 +226,12 @@
 			
 		});//end of $("img#plus").click(function(){-------------------------------
 		
-		// 장바구니 아이콘 클릭시	
+		/* // 장바구니 아이콘 클릭시	
 		$(document).on("click", "img#cart", function(){	
 		 	
-			// 키값을 가져오기 위함
-			var rm = $(this).next().next().val();
-			
-			// 장바구니를 선택한 태그 내의 내용을 옮겨주기 위하여 변수생성
-		 // var cartimg = $(this).parent().find(".upprice").val();
-			var cartopt123 = $("table#"+rm).parent().find(".cartopt123").html();
-			var cartopt4   = $("table#"+rm).parent().find(".cartopt4").html();
-			var cartnum    = $("table#"+rm).parent().find(".cartnum").val();
-			var cartprice  = $("table#"+rm).parent().find(".cartprice").html();
-			var cartfinopt = $("table#"+rm).parent().find(".cartfinopt").html();
-			
-			// 장바구니로 넘겨주기 위한 hidden 타입의 input 태그 생성
-			// 넘기는 순서
-			// 이미지명, 옵션1~4, 수량, 가격, 옵션가격
-			var goname    = "<input type='hidden' name='cartname'   value='"+$("span#product_name").html()+"'/>";
- // 추후에 계속 var goimg     = "<input type='hidden' name='cartimg'    value='"+$("span#product_name").html()+"'/>";
-			var goopt123  = "<input type='hidden' name='cartopt123' value='"+cartopt123+"'/>";	
-			var goopt4    = "<input type='hidden' name='cartopt4'   value='"+cartopt4+"'/>";	
-			var gonum     = "<input type='hidden' name='cartnum'    value='"+cartnum+"'/>";	
-			var goprice   = "<input type='hidden' name='cartprice'  value='"+cartprice+"'/>";
-			var gofinopt  = "<input type='hidden' name='cartfinopt' value='"+cartfinopt+"'/>";
-			
-			$("form#gogo").append(goname);
-			$("form#gogo").append(goopt123);
-			$("form#gogo").append(goopt4);
-			$("form#gogo").append(gonum);
-			$("form#gogo").append(goprice);
-			$("form#gogo").append(gofinopt);
-			
-			 
 			
 			
-			// 장바구니 전송 후 지우기
-			// $("table#"+rm).remove();
-			// 장바구니 전송을 위해 만든거 지우기
-			// $("form#gogo").remove(); 
-			
-			alert("장바구니에 추가 되었습니다."); 
-			
-		});//end of $(document).on("click", "img#cart", function(){	
+		});//end of $(document).on("click", "img#cart", function(){	 */
 			
 			
 		$("button#hi").click(function(){
@@ -283,11 +246,42 @@
 	});//end of $(docunment).ready(function(){
 		
 	function gogogo(){
+		// 키값을 가져오기 위함
+		var rm = $(this).next().next().val();
+		
+		// 장바구니를 선택한 태그 내의 내용을 옮겨주기 위하여 변수생성
+	 // var cartimg = $(this).parent().find(".upprice").val();
+		var cartopt123 = $("table#"+rm).parent().find(".cartopt123").html();
+		var cartopt4   = $("table#"+rm).parent().find(".cartopt4").html();
+		var cartnum    = $("table#"+rm).parent().find(".cartnum").val();
+		var cartprice  = $("table#"+rm).parent().find(".cartprice").html();
+		var cartfinopt = $("table#"+rm).parent().find(".cartfinopt").html();
+		
+		// 장바구니로 넘겨주기 위한 hidden 타입의 input 태그 생성
+		// 넘기는 순서
+		// 이미지명, 옵션1~4, 수량, 가격, 옵션가격
+		var gocart = "<input type='hidden' name='cartname'   value='"+$("span#product_name").html()+"'/>"
+				    +"<input type='hidden' name='cartopt123' value='"+cartopt123+"'/>"
+				    +"<input type='hidden' name='cartopt4'   value='"+cartopt4+"'/>"	
+				    +"<input type='hidden' name='cartnum'    value='"+cartnum+"'/>"	
+				    +"<input type='hidden' name='cartprice'  value='"+cartprice+"'/>"
+				    +"<input type='hidden' name='cartfinopt' value='"+cartfinopt+"'/>";
+		
+		$("form#gogo").append(gocart);
+		
 		var frm = document.gogo;
-		frm.action = "mycart.sh";
+		frm.action = "<%= ctxPath%>/mycart.sh";
 		frm.method = "post";
-		frm.submit();	
-	}
+		frm.submit();	 
+		
+		
+		// 장바구니 전송 후 지우기
+		// $("table#"+rm).remove();
+		// 장바구니 전송을 위해 만든거 지우기
+		// $("form#gogo").remove(); 
+		
+		alert("장바구니에 추가 되었습니다."); 
+	} 
 		
 </script>
 <button id="hi" style="width:100px; height:100px;"></button>
@@ -459,7 +453,7 @@
 	</table>
 </div>	
 
-<form id="gogo">
+<form name="gogo">
 	
 </form>
 

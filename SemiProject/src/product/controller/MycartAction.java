@@ -22,6 +22,8 @@ public class MycartAction extends AbstractController {
 			String cartprice  = request.getParameter("cartprice");   
 			String cartfinopt = request.getParameter("cartfinopt");   
 			
+			
+			
 			request.setAttribute("cartname", cartname);
 			request.setAttribute("cartopt123", cartopt123);
 			request.setAttribute("cartopt4", cartopt4);
@@ -29,7 +31,10 @@ public class MycartAction extends AbstractController {
 			request.setAttribute("cartprice", cartprice);
 			request.setAttribute("cartfinopt", cartfinopt);
 
-			super.setViewPage("/WEB-INF/cart.jsp");
+			System.out.println(cartname);
+			System.out.println(cartopt123);
+			
+			super.setViewPage("/WEB-INF/product/cart.jsp");
 			
 		}
 		else {

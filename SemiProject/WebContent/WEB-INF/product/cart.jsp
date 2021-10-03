@@ -24,29 +24,33 @@
 <div>
 <!-- {requestScope.img} -->
 </div>
-
+<h2>fsdlfdsafdsafds</h2>
 <div>
-{requestScope.cartname}
+${requestScope.cartname}
+
+<h1>테스트테스트</h1>
 </div>
 
 <div>
-{requestScope.cartopt123}
+${requestScope.cartopt123}
 </div>
 
 <div>
-{requestScope.cartopt4}
+${requestScope.cartopt4}
 </div>
 
 <div>
-{requestScope.cartnum}
+${requestScope.cartnum}
 </div>
 
 <div>
-{requestScope.cartprice}
+${requestScope.cartprice}
 </div>
 
 <div>
-{requestScope.cartfinopt}
+${requestScope.cartfinopt}
 </div>
+
+<h2>fsdlfdsafdsafds</h2>
 
 <jsp:include page="/WEB-INF/footer.jsp" />
