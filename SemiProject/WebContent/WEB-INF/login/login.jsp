@@ -301,8 +301,6 @@ h2 {
               <button type="button" id="btnSubmit" class="btn btn-dark">로그인</button>
         </div>
     </div>
-    
-            
          </tbody>
        </table>
    </form>

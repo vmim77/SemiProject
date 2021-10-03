@@ -402,6 +402,7 @@
          <td colspan="2" style="line-height: 90px;" class="text-center">
             <button type="button" id="ok" class="btn btn-dark btn-lg" >확인</button>
             <button type="button" id="close" class="btn btn-dark btn-lg">취소</button> 
+            <button type="button" id="delete" class="btn btn-dark btn-lg">회원탈퇴</button> 
          </td>
       </tr>
       
