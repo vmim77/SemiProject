@@ -3,6 +3,7 @@
     
 <% String ctxPath = request.getContextPath(); %>    
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
 <!DOCTYPE html>
@@ -35,6 +36,13 @@
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
 
 <style type="text/css">
+
+	.title{
+		font-weight: bold;
+		font-size: 16pt;
+	}
+	
+	
 </style>
 
 
@@ -53,7 +61,12 @@
 			
 		});// end of $("button#btnEditUserInfo").onclick(function(){})----------------------------------
 		
-	});
+		$(window).on('beforeunload', function() { // 팝업창에서 수정하기를 누르지않고 끄면 부모창을 새로고침 해줍니다.
+			opener.location.reload(true); 
+		});
+		
+		
+	});// end of $(document).ready(function(){})------------------------------------------------
 
 </script>
 
@@ -61,74 +74,59 @@
 </head>
 <body>
 		
-			<div class="justify-content-center" style="border:solid 1px red;">
-				<form name="adminEditUser" class="my-3">
-					<table class="table-dark mx-auto" style="border:solid 1px blue; width: 100%;">
-						<tr>
-							<td>성명</td>
-							<td>
-								<input type="hidden" name="userid" value="${requestScope.userid}" />
-								<input type="text" name="name" value="${requestScope.member.name}" required />
-							</td>
-						</tr>
-					
-						<!-- 		
-						<tr>
-							<td>비밀번호</td>
-							<td>
-								<input type="text" name="pwd" value="" required />
-							</td>
-						</tr>
-					
-						<tr>
-							<td>비밀번호 확인</td>
-							<td>
-								<input type="text" name="pwd2" value="" required />
-							</td>
-						</tr> 
-						-->
-						<tr>
-							<td>이메일</td>
-							<td>
-								<input type="text" name="email" value="${requestScope.member.email}" required />
-							</td>
-						</tr>
-						<tr>
-							<td>휴대폰</td>
-							<td>
-								<input type="text" name="hp1" value="010" size="3" />-
-								<input type="text" name="hp2" value="${fn:substring(requestScope.member.mobile, 3, 7)}" required size="4" />-
-								<input type="text" name="hp3" value="${fn:substring(requestScope.member.mobile, 7, -1)}" required size="4"/>
-							</td>
-						</tr>
-						<tr>
-							<td>우편번호</td>
-							<td>
-								<input type="text" name="postcode" value="${requestScope.member.postcode}" required />
-							</td>
-						</tr>
-						<tr>
-							<td>주소</td>
-							<td>
-								<input type="text" name="address" value="${requestScope.member.address}" required size="40" />
-							</td>
-						</tr>
-						<tr>
-							<td>상세주소</td>
-							<td>
-								<input type="text" name="detailaddress" value="${requestScope.member.detailaddress}" required size="40" />
-							</td>
-						</tr>
-						<tr>
-							<td>기타주소</td>
-							<td>
-								<input type="text" name="extraaddress" value="${requestScope.member.extraaddress}" required size="40" />
-							</td>
-						</tr>
-					</table>
-			</form>
-		</div>
-		<button id="btnEditUserInfo">수정하기</button>
+	<div class="justify-content-center">
+			<form name="adminEditUser" class="my-3">
+				<input type="hidden" name="userid" value="${requestScope.member.userid}"/>
+				<table class="table-dark mx-auto" >
+					<tr>
+						<td class="title"><h4 style="color:white;">${requestScope.member.userid} 님의 회원정보 변경하기</h4></td>
+					</tr>
+					<tr>
+						<td class="title">포인트</td>
+						<td>
+							<input type="text" name="point" value="${requestScope.member.point}" size="6" /><span> 원</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="title">회원상태</td>
+						<td>
+							<select name="status"> <%-- DB에서 1이라면 '사용가능'이 먼저 올라와져있습니다. --%>
+								<c:choose>
+									<c:when test="${requestScope.member.status eq 1}">
+										<option selected="selected" value="1">사용가능</option>
+										<option value="0">탈퇴</option>
+									</c:when>
+									<c:otherwise>
+										<option value="1">사용가능</option>
+										<option selected="selected" value="0">탈퇴</option>
+									</c:otherwise>
+								</c:choose>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="title">휴면처리</td> <%-- DB에서 0이라면 '활동중'이 먼저 올라와져있습니다. --%>
+						<td>
+							<select name="idle">
+								<c:choose>
+									<c:when test="${requestScope.member.idle eq 0}">
+										<option selected="selected" value="0">활동중</option>
+										<option value="1">휴면처리</option>
+									</c:when>
+									<c:otherwise>
+										<option selected="selected" value="1">휴면처리</option>
+										<option value="0">활동중</option>
+									</c:otherwise>
+								</c:choose>
+							</select>
+						</td>
+					</tr>
+				</table>
+		</form>
+		<p class="text-center">
+			<button id="btnEditUserInfo" class="btn btn-dark btn-md">수정하기</button>
+		</p>
+	</div>
 </body>
 
 <script src="<%= ctxPath%>/js/jquery.min.js"></script>

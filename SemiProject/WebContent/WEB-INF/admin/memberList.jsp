@@ -56,14 +56,14 @@
 	           		"<li>주소 : "+json.address+" "+json.detailaddress+"</li>" +
 	           		"<li>성별 : "+ json.gender +"</li>" +
 	           		"<li>생년월일 : "+ json.birthday +"</li>" +
-	           		"<li>나이 : "+ json.age +"</li>" +
-	           		"<li>포인트 : "+ json.point +"</li>" +
+	           		"<li>나이 : "+ json.age +" 세</li>" +
+	           		"<li>포인트 : "+ json.point +" 원</li>" +
 	           		"<li>추천인 : "+ json.referral +"</li>" +
 	           		"<li>가입일자 : "+ json.registerday +"</li>" +
 	              	"</ol>";
 	              	
 	              	$("div.modal-body").html(html);
-	              	$("#exampleModalLabel").html("<span>"+userid+"님의 회원 상세정보</span>");
+	              	$("#exampleModalLabel").html("<span style='font-weight:bold; font-size:16pt;'>"+userid+"님의 회원 상세정보</span>");
 	              	
 	              	
 					
@@ -89,9 +89,16 @@
 	
 	    var url = "<%= ctxPath%>/admin/memberEdit.sh?userid="+userid; 
 	    // GET 방식으로 해당 유저의 아이디를 넘깁니다.
+	    
+	    var pop_width = 600;
+	    var pop_height = 300;
+	    
+	    var pop_left = Math.ceil((window.screen.width - pop_width)/2);
+	    var pop_top = Math.ceil((window.screen.height - pop_height)/2); 
+	    
 			
-	    window.open(url, "memberEdit",
-          				   "left=350px, top=100px, width=650px, height=570px");
+	    window.open(url,   "memberEdit",
+          				   "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 		
 	}// end of function goEdit()---------------------------
 	

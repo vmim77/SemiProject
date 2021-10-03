@@ -395,7 +395,8 @@ public class MemberDAO implements InterMemberDAO {
 									 "     select rownum AS rno, userid, name, gender, registerday, status, idle "+
 									 "     from "+
 									 "     (  "+
-									 "         select userid, name, gender, registerday, status, idle "+
+									 "         select userid, name, "
+									 + 		 " case gender when '1' then '남자' else '여자' end AS gender, registerday, status, idle "+
 									 "         from tbl_member "+
 									 "         where userid != 'admin' ";
 				
@@ -473,12 +474,12 @@ public class MemberDAO implements InterMemberDAO {
 							 " , address "+
 							 " , detailaddress "+
 							 " , extraaddress "+
-							 " , case gender when '1' then '남자' else '여자' end as gender "+
+							 " , case gender when '1' then '남자' else '여자' end AS gender "+
 							 " , birthday "+
 							 " , nvl(referral, '추천인 없음') as referral "+
 							 " , point "+
-							 " , registerday "+
-							 " , lastpwdchangedate "+
+							 " , to_char(registerday, 'yyyy-mm-dd') AS registerday "+
+							 " , to_char(lastpwdchangedate, 'yyyy-mm-dd') AS lastpwdchangedate "+
 							 " , status "+
 							 " , idle "+
 							 " from tbl_member "+
@@ -535,15 +536,11 @@ public class MemberDAO implements InterMemberDAO {
 				
 				conn = ds.getConnection();
 				
-				String sql = " select name "+
-						 " , pwd "+
-						 " , email "+
-						 " , mobile "+
-						 " , postcode "+
-						 " , address "+
-						 " , detailaddress "+
-						 " , extraaddress "+
-						 " from tbl_member "+
+				String sql = " select userid "+
+						 " , point "+
+						 " , status "+
+						 " , idle "+
+						 " from tbl_member "+ 
 						 " where userid = ? ";
 				
 				pstmt = conn.prepareStatement(sql);
@@ -553,21 +550,12 @@ public class MemberDAO implements InterMemberDAO {
 				rs = pstmt.executeQuery();
 				
 				if(rs.next()) {
-					
-					member.setName(rs.getString(1));
-					member.setPwd(rs.getString(2));
-					member.setEmail(aes.decrypt(rs.getString(3)));
-					member.setMobile(aes.decrypt(rs.getString(4)));
-					member.setPostcode(rs.getString(5));
-					member.setAddress(rs.getString(6));
-					member.setDetailaddress(rs.getString(7));
-					member.setExtraaddress(rs.getString(8));
-					
+					member.setUserid(rs.getString(1));
+					member.setPoint(rs.getInt(2));
+					member.setStatus(rs.getInt(3));
+					member.setIdle(rs.getInt(4));
 				}
 				
-				
-			} catch(GeneralSecurityException | UnsupportedEncodingException e) {	
-				e.printStackTrace();
 			} finally {
 				close();
 			}
@@ -586,26 +574,19 @@ public class MemberDAO implements InterMemberDAO {
 				
 				conn = ds.getConnection();
 				
-				String sql = " UPDATE TBL_MEMBER SET NAME = ?, EMAIL = ?, MOBILE = ?, POSTCODE = ?, ADDRESS = ?, DETAILADDRESS = ?, EXTRAADDRESS = ? "
+				String sql = " UPDATE TBL_MEMBER SET POINT = ?, STATUS = ?, IDLE = ? "
 						   + " WHERE USERID = ? ";
 				
 				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setString(1, member.getName());
-				pstmt.setString(2, aes.encrypt(member.getEmail()));
-				pstmt.setString(3, aes.encrypt(member.getMobile()));
-				pstmt.setString(4, member.getPostcode());
-				pstmt.setString(5, member.getAddress());
-				pstmt.setString(6, member.getDetailaddress());
-				pstmt.setString(7, member.getExtraaddress());
-				pstmt.setString(8, member.getUserid());
+				pstmt.setInt(1, member.getPoint());
+				pstmt.setInt(2, member.getStatus());
+				pstmt.setInt(3, member.getIdle());
+				pstmt.setString(4, member.getUserid());
 				
 				n = pstmt.executeUpdate();
 				
-				
-			} catch(GeneralSecurityException | UnsupportedEncodingException e) {	
-				e.printStackTrace();
-			}  finally {
+			} finally {
 				close();
 			}
 			

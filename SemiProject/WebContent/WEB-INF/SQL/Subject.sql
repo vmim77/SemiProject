@@ -9,7 +9,6 @@ select userid, pwd, name, email, mobile, postcode, address, detailaddress, extra
 from tbl_member
 order by registerday asc;
 
-
 select case gender when '1' then '남자' else '여자' end AS gender
 from tbl_member;
 
@@ -24,3 +23,15 @@ drop constraint UQ_TBL_MEMBER_EMAIL;
 alter table TBL_MEMBER
 add constraint UQ_TBL_MEMBER_EMAIL unique (EMAIL);
 -- Table TBL_MEMBER이(가) 변경되었습니다.
+
+alter table tbl_member
+add total_bought number(8) default 0;
+-- Table TBL_MEMBER이(가) 변경되었습니다.
+
+update tbl_member set status = 0, idle = 1
+where userid = '성현';
+-- 1 행 이(가) 업데이트되었습니다.
+
+commit;
+-- 커밋 완료.
+

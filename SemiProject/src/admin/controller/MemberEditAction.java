@@ -18,13 +18,24 @@ public class MemberEditAction extends AbstractController {
 		
 		MemberVO member = mdao.adminEditUserInfo(userid); // DAO에 넘겨서 기존 회원의 정보를 가져옵니다.
 		
-		request.setAttribute("member", member);
-		// memberEdit.jsp에 가져가서 찍어줄 회원정보입니다.
 		
-		request.setAttribute("userid", userid);
-		// 새로운 정보를 입력받고 update로 넘길때 where절에 사용할 userid 입니다.
+		if(member != null) {
+			request.setAttribute("member", member);
+			// memberEdit.jsp에 가져가서 찍어줄 회원정보입니다.
+			
+			request.setAttribute("userid", userid);
+			// 새로운 정보를 입력받고 update로 넘길때 where절에 사용할 userid 입니다.
+			
+			super.setViewPage("/WEB-INF/admin/memberEdit.jsp");
+			
+		}
 		
-		super.setViewPage("/WEB-INF/admin/memberEdit.jsp");
+		else {
+			String message = "SQL 오류로 인해 회원정보를 가져오지 못했습니다.";
+			String loc = "javascript:history.back()";
+			super.setViewPage("/WEB-INF/msg.jsp");
+		}
+		
 		
 	}
 
