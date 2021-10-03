@@ -19,6 +19,14 @@
 	tr, th, td {
 		width: 100px;
 	}
+	
+	
+	.effect {
+		background-color: white;
+		color: black;
+		font-weight: bold;
+		cursor: pointer;
+	}
 
 </style>
 
@@ -77,6 +85,17 @@
 			$("button#modalBtn").click();
 			
 		});// end of $(document).on("click", "tr.memberInfo", function(){})----------------------
+		
+		
+		
+		$(document).on("mouseover", "tr.memberInfo", function(){
+			$("tr.memberInfo").removeClass("effect");
+			$(this).addClass("effect");
+		});
+		$(document).on("mouseout", "tr.memberInfo", function(){
+			$(this).removeClass("effect");
+		});
+		
 		
 		
 	});// end of $(document).ready(function(){})--------------------------------------------------
