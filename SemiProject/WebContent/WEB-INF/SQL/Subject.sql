@@ -24,5 +24,3 @@ drop constraint UQ_TBL_MEMBER_EMAIL;
 alter table TBL_MEMBER
 add constraint UQ_TBL_MEMBER_EMAIL unique (EMAIL);
 -- Table TBL_MEMBER이(가) 변경되었습니다.
-
-

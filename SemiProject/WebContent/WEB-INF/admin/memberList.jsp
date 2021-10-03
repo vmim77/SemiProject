@@ -24,13 +24,16 @@
 
 <script type="text/javascript">
 
+	var userid = "";
+	
+	
 	$(document).ready(function(){
 		
 		$(document).on("click", "tr.memberInfo", function(){
 			
 			// alert("행 클릭함");
 			
-			var userid = $(this).find("td:nth-child(2)").text();
+			userid = $(this).find("td:nth-child(2)").text();
 			
 			
 			// alert("userid 확인용 => " + userid);
@@ -61,6 +64,8 @@
 	              	
 	              	$("div.modal-body").html(html);
 	              	$("#exampleModalLabel").html("<span>"+userid+"님의 회원 상세정보</span>");
+	              	
+	              	
 					
 				},
 				error: function(request, status, error) {
@@ -78,11 +83,17 @@
 	
 	
 	// Function Declaration
-	function sendToMsg() { // 상세보기를 한 회원에게 메세지를 전송하는 기능입니다. (추후에 강사님한테 배우면 추가하겠습니다.)
+	function goEdit() { // 상세정보 조회를 한 회원의 정보를 수정합니다.
 		
-		alert("구현예정!");
+		$("button#modalClose").click(); // 상세정보 조회용 모달창을 끕니다.
+	
+	    var url = "<%= ctxPath%>/admin/memberEdit.sh?userid="+userid; 
+	    // GET 방식으로 해당 유저의 아이디를 넘깁니다.
+			
+	    window.open(url, "memberEdit",
+          				   "left=350px, top=100px, width=650px, height=570px");
 		
-	}// end of function sendToMsg()---------------------------
+	}// end of function goEdit()---------------------------
 	
 	
 	// Function Declaration 
@@ -179,7 +190,6 @@
 		</table>
 		
 		<p class="text-center my-5">
-			<button type="button" class="btn btn-dark mx-1">회원정보 수정하기<br>(update)</button><%-- 운영자가 정보 수정해주기? --%>
 			<button type="button" class="btn btn-dark mx-1">회원정보 삭제하기[미정]<br>(update or delete)</button><%-- 휴면처리가 오래된 회원은 운영자가 정책에 따라 탈퇴로 바꾸게 하는 것?> --%>
 		</p>
 		
@@ -200,8 +210,8 @@
 		      </div>
 		      <div class="modal-body"></div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary" onclick="javascript:sendToMsg()">문자발송하기</button>
-		        <button type="button" class="btn btn-danger" data-dismiss="modal">나가기</button>
+		        <button type="button" class="btn btn-primary" onclick="javascript:goEdit()">회원정보 수정하기</button> <%-- 운영자가 상세정보보기를 한 회원의 정보를 수정하게 합니다. --%>
+		        <button type="button" id="modalClose" class="btn btn-danger" data-dismiss="modal">나가기</button>
 		      </div>
 		    </div>
 		  </div>

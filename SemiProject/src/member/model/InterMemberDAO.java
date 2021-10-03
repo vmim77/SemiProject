@@ -37,6 +37,12 @@ public interface InterMemberDAO {
 	// 특정한 한 명의 회원의 상세정보를 가져옵니다.
 	MemberVO selectOneUser(String userid) throws SQLException;
 	
+	// 회원 상세조회로 본 회원의 정보를 수정합니다.
+	MemberVO adminEditUserInfo(String userid) throws SQLException;
+	
+	// 운영자가 회원의 정보를 수정하는 것입니다.
+	int adminUpdateUser(MemberVO member) throws SQLException;
+	
 
 
 }

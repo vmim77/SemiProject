@@ -455,7 +455,7 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public Map<String, MemberVO> selectAllUser()----------------------------------
 		
 		
-		// 특정한 한 명의 회원의 상세정보를 가져옵니다.
+		// 한 회원의 상세정보를 조회해옵니다.
 		@Override
 		public MemberVO selectOneUser(String userid) throws SQLException {
 			
@@ -522,6 +522,96 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return member;
 		}// end of public MemberVO selectOneUser(String userid)---------------------------------------------------------
+		
+		
+		
+		// 운영자가 회원정보 수정하기 전에 기존정보를 출력하기 위한 select where
+		@Override
+		public MemberVO adminEditUserInfo(String userid) throws SQLException {
+			
+			MemberVO member = new MemberVO();
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " select name "+
+						 " , pwd "+
+						 " , email "+
+						 " , mobile "+
+						 " , postcode "+
+						 " , address "+
+						 " , detailaddress "+
+						 " , extraaddress "+
+						 " from tbl_member "+
+						 " where userid = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, userid);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					member.setName(rs.getString(1));
+					member.setPwd(rs.getString(2));
+					member.setEmail(aes.decrypt(rs.getString(3)));
+					member.setMobile(aes.decrypt(rs.getString(4)));
+					member.setPostcode(rs.getString(5));
+					member.setAddress(rs.getString(6));
+					member.setDetailaddress(rs.getString(7));
+					member.setExtraaddress(rs.getString(8));
+					
+				}
+				
+				
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) {	
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			return member;
+		}// end of public MemberVO adminEditUserInfo(String userid) ---------------------------------------------
+		
+		
+		// 운영자가 이제 입력한 정보를 가지고가서 회원의 정보를 update 합니다.
+		@Override
+		public int adminUpdateUser(MemberVO member) throws SQLException {
+			
+			int n = 0;
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " UPDATE TBL_MEMBER SET NAME = ?, EMAIL = ?, MOBILE = ?, POSTCODE = ?, ADDRESS = ?, DETAILADDRESS = ?, EXTRAADDRESS = ? "
+						   + " WHERE USERID = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, member.getName());
+				pstmt.setString(2, aes.encrypt(member.getEmail()));
+				pstmt.setString(3, aes.encrypt(member.getMobile()));
+				pstmt.setString(4, member.getPostcode());
+				pstmt.setString(5, member.getAddress());
+				pstmt.setString(6, member.getDetailaddress());
+				pstmt.setString(7, member.getExtraaddress());
+				pstmt.setString(8, member.getUserid());
+				
+				n = pstmt.executeUpdate();
+				
+				
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) {	
+				e.printStackTrace();
+			}  finally {
+				close();
+			}
+			
+			return n;
+		}// end of public int adminUpdateUser(MemberVO member)------------------------------------------------------
+		
 		
 		
 		
