@@ -84,7 +84,7 @@
 					<tr>
 						<td class="title">포인트</td>
 						<td>
-							<input type="text" name="point" value="${requestScope.member.point}" size="6" /><span> 원</span>
+							<input type="text" name="point" value="${requestScope.member.point}" size="6" autocomplete="off" /><span> 원</span>
 						</td>
 					</tr>
 					<tr>
