@@ -376,12 +376,9 @@ public class MemberDAO implements InterMemberDAO {
 
 		
 		// 전체회원을 조회한 후에 반복문으로 VO 객체를 생성해서 각각의 정보를 넣어서 가져옵니다. 
-		// 또는 검색어와 검색타입으로 특정 회원들을 검색해줍니다.
 		@Override
-		public List<MemberVO> selectAllUser(Map<String, String> paraMap) throws SQLException {
-			
-			String searchType = paraMap.get("searchType"); // 만약에 처음으로 회원조회 메뉴에 들어왔다면 NULL
-			String searchWord = paraMap.get("searchWord"); // 만약에 처음으로 회원조회 메뉴에 들어왔다면 NULL
+		public List<MemberVO> selectAllUser() throws SQLException {
+
 
 			List<MemberVO> mbrList = new ArrayList<>(); // 회원이 없다면 길이가 0인 리스트를 반환합니다.
 			
@@ -389,45 +386,16 @@ public class MemberDAO implements InterMemberDAO {
 				
 				conn = ds.getConnection();
 				
-				String sql = " select userid, name, gender, registerday, status, idle "+
-									 " from "+
-									 " ( "+
-									 "     select rownum AS rno, userid, name, gender, registerday, status, idle "+
-									 "     from "+
-									 "     (  "+
-									 "         select userid, name, "
-									 + 		 " case gender when '1' then '남자' else '여자' end AS gender, registerday, status, idle "+
-									 "         from tbl_member "+
-									 "         where userid != 'admin' ";
-				
-				if( searchWord != null && !searchWord.trim().isEmpty() ) { // 검색어를 입력했다면 이 안으로 떨어집니다.
-					sql += " and "+searchType+" like '%' || ? || '%' ";
-				 }
-				
-				
-				
-									 sql +=  "  "+
-											 "         order by registerday desc "+
-											 "     ) V "+
-											 " ) T "+
-											 " where rno between ? and ? ";			 
-							 
-				String currentShowPageNo = paraMap.get("currentShowPageNo"); // 수업듣고 나중에 구현해야 함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				String sizePerPage = paraMap.get("sizePerPage");
+				String sql = " select userid "+
+							 " , name "+
+							 " , gender "+
+							 " , registerday "+
+							 " , status "+
+							 " , idle "+
+							 " from tbl_member "+
+							 " order by registerday asc ";
 				
 				pstmt = conn.prepareStatement(sql);
-				
-				if( searchWord != null && !searchWord.trim().isEmpty() ) { // 검색어가 있다면 다음과 같이 위치홀더를 잡아줍니다.
-					pstmt.setString(1, searchWord);
-					pstmt.setString(2, currentShowPageNo); // 처음으로 페이지에 들어왔다면 1페이지
-					pstmt.setString(3, sizePerPage); // 기본값 10
-				}
-				
-				else { // 검색타입과 검색어가 없는 경우
-					pstmt.setString(1, currentShowPageNo); // 처음으로 페이지에 들어왔다면 1페이지
-					pstmt.setString(2, sizePerPage); // 기본값 10
-				}
-				
 				
 				rs = pstmt.executeQuery();
 				
@@ -456,7 +424,7 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public Map<String, MemberVO> selectAllUser()----------------------------------
 		
 		
-		// 한 회원의 상세정보를 조회해옵니다.
+		// 특정회원을 조회해옵니다.
 		@Override
 		public MemberVO selectOneUser(String userid) throws SQLException {
 			
@@ -474,12 +442,12 @@ public class MemberDAO implements InterMemberDAO {
 							 " , address "+
 							 " , detailaddress "+
 							 " , extraaddress "+
-							 " , case gender when '1' then '남자' else '여자' end AS gender "+
+							 " , case gender when '1' then '남자' else '여자' end as gender "+
 							 " , birthday "+
 							 " , nvl(referral, '추천인 없음') as referral "+
 							 " , point "+
-							 " , to_char(registerday, 'yyyy-mm-dd') AS registerday "+
-							 " , to_char(lastpwdchangedate, 'yyyy-mm-dd') AS lastpwdchangedate "+
+							 " , registerday "+
+							 " , lastpwdchangedate "+
 							 " , status "+
 							 " , idle "+
 							 " from tbl_member "+
@@ -522,79 +490,50 @@ public class MemberDAO implements InterMemberDAO {
 			}
 			
 			return member;
-		}// end of public MemberVO selectOneUser(String userid)---------------------------------------------------------
+		}
 		
-		
-		
-		// 운영자가 회원정보 수정하기 전에 기존정보를 출력하기 위한 select where
-		@Override
-		public MemberVO adminEditUserInfo(String userid) throws SQLException {
-			
-			MemberVO member = new MemberVO();
-			
-			try {
-				
-				conn = ds.getConnection();
-				
-				String sql = " select userid "+
-						 " , point "+
-						 " , status "+
-						 " , idle "+
-						 " from tbl_member "+ 
-						 " where userid = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString(1, userid);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-					member.setUserid(rs.getString(1));
-					member.setPoint(rs.getInt(2));
-					member.setStatus(rs.getInt(3));
-					member.setIdle(rs.getInt(4));
+		// 회원의 개인정보 변경하기
+				@Override
+				public int updateMember(MemberVO member) throws SQLException {
+					
+					 int n  = 0;
+				      
+				      try {
+				         conn = ds.getConnection();
+				         
+				         String sql = " update tbl_member set name  = ? "
+				                  + "                     , pwd = ? "
+				                  + "                     , email = ? "
+				                  + "                     , mobile = ? "
+				                  + "                     , postcode = ? "
+				                  + "                     , address = ? "
+				                  + "                     , detailAddress = ? "
+				                  + "                     , extraAddress = ? "
+				                  + "                     , lastpwdchangedate = sysdate "
+				                      + " where userid = ? ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				         
+				         pstmt.setString(1, member.getName()); 
+				           pstmt.setString(2, Sha256.encrypt(member.getPwd()) );
+				           pstmt.setString(3, aes.encrypt(member.getEmail()) );
+				           pstmt.setString(4, aes.encrypt(member.getMobile()) );
+				           pstmt.setString(5, member.getPostcode() );
+				           pstmt.setString(6, member.getAddress() );
+				           pstmt.setString(7, member.getDetailaddress() );
+				           pstmt.setString(8, member.getExtraaddress() );
+				           pstmt.setString(9, member.getUserid() );
+				         
+				         n = pstmt.executeUpdate();
+				      
+				      } catch(GeneralSecurityException | UnsupportedEncodingException e) {    
+				            e.printStackTrace();
+				      } finally {
+				         close();
+				      }
+				      
+				      return n;
 				}
-				
-			} finally {
-				close();
-			}
-			
-			return member;
-		}// end of public MemberVO adminEditUserInfo(String userid) ---------------------------------------------
-		
-		
-		// 운영자가 이제 입력한 정보를 가지고가서 회원의 정보를 update 합니다.
-		@Override
-		public int adminUpdateUser(MemberVO member) throws SQLException {
-			
-			int n = 0;
-			
-			try {
-				
-				conn = ds.getConnection();
-				
-				String sql = " UPDATE TBL_MEMBER SET POINT = ?, STATUS = ?, IDLE = ? "
-						   + " WHERE USERID = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setInt(1, member.getPoint());
-				pstmt.setInt(2, member.getStatus());
-				pstmt.setInt(3, member.getIdle());
-				pstmt.setString(4, member.getUserid());
-				
-				n = pstmt.executeUpdate();
-				
-			} finally {
-				close();
-			}
-			
-			return n;
-		}// end of public int adminUpdateUser(MemberVO member)------------------------------------------------------
-		
-		
-		
 		
 		
 }
