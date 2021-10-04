@@ -98,7 +98,7 @@
 		});// end of $(document).on("mouseout", "tr.memberInfo", function(){})--------------------------------
 		
 		
-		$("select#sizePerPage").change(function(){
+		$("select#sizePerPage").change(function(){ // 몇명씩 볼지만 선택해도 알아서 검색되도록한다.
 			goSearch();
 		})// end of $("select#sizePerPage").change(function(){})-----------------------------------		
 		

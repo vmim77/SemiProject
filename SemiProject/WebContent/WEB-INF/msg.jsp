@@ -13,6 +13,8 @@
 	
 	// 부모창 새로고침
      opener.location.reload(true); 
+	
+	
  // opner.history.go(0);
  
 /*   

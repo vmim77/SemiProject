@@ -34,6 +34,10 @@
 	
 <style type="text/css">
 
+	body{
+		word-break: break-all;
+	}
+
 	div#kakaodiv{ /* 카카오버튼 CSS 입니다. */ 
 		
 		position: fixed;
@@ -101,6 +105,9 @@
 					
 						<%-- 회사소개 메뉴입니다. --%>
 						<li class="nav-item"><a href="<%= ctxPath%>/about.sh" class="nav-link">ABOUT</a></li>
+						
+						<%-- 공지사항 메뉴입니다. --%>
+						<li class="nav-item"><a href="<%= ctxPath%>/board/notice.sh" class="nav-link">NOTICE</a></li>
 						
 						<%-- 카테고리 메뉴입니다. --%>
 						<li class="nav-item dropdown"  style="opacity: 0.8;">
