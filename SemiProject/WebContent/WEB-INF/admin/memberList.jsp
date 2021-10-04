@@ -170,9 +170,10 @@
 		
 		<span style="font-weight: bold; font-size: 14pt;">페이지당 회원명수-</span>
 		<select id="sizePerPage" name="sizePerPage">
-		   <option value="10">10</option>
-		   <option value="5">5</option>
+		   <option value="0" selected>인원수 선택</option>
 		   <option value="3">3</option>
+		   <option value="5">5</option>
+		   <option value="10">10</option>
 		</select>
 	</form>
 	<%-- 검색을 위한 정보를 보냅니다. --%>

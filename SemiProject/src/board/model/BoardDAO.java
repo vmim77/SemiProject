@@ -57,11 +57,20 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select boardno, fk_writer, title, content, "
-					+    " to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime "
-					+    ", viewcnt "
-					   + " from tbl_notice_board "
-					   + " order by boardno desc ";
+			String sql = " select boardno, fk_writer, title, content, writetime, viewcnt, CommentCnt "+
+						 " from "+
+						 " ( "+
+						 "     select boardno, fk_writer, title, content, to_char(writetime, 'yyyy-mm-dd hh24:mi') as writetime, viewcnt "+
+						 "     from tbl_notice_board "+
+						 "     order by boardno desc "+
+						 " ) A "+
+						 " join "+
+						 " (  "+
+						 "     select fk_boardno, count(*) AS CommentCnt "+
+						 "     from tbl_notice_comment "+
+						 "     group by fk_boardno "+
+						 " ) B "+
+						 " on A.boardno = B.fk_boardno ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -77,6 +86,8 @@ public class BoardDAO implements InterBoardDAO {
 				bvo.setTitle(rs.getString(3));
 				bvo.setContent(rs.getString(4));
 				bvo.setWritetime(rs.getString(5));
+				bvo.setViewcnt(rs.getInt(6));
+				bvo.setCommentCnt(rs.getInt(7));
 				
 				list.add(bvo);
 				

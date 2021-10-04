@@ -9,6 +9,13 @@ public class BoardVO {
 	private String writetime; // 글시간 - 기본값 sysdate
 	private int viewcnt; // 조회수
 	
+	
+	// select 용 컬럼
+	private int CommentCnt; // 해당 글의 댓글수
+	
+	
+	
+	
 	public int getBoardno() {
 		return boardno;
 	}
@@ -56,6 +63,18 @@ public class BoardVO {
 	public void setViewcnt(int viewcnt) {
 		this.viewcnt = viewcnt;
 	}
+
+	public int getCommentCnt() {
+		return CommentCnt;
+	}
+
+	public void setCommentCnt(int commentCnt) {
+		CommentCnt = commentCnt;
+	}
+	
+	
+	
+	
 	
 	
 

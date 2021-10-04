@@ -167,3 +167,34 @@ modify comment_content Nvarchar2(50);
 
 select * 
 from tbl_notice_comment;
+
+select count(*)
+from tbl_notice_comment
+where fk_boardno = 2;
+
+delete from tbl_notice_comment;
+-- 12개 행 이(가) 삭제되었습니다.
+commit;
+--커밋 완료.
+
+alter table tbl_notice_comment
+add registerdate date default sysdate;
+-- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.
+
+select boardno, fk_writer, title, content, writetime, viewcnt, CommentCnt
+from
+(
+    select boardno, fk_writer, title, content, to_char(writetime, 'yyyy-mm-dd hh24:mi') as writetime, viewcnt
+    from tbl_notice_board
+    order by boardno desc
+) A
+join 
+( 
+    select fk_boardno, count(*) AS CommentCnt
+    from tbl_notice_comment
+    group by fk_boardno
+) B
+on A.boardno = B.fk_boardno
+
+
+

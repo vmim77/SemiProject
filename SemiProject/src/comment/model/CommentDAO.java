@@ -61,7 +61,8 @@ public class CommentDAO implements InterCommentDAO {
 			
 			String sql = " select fk_boardno, fk_commenter, comment_content"
 					+    " from tbl_notice_comment"
-					+    " where fk_boardno = ?  ";
+					+    " where fk_boardno = ?  "
+					+    " order by registerdate desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardno);
