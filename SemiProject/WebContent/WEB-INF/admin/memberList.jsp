@@ -179,46 +179,47 @@
 	<%-- 검색어를 넣지 않고 검색하면 전체회원 조회 // 검색어를 넣고 검색하면 특정회원들 조회 --%>
 	
 		
-	<div class="container">
-		<table class="table table-dark my-5 text-center justify-content-center" >
-			<thead>
-				<tr>
-					<th>회원번호</th>
-					<th>아이디</th>
-					<th>성명</th>
-					<th>성별</th>
-					<th>가입일자</th>
-					<th>회원상태</th>
-					<th>휴면상태</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="mbr" items="${requestScope.mbrList}" varStatus="status">
-					<tr class="memberInfo">
-						<td>${status.index}</td>
-						<td>${mbr.userid}</td>
-						<td>${mbr.name}</td>
-						<td>${mbr.gender}</td>
-						
-						<td>${fn:substring(mbr.registerday, 0, 10)}</td> <%-- 시간은 짜르고 날짜만 가져옵니다. --%>
-						
-						<c:if test="${mbr.status == 1}">
-							<td>사용가능</td>
-						</c:if>
-						<c:if test="${mbr.status == 0}">
-							<td>탈퇴</td>
-						</c:if>
-						
-						<c:if test="${mbr.idle == 0}">
-							<td>활동</td>
-						</c:if>
-						<c:if test="${mbr.idle == 1}">
-							<td>휴면</td>
-						</c:if>
+	<div class="container table-responsive">
+	
+			<table class="table table table-dark my-5 text-center justify-content-center" style="width: 100%;">
+				<thead>
 					<tr>
-				</c:forEach>			
-			</tbody>
-		</table>
+						<th scope="col">회원번호</th>
+						<th scope="col">아이디</th>
+						<th scope="col">성명</th>
+						<th scope="col">성별</th>
+						<th scope="col">가입일자</th>
+						<th scope="col">회원상태</th>
+						<th scope="col">휴면상태</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="mbr" items="${requestScope.mbrList}" varStatus="status">
+						<tr class="memberInfo">
+							<td scope="row">${status.index}</td>
+							<td>${mbr.userid}</td>
+							<td>${mbr.name}</td>
+							<td>${mbr.gender}</td>
+							
+							<td>${fn:substring(mbr.registerday, 0, 10)}</td> <%-- 시간은 짜르고 날짜만 가져옵니다. --%>
+							
+							<c:if test="${mbr.status == 1}">
+								<td>사용가능</td>
+							</c:if>
+							<c:if test="${mbr.status == 0}">
+								<td>탈퇴</td>
+							</c:if>
+							
+							<c:if test="${mbr.idle == 0}">
+								<td>활동</td>
+							</c:if>
+							<c:if test="${mbr.idle == 1}">
+								<td>휴면</td>
+							</c:if>
+						<tr>
+					</c:forEach>			
+				</tbody>
+			</table>
 		
 		<!-- Button trigger modal -->
 		<button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;">

@@ -1324,7 +1324,7 @@ pre {
   .offset-xl-11 {
     margin-left: 91.66667%; } }
 
-.table {
+/* .table {
   width: 100%;
   margin-bottom: 1rem;
   background-color: transparent; }
@@ -1339,7 +1339,7 @@ pre {
   .table tbody + tbody {
     border-top: 2px solid #dee2e6; }
   .table .table {
-    background-color: #fff; }
+    background-color: #fff; } */
 
 .table-sm th,
 .table-sm td {
@@ -8907,7 +8907,7 @@ h1, h2, h3, h4, h5,
 .table-wrap {
   overflow-x: scroll; }
 
-.table {
+/* .table {
   min-width: 1000px !important;
   width: 100%;
   background: #fff;
@@ -8945,7 +8945,7 @@ h1, h2, h3, h4, h5,
       color: rgba(0, 0, 0, 0.3); }
   .table tbody td .close span {
     font-size: 12px;
-    color: #dc3545; }
+    color: #dc3545; } */
 
 .checkbox-wrap {
   display: block;
