@@ -164,3 +164,6 @@ commit;
 alter table tbl_notice_comment
 modify comment_content Nvarchar2(50);
 -- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.
+
+select * 
+from tbl_notice_comment;
