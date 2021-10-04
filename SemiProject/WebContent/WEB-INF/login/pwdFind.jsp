@@ -215,22 +215,9 @@ h2 {
          <tbody>
         <div class="login">
             <h2 style="color: black;">비밀번호찾기</h2>
-            <div class="login_id">
-                <input type="text" name="userid" id="userid" placeholder="아이디" autocomplete="off" required>
-            </div>
-            <div class="login_pw">
-                <input type="text" name="email" id="email" placeholder="abc@def.com" autocomplete="off" required>
-            </div>
-            <div class="login_etc" id="div_btnFind">
-            </div>
-              <button type="button" id="btnFind" class="btn btn-dark">찾기</button>
-        </div>
-    </div>
-         </tbody>
-       </table>
-   
-      <div class="my-3" id="div_findResult">
-   	  <p class="text-center">
+            
+          <div class="my-3" id="div_findResult">
+   	  		<p class="text-center">
 		 <c:if test="${requestScope.isUserExist == false}">
 		 	<span style="color: red;">사용자 정보가 없습니다.</span>
 		 </c:if>
@@ -249,6 +236,21 @@ h2 {
 		 
       </p>
    </div>   
+            <div class="login_id">
+                <input type="text" name="userid" id="userid" placeholder="아이디" autocomplete="off" required>
+            </div>
+            <div class="login_pw">
+                <input type="text" name="email" id="email" placeholder="abc@def.com" autocomplete="off" required>
+            </div>
+            <div class="login_etc" id="div_btnFind">
+            </div>
+              <button type="button" id="btnFind" class="btn btn-dark">찾기</button>
+        </div>
+    </div>
+         </tbody>
+       </table>
+   
+      
   </form>
    
    <form name="verifyCertificationFrm">
