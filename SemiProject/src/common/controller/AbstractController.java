@@ -2,6 +2,8 @@ package common.controller;
 
 import javax.servlet.http.*;
 
+import member.model.MemberVO;
+
 // import member.model.MemberVO;
 
 public abstract class AbstractController implements InterCommand{
@@ -23,7 +25,7 @@ public abstract class AbstractController implements InterCommand{
 		Redirect = redirect;
 	}
 //==================================================================================	
-	/*
+	
 	// 로그인 유무를 검사해서 로그인 했으면 true를 리턴해주고 아니면 false를 리턴 //
 	public boolean checkLogin(HttpServletRequest request) {
 		
@@ -38,6 +40,8 @@ public abstract class AbstractController implements InterCommand{
 		}//end of if(loginuser != null) {
 		
 	}//end of public boolean checkLogin() {
-	*/
+	
 //==================================================================================
+	
+	
 }//end of public abstract class AbstractController implements InterCommand{----------

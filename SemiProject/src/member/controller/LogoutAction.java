@@ -14,14 +14,14 @@ public class LogoutAction extends AbstractController {
 		HttpSession  session = request.getSession(); // 세션 불러오기
 		
 		// 첫번째 방법 : 세션을 그대로 존재하게 끔 해두고 세션에 저장되어진 어떤 값(지금은 로그인 되어진 회원객체)을 삭제하기
-		//session.removeAttribute("loginuser");
+		session.removeAttribute("loginuser");
 		
 		
 		// 두번째 방법 : WAS 메모리 상에서 세션을 아예 삭제해버리기
-		session.invalidate();
+		//session.invalidate();
 		
-		super.setRedirect(true);
-		super.setViewPage(request.getContextPath()+"/index.sh");
+		//super.setRedirect(false);
+		super.setViewPage("/WEB-INF/index.jsp");
 		
 	}// end of public void execute(HttpServletRequest request, HttpServletResponse response) ---------------------------------
 

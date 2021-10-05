@@ -12,7 +12,11 @@
 <style type="text/css">
 	
 	table, tr, td{
+<<<<<<< HEAD
 		  /*   border:solid 1px red;     */
+=======
+		  /*  border:solid 1px red;  */
+>>>>>>> refs/heads/main
 	}
 	
 	span#num1,span#num2,span#num3{
@@ -76,9 +80,6 @@
 	var num = 1;
 	// 옵션 기본값
 	var org = "- [필수]옵션을 선택 해주세요 -";
-	// 옶션 가격 더해줄 값
-	var plusopt1 = 0;
-	var plusopt2 = 0;
 	// 옵션 각각의 기본값
 	var opt1 = "";
 	var opt2 = "";
@@ -89,12 +90,13 @@
 	var fg2 = false;
 	var fg3 = false;
 	var fg4 = false;
-	// 옵션 총합 지역변수 방지
-	var finopt = 0;
-	// 최대 갯수
+	// tr 아이디를 잡아주기 위함
 	var cnt = 0;
+<<<<<<< HEAD
 	// 테이블 태그의 키값
 	var key = 0;
+=======
+>>>>>>> refs/heads/main
 	// 옵션 선택시 실행해주는 메소드
 	function flag1(){
 		opt1 = $("select#optselect1").val();
@@ -107,37 +109,30 @@
 	function flag3(){
 		opt3 = $("select#optselect3").val();
 		fg3 = true;
-		
-		if(opt3 == "안굽 1cm추가 (+5,000원)"){
-			plusopt1 = 5000;
-		}
-		else{
-			plusopt1 = 0;
-		}
 	}
 	function flag4(){
 		opt4 = $("select#optselect4").val();
 		fg4 = true;
-
-		if(opt4 == "워커창(러버솔) 변경(교환불가옵션 +10,000원)"){
-			plusopt2 = 10000;
-		}
-		else if(opt4 == "가죽창(레더솔) 변경(교환불가옵션 +40,000원)"){
-			plusopt2 = 40000;
-		}
-		else{
-			plusopt2 = 0;
-		}
+	}
+	// 수량 늘려주기
+	function flag5(){
+		num = $("input#num").val();
+		// 할인 가격이 얼마인지
+		var orgpcd = $("span#product_ceil_price").html();
+		// 변경작업
+		var pcd = orgpcd.replace(",",""); 
+		$("div#upprice").html(num * pcd+"원");
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
-				
+		
 	$(document).ready(function(){
 		
 		// 초기 가격 설정해주기
 		var orgpcd = $("span#product_ceil_price").html();
 		var pcd = orgpcd.replace(",","");
 		
+<<<<<<< HEAD
 		// 포인트 가격 넣어주기
 		$("span#pct").text("(10%) "+(pcd*0.1)+"포인트");
 		
@@ -161,17 +156,24 @@
 			
 		});//end of $(document).on("click", "input#num", function(){
 			
+=======
+>>>>>>> refs/heads/main
 		// 추가하기 버튼 눌렀을 때
+<<<<<<< HEAD
 		$(document).on("click", "span#plus", function(){
 			
 			// 옵션 값 더하기
 			finopt = plusopt1 + plusopt2;
 			// 각각의 고유한 키값
 			key++;
+=======
+		$("img#plus").click(function(){
+>>>>>>> refs/heads/main
 			
 			// 각각 옵션을 선택한 경우
 			if(opt1 != org && opt2 != org && opt3 != org && opt4 != org && fg1 == true && fg2 == true && fg3 == true && fg4 == true){
 				
+<<<<<<< HEAD
 				var html = "<div>" 
 								+"<table id='"+key+"' style='height:72px; margin-bottom:12px;'>"
 									+"<tr>"
@@ -213,32 +215,92 @@
 					cnt = 4;
 					alert("최대 4까지 담을 수 있습니다.");	
 				}
+=======
+				cnt++;
+				
+				var html = "<td colspan='2' style='height:70px; width:350px;'>"
+						  	+"<table>"
+								+"<tr>"
+									+"<td style='width:300px;'>"
+										+"<div style='text-align:left; font-size:9pt; color:black;'>"
+											+"<div style='font-weight:bold;'>"+ $("span#product_name").html() +"</div>"
+											+"<div>"+opt1+"/"+opt2+"/"+opt3+"</div>"
+											+"<div>/"+opt4+"</div>"
+										+"</div>"
+									+"</td>"
+									+"<td style='width:140px; text-align:right; font-size:10pt;'>"
+										+"<input id='num' type='number' min='1' value='1' max='20' style='width:40px; height:20px; text-align:left;' onclick='flag5();'/>"
+										+"<img id='close' src='/SemiProject/images/close.png' style='width:15px; height:15px; margin-left:5px'/>"
+										+"<input class='delnum' type='hidden' value='"+cnt+"'/>"
+										+"<div id='upprice'>"+num*pcd+"원</div>"
+										+"<div>+ 45,000원</div>"
+									+"</td>"	
+								+"</tr>"
+							+"</table>"
+						  +"</td>";
+				
+				$("tr#"+cnt).html(html);	
+>>>>>>> refs/heads/main
 				
 			}
 			else{
 				alert("옵션을 모두 선택 후 추가 해주세요.");
-				cnt = 0;
 			}//end of if(opt1 != org && opt2 != org && opt3 != org && opt4 != org && fg1 == true && fg2 == true && fg3 == true && fg4 == true){
-				
+
+			// 제품 4개가 꽉차면
+			if(cnt>4){
+				alert("최대 4개까지 담을 수 있습니다.");
+				cnt = 4;
+			}
+			
 			////////////////////////////////////////////
 			// 나중에 추가되는 태그므로 도큐멘트.레디에서 못잡는다           //
 			// 버튼 클릭시 나오는 태그이므로 버튼클릭 메소드 안에 잡아준다  //
 			////////////////////////////////////////////
-			
 			// 옵션 지우기를 눌렀을 떄 //
-			$(document).on("click", "img#close", function(){
+			$("img#close").click(function(){
 				
+<<<<<<< HEAD
 				// 키값을 가져오기 위함
 				var tblkey = $(this).parent().find(".tblkey").val();
 				$("table#"+tblkey).remove();
+=======
+				// 지운만큼 추가하게 해준다
+				cnt--;
+				// 지우는 tr id
+				var delnum = $(this).next().val();
+				// 우선 해당태그 내용 지우기
+				$("tr#"+delnum).html("");
+				// 차곡차곡 내려오게 하기
+				// 지운 숫자가 어떤 것인가
+				if(delnum == 1){
+					$("tr#"+delnum).html( $("tr#"+delnum+1).html() );
+					$("tr#"+delnum+1).html( $("tr#"+delnum+2).html() );
+					$("tr#"+delnum+2).html( $("tr#"+delnum+3).html() );
+					$("tr#"+delnum+3).html("");
+				}
+				else if(delnum == 2){
+					$("tr#"+delnum).html( $("tr#"+delnum+1).html() );
+					$("tr#"+delnum+1).html( $("tr#"+delnum+2).html() );
+					$("tr#"+delnum+2).html("");
+				}
+				else if(delnum == 3){
+					$("tr#"+delnum).html( $("tr#"+delnum+1).html() );
+					$("tr#"+delnum+1).html("");
+				}
+>>>>>>> refs/heads/main
 				
-			});//end of $("img#close").click(function(){--------------------------	
+			});//end of $("img#close").click(function(){--------------------------
 			
 		});//end of $("button#plus").click(function(){-------------------------------
 		
+<<<<<<< HEAD
 		// 장바구니로 연결하기
 		$(document).on("click", "span#cart", function(){
+=======
+>>>>>>> refs/heads/main
 		
+<<<<<<< HEAD
 			// 키값을 가져오기 위함
 			var cartkey = $(this).parent().find(".cartkey").val();
 			console.log(cartkey);
@@ -266,12 +328,20 @@
 			frm.action = "<%= ctxPath%>/mycart.sh";
 			frm.method = "post";
 			frm.submit();	  
+=======
+		$("button#gg").click(function(){
+>>>>>>> refs/heads/main
 			
+<<<<<<< HEAD
 			// 장바구니 전송 후 지우기
 			$("table#"+cartkey).remove();
 			// 장바구니 전송을 위해 만든 input 지우기
 			$("form#buyorcart").empty(); 
+=======
+			alert("dd"); 
+>>>>>>> refs/heads/main
 			
+<<<<<<< HEAD
 		});//end of $(document).on("click", "button#cart", function(){-----------	
 				
 		// 리뷰 작성시 글자수 보여주기	
@@ -338,11 +408,28 @@
 			
 		});//end of $("input#text").keyup(function(){--------------------------------
 			
+=======
+		});
+		
+		
+		
+		
+		
+>>>>>>> refs/heads/main
 	});//end of $(docunment).ready(function(){
 		
+<<<<<<< HEAD
 		
+=======
+	
+>>>>>>> refs/heads/main
 </script>
+<<<<<<< HEAD
 
+=======
+<button id="gg">fgsfds</button>
+<button id="hh">fgsfds</button>
+>>>>>>> refs/heads/main
 <!-- 리뷰 및 게시판 들어가는 곳 -->
 <div id="container" style="width:1000px; margin:100px 300px; font-family:맑은 고딕;">
 	<!-- 구매창 넣기 -->
@@ -350,21 +437,41 @@
 		<tr>
 			<td id="insertimg"><img style="height:850px;" id="chun" src="http://www.romanticmove.com/web/product/extra/big/20200310/7b5003d754dc86e763e2550bc98192ae.jpg"/></td>
 			<td id="buy" style="width:700px; height:800px;">
+<<<<<<< HEAD
 				<table id="inbuy" style="width:420px; height:850px; margin-left:40px;">
+=======
+				<table id="inbuy" style="width:420px; height:800px; margin-left:50px;">
+>>>>>>> refs/heads/main
 					<tr style="height:80px;">
 						<td colspan="2" style="padding:0px 5px; width:450px; height:60px; text-align:left; font-size:14pt; font-weight:bold; color:black; border-bottom:solid 1px gray;">
 							<span id="product_name">제품명</span><br>
 							<span id="product_ceil_price" style="font-size:13pt; color:red;">140,000</span>&nbsp;
 							<span style="font-size:10pt; color:gray;">/</span>
+<<<<<<< HEAD
 							<span id="product_price" style="padding:10px; font-size:10pt; color:gray;">180,000</span>		
+=======
+							<span id="product_price" style="font-size:10pt; color:gray;">180,000</span>
+							<span><img id="plus" src="/SemiProject/images/plus.png" style="width:30px; height:30px; margin-left:165px;"/></span>
+							<span><img id="cart" src="/SemiProject/images/cart.jpg" style="width:50px; height:50px;"></span>
+>>>>>>> refs/heads/main
 						</td>
 					</tr>
 					<tr style="height:50px;">
+<<<<<<< HEAD
 						<td style="width:150px; text-align:left; font-size:10pt; color:black; padding-top:7px; padding-left:7px;">적립금</td>
 						<td style="width:300px; font-size:10pt; padding-left:20px; padding-top:5px;"><span id="pct" style="color:red; display:inline-block; width:200px;"></span><span style="margin-left:27px; font-size:9pt; color:gray; display:inline-block; width:100px;">포인트사용<img src="/SemiProject/images/point.png" style="width:40px; height:35px;"></span></td>
+=======
+						<td style="width:150px; text-align:left; font-size:10pt; color:black; padding-left:7px; border-bottom:solid 1px gray;">적립금</td>
+						<td style="width:300px; font-size:10pt; padding-left:20px; border-bottom:solid 1px gray;"><span>1,800원 (10%)</span><span style="margin-left:145px; font-size:9pt; color:gray;">포인트사용<img src="/SemiProject/images/point.png" style="width:40px; height:35px;"></span></td>
+>>>>>>> refs/heads/main
 					</tr>
+<<<<<<< HEAD
 					<tr style="height:55px;">
 						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:10px 0px 0px 7px;">사이즈</td>
+=======
+					<tr style="height:50px;">
+						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:0px 0px 0px 7px;">사이즈</td>
+>>>>>>> refs/heads/main
 						<td style="width:300px; padding:0px 10px;">
 							<select id="optselect1" style="border-bottom:solid 1px black; border-left:solid 1px white; border-right:solid 1px white; border-top:solid 1px white; width:330px; font-size:10pt; text-align:left; color:gray; margin:0px 0px 8px 5px;" onclick="flag1();">
 								<option>- [필수]옵션을 선택 해주세요 -</option>
@@ -379,7 +486,11 @@
 							</select>
 						</td>
 					</tr>
+<<<<<<< HEAD
 					<tr style="height:55px;">
+=======
+					<tr style="height:50px;">
+>>>>>>> refs/heads/main
 						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:0px 0px 0px 7px;">볼너비</td>
 						<td style="width:300px; padding:0px 10px;">
 							<select id="optselect2" style="border-bottom:solid 1px black; border-left:solid 1px white; border-right:solid 1px white; border-top:solid 1px white; width:330px; font-size:10pt; text-align:left; color:gray; margin:0px 0px 8px 5px;" onclick="flag2();">
@@ -390,7 +501,11 @@
 							</select>
 						</td>
 					</tr>
+<<<<<<< HEAD
 					<tr style="height:55px;">
+=======
+					<tr style="height:50px;">
+>>>>>>> refs/heads/main
 						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:0px 0px 0px 7px;">키높이</td>
 						<td style="width:300px; padding:0px 10px;">
 							<select id="optselect3" style="border-bottom:solid 1px black; border-left:solid 1px white; border-right:solid 1px white; border-top:solid 1px white; width:330px; font-size:10pt; text-align:left; color:gray; margin:0px 0px 8px 5px;" onclick="flag3();">
@@ -401,7 +516,11 @@
 							</select>
 						</td>
 					</tr>
+<<<<<<< HEAD
 					<tr style="height:55px;">
+=======
+					<tr style="height:50px;">
+>>>>>>> refs/heads/main
 						<td style="width:150px; text-align:left; font-size:8pt; color:black; padding-left:7px;">아웃솔변경</td>
 						<td style="width:300px; padding:0px 10px;">
 							<select id="optselect4" style="border-bottom:solid 1px black; border-left:solid 1px white; border-right:solid 1px white; border-top:solid 1px white; width:330px; font-size:10pt; text-align:left; color:gray; margin-left:5px;" onclick="flag4();">
@@ -418,12 +537,26 @@
 							<span id="plus" style="text-align:center; display:inline-block; background-color:black; color:white; height:50px; width:420px;padding-top:13px;">ADD</span>
 						</td>
 					</tr>
+<<<<<<< HEAD
 					<tr style="height:380px;">
 						<td colspan="2">
 							<div id="inthis" style="height:430px; width:420px;">
 								<!-- 구매 목록이 들어가는 곳 -->
 							</div>
 						</td>
+=======
+					<tr id="1" style="height:105px; border-bottom:solid 1px gray;">
+						<!-- 구매목록이 들어가는 곳 -->
+					</tr>
+					<tr id="2" style="height:105px; border-bottom:solid 1px gray;">
+						<!-- 구매목록이 들어가는 곳 -->
+					</tr>
+					<tr id="3" style="height:105px; border-bottom:solid 1px gray;">
+						<!-- 구매목록이 들어가는 곳 -->
+					</tr>
+					<tr id="4" style="height:105px; border-bottom:solid 1px gray;">
+						<!-- 구매목록이 들어가는 곳 -->
+>>>>>>> refs/heads/main
 					</tr> 
 				</table>
 			</td>
@@ -451,7 +584,7 @@
 	<!-- 버튼 -->	
 	<div id="buttons" style="margin:20px 0px 15px 0px;">
 		<input type="file" id="insertpicture" style="display:inline-block; width:200px; height:30px; margin-right:5px; border:solid 1px gray; font-size:10pt;"/>
-		<select id="insertstar" style="width:550px; height:30px; margin-right:5px; padding-right:5px; padding-bottom:5px; text-align:left;">
+		<select id="insertstar" style="width:550px; height:30px; margin-right:5px; padding:0px 5px; text-align:left;">
 			<option>★★★★★&nbsp;매우만족해요</option>
 			<option>★★★★☆&nbsp;만족해요</option>
 			<option>★★★☆☆&nbsp;보통이에요</option>
@@ -459,8 +592,7 @@
 			<option>★☆☆☆☆&nbsp;매우불만족해요</option>
 		</select>
 		<span id="insertreview" style="display:inline-block; width:150px; height:30px; margin:0px 5px 0px 0px; border:solid 1px gray; text-align:center; font-size:12pt; color:white; background-color:black;">
-			Confirm
-		</span>
+Confirm</span>
 		<span id="insertreviewword"></span>
 	</div>
 	
@@ -504,7 +636,7 @@
 			<td>
 				<div id="writer">작성자 : 누구</div>
 				<div id="writeday">작성일자 : 언제</div>
-				<div id="writewhat">제품속성 : 무엇</div>
+				<div id="writewhat"">제품속성 : 무엇</div>
 			</td>
 		</tr>
 		<tr>
@@ -512,11 +644,18 @@
 		</tr>
 	</table>
 </div>	
+<<<<<<< HEAD
 
 <!-- 장바구니 또는 구매 할 때 잠시 값을 저장시켜 주는 곳 -->
 <form id="buyorcart" name="gogocart">
+=======
+>>>>>>> refs/heads/main
 	
-</form>
+	
+
+
+
+
 
 <!-- 리뷰 작성 할 때 잠시 값을 저장시켜 주는 곳 -->
 <form id="goreview" name="gogoreview">
