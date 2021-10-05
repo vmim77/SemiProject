@@ -72,7 +72,6 @@
 				<tr>
 					<th>글번호</th>
 					<th>글제목</th>
-					<th>글내용</th>
 					<th>글쓴이</th>
 					<th>작성시간</th>
 					<th>조회수</th>
@@ -83,7 +82,6 @@
 					<tr class="board">
 						<td>${bvo.boardno}</td>
 						<td>${bvo.title}<span class="ml-2" style="font-size: 10pt;">[${bvo.commentCnt}]</span></td>
-						<td>${bvo.content}</td>
 						<td>${bvo.fk_writer}</td>
 						<td>${bvo.writetime}</td>
 						<td>${bvo.viewcnt}</td>
