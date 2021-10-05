@@ -146,7 +146,7 @@ public class BoardDAO implements InterBoardDAO {
 	
 	// 공지사항 게시글쓰기
 	@Override
-	public int writeBoard(Map<String, BoardVO> paraMap) throws SQLException {
+	public int writeNotice(Map<String, BoardVO> paraMap) throws SQLException {
 		int n = 0;
 		
 		try {
@@ -173,7 +173,8 @@ public class BoardDAO implements InterBoardDAO {
 	
 	// 공지사항 게시글 수정하기
 	@Override
-	public int editBoard(BoardVO bvo) throws SQLException {
+	public int editNotice(BoardVO bvo) throws SQLException {
+		
 		int n = 0;
 		
 		try {
@@ -196,7 +197,35 @@ public class BoardDAO implements InterBoardDAO {
 			close();
 		}
 		return n;
-	}
+		
+	}// end of public int editBoard(BoardVO bvo) throws SQLException-----------------------------------------------
+	
+	
+	// 공지사항 게시글 삭제하기
+	@Override
+	public int deleteNotice(int boardno) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_notice_board "
+					+    " where boardno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, boardno);
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return n;
+		
+	}// end of public int deleteNotice(int boardno)-----------------------------------
 	
 	
 }

@@ -12,9 +12,12 @@ public interface InterBoardDAO {
 	BoardVO selectOneNotice(int boardno) throws SQLException;
 	
 	// 공지사항 게시글쓰기
-	int writeBoard(Map<String, BoardVO> paraMap) throws SQLException;
+	int writeNotice(Map<String, BoardVO> paraMap) throws SQLException;
 	
 	// 공지사항 게시글 수정하기
-	int editBoard(BoardVO bvo) throws SQLException;
+	int editNotice(BoardVO bvo) throws SQLException;
+	
+	// 공지사항 게시글 삭제하기
+	int deleteNotice(int boardno) throws SQLException;
 
 }

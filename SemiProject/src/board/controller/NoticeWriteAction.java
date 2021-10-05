@@ -35,7 +35,7 @@ public class NoticeWriteAction extends AbstractController {
 			
 			InterBoardDAO mdao = new BoardDAO();
 			
-			int n = mdao.writeBoard(paraMap);
+			int n = mdao.writeNotice(paraMap);
 			
 			String message = "";
 			String loc= "";

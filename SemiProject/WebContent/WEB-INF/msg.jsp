@@ -9,10 +9,10 @@
 	location.href = "${requestScope.loc}";
 	
 	// 팝업창 닫기
-	 self.close();
+	self.close();
 	
-	// 부모창 새로고침
-     opener.location.reload(true); 
+		// 부모창 새로고침
+     	opener.location.reload(true); 
 	
 	
  // opner.history.go(0);

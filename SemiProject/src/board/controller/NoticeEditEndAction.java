@@ -39,13 +39,12 @@ public class NoticeEditEndAction extends AbstractController {
 			
 			InterBoardDAO mdao = new BoardDAO();
 			
-			int n = mdao.editBoard(bvo);
+			int n = mdao.editNotice(bvo);
 			
 
 			if(n==1) {// update 성공
 				message = "글 수정하기 성공";
 				loc = request.getContextPath()+"/board/noticeDetail.sh?boardno="+boardno;
-				
 			}
 			else {// update 실패
 				message = "글 수정하기 실패";

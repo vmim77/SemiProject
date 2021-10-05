@@ -1,9 +1,18 @@
 select *
+from tab;
+
+select *
 from tbl_member;
 
 select *
 from USER_TAB_COLUMNS
-where table_name = 'TBL_MEMBER';
+where table_name = 'TBL_NOTICE_COMMENT';
+
+select *
+from user_constraints
+where table_name = 'TBL_NOTICE_COMMENT';
+
+
 
 select userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, nvl(referral, '추천인 없음') AS referral, point, registerday, lastpwdchangedate, status, idle
 from tbl_member

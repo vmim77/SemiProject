@@ -11,10 +11,6 @@
 	
 	$(document).ready(function(){
 		
-		window.reload(true);
-		
-		
-		
 	});// end of $(document).ready(function(){})---------------------------------------------
 	
 	// function declaration
@@ -47,12 +43,32 @@
 	
 	function goEdit(){ // 글 수정하기
 		
-		var frm = document.boardEditFrm
+		var frm = document.boardEditFrm;
 		frm.action = "<%= ctxPath%>/board/noticeEdit.sh";
 		frm.method = "POST";
 		frm.submit();
 		
 	}// end of function goEdit()----------------------------------------------------------
+	
+	// Function Declaration
+	
+	function goDelete(){ // 글 삭제하기
+		
+		var boardno = ${requestScope.boardno};
+		
+	    var pop_width = 600;
+	    var pop_height = 300;
+	    
+	    var pop_left = Math.ceil((window.screen.width - pop_width)/2);
+	    var pop_top = Math.ceil((window.screen.height - pop_height)/2); 
+		
+     	var url = "<%= ctxPath%>/board/noticeDelete.sh?boardno="+boardno;
+			
+        window.open(url, "checkDelete",
+	    		         "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+		
+		
+	}// function goDelete()---------------------------------------------------------------
 
 </script>	
 	
@@ -161,7 +177,7 @@
 		<p class="text-right">
 			<button type="button" class="btn btn-dark btn-md" onclick="javascript:location.href='<%= ctxPath%>/board/notice.sh'">글목록</button>
 			<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">글 수정하기</button> <%-- tbl_notice_board update / 조건은 운영자만 수정할 수 있음 --%>
-			<button class="btn btn-dark btn-md my-2">글 삭제하기[미구현]</button> <%-- tbl_notice_board delete / 조건은 운영자만 삭제할 수 있음, 또한 댓글도 다 삭제됨 --%>
+			<button class="btn btn-dark btn-md my-2" onclick="goDelete()">글 삭제하기</button> <%-- tbl_notice_board delete / 조건은 운영자만 삭제할 수 있음, 또한 댓글도 다 삭제됨 --%>
 		</p>
 	</div>
 	

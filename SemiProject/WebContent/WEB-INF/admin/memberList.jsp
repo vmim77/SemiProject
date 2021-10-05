@@ -37,7 +37,7 @@
 	
 	$(document).ready(function(){
 		
-		$(document).on("click", "tr.memberInfo", function(){
+		$(document).on("click", "tr.memberInfo", function(){ // 특정 회원의 행을 클릭하면 모달창으로 그 회원의 자세한 정보를 출력해줍니다. 비동기식처리로 정보를 가져옴
 			
 			// alert("행 클릭함");
 			
