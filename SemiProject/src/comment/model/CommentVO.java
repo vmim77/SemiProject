@@ -5,6 +5,7 @@ public class CommentVO {
 	private int fk_boardno; // 글번호 -- 반드시 게시글목록에 있는 글이여야함 
 	private String fk_commenter; // 댓글작성자 -- 반드시 회원테이블에 있는 회원이여야함
 	private String comment_content; // 댓글내용
+	private String registerdate; // 댓글단 시간
 	
 	public int getFk_boardno() {
 		return fk_boardno;
@@ -28,6 +29,14 @@ public class CommentVO {
 
 	public void setComment_content(String comment_content) {
 		this.comment_content = comment_content;
+	}
+
+	public String getRegisterdate() {
+		return registerdate;
+	}
+
+	public void setRegisterdate(String registerdate) {
+		this.registerdate = registerdate;
 	}
 	
 	

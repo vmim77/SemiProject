@@ -59,7 +59,7 @@ public class CommentDAO implements InterCommentDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select fk_boardno, fk_commenter, comment_content"
+			String sql = " select fk_boardno, fk_commenter, comment_content, to_char(registerdate, 'yyyy-mm-dd hh24:mi') AS registerdate "
 					+    " from tbl_notice_comment"
 					+    " where fk_boardno = ?  "
 					+    " order by registerdate desc ";
@@ -76,6 +76,7 @@ public class CommentDAO implements InterCommentDAO {
 				cvo.setFk_boardno(rs.getInt(1));
 				cvo.setFk_commenter(rs.getString(2));
 				cvo.setComment_content(rs.getString(3));
+				cvo.setRegisterdate(rs.getString(4));
 				
 				commentList.add(cvo);
 				

@@ -113,8 +113,9 @@
 				<c:if test="${not empty requestScope.commentList}">
 					<c:forEach var="cvo" items="${requestScope.commentList}">
 						<tr>
-							<td class="pl-3 py-3" style="width: 200px;">${cvo.fk_commenter}</td>
-							<td class="py-3" colspan="5">${cvo.comment_content}</td>
+							<td class="pl-3 py-3">${cvo.fk_commenter} 님</td>
+							<td class="py-3" style="text-align:left;">${cvo.comment_content}</td>
+							<td class="py-3 pr-3" style="font-size: 10pt; text-align:right;">${cvo.registerdate}</td>
 						<tr>
 					</c:forEach>
 				</c:if>
