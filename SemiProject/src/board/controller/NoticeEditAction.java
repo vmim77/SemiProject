@@ -21,6 +21,8 @@ public class NoticeEditAction extends AbstractController {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		
+		content = content.replace("<br>", "\r\n"); // DB에 보낼때 <br>로 치환시켜둔 엔터를 다시 개행문자로 바꾼다.
+		
 		BoardVO bvo = new BoardVO();
 		
 		bvo.setBoardno(boardno);

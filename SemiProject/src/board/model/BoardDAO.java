@@ -130,7 +130,7 @@ public class BoardDAO implements InterBoardDAO {
 				bvo.setBoardno(rs.getInt(1));
 				bvo.setFk_writer(rs.getString(2));
 				bvo.setTitle(rs.getString(3));
-				bvo.setContent(rs.getString(4));
+				bvo.setContent(rs.getString(4).replace("\r\n","<br>")); // 엔터까지 적용시키기 위해서 개행문자를 <br>로 치환시킨다.
 				bvo.setWritetime(rs.getString(5));
 				
 				

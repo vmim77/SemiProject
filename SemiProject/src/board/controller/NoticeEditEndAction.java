@@ -44,7 +44,7 @@ public class NoticeEditEndAction extends AbstractController {
 
 			if(n==1) {// update 성공
 				message = "글 수정하기 성공";
-				loc = request.getContextPath()+"/board/notice.sh?boardno="+boardno;
+				loc = request.getContextPath()+"/board/noticeDetail.sh?boardno="+boardno;
 				
 			}
 			else {// update 실패
