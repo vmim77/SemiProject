@@ -156,8 +156,7 @@
 									<a class="dropdown-item" href="#">장바구니  </a>
 									<a class="dropdown-item" href="#">주문조회  </a>
 									<a class="dropdown-item" href="#">배송조회   </a>
-									<a class="dropdown-item" href="<%= ctxPath%>/member/memberProfile.sh">내정보</a>
-									<a class="dropdown-item" href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');">내정보수정</a>
+									<a class="dropdown-item" href="<%= ctxPath%>/member/mypage.sh">마이페이지</a>
 								</div>
 							</li>
 						</c:if>
