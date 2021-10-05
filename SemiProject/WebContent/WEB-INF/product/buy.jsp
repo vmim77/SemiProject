@@ -4,13 +4,15 @@
 <%
    String ctxPath = request.getContextPath();
 %>    
+
+<meta charset="utf-8">
     
 <jsp:include page="/WEB-INF/header.jsp" />
 
 <style type="text/css">
 	
-	table, tr, td, div{
-		  /*   border:solid 1px red;    */
+	table, tr, td{
+		  /*   border:solid 1px red;     */
 	}
 	
 	span#num1,span#num2,span#num3{
@@ -91,8 +93,8 @@
 	var finopt = 0;
 	// 최대 갯수
 	var cnt = 0;
-	// 지워야 하는 태그의 키값
-	var delnum = 0;
+	// 테이블 태그의 키값
+	var key = 0;
 	// 옵션 선택시 실행해주는 메소드
 	function flag1(){
 		opt1 = $("select#optselect1").val();
@@ -127,7 +129,7 @@
 			plusopt2 = 0;
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////
 				
 	$(document).ready(function(){
@@ -137,7 +139,7 @@
 		var pcd = orgpcd.replace(",","");
 		
 		// 포인트 가격 넣어주기
-		$("span#pct").html("(10%) "+(pcd*0.1)+"포인트");
+		$("span#pct").text("(10%) "+(pcd*0.1)+"포인트");
 		
 		// 수량추가 버튼 눌렀을 때
 		$(document).on("click", "input#num", function(){
@@ -151,57 +153,65 @@
 			var xpcd = num*pcd;
 			var xopt = num*finopt;
 			// 수량 당 신발 값
-			$(this).parent().find(".cartprice").html(xpcd+"원");
+			$(this).parent().find(".cartprice").text(xpcd+"원");
 			// 수량 당 옵션 값
-			$(this).parent().find(".cartfinopt").html("+ "+xopt+"원");
+			$(this).parent().find(".cartfinopt").text("+ "+xopt+"원");
 			// 수량 당 포인트
-			$("span#pct").html("(10%) "+(pcd*0.1)+"포인트");
+			$("span#pct").text("(10%) "+(pcd*0.1)+"포인트");
 			
 		});//end of $(document).on("click", "input#num", function(){
 			
 		// 추가하기 버튼 눌렀을 때
-		$(document).on("click", "img#plus", function(){
+		$(document).on("click", "span#plus", function(){
 			
 			// 옵션 값 더하기
 			finopt = plusopt1 + plusopt2;
 			// 각각의 고유한 키값
-			delnum++;
+			key++;
 			
 			// 각각 옵션을 선택한 경우
 			if(opt1 != org && opt2 != org && opt3 != org && opt4 != org && fg1 == true && fg2 == true && fg3 == true && fg4 == true){
 				
-				var html =  "<table id='"+delnum+"' style='height:72px; border-bottom:solid 1px gray;'>"
-								+"<tr>"
-									+"<td style='width:300px;'>"
-										+"<div style='text-align:left; font-size:9pt; color:black;'>"
-											+"<div style='font-weight:bold;'>"+ $("span#product_name").html() +"</div>"
-											+"<div class='cartopt123'>"+opt1+"/"+opt2+"/"+opt3+"</div>"
-											+"<div class='cartopt4'>/"+opt4+"</div>"
-										+"</div>"
-									+"</td>"
-									+"<td style='width:140px; text-align:right; font-size:10pt;'>"
-										+"<input id='num' class='cartnum' type='number' min='1' value='1' max='20' style='width:40px; height:20px; text-align:left;'/>"
-										+"<img id='cart' src='/SemiProject/images/cart.jpg' style='width:30px; height:30px; margin-left:5px' onclick='gogogo();'>"
-										+"<img id='close' src='/SemiProject/images/close.png' style='width:20px; height:20px;'/>"
-										+"<input type='hidden' value='"+delnum+"'/>"
-										+"<div id='upprice' class='cartprice'>"+pcd+"원</div>"
-										+"<div class='cartfinopt'>+ "+finopt+"원</div>"
-									+"</td>"	
-								+"</tr>"
-							+"</table>";
+				var html = "<div>" 
+								+"<table id='"+key+"' style='height:72px; margin-bottom:12px;'>"
+									+"<tr>"
+										+"<td style='width:300px;'>"
+											+"<div style='text-align:left; font-size:9pt; color:black;'>"
+												+"<div style='font-weight:bold;'>"+ $("span#product_name").text() +"</div>"
+												+"<div class='cartopt123'>"+opt1+"/"+opt2+"/"+opt3+"</div>"
+												+"<div class='cartopt4'>/"+opt4+"</div>"
+											+"</div>"
+										+"</td>"
+										+"<td style='width:140px; text-align:right; font-size:10pt;'>"
+											+"<input id='num' class='cartnum' type='number' min='1' value='1' max='20' style='width:40px; height:20px; text-align:left;'/>"
+											+"<img id='close' src='/SemiProject/images/close.png' style='width:20px; height:20px;'/>"
+											+"<input class='tblkey' type='hidden' value='"+key+"'/>"
+											+"<div id='upprice' class='cartprice'>"+pcd+"원</div>"
+											+"<div class='cartfinopt'>+ "+finopt+"원</div>"
+										+"</td>"	
+									+"</tr>"
+									+"<tr>"
+										+"<td colspan='2'>"
+											+"<span id='buynow' style='display:inline-block; border:solid 1px black; margin-right:5px; text-align:center;  font-size:10pt; background-color:black; color:white; height:30px; width:206px; padding-top:5px'>BUY NOW</span>"
+											+"<span id='cart' style='display:inline-block; border:solid 1px black; text-align:center;  font-size:10pt; background-color:black; color:white; height:30px; width:205px; padding-top:5px'>CART</span>"
+											+"<input class='cartkey' type='hidden' value='"+key+"'/>"
+										+"</td>"
+									+"</tr>"
+								+"</table>"
+							+"</div>";
 					
 				// 지울때 갯수를 측정하기 위함
 				// 아무 태그나 잡음
 				cnt = $(".cartprice").size();			
 							
-				// 제품 5개가 꽉차면			
-				if(cnt<5){		
+				// 제품 4개가 꽉차면			
+				if(cnt<4){		
 					// div에 append
 					$("div#inthis").append(html);	
 				}
 				else{
-					cnt = 5;
-					alert("최대 5개까지 담을 수 있습니다.");	
+					cnt = 4;
+					alert("최대 4까지 담을 수 있습니다.");	
 				}
 				
 			}
@@ -219,94 +229,141 @@
 			$(document).on("click", "img#close", function(){
 				
 				// 키값을 가져오기 위함
-				var rm = $(this).next().val();
-				$("table#"+rm).remove();
+				var tblkey = $(this).parent().find(".tblkey").val();
+				$("table#"+tblkey).remove();
 				
 			});//end of $("img#close").click(function(){--------------------------	
 			
-		});//end of $("img#plus").click(function(){-------------------------------
+		});//end of $("button#plus").click(function(){-------------------------------
 		
-		/* // 장바구니 아이콘 클릭시	
-		$(document).on("click", "img#cart", function(){	
-		 	
-			
-			
-		});//end of $(document).on("click", "img#cart", function(){	 */
-			
-			
-		$("button#hi").click(function(){
-			// 잠시 저장 해주기
-			alert("sfd");
-			
-		});	
+		// 장바구니로 연결하기
+		$(document).on("click", "span#cart", function(){
 		
+			// 키값을 가져오기 위함
+			var cartkey = $(this).parent().find(".cartkey").val();
+			console.log(cartkey);
+			// 장바구니를 선택한 태그 내의 내용을 옮겨주기 위하여 변수생성
+		 // var cartimg = $(this).parent().find(".upprice").val();
+			var cartopt123 = $("table#"+cartkey).parent().find(".cartopt123").text();
+			var cartopt4   = $("table#"+cartkey).parent().find(".cartopt4").text();
+			var cartnum    = $("table#"+cartkey).parent().find(".cartnum").val();
+			var cartprice  = $("table#"+cartkey).parent().find(".cartprice").text();
+			var cartfinopt = $("table#"+cartkey).parent().find(".cartfinopt").text();
+			console.log(cartopt123);
+			// 장바구니로 넘겨주기 위한 hidden 타입의 input 태그 생성
+			// 넘기는 내용
+			// 이미지명, 옵션1~4, 수량, 가격, 옵션가격
+			var gocart = "<input type='hidden' name='cartname'   value='"+$("span#product_name").text()+"'/>"
+					    +"<input type='hidden' name='cartopt123' value='"+cartopt123+"'/>"
+					    +"<input type='hidden' name='cartopt4'   value='"+cartopt4+"'/>"	
+					    +"<input type='hidden' name='cartnum'    value='"+cartnum+"'/>"	
+					    +"<input type='hidden' name='cartprice'  value='"+cartprice+"'/>"
+					    +"<input type='hidden' name='cartfinopt' value='"+cartfinopt+"'/>";
+					    
+			$("form#buyorcart").append(gocart);
+
+			var frm = document.gogocart;
+			frm.action = "<%= ctxPath%>/mycart.sh";
+			frm.method = "post";
+			frm.submit();	  
 			
+			// 장바구니 전송 후 지우기
+			$("table#"+cartkey).remove();
+			// 장바구니 전송을 위해 만든 input 지우기
+			$("form#buyorcart").empty(); 
 			
+		});//end of $(document).on("click", "button#cart", function(){-----------	
+				
+		// 리뷰 작성시 글자수 보여주기	
+		$("textarea#text").keyup(function(){
+			
+			var wordcount = $(this).val();
+			$("span#insertreviewword").text(wordcount.length); 
+			
+			// 100글자 넘어가면
+			if(wordcount.length > 200){
+				alert("최대 200글자 까지 작성 가능합니다");
+			}
+			
+		});//end of $("input#text").keyup(function(){--------------------------------	
+		
+		// 구매창으로 연결하기
+		$(document).on("click", "span#buynow", function(){
+		
+			// 키값을 가져오기 위함
+			var cartkey = $(this).parent().find(".cartkey").val();
+			console.log(cartkey);
+			// 장바구니를 선택한 태그 내의 내용을 옮겨주기 위하여 변수생성
+		 // var cartimg = $(this).parent().find(".upprice").val();
+			var cartopt123 = $("table#"+cartkey).parent().find(".cartopt123").text();
+			var cartopt4   = $("table#"+cartkey).parent().find(".cartopt4").text();
+			var cartnum    = $("table#"+cartkey).parent().find(".cartnum").val();
+			var cartprice  = $("table#"+cartkey).parent().find(".cartprice").text();
+			var cartfinopt = $("table#"+cartkey).parent().find(".cartfinopt").text();
+			console.log(cartopt123);
+			// 장바구니로 넘겨주기 위한 hidden 타입의 input 태그 생성
+			// 넘기는 내용
+			// 이미지명, 옵션1~4, 수량, 가격, 옵션가격
+			var gocart = "<input type='hidden' name='cartname'   value='"+$("span#product_name").text()+"'/>"
+					    +"<input type='hidden' name='cartopt123' value='"+cartopt123+"'/>"
+					    +"<input type='hidden' name='cartopt4'   value='"+cartopt4+"'/>"	
+					    +"<input type='hidden' name='cartnum'    value='"+cartnum+"'/>"	
+					    +"<input type='hidden' name='cartprice'  value='"+cartprice+"'/>"
+					    +"<input type='hidden' name='cartfinopt' value='"+cartfinopt+"'/>";
+					    
+			$("form#buyorcart").append(gocart);
+
+			var frm = document.gogocart;
+			frm.action = "<%= ctxPath%>/store.sh";
+			frm.method = "post";
+			frm.submit();
+			
+			// 장바구니 전송 후 지우기
+			$("table#"+cartkey).remove();
+			// 장바구니 전송을 위해 만든 input 지우기
+			$("form#buyorcart").empty(); 
+			
+		});//end of $(document).on("click", "button#buynow", function(){-----------	
+				
+		// 리뷰 작성시 글자수 보여주기	
+		$("textarea#text").keyup(function(){
+			
+			var wordcount = $(this).val();
+			$("span#insertreviewword").text(wordcount.length); 
+			
+			// 100글자 넘어가면
+			if(wordcount.length > 200){
+				alert("최대 200글자 까지 작성 가능합니다");
+			}
+			
+		});//end of $("input#text").keyup(function(){--------------------------------
 			
 	});//end of $(docunment).ready(function(){
 		
-	function gogogo(){
-		// 키값을 가져오기 위함
-		var rm = $(this).next().next().val();
-		
-		// 장바구니를 선택한 태그 내의 내용을 옮겨주기 위하여 변수생성
-	 // var cartimg = $(this).parent().find(".upprice").val();
-		var cartopt123 = $("table#"+rm).parent().find(".cartopt123").html();
-		var cartopt4   = $("table#"+rm).parent().find(".cartopt4").html();
-		var cartnum    = $("table#"+rm).parent().find(".cartnum").val();
-		var cartprice  = $("table#"+rm).parent().find(".cartprice").html();
-		var cartfinopt = $("table#"+rm).parent().find(".cartfinopt").html();
-		
-		// 장바구니로 넘겨주기 위한 hidden 타입의 input 태그 생성
-		// 넘기는 순서
-		// 이미지명, 옵션1~4, 수량, 가격, 옵션가격
-		var gocart = "<input type='hidden' name='cartname'   value='"+$("span#product_name").html()+"'/>"
-				    +"<input type='hidden' name='cartopt123' value='"+cartopt123+"'/>"
-				    +"<input type='hidden' name='cartopt4'   value='"+cartopt4+"'/>"	
-				    +"<input type='hidden' name='cartnum'    value='"+cartnum+"'/>"	
-				    +"<input type='hidden' name='cartprice'  value='"+cartprice+"'/>"
-				    +"<input type='hidden' name='cartfinopt' value='"+cartfinopt+"'/>";
-		
-		$("form#gogo").append(gocart);
-		
-		var frm = document.gogo;
-		frm.action = "<%= ctxPath%>/mycart.sh";
-		frm.method = "post";
-		frm.submit();	 
-		
-		
-		// 장바구니 전송 후 지우기
-		// $("table#"+rm).remove();
-		// 장바구니 전송을 위해 만든거 지우기
-		// $("form#gogo").remove(); 
-		
-		alert("장바구니에 추가 되었습니다."); 
-	} 
 		
 </script>
-<button id="hi" style="width:100px; height:100px;"></button>
+
 <!-- 리뷰 및 게시판 들어가는 곳 -->
 <div id="container" style="width:1000px; margin:100px 300px; font-family:맑은 고딕;">
 	<!-- 구매창 넣기 -->
 	<table id="buy" style="margin:50px 0px;">
 		<tr>
-			<td id="insertimg"><img style="height:800px;" id="chun" src="http://www.romanticmove.com/web/product/extra/big/20200310/7b5003d754dc86e763e2550bc98192ae.jpg"/></td>
+			<td id="insertimg"><img style="height:850px;" id="chun" src="http://www.romanticmove.com/web/product/extra/big/20200310/7b5003d754dc86e763e2550bc98192ae.jpg"/></td>
 			<td id="buy" style="width:700px; height:800px;">
-				<table id="inbuy" style="width:420px; height:800px; margin-left:40px;">
+				<table id="inbuy" style="width:420px; height:850px; margin-left:40px;">
 					<tr style="height:80px;">
 						<td colspan="2" style="padding:0px 5px; width:450px; height:60px; text-align:left; font-size:14pt; font-weight:bold; color:black; border-bottom:solid 1px gray;">
 							<span id="product_name">제품명</span><br>
 							<span id="product_ceil_price" style="font-size:13pt; color:red;">140,000</span>&nbsp;
 							<span style="font-size:10pt; color:gray;">/</span>
-							<span id="product_price" style="padding:25px; font-size:10pt; color:gray;">180,000</span>
-							<span><img id="plus" src="/SemiProject/images/plus.png" style="width:25px; height:25px; margin-left:179px; margin-right:0px;"/></span>		
+							<span id="product_price" style="padding:10px; font-size:10pt; color:gray;">180,000</span>		
 						</td>
 					</tr>
 					<tr style="height:50px;">
-						<td style="width:150px; text-align:left; font-size:10pt; color:black; padding-top:13px; padding-left:7px;">적립금</td>
-						<td style="width:300px; font-size:10pt; padding-left:20px; padding-top:15px;"><span id="pct" style="color:red; display:inline-block; width:200px;"></span><span style="margin-left:27px; font-size:9pt; color:gray; display:inline-block; width:100px;">포인트사용<img src="/SemiProject/images/point.png" style="width:40px; height:35px;"></span></td>
+						<td style="width:150px; text-align:left; font-size:10pt; color:black; padding-top:7px; padding-left:7px;">적립금</td>
+						<td style="width:300px; font-size:10pt; padding-left:20px; padding-top:5px;"><span id="pct" style="color:red; display:inline-block; width:200px;"></span><span style="margin-left:27px; font-size:9pt; color:gray; display:inline-block; width:100px;">포인트사용<img src="/SemiProject/images/point.png" style="width:40px; height:35px;"></span></td>
 					</tr>
-					<tr style="height:60px;">
+					<tr style="height:55px;">
 						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:10px 0px 0px 7px;">사이즈</td>
 						<td style="width:300px; padding:0px 10px;">
 							<select id="optselect1" style="border-bottom:solid 1px black; border-left:solid 1px white; border-right:solid 1px white; border-top:solid 1px white; width:330px; font-size:10pt; text-align:left; color:gray; margin:0px 0px 8px 5px;" onclick="flag1();">
@@ -322,7 +379,7 @@
 							</select>
 						</td>
 					</tr>
-					<tr style="height:60px;">
+					<tr style="height:55px;">
 						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:0px 0px 0px 7px;">볼너비</td>
 						<td style="width:300px; padding:0px 10px;">
 							<select id="optselect2" style="border-bottom:solid 1px black; border-left:solid 1px white; border-right:solid 1px white; border-top:solid 1px white; width:330px; font-size:10pt; text-align:left; color:gray; margin:0px 0px 8px 5px;" onclick="flag2();">
@@ -333,7 +390,7 @@
 							</select>
 						</td>
 					</tr>
-					<tr style="height:60px;">
+					<tr style="height:55px;">
 						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:0px 0px 0px 7px;">키높이</td>
 						<td style="width:300px; padding:0px 10px;">
 							<select id="optselect3" style="border-bottom:solid 1px black; border-left:solid 1px white; border-right:solid 1px white; border-top:solid 1px white; width:330px; font-size:10pt; text-align:left; color:gray; margin:0px 0px 8px 5px;" onclick="flag3();">
@@ -344,7 +401,7 @@
 							</select>
 						</td>
 					</tr>
-					<tr style="height:60px;">
+					<tr style="height:55px;">
 						<td style="width:150px; text-align:left; font-size:8pt; color:black; padding-left:7px;">아웃솔변경</td>
 						<td style="width:300px; padding:0px 10px;">
 							<select id="optselect4" style="border-bottom:solid 1px black; border-left:solid 1px white; border-right:solid 1px white; border-top:solid 1px white; width:330px; font-size:10pt; text-align:left; color:gray; margin-left:5px;" onclick="flag4();">
@@ -357,11 +414,13 @@
 						</td>
 					</tr>
 					<tr style="height:50px;">
-						<td colspan="2" style="text-align:center; background-color:black; color:white;">BUY NOW</td>
+						<td colspan="2">
+							<span id="plus" style="text-align:center; display:inline-block; background-color:black; color:white; height:50px; width:420px;padding-top:13px;">ADD</span>
+						</td>
 					</tr>
 					<tr style="height:380px;">
 						<td colspan="2">
-							<div id="inthis" style="height:380px; width:420px; margin-top:7px;">
+							<div id="inthis" style="height:430px; width:420px;">
 								<!-- 구매 목록이 들어가는 곳 -->
 							</div>
 						</td>
@@ -387,7 +446,8 @@
 	<div style="font-size:10pt; color:black;">
 		REVIEW | 문의글 혹은 악의적인 비방글은 무통보 삭제됩니다
 	</div>
-	<input id="text" type="text" style="width:1000px; height:150px; border:solid 1px gray;"/>
+	
+	<textarea id="text" style="width:1000px; height:150px; border:solid 1px gray; resize:none;"></textarea>
 	<!-- 버튼 -->	
 	<div id="buttons" style="margin:20px 0px 15px 0px;">
 		<input type="file" id="insertpicture" style="display:inline-block; width:200px; height:30px; margin-right:5px; border:solid 1px gray; font-size:10pt;"/>
@@ -453,8 +513,14 @@
 	</table>
 </div>	
 
-<form name="gogo">
+<!-- 장바구니 또는 구매 할 때 잠시 값을 저장시켜 주는 곳 -->
+<form id="buyorcart" name="gogocart">
 	
 </form>
 
+<!-- 리뷰 작성 할 때 잠시 값을 저장시켜 주는 곳 -->
+<form id="goreview" name="gogoreview">
+	
+</form>
+		
 <jsp:include page="/WEB-INF/footer.jsp" />
