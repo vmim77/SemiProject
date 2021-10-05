@@ -41,6 +41,18 @@
 		frm.submit();
 		
 	}// end of function goInsertComment(){}--------------------------------
+	
+	
+	//Function Declaration
+	
+	function goEdit(){ // 글 수정하기
+		
+		var frm = document.boardEditFrm
+		frm.action = "<%= ctxPath%>/board/noticeEdit.sh";
+		frm.method = "POST";
+		frm.submit();
+		
+	}// end of function goEdit()----------------------------------------------------------
 
 </script>	
 	
@@ -63,8 +75,9 @@
 	
 	
 	<div class="container my-3 px-0 py-0" >
-	
-		<section> <%-- 글내용부 --%>
+		
+		<%-- 글내용부 --%>
+		<section>
 			<h2 class="pt-3">글내용</h2>
 			<hr>
 			<table id="board" class="table-dark px-1 py-1" style="width: 100%;">
@@ -96,9 +109,11 @@
 					</tr>
 				</tbody>
 			</table>
-		</section> <%-- 글내용부 --%>
-	
-		<section> <%-- 댓글내용부 --%>
+		</section>
+		 <%-- 글내용부 --%>
+		
+	 	<%-- 댓글내용부 --%>
+		<section>
 			<hr>
 			<h2 class="pt-3">댓글</h2>
 			<hr>
@@ -120,9 +135,12 @@
 					</c:forEach>
 				</c:if>
 			</table>
-		</section> <%-- 댓글내용부 --%>
-		
-		<section> <%-- 댓글작성부 --%>
+		</section>
+		 <%-- 댓글내용부 --%>
+		 
+		 
+		<%-- 댓글작성부 --%>
+		<section>
 			<h2 class="pt-3">댓글 쓰기</h2>
 			<hr>
 			
@@ -133,15 +151,25 @@
 				<button class="btn btn-dark btn-md" type="button" onclick="goInsertComment()">댓글작성</button>
 			</form>
 			
-		</section> <%-- 댓글작성부 --%>
+		</section>
+		<%-- 댓글작성부 --%>
+		
 		<hr>
+		
 		<p class="text-right">
 			<button type="button" class="btn btn-dark btn-md" onclick="javascript:location.href='<%= ctxPath%>/board/notice.sh'">글목록</button>
-			<button class="btn btn-dark btn-md my-2 mx-1">글 수정하기[미구현]</button> <%-- tbl_notice_board update / 조건은 본인이 쓴 글만 수정할 수 있음 --%>
-			<button class="btn btn-dark btn-md my-2">글 삭제하기[미구현]</button> <%-- tbl_notice_board delete / 조건은 본인이 쓴 글만 삭제할 수 있음, 또한 댓글도 다 삭제됨 --%>
+			<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">글 수정하기</button> <%-- tbl_notice_board update / 조건은 운영자만 수정할 수 있음 --%>
+			<button class="btn btn-dark btn-md my-2">글 삭제하기[미구현]</button> <%-- tbl_notice_board delete / 조건은 운영자만 삭제할 수 있음, 또한 댓글도 다 삭제됨 --%>
 		</p>
 	</div>
 	
-
+	<%-- 글 수정하기를 위해서 보내는 기존 글정보  폼 정보입니다. --%>
+	<form name="boardEditFrm">
+		<input type="hidden" name="boardno" value="${requestScope.bvo.boardno}" />
+		<input type="hidden" name="fk_writer" value="${requestScope.bvo.fk_writer}" />
+		<input type="hidden" name="title" value="${requestScope.bvo.title}" />
+		<input type="hidden" name="content" value="${requestScope.bvo.content}" />
+	</form>
+	<%-- 글 수정하기를 위해서 보내는 기존 글정보 폼 정보입니다. --%>
 
 <jsp:include page="../footer.jsp" />

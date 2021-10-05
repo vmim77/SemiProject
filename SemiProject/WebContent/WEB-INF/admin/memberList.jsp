@@ -32,7 +32,7 @@
 
 <script type="text/javascript">
 
-	var userid = "";
+	var userid = ""; // 특정 회원을 클릭하면 유저아이디를 받아놓기위한 전역변수
 	
 	
 	$(document).ready(function(){
@@ -41,7 +41,7 @@
 			
 			// alert("행 클릭함");
 			
-			userid = $(this).find("td:nth-child(2)").text();
+			userid = $(this).find("td:nth-child(2)").text(); // 전체목록에서 특정 행을 클릭했다면 그 행의 유저아이디를 받아놓는다.
 			
 			
 			// alert("userid 확인용 => " + userid);
@@ -49,7 +49,7 @@
 			$.ajax({
 				url:"<%=ctxPath%>/admin/memberDetail.sh",
 				type:"post",
-				data:{"userid":userid},
+				data:{"userid":userid}, // JSON에 전송을해서 select where에서 조건절로 userid를 사용하도록 보내준다.
 				dataType:"json",
 				success:function(json) {
 					

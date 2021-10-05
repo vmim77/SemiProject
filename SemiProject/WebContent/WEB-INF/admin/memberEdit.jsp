@@ -61,7 +61,7 @@
 			
 		});// end of $("button#btnEditUserInfo").onclick(function(){})----------------------------------
 		
-		$(window).on('beforeunload', function() { // 팝업창에서 수정하기를 누르지않고 끄면 부모창을 새로고침 해줍니다.
+		$(window).on('beforeunload', function() { // 팝업창에서 수정하기를 누르지않고 X표시를 눌러서 끄면 부모창을 새로고침 해줍니다.
 			opener.location.reload(true); 
 		});
 		

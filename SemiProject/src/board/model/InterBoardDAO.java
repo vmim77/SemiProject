@@ -10,5 +10,11 @@ public interface InterBoardDAO {
 	
 	// 특정 글을 조회해옵니다.
 	BoardVO selectOneNotice(int boardno) throws SQLException;
+	
+	// 공지사항 게시글쓰기
+	int writeBoard(Map<String, BoardVO> paraMap) throws SQLException;
+	
+	// 공지사항 게시글 수정하기
+	int editBoard(BoardVO bvo) throws SQLException;
 
 }

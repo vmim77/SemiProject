@@ -22,9 +22,9 @@
 
 	$(document).ready(function(){
 		
-		$(document).on("click","tr.board",function(){ // 글 목록중 한 개를 클릭하면 해당 글의 자세한 내용으로 GET방식으로 전송됩니다.
+		$(document).on("click","tr.board",function(){ // 글 목록중 한 개를 클릭하면 글번호를 가지고 GET방식으로 전송됩니다. 이후 글의 자세한 내용을 보여줍니다.
 			
-			var boardno = $(this).find("td:first-child").text();
+			var boardno = $(this).find("td:first-child").text(); // 게시판번호를 따옵니다.
 			
 			// alert("boardno => " + boardno);
 			
@@ -33,7 +33,7 @@
 		});// end of $(document).on("click","tr.board",function(){})-----------------------------------
 		
 		
-		$(document).on("mouseover", "tr.board", function(){ // 행에 hover가 되면 나오는 CSS 효과
+		$(document).on("mouseover", "tr.board", function(){ // 행에 mouseover가 되면 나오는 CSS 효과
 			$("tr.memberInfo").removeClass("effect");
 			$(this).addClass("effect");
 		});// end of $(document).on("mouseover", "tr.memberInfo", function(){})-------------------------------
@@ -81,7 +81,13 @@
 				<c:forEach var="bvo" items="${requestScope.list}">
 					<tr class="board">
 						<td>${bvo.boardno}</td>
-						<td>${bvo.title}<span class="ml-2" style="font-size: 10pt;">[${bvo.commentCnt}]</span></td>
+						<td>${bvo.title}
+							<c:choose>
+								<c:when test="${bvo.commentCnt != 0}">
+									<span class="ml-2" style="font-size: 10pt;">[${bvo.commentCnt}]</span>
+								</c:when>
+							</c:choose>
+						</td>
 						<td>${bvo.fk_writer}</td>
 						<td>${bvo.writetime}</td>
 						<td>${bvo.viewcnt}</td>
@@ -91,7 +97,7 @@
 		</table>
 		
 		<p class="text-right">
-			<button class="btn btn-dark btn-md my-2">글 쓰기[미구현]</button> <%-- tbl_notice_board insert --%>
+			<button class="btn btn-dark btn-md my-2" onclick="javascript:location.href='noticeWrite.sh'">글쓰기</button> <%-- tbl_notice_board insert --%>
 		</p>
 	</div>
 	<%-- 공지사항 글목록 --%>

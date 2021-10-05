@@ -56,7 +56,7 @@ create table tbl_notice_board(
 boardno     number not null,
 fk_writer   varchar2(40),
 title       varchar2(100) not null,
-content     varchar2(300) not null,
+content     Nvarchar2(200) not null,
 writetime   date default sysdate,
 viewcnt     number default '0',
 constraint PK_TBL_NOTICE_BOARD_BOARDNO primary key(boardno),
@@ -100,7 +100,7 @@ from tbl_notice_board;
 
 create table tbl_notice_comment(
 fk_boardno          number,
-fk_commenter           varchar2(40),
+fk_commenter        varchar2(40),
 comment_content     varchar2(50),
 constraint FK_TBL_NOTICE_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_notice_board(boardno),
 constraint FK_TBL_NOTICE_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES tbl_member(userid)
@@ -165,6 +165,7 @@ alter table tbl_notice_comment
 modify comment_content Nvarchar2(50);
 -- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.
 
+
 select * 
 from tbl_notice_comment;
 
@@ -196,5 +197,17 @@ join
 ) B
 on A.boardno = B.fk_boardno
 
+alter table tbl_notice_board
+modify content Nvarchar2(200);
+-- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
 
+select *
+from tbl_notice_board;
+
+update tbl_notice_board set fk_writer = 'admin'
+where boardno = 8;
+-- 1 행 이(가) 업데이트되었습니다.
+
+commit;
+-- 커밋 완료.
 

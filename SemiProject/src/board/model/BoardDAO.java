@@ -64,7 +64,7 @@ public class BoardDAO implements InterBoardDAO {
 						 "     from tbl_notice_board "+
 						 "     order by boardno desc "+
 						 " ) A "+
-						 " join "+
+						 " LEFT JOIN "+
 						 " (  "+
 						 "     select fk_boardno, count(*) AS CommentCnt "+
 						 "     from tbl_notice_comment "+
@@ -143,6 +143,60 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return bvo;
 	}// end of public BoardVO selectOneNotice(int boardno)----------------------
+	
+	// 공지사항 게시글쓰기
+	@Override
+	public int writeBoard(Map<String, BoardVO> paraMap) throws SQLException {
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_notice_board(boardno, fk_writer, title, content)"
+					+    " values(seq_tbl_notice.nextval, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("bvo").getFk_writer());
+			pstmt.setString(2, paraMap.get("bvo").getTitle());
+			pstmt.setString(3, paraMap.get("bvo").getContent());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return n;
+	}// end of public int insertBoard(Map<String, BoardVO> paraMap)-----------------------------------
+	
+	
+	// 공지사항 게시글 수정하기
+	@Override
+	public int editBoard(BoardVO bvo) throws SQLException {
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_notice_board set fk_writer = ?, title = ?, content = ? "
+					+    " where boardno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, bvo.getFk_writer());
+			pstmt.setString(2, bvo.getTitle());
+			pstmt.setString(3, bvo.getContent());
+			pstmt.setInt(4, bvo.getBoardno());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return n;
+	}
 	
 	
 }

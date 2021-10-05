@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import common.controller.AbstractController;
 import member.model.*;
 
-public class MemberListAction extends AbstractController {
+public class AdminMemberListAction extends AbstractController {
 	
 	InterMemberDAO mdao = new MemberDAO();
 

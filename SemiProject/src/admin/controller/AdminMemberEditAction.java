@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import common.controller.AbstractController;
 import member.model.*;
 
-public class MemberEditAction extends AbstractController {
+public class AdminMemberEditAction extends AbstractController {
 	
 	InterMemberDAO mdao = new MemberDAO();
 
