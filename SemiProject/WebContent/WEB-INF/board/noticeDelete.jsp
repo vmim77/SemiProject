@@ -64,8 +64,8 @@
 </head>
 <body>
 	
-	<div class="container my-5">
-		<h2>정말로 <span style="color:red;">${requestScope.boardno}</span>번 글을 삭제하시겠습니까?</h2>
+	<div class="container my-5 text-center">
+		<h3>정말로 <span style="color:red;">${requestScope.boardno}</span>번 글을 삭제하시겠습니까?</h3>
 		<div class="text-center my-5">
 			<button type="button" class="btn btn-danger btn-md" id="yesDelete">예</button>
 			<button type="button" class="btn btn-primary btn-md" id="noDelete">아니요</button>
