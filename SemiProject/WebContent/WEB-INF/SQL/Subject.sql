@@ -6,10 +6,10 @@ from tbl_member;
 
 select *
 from USER_TAB_COLUMNS
-where table_name = 'TBL_NOTICE_COMMENT';
+where table_name = 'TBL_NOTICE_BOARD';
 
-alter table tbl_notice_board
-modify title Nvarchar2(100);
+alter table tbl_notice_comment
+modify comment_content Nvarchar2(50);
 -- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
 
 select *
