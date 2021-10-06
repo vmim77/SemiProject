@@ -59,7 +59,7 @@ public class CommentDAO implements InterCommentDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select fk_boardno, fk_commenter, comment_content, to_char(registerdate, 'yyyy-mm-dd hh24:mi:ss') AS registerdate "
+			String sql = " select commentno, fk_boardno, fk_commenter, comment_content, to_char(registerdate, 'yyyy-mm-dd hh24:mi:ss') AS registerdate "
 					+    " from tbl_notice_comment"
 					+    " where fk_boardno = ?  "
 					+    " order by registerdate asc ";
@@ -73,10 +73,11 @@ public class CommentDAO implements InterCommentDAO {
 				
 				CommentVO cvo = new CommentVO();
 				
-				cvo.setFk_boardno(rs.getInt(1));
-				cvo.setFk_commenter(rs.getString(2));
-				cvo.setComment_content(rs.getString(3));
-				cvo.setRegisterdate(rs.getString(4));
+				cvo.setCommentno(rs.getInt(1));
+				cvo.setFk_boardno(rs.getInt(2));
+				cvo.setFk_commenter(rs.getString(3));
+				cvo.setComment_content(rs.getString(4));
+				cvo.setRegisterdate(rs.getString(5));
 				
 				commentList.add(cvo);
 				
@@ -103,8 +104,8 @@ public class CommentDAO implements InterCommentDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_notice_comment(fk_boardno, fk_commenter, comment_content)"
-					+    " values(?, ?, ?) ";
+			String sql = " insert into tbl_notice_comment(commentno, fk_boardno, fk_commenter, comment_content)"
+					+    " values(seq_notice_comment.nextval,?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			

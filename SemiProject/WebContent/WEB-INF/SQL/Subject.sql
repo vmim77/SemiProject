@@ -112,11 +112,13 @@ select *
 from tbl_notice_board;
 
 create table tbl_notice_comment(
+commentno           number,
 fk_boardno          number,
 fk_commenter        varchar2(40),
 comment_content     varchar2(50),
 constraint FK_TBL_NOTICE_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_notice_board(boardno),
-constraint FK_TBL_NOTICE_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES tbl_member(userid)
+constraint FK_TBL_NOTICE_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES tbl_member(userid),
+constraint PK_TBL_NOTICE_COMMENT primary key(commentno)
 );
 -- Table TBL_NOTICE_COMMENT이(가) 생성되었습니다.
 
@@ -227,3 +229,24 @@ commit;
 
 select case when length(title) > 20 then substr(title, 1, 10) || '...' else title end AS title 
 from tbl_notice_board;
+
+
+alter table tbl_notice_comment
+add commentno number default 0;
+-- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.
+
+select *
+from tbl_notice_comment;
+
+create sequence seq_notice_comment
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-- Sequence SEQ_NOTICE_COMMENT이(가) 생성되었습니다.
+
+alter table tbl_notice_comment
+add constraint PK_TBL_NOTICE_COMMENT primary key(commentno);
+-- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.

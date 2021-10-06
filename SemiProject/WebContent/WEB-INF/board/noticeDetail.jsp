@@ -6,6 +6,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 
 <jsp:include page="../header.jsp" />
+
+<style>
+	.badge {
+		cursor: pointer;
+	}
+
+</style>
 	
 <script type="text/javascript">
 	
@@ -69,6 +76,20 @@
 		
 		
 	}// function goDelete()---------------------------------------------------------------
+	
+	
+	function commentEdit(){ // 댓글 수정하기
+		alert("댓글 수정하기 시작");
+	}// end of function commentEdit(){}--------------------------------------------------
+	
+	
+	function commentDelete(){ // 댓글 삭제하기
+		alert("댓글 삭제하기 시작");
+	
+		
+	
+	}// end of function commentDelete(){}-----------------------------------------------
+	
 
 </script>	
 	
@@ -99,18 +120,19 @@
 			<table id="board" class="table-dark px-1 py-1" style="width: 100%;">
 				<thead>
 					<tr>
-						<th class="px-3 pt-3" colspan="6">글 번호  : ${requestScope.bvo.boardno}</th>
+						<th class="px-3 pt-3" colspan="6">글번호  : ${requestScope.bvo.boardno}</th>
 					</tr>
-					
 					<tr>
-						<th class="px-3"  colspan="4">글 제목  : ${requestScope.bvo.title}</th>
-						<th colspan="2">글쓴이   : ${requestScope.bvo.fk_writer}</th>
-					
+						<th class="px-3 pt-1"  colspan="6">글제목  : ${requestScope.bvo.title}</th>
 					</tr>
-	
 					<tr>
-						<th class="px-3"  colspan="3">작성시간 : ${requestScope.bvo.writetime}</th>
-						<th colspan="3">조회수    : ${requestScope.bvo.viewcnt}</th>
+						<th class="px-3 pt-1"  colspan="6">글쓴이   : ${requestScope.bvo.fk_writer}</th>
+					</tr>
+					<tr>
+						<th class="px-3 pt-1"  colspan="6">작성시간 : ${requestScope.bvo.writetime}</th>
+					</tr>
+					<tr>
+						<th class="px-3 pt-1"  colspan="6">조회수    : ${requestScope.bvo.viewcnt}</th>
 					</tr>
 				</thead>
 				
@@ -120,7 +142,7 @@
 					</tr>
 					<tr>
 						<td class="px-3"  colspan="6">글 내용 :
-							<p>${requestScope.bvo.content}</p>
+							<p class="py-3">${requestScope.bvo.content}</p>
 						</td>
 					</tr>
 				</tbody>
@@ -143,10 +165,12 @@
 	
 				<c:if test="${not empty requestScope.commentList}">
 					<c:forEach var="cvo" items="${requestScope.commentList}">
-						<tr  style="border-bottom:solid 1px white;">
+						<tr style="border-bottom:solid 1px white;">
 							<td class="pl-3 py-3" style="width: 100px; border-right:solid 1px white;">${cvo.fk_commenter}</td>
 							<td class="pl-3 py-3" style="text-align: left;">${cvo.comment_content}</td>
 							<td class="pr-3 py-3" style="font-size: 10pt; text-align: right;">${cvo.registerdate}</td>
+							<td style="width: 20px;"><span class="badge badge-pill badge-primary ml-2" onclick="commentEdit()">수정하기</span></td>
+							<td style="width: 20px;"><span class="badge badge-pill badge-danger  mx-2" onclick="commentDelete()">삭제하기</span></td>
 						<tr>
 					</c:forEach>
 				</c:if>
