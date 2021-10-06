@@ -165,14 +165,16 @@
 						</c:if>
 						
 						<%-- 관리자 메뉴입니다. --%>
-						<li class="nav-item dropdown" style="opacity: 0.8;">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN MENU</a>
-							<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
-								<a class="dropdown-item" href="<%= ctxPath%>/admin/memberList.sh">회원목록      </a>
-								<a class="dropdown-item" href="#">제품등록      </a>
-								<a class="dropdown-item" href="#">전체주문내역</a>
-							</div>
-						</li>
+						<c:if test="${sessionScope.loginuser.userid eq 'admin' }">
+							<li class="nav-item dropdown" style="opacity: 0.8;">
+								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN MENU</a>
+								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
+									<a class="dropdown-item" href="<%= ctxPath%>/admin/memberList.sh">회원목록      </a>
+									<a class="dropdown-item" href="#">제품등록      </a>
+									<a class="dropdown-item" href="#">전체주문내역</a>
+								</div>
+							</li>
+						</c:if>
 						
 						
 						<%-- 오프라인 메장 메뉴입니다. --%>

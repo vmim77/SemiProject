@@ -19,10 +19,21 @@
 	$(document).ready(function(){
 			
 		var commentno = 0;
+		var loginuser = "${sessionScope.loginuser.userid}";
 		
 		$(document).on("click","span#commentDelete", function(){ // 댓글 삭제하기
 			
 			commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호뽑기
+			var fk_commenter = $(this).parent().parent().find("td:nth-child(2)").text();
+			
+			
+			if(loginuser == "admin"){
+				alert("운영자 접근확인, 일반회원 및 본인의 댓글 삭제가 가능합니다.");
+			}
+			else if(loginuser != fk_commenter ){
+				alert("다른 사용자의 댓글을 삭제할 수 없습니다.");
+				return;
+			}
 			
 		    var pop_width = 600;
 		    var pop_height = 300;
@@ -39,9 +50,21 @@
 		
 		$(document).on("click","span#commentEdit", function(){ // 댓글 수정하기
 			
+			
+			
 			commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호뽑기
 			var fk_commenter = $(this).parent().parent().find("td:nth-child(2)").text();
 			var comment_content = $(this).parent().parent().find("td:nth-child(3)").text();
+			
+			
+			
+			if(loginuser == "admin"){
+				alert("운영자 접근확인, 일반회원 및 본인의 댓글 수정이 가능합니다.");
+			}
+			else if(loginuser != fk_commenter ){
+				alert("다른 사용자의 댓글을 수정할 수 없습니다.");
+				return;
+			}
 			
 			// alert(fk_commenter);
 			
@@ -63,7 +86,7 @@
 	function goInsertComment(){ // 댓글쓰기
 		
 		if( $("input[name=fk_commenter]").val().trim() == '' ){
-			alert("글쓴이를 반드시 써야합니다.");
+			alert("비회원은 댓글작성이 불가능합니다!");
 			return;
 		}
 	
@@ -211,12 +234,20 @@
 		<%-- 댓글작성부 --%>
 			<h2 class="pt-3">댓글 쓰기</h2>
 			<hr>
-			<form name="commentFrm" class="text-center py-3" style="width: 100%; display: flex;">
-				<input type="hidden" name="fk_boardno" value="${requestScope.bvo.boardno}" />
-				<input type="text" name="fk_commenter" placeholder="글쓴이" class="flex-item" style="maring: auto;" /> <%-- 추후에 이 인풋태그의 value는 value="${sessionScope.loginuser.userid}" --%>
-				<input type="text" name="comment_content" placeholder="댓글내용" maxlength="50" class="flex-item mx-5" style="width: 65%;" />
-				<button class="btn btn-dark btn-md flex-item" style="margin-left: auto;" type="button" onclick="goInsertComment()">댓글작성</button>
-			</form>
+			<c:if test="${empty sessionScope.loginuser}">
+				<div class="alert alert-warning" role="alert">
+				  	비회원은 댓글을 달 수 없습니다!
+				</div>
+			</c:if>
+			
+			<c:if test="${not empty sessionScope.loginuser}">
+				<form name="commentFrm" class="text-center py-3" style="width: 100%; display: flex;">
+					<input type="hidden" name="fk_boardno" value="${requestScope.bvo.boardno}" />
+					<input type="text" name="fk_commenter" value="${sessionScope.loginuser.userid}" placeholder="로그인을해야 사용할 수 있습니다." class="flex-item" style="maring: auto;" readonly /> 
+					<input type="text" name="comment_content" placeholder="댓글내용" maxlength="50" class="flex-item mx-5" style="width: 65%;" />
+					<button class="btn btn-dark btn-md flex-item" style="margin-left: auto;" type="button" onclick="goInsertComment()">댓글작성</button>
+				</form>
+			</c:if>
 		</section>
 		<%-- 댓글작성부 --%>
 		
@@ -224,8 +255,10 @@
 		
 		<p class="text-right">
 			<button type="button" class="btn btn-dark btn-md" onclick="javascript:location.href='<%= ctxPath%>/board/notice.sh'">글목록</button>
-			<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">글 수정하기</button> <%-- tbl_notice_board update / 조건은 운영자만 수정할 수 있음 --%>
-			<button class="btn btn-dark btn-md my-2" onclick="goDelete()">글 삭제하기</button> <%-- tbl_notice_board delete / 조건은 운영자만 삭제할 수 있음, 또한 댓글도 다 삭제됨 --%>
+			<c:if test="${sessionScope.loginuser.userid eq 'admin' }">
+				<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">글 수정하기</button> <%-- tbl_notice_board update / 조건은 운영자만 수정할 수 있음 --%>
+				<button class="btn btn-dark btn-md my-2" onclick="goDelete()">글 삭제하기</button> <%-- tbl_notice_board delete / 조건은 운영자만 삭제할 수 있음, 또한 댓글도 다 삭제됨 --%>
+			</c:if>
 		</p>
 	</div>
 	

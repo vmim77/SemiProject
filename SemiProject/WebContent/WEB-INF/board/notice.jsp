@@ -96,9 +96,11 @@
 			</tbody>
 		</table>
 		
-		<p class="text-right">
-			<button class="btn btn-dark btn-md my-2" onclick="javascript:location.href='noticeWrite.sh'">글쓰기</button> <%-- tbl_notice_board insert --%>
-		</p>
+		<c:if test="${sessionScope.loginuser.userid eq 'admin' }">
+			<p class="text-right">
+				<button class="btn btn-dark btn-md my-2" onclick="javascript:location.href='noticeWrite.sh'">글쓰기</button> <%-- tbl_notice_board insert --%>
+			</p>
+		</c:if>
 	</div>
 	<%-- 공지사항 글목록 --%>
 
