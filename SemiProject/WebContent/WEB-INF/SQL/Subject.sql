@@ -255,3 +255,41 @@ add constraint PK_TBL_NOTICE_COMMENT primary key(commentno);
 alter table tbl_notice_comment
 modify comment_content Nvarchar2(50);
 -- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.
+
+create table tbl_notice_viewhistory(
+fk_boardno     number,
+fk_userid      varchar2(40),
+viewcheck      number default 1,
+viewdate       date default sysdate,
+constraint FK_NOTICE_H_BOARDNO foreign key(fk_boardno) references tbl_notice_board(boardno),
+constraint FK_NOTICE_H_USERID  foreign key(fk_userid)  references tbl_member(userid),
+constraint CK_NOTICE_H_VIEWCHECK check(viewcheck in(1, 2))
+)
+-- Table TBL_NOTICE_VIEWHISTORY이(가) 생성되었습니다.
+
+alter table tbl_notice_viewhistory
+modify viewdate date default sysdate;
+-- Table TBL_NOTICE_VIEWHISTORY이(가) 변경되었습니다.
+
+alter table tbl_notice_viewhistory
+modify viewcheck number default 1;
+-- Table TBL_NOTICE_VIEWHISTORY이(가) 변경되었습니다.
+
+insert into tbl_notice_viewhistory(fk_boardno, fk_userid, viewdate)
+values(20, 'kangkc', sysdate);
+-- 1 행 이(가) 삽입되었습니다.
+
+commit;
+-- 커밋 완료.
+
+select *
+from tbl_notice_viewhistory
+where fk_boardno = 20 and fk_userid = 'kangkc' and to_char(viewdate, 'yy/mm/dd') = '21/10/06';
+
+select * 
+from tbl_member;
+
+update tbl_notice_viewhistory set viewdate = '21/10/05'
+where fk_userid = 'kangkc';
+
+commit;

@@ -51,7 +51,7 @@ public class CommentDAO implements InterCommentDAO {
 	
 	// 특정 글번호에 대한 댓글들을 모두 가져옵니다.
 	@Override
-	public List<CommentVO> selectComment(int boardno) throws SQLException {
+	public List<CommentVO> selectComment(String boardno) throws SQLException {
 		
 		List<CommentVO> commentList = new ArrayList<>();
 		
@@ -65,7 +65,7 @@ public class CommentDAO implements InterCommentDAO {
 					+    " order by registerdate asc ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boardno);
+			pstmt.setInt(1, Integer.parseInt(boardno));
 			
 			rs = pstmt.executeQuery();
 			

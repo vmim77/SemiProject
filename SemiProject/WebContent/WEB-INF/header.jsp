@@ -181,7 +181,7 @@
 						
 						<c:if test="${not empty sessionScope.loginuser}">
 							<li class="nav-item" >
-								<a href="#" class="nav-link" style="color:#fff; font-weight: bold; font-size: 11pt;">${sessionScope.loginuser.name}님</a>
+								<a href="#" class="nav-link" style="color:#fff; font-size: 10pt;">${sessionScope.loginuser.name} 님</a>
 							</li>
 						</c:if>
 					</ul>
