@@ -55,6 +55,11 @@
 			
 			// update 를 위한 Action.java로 보냅니다.
 			
+			if( $("input[name=point]").val() == "" || !Number($("input[name=point]").val()) ){
+				alert("숫자만 입력하세요!");
+				return;
+			}
+			
 			var frm = document.adminEditUser;
 			frm.action="<%= ctxPath%>/admin/memberEditEnd.sh";
 			frm.method="POST"
@@ -87,7 +92,7 @@
 							<td class="title">포인트</td>
 							<td>
 								<input type="text" name="point" value="${requestScope.member.point}" size="6" autocomplete="off" /><span> 원</span>
-							</td><%-- <fmt:formatNumber value="${requestScope.member.point}" pattern="###,###" />  --%>
+							</td><%-- <fmt:formatNumber value='${requestScope.member.point}' pattern="###,###" />  --%>
 						</tr>
 						<tr>
 							<td class="title">회원상태</td>
