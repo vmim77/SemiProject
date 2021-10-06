@@ -14,5 +14,8 @@ public interface InterCommentDAO {
 	
 	// 댓글삭제하기
 	int deleteNoticeComment(int commentno) throws SQLException;
+	
+	// 댓글수정하기
+	int editNoticeComment(CommentVO cvo) throws SQLException;
 
 }

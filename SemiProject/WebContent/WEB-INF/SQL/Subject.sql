@@ -6,7 +6,7 @@ from tbl_member;
 
 select *
 from USER_TAB_COLUMNS
-where table_name = 'TBL_NOTICE_BOARD';
+where table_name = 'TBL_NOTICE_COMMENT';
 
 alter table tbl_notice_board
 modify title Nvarchar2(100);
@@ -115,7 +115,7 @@ create table tbl_notice_comment(
 commentno           number,
 fk_boardno          number,
 fk_commenter        varchar2(40),
-comment_content     varchar2(50),
+comment_content     Nvarchar2(50),
 constraint FK_TBL_NOTICE_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_notice_board(boardno),
 constraint FK_TBL_NOTICE_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES tbl_member(userid),
 constraint PK_TBL_NOTICE_COMMENT primary key(commentno)
@@ -249,4 +249,9 @@ nocache;
 
 alter table tbl_notice_comment
 add constraint PK_TBL_NOTICE_COMMENT primary key(commentno);
+-- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.
+
+
+alter table tbl_notice_comment
+modify comment_content Nvarchar2(50);
 -- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.

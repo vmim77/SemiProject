@@ -17,11 +17,12 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-		
-		
-		$(document).on("click","span#commentDelete", function(){
 			
-			var commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호뽑기
+		var commentno = 0;
+		
+		$(document).on("click","span#commentDelete", function(){ // 댓글 삭제하기
+			
+			commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호뽑기
 			
 		    var pop_width = 600;
 		    var pop_height = 300;
@@ -34,6 +35,24 @@
 	        window.open(url, "checkDelete",
 		    		         "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 			
+		});
+		
+		$(document).on("click","span#commentEdit", function(){ // 댓글 수정하기
+			
+			commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호뽑기
+			var fk_commenter = $(this).parent().parent().find("td:nth-child(2)").text();
+			var comment_content = $(this).parent().parent().find("td:nth-child(3)").text();
+			
+			// alert(fk_commenter);
+			
+			$("input.forSubmit[name=commentno]").val(commentno);
+			$("input.forSubmit[name=fk_commenter]").val(fk_commenter);
+			$("input.forSubmit[name=comment_content]").val(comment_content);
+			
+			var frm = document.commentEditFrm;
+			frm.action = "<%= ctxPath%>/comment/noticeCommentEdit.sh";
+			frm.method = "post";
+			frm.submit();
 			
 		});
 		
@@ -68,7 +87,7 @@
 	
 	//Function Declaration
 	
-	function goEdit(){ // 글 수정하기
+	function goEdit(){ // 공지사항 글 수정하기
 		
 		var frm = document.boardEditFrm;
 		frm.action = "<%= ctxPath%>/board/noticeEdit.sh";
@@ -79,7 +98,7 @@
 	
 	// Function Declaration
 	
-	function goDelete(){ // 글 삭제하기
+	function goDelete(){ // 공지사항 글 삭제하기
 		
 		var boardno = ${requestScope.boardno};
 		
@@ -179,6 +198,9 @@
 							<td class="pr-3 py-3" style="font-size: 10pt; text-align: right;">${cvo.registerdate}</td>
 							<td style="width: 20px;"><span class="badge badge-pill badge-primary ml-2" id="commentEdit">수정하기</span></td>
 							<td style="width: 20px;"><span class="badge badge-pill badge-danger  mx-2" id="commentDelete">삭제하기</span></td>
+							<%-- 나중에는 ${loginuser.userid} == fk_commenter 인 댓글에만 수정하기, 삭제하기를 보여주게 한다. --%>
+							<%-- <c:if test="${sessionScope.loginuser.userid eq ${cvo.fk_commenter}"> --%>
+							<%-- 수정하기, 삭제하기 버튼 --%>
 						<tr>
 					</c:forEach>
 				</c:if>
@@ -215,5 +237,14 @@
 		<input type="hidden" name="content" value="${requestScope.bvo.content}" />
 	</form>
 	<%-- 글 수정하기를 위해서 보내는 기존 글정보 폼 정보입니다. --%>
+	
+	<%-- 댓글 수정하기를 위해서 보내는 기존 댓글정보  폼 정보입니다. --%>
+	<form name="commentEditFrm">
+		<input class="forSubmit"  type="hidden" name="boardno" value="${requestScope.bvo.boardno}" />
+		<input class="forSubmit"  type="hidden" name="commentno" />
+		<input class="forSubmit"  type="hidden" name="fk_commenter"  />
+		<input class="forSubmit"  type="hidden" name="comment_content" />
+	</form>
+	<%-- 댓글 수정하기를 위해서 보내는 기존 댓글정보 폼 정보입니다. --%>
 
 <jsp:include page="../footer.jsp" />

@@ -151,4 +151,33 @@ public class CommentDAO implements InterCommentDAO {
 		return n;
 	}// end of public int deleteNoticeComment(int commentno)---------------------------------
 	
+	
+	// 댓글수정하기
+	@Override
+	public int editNoticeComment(CommentVO cvo) throws SQLException {
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_notice_comment set comment_content = ? "
+					+    " where commentno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, cvo.getComment_content());
+			pstmt.setInt(2, cvo.getCommentno());
+			
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		return n;
+	}// end of public int editNoticeComment(CommentVO cvo)
+	
 }
