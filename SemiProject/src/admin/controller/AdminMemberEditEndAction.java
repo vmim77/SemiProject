@@ -43,7 +43,7 @@ public class AdminMemberEditEndAction extends AbstractController {
 			
 			if(n==1) { // UPDATE 성공한 경우
 				message = "회원정보 변경성공[운영자메뉴]";
-				loc =  request.getContextPath()+"/admin/memberList.sh";
+				loc = "javascript:history.go(0)";
 			}
 		
 			else { // UPDATE 실패한 경우
