@@ -18,6 +18,26 @@
 	
 	$(document).ready(function(){
 		
+		
+		$(document).on("click","span#commentDelete", function(){
+			
+			var commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호뽑기
+			
+		    var pop_width = 600;
+		    var pop_height = 300;
+		    
+		    var pop_left = Math.ceil((window.screen.width - pop_width)/2);
+		    var pop_top = Math.ceil((window.screen.height - pop_height)/2); 
+			
+	     	var url = "<%= ctxPath%>/comment/noticeCommentDelete.sh?commentno="+commentno;
+				
+	        window.open(url, "checkDelete",
+		    		         "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+			
+			
+		});
+		
+		
 	});// end of $(document).ready(function(){})---------------------------------------------
 	
 	// function declaration
@@ -76,19 +96,6 @@
 		
 		
 	}// function goDelete()---------------------------------------------------------------
-	
-	
-	function commentEdit(){ // 댓글 수정하기
-		alert("댓글 수정하기 시작");
-	}// end of function commentEdit(){}--------------------------------------------------
-	
-	
-	function commentDelete(){ // 댓글 삭제하기
-		alert("댓글 삭제하기 시작");
-	
-		
-	
-	}// end of function commentDelete(){}-----------------------------------------------
 	
 
 </script>	
@@ -166,11 +173,12 @@
 				<c:if test="${not empty requestScope.commentList}">
 					<c:forEach var="cvo" items="${requestScope.commentList}">
 						<tr style="border-bottom:solid 1px white;">
+							<td style="display: none;">${cvo.commentno}</td>
 							<td class="pl-3 py-3" style="width: 100px; border-right:solid 1px white;">${cvo.fk_commenter}</td>
 							<td class="pl-3 py-3" style="text-align: left;">${cvo.comment_content}</td>
 							<td class="pr-3 py-3" style="font-size: 10pt; text-align: right;">${cvo.registerdate}</td>
-							<td style="width: 20px;"><span class="badge badge-pill badge-primary ml-2" onclick="commentEdit()">수정하기</span></td>
-							<td style="width: 20px;"><span class="badge badge-pill badge-danger  mx-2" onclick="commentDelete()">삭제하기</span></td>
+							<td style="width: 20px;"><span class="badge badge-pill badge-primary ml-2" id="commentEdit">수정하기</span></td>
+							<td style="width: 20px;"><span class="badge badge-pill badge-danger  mx-2" id="commentDelete">삭제하기</span></td>
 						<tr>
 					</c:forEach>
 				</c:if>

@@ -11,5 +11,8 @@ public interface InterCommentDAO {
 	
 	// 댓글쓰기
 	int insertComment(Map<String, CommentVO> paraMap) throws SQLException;
+	
+	// 댓글삭제하기
+	int deleteNoticeComment(int commentno) throws SQLException;
 
 }

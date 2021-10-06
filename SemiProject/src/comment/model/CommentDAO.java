@@ -123,4 +123,32 @@ public class CommentDAO implements InterCommentDAO {
 		return n;
 	}// end of public int insertComment(Map<String, CommentVO> paraMap)-------------------------------
 	
+	
+	
+	// 댓글삭제하기
+	@Override
+	public int deleteNoticeComment(int commentno) throws SQLException {
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_notice_comment"
+					+    " where commentno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, commentno);
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		return n;
+	}// end of public int deleteNoticeComment(int commentno)---------------------------------
+	
 }
