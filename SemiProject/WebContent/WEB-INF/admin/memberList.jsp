@@ -65,7 +65,7 @@
 	           		"<li>성별 : "+ json.gender +"</li>" +
 	           		"<li>생년월일 : "+ json.birthday +"</li>" +
 	           		"<li>나이 : "+ json.age +" 세</li>" +
-	           		"<li>포인트 : "+ json.point +" 원</li>" +
+	           		"<li>포인트 : "+ json.point.toLocaleString('en') +" 원</li>" +
 	           		"<li>추천인 : "+ json.referral +"</li>" +
 	           		"<li>가입일자 : "+ json.registerday +"</li>" +
 	              	"</ol>";

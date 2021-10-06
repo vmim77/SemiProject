@@ -5,6 +5,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
     
 <!DOCTYPE html>
 <html>
@@ -86,7 +87,7 @@
 							<td class="title">포인트</td>
 							<td>
 								<input type="text" name="point" value="${requestScope.member.point}" size="6" autocomplete="off" /><span> 원</span>
-							</td>
+							</td><%-- <fmt:formatNumber value="${requestScope.member.point}" pattern="###,###" />  --%>
 						</tr>
 						<tr>
 							<td class="title">회원상태</td>
