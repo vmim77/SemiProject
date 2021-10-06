@@ -84,11 +84,13 @@ public class LoginAction extends AbstractController {
 			
 			else {
 				// 비밀번호를 변경한지 3개월이내인 경우
-				// 페이지 이동을 시킨다.
-				super.setRedirect(true);
-				super.setViewPage(request.getContextPath()+"/index_1.sh");
 				
-			
+				// 페이지 이동을 시킨다.
+				//super.setRedirect(true);
+				
+				// 로그인을 하면 시작페이지(index.up)로 가는 것이 아니라 로그인을 시도하려고 머물렀던 그 페이지로 가기 위한 것이다.
+				super.setViewPage("/WEB-INF/index.jsp");
+				
 				
 			}
 			
