@@ -158,29 +158,32 @@
 	</section>
 	<%-- 상단 이미지 --%>
 	
-	<%-- 검색을 위한 정보를 보냅니다. --%>
-	<form name="memberFrm" class="text-center my-5"> 
-		<select id="searchType" name="searchType">
-			<option value="name">성명</option>
-			<option value="userid">아이디</option>
-		</select>
-		<input type="text" id="searchWord" name="searchWord" />
-		   
-		<button type="button" class="btn btn-dark" onclick="goSearch();" style="margin-right: 30px;">검색</button>
-		
-		<span style="font-weight: bold; font-size: 14pt;">페이지당 회원명수-</span>
-		<select id="sizePerPage" name="sizePerPage">
-		   <option value="0" selected>인원수 선택</option>
-		   <option value="3">3</option>
-		   <option value="5">5</option>
-		   <option value="10">10</option>
-		</select>
-	</form>
-	<%-- 검색을 위한 정보를 보냅니다. --%>
-	<%-- 검색어를 넣지 않고 검색하면 전체회원 조회 // 검색어를 넣고 검색하면 특정회원들 조회 --%>
+	<div class="container table-responsive">
+	
+		<%-- 검색을 위한 정보를 보냅니다. --%>
+		<form name="memberFrm" class="text-center my-5"> 
+			<select id="searchType" name="searchType">
+				<option value="name">성명</option>
+				<option value="userid">아이디</option>
+			</select>
+			<input type="text" id="searchWord" name="searchWord" />
+			<input type="text" style="display: none;" />
+			   
+			<button type="button" class="btn btn-dark" onclick="goSearch();" style="margin-right: 30px;">검색</button>
+			
+			<span style="font-weight: bold; font-size: 14pt;">페이지당 회원명수-</span>
+			<select id="sizePerPage" name="sizePerPage">
+			   <option value="0" selected>인원수 선택</option>
+			   <option value="3">3</option>
+			   <option value="5">5</option>
+			   <option value="10">10</option>
+			</select>
+		</form>
+		<%-- 검색을 위한 정보를 보냅니다. --%>
+		<%-- 검색어를 넣지 않고 검색하면 전체회원 조회 // 검색어를 넣고 검색하면 특정회원들 조회 --%>
 	
 		
-	<div class="container table-responsive">
+
 	
 			<table class="table table table-dark my-5 text-center justify-content-center" style="width: 100%;">
 				<thead>

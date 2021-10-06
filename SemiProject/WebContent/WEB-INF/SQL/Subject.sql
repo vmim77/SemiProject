@@ -176,7 +176,8 @@ modify comment_content Nvarchar2(50);
 
 
 select * 
-from tbl_notice_comment;
+from tbl_notice_comment
+order by registerdate asc;
 
 select count(*)
 from tbl_notice_comment

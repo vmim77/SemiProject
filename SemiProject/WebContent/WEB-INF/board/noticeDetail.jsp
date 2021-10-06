@@ -159,7 +159,6 @@
 		<section>
 			<h2 class="pt-3">댓글 쓰기</h2>
 			<hr>
-			
 			<form name="commentFrm" class="text-center py-3" style="width: 100%;">
 				<div style="display: flex;">
 					<input type="hidden" name="fk_boardno" value="${requestScope.bvo.boardno}" />
@@ -168,7 +167,6 @@
 					<button class="btn btn-dark btn-md flex-item" style="margin-left: auto;" type="button" onclick="goInsertComment()">댓글작성</button>
 				</div>
 			</form>
-			
 		</section>
 		<%-- 댓글작성부 --%>
 		
