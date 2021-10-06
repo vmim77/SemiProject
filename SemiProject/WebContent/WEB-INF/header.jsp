@@ -176,14 +176,18 @@
 							</li>
 						</c:if>
 						
-						
 						<%-- 오프라인 메장 메뉴입니다. --%>
 						<li class="nav-item"><a href="<%= ctxPath%>/store.sh" class="nav-link">STORE</a></li>
 						
-						
+						<c:if test="${not empty sessionScope.loginuser}">
+							<li class="nav-item" >
+								<a href="#" class="nav-link" style="color:#fff; font-weight: bold; font-size: 11pt;">${sessionScope.loginuser.name}님 반갑습니다.</a>
+							</li>
+						</c:if>
 					</ul>
 				</div>
 			</div>
+			
 		</nav>
 		</div>
 		<%-- 네비게이션 끝 --%>
