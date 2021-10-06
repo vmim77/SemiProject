@@ -151,21 +151,17 @@
 					</c:forEach>
 				</c:if>
 			</table>
-		</section>
-		 <%-- 댓글내용부 --%>
+		<%-- 댓글내용부 --%>
 		 
 		 
 		<%-- 댓글작성부 --%>
-		<section>
 			<h2 class="pt-3">댓글 쓰기</h2>
 			<hr>
-			<form name="commentFrm" class="text-center py-3" style="width: 100%;">
-				<div style="display: flex;">
-					<input type="hidden" name="fk_boardno" value="${requestScope.bvo.boardno}" />
-					<input type="text" name="fk_commenter" placeholder="글쓴이" class="flex-item" style="maring: auto;" /> <%-- 추후에 이 인풋태그의 value는 value="${sessionScope.loginuser.userid}" --%>
-					<input type="text" name="comment_content" placeholder="댓글내용" size="100" maxlength="50" class="flex-item mx-3" />
-					<button class="btn btn-dark btn-md flex-item" style="margin-left: auto;" type="button" onclick="goInsertComment()">댓글작성</button>
-				</div>
+			<form name="commentFrm" class="text-center py-3" style="width: 100%; display: flex;">
+				<input type="hidden" name="fk_boardno" value="${requestScope.bvo.boardno}" />
+				<input type="text" name="fk_commenter" placeholder="글쓴이" class="flex-item" style="maring: auto;" /> <%-- 추후에 이 인풋태그의 value는 value="${sessionScope.loginuser.userid}" --%>
+				<input type="text" name="comment_content" placeholder="댓글내용" maxlength="50" class="flex-item mx-5" style="width: 65%;" />
+				<button class="btn btn-dark btn-md flex-item" style="margin-left: auto;" type="button" onclick="goInsertComment()">댓글작성</button>
 			</form>
 		</section>
 		<%-- 댓글작성부 --%>

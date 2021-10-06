@@ -6,7 +6,11 @@ from tbl_member;
 
 select *
 from USER_TAB_COLUMNS
-where table_name = 'TBL_NOTICE_COMMENT';
+where table_name = 'TBL_NOTICE_BOARD';
+
+alter table tbl_notice_board
+modify title Nvarchar2(100);
+-- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
 
 select *
 from user_constraints
@@ -64,7 +68,7 @@ nocache;
 create table tbl_notice_board(
 boardno     number not null,
 fk_writer   varchar2(40),
-title       varchar2(100) not null,
+title       Nvarchar2(100) not null,
 content     Nvarchar2(200) not null,
 writetime   date default sysdate,
 viewcnt     number default '0',
@@ -221,3 +225,5 @@ where boardno = 8;
 commit;
 -- 커밋 완료.
 
+select case when length(title) > 20 then substr(title, 1, 10) || '...' else title end AS title 
+from tbl_notice_board;

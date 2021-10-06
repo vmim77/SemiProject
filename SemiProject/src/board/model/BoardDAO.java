@@ -60,7 +60,7 @@ public class BoardDAO implements InterBoardDAO {
 			String sql = " select boardno, fk_writer, title, content, writetime, viewcnt, CommentCnt "+
 						 " from "+
 						 " ( "+
-						 "     select boardno, fk_writer, title, content, to_char(writetime, 'yyyy-mm-dd hh24:mi') as writetime, viewcnt "+
+						 "     select boardno, fk_writer, case when length(title) > 20 then substr(title, 1, 10) || '...' else title end AS title, content, to_char(writetime, 'yyyy-mm-dd hh24:mi') as writetime, viewcnt "+
 						 "     from tbl_notice_board "+
 						 "     order by boardno desc "+
 						 " ) A "+

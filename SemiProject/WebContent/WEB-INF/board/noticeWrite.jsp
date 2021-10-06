@@ -38,6 +38,16 @@
 				return;
 			}
 			
+			if( parseInt($("input[name=title]").val().length) > 100  ){
+				alert("글제목은 100글자까지 가능합니다.!");
+				return;
+			}
+			
+			
+			if( parseInt($("textarea[name=content]").val().length) > 200 ) {
+				alert("글내용은 200글자까지 가능합니다!");
+				return;
+			}
 			
 			var frm = document.noticeWriteFrm;
 			frm.action="<%= ctxPath%>/board/noticeWrite.sh";
@@ -87,14 +97,14 @@
 			</tr>
 			
 			<tr>
-				<td><input type="text" name="title" required /></td>
+				<td><input type="text" name="title" maxlength="100" required /></td>
 			</tr>
 			
 			<tr>
 				<td>글내용</td> <%-- 글내용은 200글자 제한이다. --%>
 			</tr>
 			<tr>
-				<td><textarea name="content" rows="5" cols="80" maxlength="180" wrap="hard" required  style="resize: none;"></textarea></td>
+				<td><textarea name="content" rows="5" cols="80" maxlength="190" wrap="hard" required  style="resize: none;"></textarea></td>
 			</tr>
 		</table>
 	</form>
