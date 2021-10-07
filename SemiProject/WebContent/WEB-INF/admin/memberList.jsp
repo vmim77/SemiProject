@@ -27,6 +27,22 @@
 		font-weight: bold;
 		cursor: pointer;
 	}
+	
+	a.page-link {
+		color: #fff;
+		background-color: #343a40;
+	}
+	
+	.page-item.active .page-link {
+		color: black;
+		background-color: #fff;
+		border-color: black;
+	
+	}
+	
+	.page-link:hover {
+		color: black;
+	}
 
 </style>
 
@@ -237,8 +253,8 @@
 				</tbody>
 			</table>
 			
-     <nav class="my-5">
-     	<div style="display: flex; width: 80%;">
+     <nav class="my-5 text-center">
+     	<div style="display: flex; width: 100%;">
      		<%-- 여기에 페이징처리 while 반복문으로 차곡차곡 쌓아온 <li>들이 들어온다. --%>
 			<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
     	</div>
