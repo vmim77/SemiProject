@@ -3,9 +3,7 @@ package member.model;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.naming.*;
 import javax.sql.DataSource;
@@ -410,22 +408,22 @@ public class MemberDAO implements InterMemberDAO {
 											 "         order by registerday desc "+
 											 "     ) V "+
 											 " ) T "+
-											 " where rno between ? and ? ";			 
+											 " where rno between ? and ? ";
 							 
-				String currentShowPageNo = paraMap.get("currentShowPageNo"); // 수업듣고 나중에 구현해야 함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				String sizePerPage = paraMap.get("sizePerPage");
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo")); // 수업듣고 나중에 구현해야 함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 				
 				pstmt = conn.prepareStatement(sql);
 				
 				if( searchWord != null && !searchWord.trim().isEmpty() ) { // 검색어가 있다면 다음과 같이 위치홀더를 잡아줍니다.
 					pstmt.setString(1, searchWord);
-					pstmt.setString(2, currentShowPageNo); // 처음으로 페이지에 들어왔다면 1페이지
-					pstmt.setString(3, sizePerPage); // 기본값 10
+					pstmt.setInt( 2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 페이징처리 공식
+					pstmt.setInt( 3, (currentShowPageNo * sizePerPage) ); // 페이징처리 공식
 				}
 				
 				else { // 검색타입과 검색어가 없는 경우
-					pstmt.setString(1, currentShowPageNo); // 처음으로 페이지에 들어왔다면 1페이지
-					pstmt.setString(2, sizePerPage); // 기본값 10
+					pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 처음으로 페이지에 들어왔다면 1페이지
+					pstmt.setInt(2, (currentShowPageNo * sizePerPage)); // 기본값 10
 				}
 				
 				
@@ -592,6 +590,49 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return n;
 		}// end of public int adminUpdateUser(MemberVO member)------------------------------------------------------
+		
+		
+		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
+		@Override
+		public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+			
+			int totalPage = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select ceil(count(*)/?) " + 
+							 " from tbl_member " + 
+							 " where userid != 'admin' ";
+				
+				String colname = paraMap.get("searchType"); // 유저아이디, 성명, 이메일만 들어옴			
+				String searchWord = paraMap.get("searchWord");		
+				
+				if(searchWord != null && !searchWord.trim().isEmpty() ) {
+					sql += " and "+ colname +" like '%' || ? || '%' ";
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, paraMap.get("sizePerPage"));
+				
+				if(searchWord != null && !searchWord.trim().isEmpty() ) {
+					pstmt.setString(2, searchWord);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				totalPage = rs.getInt(1);
+				
+			} finally {
+				close();
+			}
+			
+			
+			return totalPage;
+		}// end of public int getTotalPage(Map<String, String> paraMap)--------------------
 		
 		
 		

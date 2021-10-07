@@ -293,3 +293,67 @@ update tbl_notice_viewhistory set viewdate = '21/10/05'
 where fk_userid = 'kangkc';
 
 commit;
+
+select *
+from user_constraints
+where table_name = 'TBL_MEMBER';
+
+alter table tbl_member
+drop constraint UQ_TBL_MEMBER_EMAIL;
+-- Table TBL_MEMBER이(가) 변경되었습니다.
+
+
+
+create or replace procedure pcd_member_insert
+(p_userid   IN     varchar2
+,p_name     IN     varchar2
+,p_gender   IN     char)
+is
+begin
+    for i in 1..100 loop
+        insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday)
+        values(p_userid||i, '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382', p_name||i, 'qiLx8/Odd/4geV1BxitYbZgPX/Y4b6G0cFcMt/t/BU8=', 'h691zYcMu1s+kfHCP/HroA==', '22675', '인천 서구 청마로', '101동 501호', ' (당하동)', p_gender, '1995-09-29');
+    end loop;
+end pcd_member_insert;
+-- Procedure PCD_MEMBER_INSERT이(가) 컴파일되었습니다.
+
+exec pcd_member_insert('iyou', '아이유', '2');
+-- PL/SQL 프로시저가 성공적으로 완료되었습니다.
+
+commit;
+-- 커밋 완료.
+
+exec pcd_member_insert('seokj', '서강준', '1');
+-- PL/SQL 프로시저가 성공적으로 완료되었습니다.
+commit;
+-- 커밋 완료.
+
+
+insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday)
+values('kimys', '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382', '김유신', 'qiLx8/Odd/4geV1BxitYbZgPX/Y4b6G0cFcMt/t/BU8=', 'h691zYcMu1s+kfHCP/HroA==', '22675', '인천 계양구 계산동 한국아파트', '101동 1201호', ' (계산동)', '1', '1995-09-29');
+
+insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday)
+values('youjs', '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382', '유재석', 'qiLx8/Odd/4geV1BxitYbZgPX/Y4b6G0cFcMt/t/BU8=', 'h691zYcMu1s+kfHCP/HroA==', '22675', '인천 계양구 계산동 한국아파트', '101동 1201호', ' (계산동)', '1', '1995-09-29');
+
+
+select ceil(count(*)/?)
+from tbl_member
+where userid != 'admin';
+
+select ceil(count(*)/10)
+from tbl_member;
+
+
+select rno, userid, name, gender
+from
+(
+    select rownum AS rno, userid, name, email, gender
+    from
+    ( 
+        select userid, name, email, gender
+        from tbl_member
+        where userid != 'admin'
+        order by registerday desc
+    ) V
+) T
+where rno between 11 and 15;

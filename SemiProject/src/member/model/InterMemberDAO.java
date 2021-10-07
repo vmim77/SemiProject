@@ -43,6 +43,9 @@ public interface InterMemberDAO {
 	// 운영자가 회원의 정보를 수정하는 것입니다.
 	int adminUpdateUser(MemberVO member) throws SQLException;
 	
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
+	int getTotalPage(Map<String, String> paraMap) throws SQLException;
+	
 
 
 }

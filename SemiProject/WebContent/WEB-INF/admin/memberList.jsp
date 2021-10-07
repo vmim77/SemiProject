@@ -37,6 +37,18 @@
 	
 	$(document).ready(function(){
 		
+		
+		if("${requestScope.searchWord}" != "" ){
+			$("select#searchType").val("${requestScope.searchType}");
+			$("input#searchWord").val("${requestScope.searchWord}");
+		}
+		
+		
+		if("${requestScope.sizePerPage}" != "") {
+			// sizePerPage가 뭔가 받아온 경우
+			$("select#sizePerPage").val("${requestScope.sizePerPage}");
+		}
+		
 		$(document).on("click", "tr.memberInfo", function(){ // 특정 회원의 행을 클릭하면 모달창으로 그 회원의 자세한 정보를 출력해줍니다. 비동기식처리로 정보를 가져옴
 			
 			// alert("행 클릭함");
@@ -224,6 +236,14 @@
 					</c:forEach>			
 				</tbody>
 			</table>
+			
+     <nav class="my-5">
+     	<div style="display: flex; width: 80%;">
+     		<%-- 여기에 페이징처리 while 반복문으로 차곡차곡 쌓아온 <li>들이 들어온다. --%>
+			<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
+    	</div>
+     </nav>	
+			
 		
 		<!-- Button trigger modal -->
 		<button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;">
