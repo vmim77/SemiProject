@@ -216,7 +216,7 @@
 			<table class="table table table-dark my-5 text-center justify-content-center" style="width: 100%;">
 				<thead>
 					<tr>
-						<th scope="col">회원번호</th>
+						<th scope="col">INDEX</th>
 						<th scope="col">아이디</th>
 						<th scope="col">성명</th>
 						<th scope="col">성별</th>
@@ -228,7 +228,7 @@
 				<tbody>
 					<c:forEach var="mbr" items="${requestScope.mbrList}" varStatus="status">
 						<tr class="memberInfo">
-							<td scope="row">${status.index}</td>
+							<td scope="row">${status.count}</td>
 							<td>${mbr.userid}</td>
 							<td>${mbr.name}</td>
 							<td>${mbr.gender}</td>

@@ -319,5 +319,56 @@ public class BoardDAO implements InterBoardDAO {
 		return n;
 	}// end of public int insertNoticeViewHistory(Map<String, String> paraMap)------------------------
 	
+	// 검색타입과 검색어를 가지고 해당되는 공지사항을 검색한다.
+	@Override
+	public List<BoardVO> searchNotice(Map<String, String> paraMap) throws SQLException {
+		
+		List<BoardVO> list = new ArrayList<>();
+		
+		String colname = paraMap.get("searchType");
+		String searchWord = paraMap.get("searchWord");
+		
+		
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select boardno, fk_writer, title, content, to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, viewcnt "
+					+    " from tbl_notice_board "
+					+    " where "+ colname +" like '%' || ? || '%' ";
+					
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, searchWord);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				BoardVO bvo = new BoardVO();
+				
+				bvo.setBoardno(rs.getInt(1));
+				bvo.setFk_writer(rs.getString(2));
+				bvo.setTitle(rs.getString(3));
+				bvo.setContent(rs.getString(4));
+				bvo.setWritetime(rs.getString(5));
+				bvo.setViewcnt(rs.getInt(6));
+				
+				list.add(bvo);
+				
+			}
+			
+			
+			
+			
+		} finally {
+			close();
+		}
+		
+		
+		return list;
+	}// end of public List<BoardVO> searchNotice(Map<String, String> paraMap)-------------------------------------
+	
 	
 }

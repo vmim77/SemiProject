@@ -29,4 +29,8 @@ public interface InterBoardDAO {
 	// 조회수를 올렸으니, 조회수기록 테이블에 기록을 넣어준다.
 	int insertNoticeViewHistory(Map<String, String> paraMap) throws SQLException;
 
+	// 검색타입과 검색어를 가지고 해당되는 공지사항을 검색한다.
+	List<BoardVO> searchNotice(Map<String, String> paraMap) throws SQLException;
+	
+
 }

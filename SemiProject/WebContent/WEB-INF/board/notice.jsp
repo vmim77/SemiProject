@@ -44,8 +44,28 @@
 		});// end of $(document).on("mouseout", "tr.memberInfo", function(){})--------------------------------
 		
 		
+		
+		
+		
 	});// end of $(document).ready(function(){})-----------------------------------
 	
+	// Function Declaration 
+	function goSearch() { // 검색창에 검색타입과 검색어를 입력하면 해당 회원들을 조회해서 찾아줍니다.
+		
+		if($("input#searchWord").val() == "") {
+			location.reload(true);
+		}
+		
+		
+		var frm = document.noticeFrm;
+	
+		frm.action = "<%= ctxPath%>/board/noticeSearch.sh";
+		frm.method = "get";
+		frm.submit();
+		
+		window.reload(true);
+		
+	}// end of function goSearch()---------------------------
 
 
 </script>
@@ -101,6 +121,19 @@
 				<button class="btn btn-dark btn-md my-2" onclick="javascript:location.href='noticeWrite.sh'">글쓰기</button> <%-- tbl_notice_board insert --%>
 			</p>
 		</c:if>
+		
+		<form name="noticeFrm" class="text-center my-5"> 
+			<select id="searchType" name="searchType">
+				<option value="title">제목</option>
+				<option value="content">내용</option>
+			</select>
+			<input type="text" id="searchWord" name="searchWord" />
+			<input type="text" style="display: none;" />
+			   
+			<button type="button" class="btn btn-dark" onclick="goSearch();" style="margin-right: 30px;">검색</button>
+		</form>
+		
+		
 	</div>
 	<%-- 공지사항 글목록 --%>
 
