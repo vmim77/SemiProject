@@ -59,7 +59,7 @@ public class AdminMemberListAction extends AbstractController {
 
 			
 			
-			List<MemberVO> mbrList =  mdao.selectAllUser(paraMap); 
+			List<MemberVO> mbrList =  mdao.adminSelectAllUser(paraMap); 
 			// DAO에서 tbl_member의 모든 회원정보를 조회해주는 SQL문을 돌립니다. 리턴값은 회원들의 정보를 여러개 담아와야하니깐 List로 리턴을 합니다.
 			
 			// 검색을 해서 들어온 경우에는 검색타입과 검색어를 가지고가서 찾아줍니다.

@@ -340,7 +340,7 @@ select ceil(count(*)/?)
 from tbl_member
 where userid != 'admin';
 
-select ceil(count(*)/10)
+select ceil(count(*)/5)
 from tbl_member;
 
 
@@ -356,4 +356,4 @@ from
         order by registerday desc
     ) V
 ) T
-where rno between 11 and 15;
+where rno between 16 and 20;

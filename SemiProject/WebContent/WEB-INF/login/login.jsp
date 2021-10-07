@@ -334,8 +334,8 @@ h2 {
             </div>
             <div class="login_etc">
                 <div class="checkbox">
-                <input type="checkbox" name="saveid" id="saveid"> 아이디저장
-                <input class="ml-1" type="checkbox" name="autologin" id="autologin"> 자동로그인
+                <input type="checkbox" name="saveid" id="saveid"> <label for="saveid">아이디저장</label>
+                <input class="ml-1" type="checkbox" name="autologin" id="autologin"> <label for="autologin">자동로그인</label>
                 </div>
                 <div class="forgot_pw">
                    <button type="button" id="userIdfind" class="btn btn-light">아이디찾기</button>
