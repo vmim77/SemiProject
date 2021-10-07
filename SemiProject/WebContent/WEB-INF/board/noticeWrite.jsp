@@ -89,7 +89,7 @@
 			</tr>
 			
 			<tr>
-				<td><input type="text" name="fk_writer" required autocomplete="off" autofocus /></td>
+				<td><input type="text" name="fk_writer" value="${sessionScope.loginuser.userid}" readonly /></td>
 			</tr>
 			
 			<tr>
@@ -97,7 +97,7 @@
 			</tr>
 			
 			<tr>
-				<td><input type="text" name="title" maxlength="100" required /></td>
+				<td><input type="text" name="title" maxlength="100" required autofocus /></td>
 			</tr>
 			
 			<tr>

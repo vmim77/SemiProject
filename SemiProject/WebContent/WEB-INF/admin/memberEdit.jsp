@@ -91,6 +91,7 @@
 						<tr>
 							<td class="title">포인트</td>
 							<td>
+								<input type="text" style="display: none;"> <%-- 인풋태그가 한 개면 엔터만 눌러도 submit이 되어지는 걸 막기 위해서이다. --%>
 								<input type="text" name="point" value="${requestScope.member.point}" size="6" autocomplete="off" /><span> 원</span>
 							</td><%-- <fmt:formatNumber value='${requestScope.member.point}' pattern="###,###" />  --%>
 						</tr>
