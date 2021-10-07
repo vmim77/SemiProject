@@ -13,12 +13,12 @@ public class MemberdeleteAction extends AbstractController {
 		
 		String method = request.getMethod();
 		
-		if("post".equalsIgnoreCase(method)) {
+		if("get".equalsIgnoreCase(method)) {
 			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/memberdelete.jsp");
 		}
-		
+			
 
 	}
 

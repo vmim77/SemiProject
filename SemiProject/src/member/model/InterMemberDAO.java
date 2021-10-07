@@ -41,5 +41,12 @@ public interface InterMemberDAO {
 	// 특정회원을 조회해옵니다.
 	MemberVO selectOneUser(String userid) throws SQLException;
 
+	// 회원 삭제 하기
+	int deleteMember(String userid, String pwd) throws SQLException;
+
+
+	
+
+
 
 }

@@ -9,7 +9,7 @@
 <html>
 <head>
 
-<title>:::회원정보수정:::</title>
+<title>회원정보수정</title>
 
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -30,16 +30,27 @@
 
 
 <style>
+
+	table {
+	 color: #000;
+      font-family: "arimo",mg;
+      letter-spacing: .05em;
+	
+	}
+
  	   div#head {
       width: 90%;
       height: 50px;
-      border: 1px solid gray;
+     /*  border: 1px solid gray; */
       margin-top: 10px;
       margin-bottom: 30px;
       padding-top: 10px;
       padding-bottom: 50px;
-      background-color: #ffffe6;
-      font-size: 18pt;
+      font-weight: bold;
+      color: #000;
+   	  font-size: 30px;
+      font-family: "arimo",mg;
+      letter-spacing: .05em;
    }
    
    table#tblMemberUpdate {
@@ -336,7 +347,7 @@
 
    <form name="editFrm">
    <div id="head" align="center">
-         ::: 회원수정 (<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) :::
+         	회원수정 (<span style="font-size: 10pt; font-weight:bold;"><span class="star">*</span>표시는 필수입력사항</span>)
    </div>
    <table id="tblMemberUpdate">
 
@@ -366,7 +377,7 @@
              <span class="error">이메일 형식에 맞지 않습니다.</span>
              
              <%-- ==== 퀴즈 시작 ==== --%>
-             <span style="display: inline-block; width: 80px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="isExistEmailCheck();">이메일중복확인</span> 
+             <span style="display: inline-block; width: 90px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="isExistEmailCheck();">이메일중복확인</span> 
              <span id="emailCheckResult"></span>
              <%-- ==== 퀴즈 끝 ==== --%>
          </td>
@@ -402,7 +413,6 @@
          <td colspan="2" style="line-height: 90px;" class="text-center">
             <button type="button" id="ok" class="btn btn-dark btn-lg" >확인</button>
             <button type="button" id="close" class="btn btn-dark btn-lg">취소</button> 
-            <button type="button" id="delete" class="btn btn-dark btn-lg">회원탈퇴</button> 
          </td>
       </tr>
       

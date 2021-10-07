@@ -492,48 +492,79 @@ public class MemberDAO implements InterMemberDAO {
 			return member;
 		}
 		
-		// 회원의 개인정보 변경하기
-				@Override
-				public int updateMember(MemberVO member) throws SQLException {
-					
-					 int n  = 0;
-				      
-				      try {
-				         conn = ds.getConnection();
-				         
-				         String sql = " update tbl_member set name  = ? "
-				                  + "                     , pwd = ? "
-				                  + "                     , email = ? "
-				                  + "                     , mobile = ? "
-				                  + "                     , postcode = ? "
-				                  + "                     , address = ? "
-				                  + "                     , detailAddress = ? "
-				                  + "                     , extraAddress = ? "
-				                  + "                     , lastpwdchangedate = sysdate "
-				                      + " where userid = ? ";
-				         
-				         pstmt = conn.prepareStatement(sql);
-				         
-				         pstmt.setString(1, member.getName()); 
-				           pstmt.setString(2, Sha256.encrypt(member.getPwd()) );
-				           pstmt.setString(3, aes.encrypt(member.getEmail()) );
-				           pstmt.setString(4, aes.encrypt(member.getMobile()) );
-				           pstmt.setString(5, member.getPostcode() );
-				           pstmt.setString(6, member.getAddress() );
-				           pstmt.setString(7, member.getDetailaddress() );
-				           pstmt.setString(8, member.getExtraaddress() );
-				           pstmt.setString(9, member.getUserid() );
-				         
-				         n = pstmt.executeUpdate();
-				      
-				      } catch(GeneralSecurityException | UnsupportedEncodingException e) {    
-				            e.printStackTrace();
-				      } finally {
-				         close();
-				      }
-				      
-				      return n;
-				}
+// 회원의 개인정보 변경하기
+		@Override
+		public int updateMember(MemberVO member) throws SQLException {
+			
+			 int n  = 0;
+		      
+		      try {
+		         conn = ds.getConnection();
+		         
+		         String sql = " update tbl_member set name  = ? "
+		                  + "                     , pwd = ? "
+		                  + "                     , email = ? "
+		                  + "                     , mobile = ? "
+		                  + "                     , postcode = ? "
+		                  + "                     , address = ? "
+		                  + "                     , detailAddress = ? "
+		                  + "                     , extraAddress = ? "
+		                  + "                     , lastpwdchangedate = sysdate "
+		                      + " where userid = ? ";
+		         
+		         pstmt = conn.prepareStatement(sql);
+		         
+		           pstmt.setString(1, member.getName()); 
+		           pstmt.setString(2, Sha256.encrypt(member.getPwd()) );
+		           pstmt.setString(3, aes.encrypt(member.getEmail()) );
+		           pstmt.setString(4, aes.encrypt(member.getMobile()) );
+		           pstmt.setString(5, member.getPostcode() );
+		           pstmt.setString(6, member.getAddress() );
+		           pstmt.setString(7, member.getDetailaddress() );
+		           pstmt.setString(8, member.getExtraaddress() );
+		           pstmt.setString(9, member.getUserid() );
+		         
+		         n = pstmt.executeUpdate();
+		      
+		      } catch(GeneralSecurityException | UnsupportedEncodingException e) {    
+		            e.printStackTrace();
+		      } finally {
+		         close();
+		      }
+		      
+		      return n;
+		}
+    // 회원 삭제하기
+		   @Override
+		   public int deleteMember(String userid,String pwd) throws SQLException {
+		      
+		      int n = 0;
+		      
+		       try {
+		            conn = ds.getConnection();
+		            /*
+		            String sql = " select pwd "
+		                         + " from tbl_member " 
+		                         + " where userid = ? ";
+		            */
+		            
+		            String sql = " update tbl_member set status = 0" +
+		            			 " where userid = ? " ;
+		            
+		            pstmt = conn.prepareStatement(sql);
+		            
+		            pstmt.setString(1,userid);
+		            
+		            n = pstmt.executeUpdate();
+
+	
+		       } finally {
+		         close();
+		      } 
+		      
+		      
+		      return n;
+		   }
 		
 		
 }

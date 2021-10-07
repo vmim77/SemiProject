@@ -1,56 +1,68 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-<%
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+    
+ <%
    String ctxPath = request.getContextPath();
  
-%>
-
-<link href = "style.css" rel = "stylesheet" type = "text/css">
-<script type="text/javascript">
-
-      function begin()
-      {
-            document.myform.passwd.focus();
-      }
-
- 
-
-      function checkIt()
-      {
-            if(!document.myform.passwd.value)
-            {
-                  alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.");
-                  document.myform.passwd.focus();
-                  return false;
-            }
-      }
-
-</script>
-
- 
-<head><title>íšŒì› íƒˆí‡´</title></head>
-<body onload = "begin()" bgcolor = "<%= ctxPath %>">
-<form name = "myform" action = "deletePro.jsp" method = "post" onSubmit = "return checkIt()">
-<table cellspacing = "1" cellpadding = "1" width = "260" border = "1" align = "center">
-<tr height = "30">
-      <td colspan = "2" align = "middle" bgcolor = "<%= ctxPath %>">
-            <font size = "+1"><b>íšŒì› íƒˆí‡´</b></font>
-      </td>
-</tr>
-<tr>
-      <td width = "110" bgcolor = "<%= ctxPath %>" align = "center">ë¹„ë°€ë²ˆí˜¸</td>
-      <td width = "150" align = "center">
-            <input type = "password" name = "passwd" size = "15" maxlength = "12">
-      </td>
-</tr>
-<tr height = "30">
-      <td colspan = "2" align = "middle" bgcolor = "<%= ctxPath %>">
-            <input type = "submit" value = "íšŒì›íƒˆí‡´">
-            <input type = "button" value = "ì·¨  ì†Œ" onclick = "">
-      </td>
-</tr>
-</table>
-</form>
-</body>
+%>       
+    
+<jsp:include page="../header.jsp" />    
+<html>
+<head>
+    <title>Å»Åğ È­¸é</title>
+    
+    <style type="text/css">
+        table{
+            margin-left:auto; 
+            margin-right:auto;
+        }
+        
+      
+        
+    </style>
+    
+    <script type="text/javascript">
+        function memberdel(){
+        	
+        	var frm = document.deleteform;
+        	frm.method="post"; 
+            frm.action="<%=ctxPath%>/member/memberOndelete.sh"; 
+       		frm.submit();
+       		
+        }
+    </script>
+    
+</head>
+<body>
+   <form name="deleteform">
+   
+   		<div style=" margin:90px 600px; font-weight: bold; text-align: center; " >
+   			<span><span style="color: red">Å»Åğ ÈÄ È¸¿øÁ¤º¸°¡ ¸ğµÎ »èÁ¦µË´Ï´Ù.</span><br>
+  				     ¸ŞÀÏÁÖ¼Ò, ÇÚµåÆù ¹øÈ£/±âÅ¸ ¿¬¶ôÃ³ µî È¸¿øÁ¤º¸°¡ ¸ğµÎ »èÁ¦µÇ¸ç,<br> <span style="color: red;">»èÁ¦µÈ µ¥ÀÌÅÍ´Â º¹±¸µÇÁö ¾Ê½À´Ï´Ù.</span></span>
+			<hr>		
+			<span> Å»Åğ ÈÄ¿¡µµ ÀÛ¼ºµÈ °Ô½Ã±ÛÀº ±×´ë·Î ³²¾Æ ÀÖ½À´Ï´Ù.<br>
+				     °¢ °Ô½ÃÆÇ¿¡ µî·ÏÇÑ °Ô½Ã¹° ¹× ´ñ±ÛÀº Å»Åğ ÈÄ¿¡µµ ³²¾ÆÀÖ½À´Ï´Ù.<br>
+				     »èÁ¦¸¦ ¿øÇÏ½Ã´Â °Ô½Ã¹°Àº Å»Åğ Àü ¹İµå½Ã »èÁ¦ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.<br>
+				  (Å»Åğ ÈÄ¿¡´Â °Ô½Ã±Û ÀÓÀÇ »èÁ¦ ¿äÃ»À» ¹ŞÁö ¾Ê½À´Ï´Ù.)</span>
+		</div>  					     
+   		<div style=" margin:3px 600px; font-weight: bold; text-align: center; ">
+   			<span style="color: red;">Å»Åğ ÈÄ¿¡´Â °Ô½ÃÆÇÀÇ °Ô½Ã±ÛÀº »èÁ¦ÇÒ ¼ö ¾øÀ¸¸ç, À§ÀÇ ¾È³» ³»¿ë¿¡ µ¿ÀÇÇÕ´Ï´Ù.</span><br>
+			<input type="checkbox" />&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-align: center;">¾È³»»çÇ×À» ¸ğµÎ µ¿ÀÇÇÏ¸ç, ÀÌÀÇÁ¦±â¸¦ ÇÏÁö¾Ê½À´Ï´Ù.</span>
+   		</div>
+        <table>
+            <tr>
+               	<td>ºñ¹Ğ¹øÈ£</td>
+               	<td><input type="password" name="pwd" maxlength="50"></td>
+            </tr>
+        </table>
+       			<input type="hidden" name="userid" value="${sessionScope.loginuser.userid}"/> 
+        <br> 
+        <div style="text-align: center; height: 300px;">
+	        <input type="button" value="Å»Åğ" onclick="memberdel();" />
+    	    <input type="button" value="Ãë¼Ò" onclick="javascript:window.location='<%=ctxPath%>/index.sh'">
+        </div>
+    </form>
+   </body>
 </html>
+
+<jsp:include page="../footer.jsp" />

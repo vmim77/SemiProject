@@ -17,3 +17,7 @@ select *
 from user_constraints
 where table_name = 'TBL_MEMBER';
 
+select userid,pwd
+from tbl_member
+where userid='소녀장현걸' and pwd='9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382';
+

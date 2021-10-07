@@ -5,7 +5,7 @@ import java.util.Calendar;
 public class MemberVO {
 	
 	private String userid;             // 회원아이디
-	   private String pwd;                // 비밀번호 (SHA-256 암호화 대상)
+	   private String pwd;                // 비밀번호 (SHA-w256 암호화 대상)
 	   private String name;               // 회원명
 	   private String email;              // 이메일 (AES-256 암호화/복호화 대상)
 	   private String mobile;             // 연락처 (AES-256 암호화/복호화 대상) 

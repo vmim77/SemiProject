@@ -385,9 +385,9 @@ body, code {
                 <th scope="col">조회</th>
             </tr></thead>
 <tbody class=""><tr>
-<td colspan="6" class="noData">게시물이 없습니다.</td>
-            </tr></tbody>
-<tbody class="displaynone">
+<td class="noData">게시물이 없습니다.</td>
+            </tr>
+
 <tr class="">
 <td></td>
                 <td class="category"><a href=""></a></td>
