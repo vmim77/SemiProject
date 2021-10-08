@@ -32,7 +32,7 @@ public class AdminMemberDetailAction extends AbstractController {
 				String userid = request.getParameter("userid");
 				
 				// 특정한 한 명의 회원의 상세정보를 가져옵니다.
-				MemberVO member = mdao.selectOneUser(userid);
+				MemberVO member = mdao.adminSelectOneUser(userid);
 				
 				response.setContentType("text/html; charset=UTF-8");
 				

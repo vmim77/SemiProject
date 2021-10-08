@@ -103,7 +103,7 @@
 				<td>글내용</td>
 			</tr>
 			<tr>
-				<td><textarea name="content" rows="5" cols="80" maxlength="190" placeholder="${requestScope.bvo.content}" wrap="hard" required style="resize: none;" ></textarea></td>
+				<td><textarea name="content" rows="5" cols="80" maxlength="190" placeholder="${requestScope.bvo.content}" wrap="hard" required style="resize: none; width: 90%;" ></textarea></td>
 			</tr>
 		</table>
 	</form>

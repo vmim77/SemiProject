@@ -125,7 +125,7 @@ public class CommentDAO implements InterCommentDAO {
 	
 	
 	
-	// 댓글삭제하기
+	// 공지사항 댓글삭제하기
 	@Override
 	public int deleteNoticeComment(int commentno) throws SQLException {
 		int n = 0;
@@ -152,7 +152,7 @@ public class CommentDAO implements InterCommentDAO {
 	}// end of public int deleteNoticeComment(int commentno)---------------------------------
 	
 	
-	// 댓글수정하기
+	// 공지사항 댓글수정하기
 	@Override
 	public int editNoticeComment(CommentVO cvo) throws SQLException {
 		int n = 0;

@@ -134,6 +134,9 @@
 							</div>
 						</li>
 						
+						<%-- 오프라인 메장 메뉴입니다. --%>
+						<li class="nav-item"><a href="<%= ctxPath%>/store.sh" class="nav-link">STORE</a></li>
+						
 						<%-- 회원 메뉴입니다. --%>
 						<!-- 로그인 전-->
 						<c:if test="${empty sessionScope.loginuser}">
@@ -153,7 +156,7 @@
 						<!-- 로그인 후 -->
 						<c:if test="${not empty sessionScope.loginuser}">
 							<li class="nav-item dropdown" style="opacity: 0.8;">
-								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">로그인됨</a>
+								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#fff; font-size: 10pt;" >${sessionScope.loginuser.name} 님</a>
 								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
 									<a class="dropdown-item" href="<%= ctxPath%>/login/logout.sh">로그아웃  </a>
 									<a class="dropdown-item" href="#">장바구니  </a>
@@ -176,14 +179,8 @@
 							</li>
 						</c:if>
 						
-						<%-- 오프라인 메장 메뉴입니다. --%>
-						<li class="nav-item"><a href="<%= ctxPath%>/store.sh" class="nav-link">STORE</a></li>
+
 						
-						<c:if test="${not empty sessionScope.loginuser}">
-							<li class="nav-item" >
-								<a href="#" class="nav-link" style="color:#fff; font-size: 10pt;">${sessionScope.loginuser.name} 님</a>
-							</li>
-						</c:if>
 					</ul>
 				</div>
 			</div>

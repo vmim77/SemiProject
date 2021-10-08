@@ -104,7 +104,7 @@
 				<td>글내용</td> <%-- 글내용은 200글자 제한이다. --%>
 			</tr>
 			<tr>
-				<td><textarea name="content" rows="5" cols="80" maxlength="190" wrap="hard" required  style="resize: none;"></textarea></td>
+				<td><textarea name="content" rows="5" cols="80" maxlength="190" wrap="hard" required  style="resize: none; width: 90%;"></textarea></td>
 			</tr>
 		</table>
 	</form>

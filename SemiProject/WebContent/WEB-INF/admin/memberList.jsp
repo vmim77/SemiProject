@@ -43,6 +43,16 @@
 	.page-link:hover {
 		color: black;
 	}
+	
+	ol#oneMemberInfo{
+		list-style-type: none;
+	}
+	
+	span.title {
+		font-weight: bold;
+		font-size: 11pt;
+		color: blue;
+	}
 
 </style>
 
@@ -83,19 +93,19 @@
 					
 					// alert(json.name);
 					
-					var html = "<ol>"+
-	           		"<li>아이디 : "+json.userid+"</li>" +
-	           		"<li>회원명 : "+json.name+"</li>" +
-	           		"<li>이메일 : "+json.email+"</li>" +
-	           		"<li>휴대폰 : "+json.mobile.substring(0, 3)+"-"+json.mobile.substring(3, 7)+"-"+json.mobile.substring(7)+"</li>" +
-	           		"<li>우편번호 : "+json.postcode+"</li>" +
-	           		"<li>주소 : "+json.address+" "+json.detailaddress+"</li>" +
-	           		"<li>성별 : "+ json.gender +"</li>" +
-	           		"<li>생년월일 : "+ json.birthday +"</li>" +
-	           		"<li>나이 : "+ json.age +" 세</li>" +
-	           		"<li>포인트 : "+ json.point.toLocaleString('en') +" 원</li>" +
-	           		"<li>추천인 : "+ json.referral +"</li>" +
-	           		"<li>가입일자 : "+ json.registerday +"</li>" +
+					var html = "<ol id='oneMemberInfo' class='list-group'>"+
+	           		"<li class='list-group-item'><span class='title'>아이디</span> : "+json.userid+"</li>" +
+	           		"<li class='list-group-item'><span class='title'>회원명</span> : "+json.name+"</li>" +
+	           		"<li class='list-group-item'><span class='title'>이메일</span> : "+json.email+"</li>" +
+	           		"<li class='list-group-item'><span class='title'>휴대폰</span> : "+json.mobile.substring(0, 3)+"-"+json.mobile.substring(3, 7)+"-"+json.mobile.substring(7)+"</li>" +
+	           		"<li class='list-group-item'><span class='title'>우편번호</span> : "+json.postcode+"</li>" +
+	           		"<li class='list-group-item'><span class='title'>주소</span> : "+json.address+" "+json.detailaddress+"</li>" +
+	           		"<li class='list-group-item'><span class='title'>성별</span> : "+ json.gender +"</li>" +
+	           		"<li class='list-group-item'><span class='title'>생년월일</span> : "+ json.birthday +"</li>" +
+	           		"<li class='list-group-item'><span class='title'>나이</span> : "+ json.age +" 세</li>" +
+	           		"<li class='list-group-item'><span class='title'>포인트</span> : "+ json.point.toLocaleString('en') +" 원</li>" +
+	           		"<li class='list-group-item'><span class='title'>추천인</span> : "+ json.referral +"</li>" +
+	           		"<li class='list-group-item'><span class='title'>가입일자</span> : "+ json.registerday +"</li>" +
 	              	"</ol>";
 	              	
 	              	$("div.modal-body").html(html);
@@ -267,7 +277,7 @@
 		</button>
 		
 		<!-- 회원의 상세정보를 띄워주는 Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="width: 100%;">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">

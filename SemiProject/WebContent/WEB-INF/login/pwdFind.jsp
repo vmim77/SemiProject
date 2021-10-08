@@ -48,7 +48,7 @@ li {
 }
 
 .login {
-  margin-left: 550px;
+  margin-left: 650px;
   width: 30%;
   height: 600px;
   background: white;

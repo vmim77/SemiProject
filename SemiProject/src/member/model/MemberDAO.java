@@ -152,6 +152,12 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return n;
 		}// end of public int registerMember(MemberVO member) throws SQLException ===================================================
+		
+		
+		
+		
+		
+		
 
 		// 입력받은 paraMap 을 가지고 한 명의 회원정보를 리턴시켜주는 메소드(로그인 처리)
 		   @Override
@@ -252,6 +258,12 @@ public class MemberDAO implements InterMemberDAO {
 		   }// end of public MemberVO selectOneMember(Map<String, String> paraMap)---------------------
 
 		   
+		   
+		   
+		   
+		   
+		   
+		   
 		// 아이디 찾기(성명, 이메일을 입력받아서 해당 사용자의 아이디를 알려준다)   
 		@Override
 		public String findUserid(Map<String, String> paraMap) throws SQLException {
@@ -284,6 +296,13 @@ public class MemberDAO implements InterMemberDAO {
 			return userid;
 		}//end of public String findUserid(Map<String, String> paraMap)
 
+		
+		
+		
+		
+		
+		
+		
 		
 		// 비밀번호 찾기(아이디, 이메일을 입력받아서 해당 사용자의 비밀번호를 알려준다)
 		@Override
@@ -318,6 +337,12 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public boolean isUserExist(Map<String, String> paraMap)
 
 		
+		
+		
+		
+		
+		
+		
 		// 암호 변경하기
 		@Override
 		public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
@@ -343,6 +368,12 @@ public class MemberDAO implements InterMemberDAO {
 			return n;
 		}// end of public int pwdUpdate(Map<String, String> paraMap) ------------------------------------------------
 
+		
+		
+		
+		
+		
+		
 		
 		// DB에 코인 및 포인트 증가하기
 		@Override
@@ -373,6 +404,10 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public int coinUpdate(Map<String, String> paraMap)==================================================
 
 		
+		
+		
+		
+		// [ 운영자 메뉴 ]
 		// 전체회원을 조회한 후에 반복문으로 VO 객체를 생성해서 각각의 정보를 넣어서 가져옵니다. 
 		// 또는 검색어와 검색타입으로 특정 회원들을 검색해줍니다.
 		@Override
@@ -454,6 +489,11 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public Map<String, MemberVO> selectAllUser()----------------------------------
 		
 		
+		
+		
+		
+		
+		// [ 운영자 메뉴 ] 
 		// 한 회원의 상세정보를 조회해옵니다.
 		@Override
 		public MemberVO adminSelectOneUser(String userid) throws SQLException {
@@ -524,6 +564,11 @@ public class MemberDAO implements InterMemberDAO {
 		
 		
 		
+		
+		
+		
+		
+		// [ 운영자 메뉴 ]
 		// 운영자가 회원정보 수정하기 전에 기존정보를 출력하기 위한 select where
 		@Override
 		public MemberVO adminEditUserInfo(String userid) throws SQLException {
@@ -562,6 +607,11 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public MemberVO adminEditUserInfo(String userid) ---------------------------------------------
 		
 		
+		
+		
+		
+		
+		// [ 운영자 메뉴 ]
 		// 운영자가 이제 입력한 정보를 가지고가서 회원의 정보를 update 합니다.
 		@Override
 		public int adminUpdateUser(MemberVO member) throws SQLException {
@@ -590,6 +640,9 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return n;
 		}// end of public int adminUpdateUser(MemberVO member)------------------------------------------------------
+		
+		
+		
 		
 		
 		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
@@ -634,9 +687,14 @@ public class MemberDAO implements InterMemberDAO {
 			return totalPage;
 		}// end of public int getTotalPage(Map<String, String> paraMap)--------------------
 
+		
+		
+		
+		// 회원이 자기 정보를 수정하는 메소드 
 		@Override
 		public int updateMember(MemberVO member) throws SQLException {
-			 int n  = 0;
+			
+			  int n  = 0;
 		      
 		      try {
 		         conn = ds.getConnection();
@@ -673,8 +731,12 @@ public class MemberDAO implements InterMemberDAO {
 		      }
 		      
 		      return n;
-		}
-
+		}// end of public int updateMember(MemberVO member)---------------------------------------------
+		
+		
+		
+		
+		
 		@Override
 		public List<MemberVO> selectAllUser() throws SQLException {
 		List<MemberVO> mbrList = new ArrayList<>(); // 회원이 없다면 길이가 0인 리스트를 반환합니다.
@@ -718,8 +780,10 @@ public class MemberDAO implements InterMemberDAO {
 			}
 			
 			return mbrList; // 회원이 없다면 길이가 0인 리스트를 반환합니다.
-		}
-
+		}// end of public List<MemberVO> selectAllUser()--------------------------------
+		
+		
+		// 회원탈퇴 메소드
 		@Override
 		public int deleteMember(String userid, String pwd) throws SQLException {
 			     int n = 0;
@@ -748,11 +812,13 @@ public class MemberDAO implements InterMemberDAO {
 		      
 		      
 		      return n;
-		   }
+		   }// end of public int deleteMember(String userid, String pwd)--------------------------------
 
+		
+		// 회원 한명을 선택해오는 메소드
 		@Override
 		public MemberVO selectOneUser(String userid) throws SQLException {
-	MemberVO member = null;
+			MemberVO member = null;
 			
 			try {
 				
@@ -814,7 +880,7 @@ public class MemberDAO implements InterMemberDAO {
 			}
 			
 			return member;
-		}
+		}// end of public MemberVO selectOneUser(String userid)--------------------------------------
 		
 
 	
