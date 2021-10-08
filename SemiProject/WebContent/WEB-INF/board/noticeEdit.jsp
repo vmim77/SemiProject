@@ -7,7 +7,10 @@
 
 
 <style type="text/css">
-
+	td.title{
+		vertical-align: middle;
+		text-align: center;
+	}
 </style>
 
 <script type="text/javascript">
@@ -17,11 +20,6 @@
 		$("button#btnGoEdit").click(function(){ // 수정할 글정보를 작성하고 수정하기 버튼을 클릭하면 작동하는 이벤트처리
 			
 			// alert("수정하기 완료단계 submit 작동됨");
-			
- 			if( $("input[name=fk_writer]").val().trim() == "" ){
-				alert("글쓴이를 입력해야합니다!");
-				return;
-			}
 			
 			if(  $("input[name=title]").val().trim() == ""  ){
 				alert("글제목을 입력해야합니다!");
@@ -84,26 +82,17 @@
 		
 		<table class="table table-dark my-2">
 			<tr>
-				<td>글쓴이</td> <%-- 나중에는 value를 ${sessionScope.loginuser.userid}로 잡아준다. 만약 'admin'이 아니면 안되게 유효성검사 --%>
+				<td class="title">글제목</td>
+				<td><input type="text" name="title" maxlength="100" required autofocus /></td>
+			</tr>
+			<tr>
+				<td class="title">글쓴이</td> <%-- 나중에는 value를 ${sessionScope.loginuser.userid}로 잡아준다. 만약 'admin'이 아니면 안되게 유효성검사 --%>
+				<td><input type="text" name="fk_writer" value="${sessionScope.loginuser.userid}" readonly /></td>
 			</tr>
 			
 			<tr>
-				<td><input type="text" name="fk_writer" value="${requestScope.bvo.fk_writer}" readonly /></td>
-			</tr>
-			
-			<tr>
-				<td>글제목</td>
-			</tr>
-			
-			<tr>
-				<td><input type="text" name="title" maxlength="100" placeholder="${requestScope.bvo.title}" autofocus required /></td>
-			</tr>
-			
-			<tr>
-				<td>글내용</td>
-			</tr>
-			<tr>
-				<td><textarea name="content" rows="5" cols="80" maxlength="190" placeholder="${requestScope.bvo.content}" wrap="hard" required style="resize: none; width: 90%;" ></textarea></td>
+				<td class="title">내용</td> <%-- 글내용은 200글자 제한이다. --%>
+				<td><textarea name="content" rows="5" cols="80" maxlength="190" wrap="hard" required  style="resize: none; width: 90%; border: none;"></textarea></td>
 			</tr>
 		</table>
 	</form>

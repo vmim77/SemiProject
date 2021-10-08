@@ -7,7 +7,10 @@
 
 
 <style type="text/css">
-
+	td.title{
+		vertical-align: middle;
+		text-align: center;
+	}
 </style>
 
 <script type="text/javascript">
@@ -15,18 +18,6 @@
 	$(document).ready(function(){
 		
 		$("button#btnGoInsert").click(function(){ // 버튼을 클릭하면 글쓰기를 위해서 폼을 전송합니다.
-			
-			
-			if( $("input[name=fk_writer]").val().trim() == "" ){
-				alert("글쓴이를 입력해야합니다!");
-				return;
-			}
-			
-			if( $("input[name=fk_writer]").val() != "admin") {
-				
-				alert("운영자만 공지사항을 쓸 수 있습니다!");
-				return;
-			}
 			
 			if(  $("input[name=title]").val().trim() == ""  ){
 				alert("글제목을 입력해야합니다!");
@@ -83,28 +74,20 @@
 
 	<%-- 글쓰기 폼태그 --%>
 	<form name="noticeWriteFrm">
-		<table class="table table-dark my-2">
-			<tr>
-				<td>글쓴이</td> <%-- 나중에는 value를 ${sessionScope.loginuser.userid}로 잡아준다. 만약 'admin'이 아니면 안되게 유효성검사 --%>
-			</tr>
+		<table class="table table-dark my-2" style="width: 100%">
 			
 			<tr>
+				<td class="title">글제목</td>
+				<td><input type="text" name="title" maxlength="100" required autofocus /></td>
+			</tr>
+			<tr>
+				<td class="title">글쓴이</td> <%-- 나중에는 value를 ${sessionScope.loginuser.userid}로 잡아준다. 만약 'admin'이 아니면 안되게 유효성검사 --%>
 				<td><input type="text" name="fk_writer" value="${sessionScope.loginuser.userid}" readonly /></td>
 			</tr>
 			
 			<tr>
-				<td>글제목</td>
-			</tr>
-			
-			<tr>
-				<td><input type="text" name="title" maxlength="100" required autofocus /></td>
-			</tr>
-			
-			<tr>
-				<td>글내용</td> <%-- 글내용은 200글자 제한이다. --%>
-			</tr>
-			<tr>
-				<td><textarea name="content" rows="5" cols="80" maxlength="190" wrap="hard" required  style="resize: none; width: 90%;"></textarea></td>
+				<td class="title">내용</td> <%-- 글내용은 200글자 제한이다. --%>
+				<td><textarea name="content" rows="5" cols="80" maxlength="190" wrap="hard" required  style="resize: none; width: 90%; border: none;"></textarea></td>
 			</tr>
 		</table>
 	</form>

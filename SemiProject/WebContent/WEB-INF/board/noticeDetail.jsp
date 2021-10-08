@@ -11,7 +11,11 @@
 	.badge {
 		cursor: pointer;
 	}
-
+	
+	h2{
+		display:inline-block;
+		vertical-align: middle;
+	}
 </style>
 	
 <script type="text/javascript">
@@ -190,7 +194,7 @@
 						<td colspan="6"><hr style="border: solid 1px white"></td>
 					</tr>
 					<tr>
-						<td class="px-3"  colspan="6">글 내용 :
+						<td class="px-3"  colspan="6">
 							<p class="py-3">${requestScope.bvo.content}</p>
 						</td>
 					</tr>
@@ -208,7 +212,7 @@
 	
 				<c:if test="${empty requestScope.commentList}">
 					<tr>
-						<td class="pl-3 py-3" colspan="6">댓글 없음</td>
+						<td class="pl-3 py-3" colspan="6" style="font-weight: bold">댓글 없음</td>
 					</tr>
 				</c:if>
 	
@@ -232,22 +236,25 @@
 		 
 		 
 		<%-- 댓글작성부 --%>
+			<hr>
 			<h2 class="pt-3">댓글 쓰기</h2>
 			<hr>
-			<c:if test="${empty sessionScope.loginuser}">
-				<div class="alert alert-warning" role="alert">
-				  	비회원은 댓글을 달 수 없습니다!
-				</div>
-			</c:if>
-			
-			<c:if test="${not empty sessionScope.loginuser}">
-				<form name="commentFrm" class="text-center py-3" style="width: 100%; display: flex;">
-					<input type="hidden" name="fk_boardno" value="${requestScope.bvo.boardno}" />
-					<input type="text" name="fk_commenter" value="${sessionScope.loginuser.userid}" placeholder="로그인을해야 사용할 수 있습니다." class="flex-item" style="maring: auto;" readonly /> 
-					<input type="text" name="comment_content" placeholder="댓글내용" maxlength="50" class="flex-item mx-5" style="width: 65%;" />
-					<button class="btn btn-dark btn-md flex-item" style="margin-left: auto;" type="button" onclick="goInsertComment()">댓글작성</button>
-				</form>
-			</c:if>
+			<div style="background-color: #343a40;">
+				<c:if test="${empty sessionScope.loginuser}">
+					<div class="alert alert-warning" role="alert">
+					  	비회원은 댓글을 달 수 없습니다!
+					</div>
+				</c:if>
+				
+				<c:if test="${not empty sessionScope.loginuser}">
+					<form name="commentFrm" class="text-center py-3 px-2" style="width: 100%; display: flex;">
+						<input type="hidden" name="fk_boardno" value="${requestScope.bvo.boardno}" />
+						<input type="text" name="fk_commenter" value="${sessionScope.loginuser.userid}" placeholder="로그인을해야 사용할 수 있습니다." class="flex-item" style="maring: auto;" readonly /> 
+						<input type="text" name="comment_content" placeholder="댓글내용" maxlength="50" class="flex-item mx-5" style="width: 65%;" />
+						<button class="btn btn-light btn-md flex-item mx-1" type="button" onclick="goInsertComment()">댓글작성</button>
+					</form>
+				</c:if>
+			</div>
 		</section>
 		<%-- 댓글작성부 --%>
 		
