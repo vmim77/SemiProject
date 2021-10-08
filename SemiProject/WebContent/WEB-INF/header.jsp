@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-    
-    
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>    
 <% String ctxPath= request.getContextPath(); %>
-
-
     
 <!DOCTYPE html>
 	<%-- Bootstrap, JS, CSS --%>
@@ -121,6 +117,10 @@
 						<%-- 회사소개 메뉴입니다. --%>
 						<li class="nav-item"><a href="<%= ctxPath%>/about.sh" class="nav-link">ABOUT</a></li>
 						
+						<%-- 공지사항 메뉴입니다. --%>
+						<li class="nav-item"><a href="<%= ctxPath%>/board/notice.sh" class="nav-link">NOTICE</a></li>
+						
+						
 						<%-- 카테고리 메뉴입니다. --%>
 						<li class="nav-item dropdown"  style="opacity: 0.8;">
 							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">SHOP</a>
@@ -134,8 +134,10 @@
 							</div>
 						</li>
 						
-						<%-- 회원 메뉴입니다. --%>
+						<%-- 오프라인 메장 메뉴입니다. --%>
+						<li class="nav-item"><a href="<%= ctxPath%>/store.sh" class="nav-link">STORE</a></li>
 						
+						<%-- 회원 메뉴입니다. --%>
 						<!-- 로그인 전-->
 						<c:if test="${empty sessionScope.loginuser}">
 							<li class="nav-item dropdown" style="opacity: 0.8;">
@@ -154,7 +156,7 @@
 						<!-- 로그인 후 -->
 						<c:if test="${not empty sessionScope.loginuser}">
 							<li class="nav-item dropdown" style="opacity: 0.8;">
-								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">로그인됨</a>
+								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#fff; font-size: 10pt;" >${sessionScope.loginuser.name} 님</a>
 								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
 									<a class="dropdown-item" href="<%= ctxPath%>/login/logout.sh">로그아웃  </a>
 									<a class="dropdown-item" href="#">장바구니  </a>
@@ -166,23 +168,23 @@
 						</c:if>
 						
 						<%-- 관리자 메뉴입니다. --%>
-						<li class="nav-item dropdown" style="opacity: 0.8;">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN MENU</a>
-							<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
-								<a class="dropdown-item" href="<%= ctxPath%>/admin/memberList.sh">회원목록      </a>
-								<a class="dropdown-item" href="#">제품등록      </a>
-								<a class="dropdown-item" href="#">전체주문내역</a>
-							</div>
-						</li>
+						<c:if test="${sessionScope.loginuser.userid eq 'admin' }">
+							<li class="nav-item dropdown" style="opacity: 0.8;">
+								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN MENU</a>
+								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
+									<a class="dropdown-item" href="<%= ctxPath%>/admin/memberList.sh">회원목록      </a>
+									<a class="dropdown-item" href="#">제품등록      </a>
+									<a class="dropdown-item" href="#">전체주문내역</a>
+								</div>
+							</li>
+						</c:if>
 						
-						
-						<%-- 오프라인 메장 메뉴입니다. --%>
-						<li class="nav-item"><a href="<%= ctxPath%>/store.sh" class="nav-link">STORE</a></li>
-						
+
 						
 					</ul>
 				</div>
 			</div>
+			
 		</nav>
 		</div>
 		<%-- 네비게이션 끝 --%>

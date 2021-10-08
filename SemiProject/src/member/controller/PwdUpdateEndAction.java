@@ -4,7 +4,6 @@ import java.util.*;
 import javax.servlet.http.*;
 import common.controller.*;
 import member.model.*;
-import myshop.model.InterMemberDAO;
 
 public class PwdUpdateEndAction extends AbstractController {
 

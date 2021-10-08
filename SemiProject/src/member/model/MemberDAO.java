@@ -3,14 +3,11 @@ package member.model;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.naming.*;
 import javax.sql.DataSource;
 
-import myshop.model.InterMemberDAO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -155,6 +152,12 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return n;
 		}// end of public int registerMember(MemberVO member) throws SQLException ===================================================
+		
+		
+		
+		
+		
+		
 
 		// 입력받은 paraMap 을 가지고 한 명의 회원정보를 리턴시켜주는 메소드(로그인 처리)
 		   @Override
@@ -255,6 +258,12 @@ public class MemberDAO implements InterMemberDAO {
 		   }// end of public MemberVO selectOneMember(Map<String, String> paraMap)---------------------
 
 		   
+		   
+		   
+		   
+		   
+		   
+		   
 		// 아이디 찾기(성명, 이메일을 입력받아서 해당 사용자의 아이디를 알려준다)   
 		@Override
 		public String findUserid(Map<String, String> paraMap) throws SQLException {
@@ -287,6 +296,13 @@ public class MemberDAO implements InterMemberDAO {
 			return userid;
 		}//end of public String findUserid(Map<String, String> paraMap)
 
+		
+		
+		
+		
+		
+		
+		
 		
 		// 비밀번호 찾기(아이디, 이메일을 입력받아서 해당 사용자의 비밀번호를 알려준다)
 		@Override
@@ -321,6 +337,12 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public boolean isUserExist(Map<String, String> paraMap)
 
 		
+		
+		
+		
+		
+		
+		
 		// 암호 변경하기
 		@Override
 		public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
@@ -346,6 +368,12 @@ public class MemberDAO implements InterMemberDAO {
 			return n;
 		}// end of public int pwdUpdate(Map<String, String> paraMap) ------------------------------------------------
 
+		
+		
+		
+		
+		
+		
 		
 		// DB에 코인 및 포인트 증가하기
 		@Override
@@ -376,12 +404,342 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public int coinUpdate(Map<String, String> paraMap)==================================================
 
 		
+		
+		
+		
+		// [ 운영자 메뉴 ]
 		// 전체회원을 조회한 후에 반복문으로 VO 객체를 생성해서 각각의 정보를 넣어서 가져옵니다. 
+		// 또는 검색어와 검색타입으로 특정 회원들을 검색해줍니다.
 		@Override
-		public List<MemberVO> selectAllUser() throws SQLException {
-
+		public List<MemberVO> adminSelectAllUser(Map<String, String> paraMap) throws SQLException {
+			
+			String searchType = paraMap.get("searchType"); // 만약에 처음으로 회원조회 메뉴에 들어왔다면 NULL
+			String searchWord = paraMap.get("searchWord"); // 만약에 처음으로 회원조회 메뉴에 들어왔다면 NULL
 
 			List<MemberVO> mbrList = new ArrayList<>(); // 회원이 없다면 길이가 0인 리스트를 반환합니다.
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " select userid, name, gender, registerday, status, idle "+
+									 " from "+
+									 " ( "+
+									 "     select rownum AS rno, userid, name, gender, registerday, status, idle "+
+									 "     from "+
+									 "     (  "+
+									 "         select userid, name, "
+									 + 		 " case gender when '1' then '남자' else '여자' end AS gender, registerday, status, idle "+
+									 "         from tbl_member "+
+									 "         where userid != 'admin' ";
+				
+				if( searchWord != null && !searchWord.trim().isEmpty() ) { // 검색어를 입력했다면 이 안으로 떨어집니다.
+					sql += " and "+searchType+" like '%' || ? || '%' ";
+				 }
+				
+				
+				
+									 sql +=  "  "+
+											 "         order by registerday desc "+
+											 "     ) V "+
+											 " ) T "+
+											 " where rno between ? and ? ";
+							 
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo")); // 수업듣고 나중에 구현해야 함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				if( searchWord != null && !searchWord.trim().isEmpty() ) { // 검색어가 있다면 다음과 같이 위치홀더를 잡아줍니다.
+					pstmt.setString(1, searchWord);
+					pstmt.setInt( 2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) ); // 페이징처리 공식
+					pstmt.setInt( 3, (currentShowPageNo * sizePerPage) ); // 페이징처리 공식
+				}
+				
+				else { // 검색타입과 검색어가 없는 경우
+					pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 처음으로 페이지에 들어왔다면 1페이지
+					pstmt.setInt(2, (currentShowPageNo * sizePerPage)); // 기본값 10
+				}
+				
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					MemberVO member = new MemberVO();
+					
+					member.setUserid(rs.getString(1));
+					member.setName(rs.getString(2));
+					member.setGender(rs.getString(3));
+					member.setRegisterday(rs.getString(4));
+					member.setStatus(rs.getInt(5));
+					member.setIdle(rs.getInt(6));
+					
+					
+					mbrList.add(member);
+					
+				}// end of while()-----------------------
+				
+				
+			} finally {
+				close(); // 자원반납
+			}
+			
+			return mbrList; // 회원이 없다면 길이가 0인 리스트를 반환합니다.
+		}// end of public Map<String, MemberVO> selectAllUser()----------------------------------
+		
+		
+		
+		
+		
+		
+		// [ 운영자 메뉴 ] 
+		// 한 회원의 상세정보를 조회해옵니다.
+		@Override
+		public MemberVO adminSelectOneUser(String userid) throws SQLException {
+			
+			MemberVO member = null;
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " select userid "+
+							 " , name "+
+							 " , email "+
+							 " , mobile "+
+							 " , postcode "+
+							 " , address "+
+							 " , detailaddress "+
+							 " , extraaddress "+
+							 " , case gender when '1' then '남자' else '여자' end AS gender "+
+							 " , birthday "+
+							 " , nvl(referral, '추천인 없음') as referral "+
+							 " , point "+
+							 " , to_char(registerday, 'yyyy-mm-dd') AS registerday "+
+							 " , to_char(lastpwdchangedate, 'yyyy-mm-dd') AS lastpwdchangedate "+
+							 " , status "+
+							 " , idle "+
+							 " from tbl_member "+
+							 " where userid = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, userid);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					// System.out.println("멤버찾았다.");
+					
+					member = new MemberVO();
+					
+					member.setUserid(rs.getString(1));
+					member.setName(rs.getString(2));
+					member.setEmail(aes.decrypt(rs.getString(3)));
+					member.setMobile(aes.decrypt(rs.getString(4)));
+					member.setPostcode(rs.getString(5));
+					member.setAddress(rs.getString(6));
+					member.setDetailaddress(rs.getString(7));
+					member.setExtraaddress(rs.getString(8));
+					member.setGender(rs.getString(9));
+					member.setBirthday(rs.getString(10));
+					member.setReferral(rs.getString(11));
+					member.setPoint(rs.getInt(12));
+					member.setRegisterday(rs.getString(13));
+					member.setLastpwdchangedate(rs.getString(14));
+					member.setStatus(rs.getInt(15));
+					member.setIdle(rs.getInt(16));
+					
+				}
+				
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) {	
+				e.printStackTrace();
+			} finally {
+				close(); // 자원반납
+			}
+			
+			return member;
+		}// end of public MemberVO selectOneUser(String userid)---------------------------------------------------------
+		
+		
+		
+		
+		
+		
+		
+		// [ 운영자 메뉴 ]
+		// 운영자가 회원정보 수정하기 전에 기존정보를 출력하기 위한 select where
+		@Override
+		public MemberVO adminEditUserInfo(String userid) throws SQLException {
+			
+			MemberVO member = new MemberVO();
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " select userid "+
+						 " , point "+
+						 " , status "+
+						 " , idle "+
+						 " from tbl_member "+ 
+						 " where userid = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, userid);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					member.setUserid(rs.getString(1));
+					member.setPoint(rs.getInt(2));
+					member.setStatus(rs.getInt(3));
+					member.setIdle(rs.getInt(4));
+				}
+				
+			} finally {
+				close();
+			}
+			
+			return member;
+		}// end of public MemberVO adminEditUserInfo(String userid) ---------------------------------------------
+		
+		
+		
+		
+		
+		
+		// [ 운영자 메뉴 ]
+		// 운영자가 이제 입력한 정보를 가지고가서 회원의 정보를 update 합니다.
+		@Override
+		public int adminUpdateUser(MemberVO member) throws SQLException {
+			
+			int n = 0;
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " UPDATE TBL_MEMBER SET POINT = ?, STATUS = ?, IDLE = ? "
+						   + " WHERE USERID = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, member.getPoint());
+				pstmt.setInt(2, member.getStatus());
+				pstmt.setInt(3, member.getIdle());
+				pstmt.setString(4, member.getUserid());
+				
+				n = pstmt.executeUpdate();
+				
+			} finally {
+				close();
+			}
+			
+			return n;
+		}// end of public int adminUpdateUser(MemberVO member)------------------------------------------------------
+		
+		
+		
+		
+		
+		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
+		@Override
+		public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+			
+			int totalPage = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select ceil(count(*)/?) " + 
+							 " from tbl_member " + 
+							 " where userid != 'admin' ";
+				
+				String colname = paraMap.get("searchType"); // 유저아이디, 성명, 이메일만 들어옴			
+				String searchWord = paraMap.get("searchWord");		
+				
+				if(searchWord != null && !searchWord.trim().isEmpty() ) {
+					sql += " and "+ colname +" like '%' || ? || '%' ";
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, paraMap.get("sizePerPage"));
+				
+				if(searchWord != null && !searchWord.trim().isEmpty() ) {
+					pstmt.setString(2, searchWord);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				totalPage = rs.getInt(1);
+				
+			} finally {
+				close();
+			}
+			
+			
+			return totalPage;
+		}// end of public int getTotalPage(Map<String, String> paraMap)--------------------
+
+		
+		
+		
+		// 회원이 자기 정보를 수정하는 메소드 
+		@Override
+		public int updateMember(MemberVO member) throws SQLException {
+			
+			  int n  = 0;
+		      
+		      try {
+		         conn = ds.getConnection();
+		         
+		         String sql = " update tbl_member set name  = ? "
+		                  + "                     , pwd = ? "
+		                  + "                     , email = ? "
+		                  + "                     , mobile = ? "
+		                  + "                     , postcode = ? "
+		                  + "                     , address = ? "
+		                  + "                     , detailAddress = ? "
+		                  + "                     , extraAddress = ? "
+		                  + "                     , lastpwdchangedate = sysdate "
+		                      + " where userid = ? ";
+		         
+		         pstmt = conn.prepareStatement(sql);
+		         
+		           pstmt.setString(1, member.getName()); 
+		           pstmt.setString(2, Sha256.encrypt(member.getPwd()) );
+		           pstmt.setString(3, aes.encrypt(member.getEmail()) );
+		           pstmt.setString(4, aes.encrypt(member.getMobile()) );
+		           pstmt.setString(5, member.getPostcode() );
+		           pstmt.setString(6, member.getAddress() );
+		           pstmt.setString(7, member.getDetailaddress() );
+		           pstmt.setString(8, member.getExtraaddress() );
+		           pstmt.setString(9, member.getUserid() );
+		         
+		         n = pstmt.executeUpdate();
+		      
+		      } catch(GeneralSecurityException | UnsupportedEncodingException e) {    
+		            e.printStackTrace();
+		      } finally {
+		         close();
+		      }
+		      
+		      return n;
+		}// end of public int updateMember(MemberVO member)---------------------------------------------
+		
+		
+		
+		
+		
+		@Override
+		public List<MemberVO> selectAllUser() throws SQLException {
+		List<MemberVO> mbrList = new ArrayList<>(); // 회원이 없다면 길이가 0인 리스트를 반환합니다.
 			
 			try {
 				
@@ -422,13 +780,44 @@ public class MemberDAO implements InterMemberDAO {
 			}
 			
 			return mbrList; // 회원이 없다면 길이가 0인 리스트를 반환합니다.
-		}// end of public Map<String, MemberVO> selectAllUser()----------------------------------
+		}// end of public List<MemberVO> selectAllUser()--------------------------------
 		
 		
-		// 특정회원을 조회해옵니다.
+		// 회원탈퇴 메소드
+		@Override
+		public int deleteMember(String userid, String pwd) throws SQLException {
+			     int n = 0;
+		      
+		       try {
+		            conn = ds.getConnection();
+		            /*
+		            String sql = " select pwd "
+		                         + " from tbl_member " 
+		                         + " where userid = ? ";
+		            */
+		            
+		            String sql = " update tbl_member set status = 0" +
+		            			 " where userid = ? " ;
+		            
+		            pstmt = conn.prepareStatement(sql);
+		            
+		            pstmt.setString(1,userid);
+		            
+		            n = pstmt.executeUpdate();
+
+	
+		       } finally {
+		         close();
+		      } 
+		      
+		      
+		      return n;
+		   }// end of public int deleteMember(String userid, String pwd)--------------------------------
+
+		
+		// 회원 한명을 선택해오는 메소드
 		@Override
 		public MemberVO selectOneUser(String userid) throws SQLException {
-			
 			MemberVO member = null;
 			
 			try {
@@ -491,120 +880,51 @@ public class MemberDAO implements InterMemberDAO {
 			}
 			
 			return member;
-		}
+		}// end of public MemberVO selectOneUser(String userid)--------------------------------------
 		
-// 회원의 개인정보 변경하기
-		@Override
-		public int updateMember(MemberVO member) throws SQLException {
-			
-			 int n  = 0;
-		      
-		      try {
-		         conn = ds.getConnection();
-		         
-		         String sql = " update tbl_member set name  = ? "
-		                  + "                     , pwd = ? "
-		                  + "                     , email = ? "
-		                  + "                     , mobile = ? "
-		                  + "                     , postcode = ? "
-		                  + "                     , address = ? "
-		                  + "                     , detailAddress = ? "
-		                  + "                     , extraAddress = ? "
-		                  + "                     , lastpwdchangedate = sysdate "
-		                      + " where userid = ? ";
-		         
-		         pstmt = conn.prepareStatement(sql);
-		         
-		           pstmt.setString(1, member.getName()); 
-		           pstmt.setString(2, Sha256.encrypt(member.getPwd()) );
-		           pstmt.setString(3, aes.encrypt(member.getEmail()) );
-		           pstmt.setString(4, aes.encrypt(member.getMobile()) );
-		           pstmt.setString(5, member.getPostcode() );
-		           pstmt.setString(6, member.getAddress() );
-		           pstmt.setString(7, member.getDetailaddress() );
-		           pstmt.setString(8, member.getExtraaddress() );
-		           pstmt.setString(9, member.getUserid() );
-		         
-		         n = pstmt.executeUpdate();
-		      
-		      } catch(GeneralSecurityException | UnsupportedEncodingException e) {    
-		            e.printStackTrace();
-		      } finally {
-		         close();
-		      }
-		      
-		      return n;
-		}
-    // 회원 삭제하기
-		   @Override
-		   public int deleteMember(String userid,String pwd) throws SQLException {
-		      
-		      int n = 0;
-		      
-		       try {
-		            conn = ds.getConnection();
-		            /*
-		            String sql = " select pwd "
-		                         + " from tbl_member " 
-		                         + " where userid = ? ";
-		            */
-		            
-		            String sql = " update tbl_member set status = 0" +
-		            			 " where userid = ? " ;
-		            
-		            pstmt = conn.prepareStatement(sql);
-		            
-		            pstmt.setString(1,userid);
-		            
-		            n = pstmt.executeUpdate();
 
-	
-		       } finally {
-		         close();
-		      } 
-		      
-		      
-		      return n;
-		   }
 		// 쿠폰 추가하기
-		@Override
-		public MemberVO membercoupon(String userid) throws SQLException {
-			
-			
-			MemberVO mvo = new MemberVO();
-			
-			 try {
-		            conn = ds.getConnection();
-		        
-		            
-		            String sql = " select couponnum,userid,coupondate,couponname,coupondiscount,couponlastday,status "+
-		            			 " from tbl_coupon "+
-		            			 " where userid = ? ";
-		            
-		            pstmt = conn.prepareStatement(sql);		
-		          
-		            pstmt.setString(1,userid);
-		            
-		            rs = pstmt.executeQuery();
-		            
-		            while(rs.next()) {
-		            	mvo.setCouponnum(rs.getInt(1));
-		            	mvo.setUserid(rs.getString(2));
-		            	mvo.setCoupondate(rs.getString(3));
-		            	mvo.setCouponname(rs.getString(4));
-		            	mvo.setCoupondiscount(rs.getInt(5));
-		            	mvo.setCouponlastday(rs.getString(6));
-		            	mvo.setStatus(rs.getInt(7));
-		            }
-		            
-			
-		
-		} finally {
-			close();
-		}
+				@Override
+				public MemberVO membercoupon(String userid) throws SQLException {
+					
+					
+					MemberVO mvo = new MemberVO();
+					
+					 try {
+				            conn = ds.getConnection();
+				        
+				            
+				            String sql = " select couponnum,userid,coupondate,couponname,coupondiscount,couponlastday,status "+
+				            			 " from tbl_coupon "+
+				            			 " where userid = ? ";
+				            
+				            pstmt = conn.prepareStatement(sql);		
+				          
+				            pstmt.setString(1,userid);
+				            
+				            rs = pstmt.executeQuery();
+				            
+				            while(rs.next()) {
+				            	mvo.setCouponnum(rs.getInt(1));
+				            	mvo.setUserid(rs.getString(2));
+				            	mvo.setCoupondate(rs.getString(3));
+				            	mvo.setCouponname(rs.getString(4));
+				            	mvo.setCoupondiscount(rs.getInt(5));
+				            	mvo.setCouponlastday(rs.getString(6));
+				            	mvo.setStatus(rs.getInt(7));
+				            }
+				            
+					
 				
-			 return mvo;
-		}
-}
-			 
+				} finally {
+					close();
+				}
+						
+					 return mvo;
+				}
 		
+		
+		
+		
+		
+}

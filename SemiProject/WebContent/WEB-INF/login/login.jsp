@@ -174,6 +174,31 @@ h2 {
          $("input#loginUserid").val(loginUserid);
          $("input:checkbox[id=saveid]").prop("checked", true);
       	}
+      	
+      	
+      	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	    // 자동로그인	  
+	   	var autologinId = localStorage.getItem("autologinid");
+	   	var autologinPwd = localStorage.getItem("autologinpwd");
+      	
+      	if(autologinId != null && autologinPwd != null) {
+	            $("input#loginUserid").val(autologinId);
+	            $("input#loginPwd").val(autologinPwd);
+	            $("input:checkbox[id=autologin]").prop("checked", true);
+	            
+	            var bool = window.confirm("자동로그인하시려면 엔터를 누르세요!");
+	           	
+	            if(bool){
+	            	goLogin();
+	            }
+	            else {
+	            	alert("자동로그인을 사용하지 않으시려면 체크를 해제하세요!");
+	            }
+         	}
+      	
+      	
+      	
+      	
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 	 	$("button#btnSubmit").click(function(){
@@ -243,6 +268,19 @@ h2 {
 	    	  localStorage.removeItem('saveid');
 	      }
 	      
+	      // 자동로그인
+	      if( $("input:checkbox[id=autologin]").prop("checked") ) {
+		    	 
+	    	  localStorage.setItem('autologinid',$("input#loginUserid").val());
+	    	  localStorage.setItem('autologinpwd',$("input#loginPwd").val());
+		    	 
+	      }
+	      else {
+		    	 
+	    	  localStorage.removeItem('autologinid');
+	    	  localStorage.removeItem('autologinpwd');
+	      }
+	      
 	      
 	      var frm = document.loginFrm;
 	      frm.action = "<%= request.getContextPath() %>/login/login.sh",
@@ -296,7 +334,8 @@ h2 {
             </div>
             <div class="login_etc">
                 <div class="checkbox">
-                <input type="checkbox" name="saveid" id="saveid"> 아이디저장
+                <input type="checkbox" name="saveid" id="saveid"> <label for="saveid">아이디저장</label>
+                <input class="ml-1" type="checkbox" name="autologin" id="autologin"> <label for="autologin">자동로그인</label>
                 </div>
                 <div class="forgot_pw">
                    <button type="button" id="userIdfind" class="btn btn-light">아이디찾기</button>

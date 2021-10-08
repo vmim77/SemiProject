@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 import member.model.*;
-import myshop.model.InterMemberDAO;
 
 public class MemberRegisterAction extends AbstractController {
 

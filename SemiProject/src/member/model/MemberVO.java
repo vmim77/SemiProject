@@ -37,7 +37,7 @@ public class MemberVO {
 	   private int coupondiscount;
 	   private String couponlastday;
 	   
-	   
+	   private int age;
 	   
 	   /////////////////////////////////////////////////////////////////////
 	   
@@ -159,6 +159,13 @@ public class MemberVO {
 
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
+		
+	      Calendar currentDate = Calendar.getInstance(); 
+	      // 현재날짜와 시간을 얻어온다.
+	      
+	      int currentYear = currentDate.get(Calendar.YEAR);
+	      
+	      this.age =  currentYear - Integer.parseInt( birthday.substring(0, 4) ) + 1;
 	}
 
 	public String getReferral() {

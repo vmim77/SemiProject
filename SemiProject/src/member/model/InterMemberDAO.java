@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import member.model.MemberVO;
-
 public interface InterMemberDAO {
 	
 
@@ -36,22 +34,36 @@ public interface InterMemberDAO {
 	// 회원의 개인정보 변경하기
     int updateMember(MemberVO member) throws SQLException;
 
-	
 	// 전체회원을 조회한 후에 반복문으로 VO 객체를 생성해서 각각의 정보를 넣어서 가져옵니다. 
 	List<MemberVO> selectAllUser() throws SQLException;
-		
-	// 특정회원을 조회해옵니다.
-	MemberVO selectOneUser(String userid) throws SQLException;
-
+	
 	// 회원 삭제 하기
 	int deleteMember(String userid, String pwd) throws SQLException;
-
+	
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
+	int getTotalPage(Map<String, String> paraMap) throws SQLException;
+	
+	// 특정회원을 조회해옵니다.
+	MemberVO selectOneUser(String userid) throws SQLException;
+	
 	// 쿠폰 추가하기
 	MemberVO membercoupon(String userid) throws SQLException;
 
+	////////////////////////////////////////////////////////////////////////////////////
+	// 운영자 메소드
 	
+	// 전체회원을 조회한 후에 반복문으로 VO 객체를 생성해서 각각의 정보를 넣어서 가져옵니다. 
+	List<MemberVO> adminSelectAllUser(Map<String, String> paraMap) throws SQLException;
 	
-
-
+	// 특정한 한 명의 회원의 상세정보를 가져옵니다.
+	MemberVO adminSelectOneUser(String userid) throws SQLException;
+	
+	// 회원 상세조회로 본 회원의 정보를 수정합니다.
+	MemberVO adminEditUserInfo(String userid) throws SQLException;
+	
+	// 운영자가 회원의 정보를 수정하는 것입니다.
+	int adminUpdateUser(MemberVO member) throws SQLException;
+	
+	////////////////////////////////////////////////////////////////////////////////////
 
 }

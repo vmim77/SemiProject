@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import common.controller.AbstractController;
 import member.model.*;
-import myshop.model.InterMemberDAO;
 
 public class IdDuplicateCheckAction extends AbstractController {
 
