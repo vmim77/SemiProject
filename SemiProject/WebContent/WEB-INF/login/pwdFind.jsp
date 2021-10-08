@@ -18,6 +18,131 @@
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
 
+<style>
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+li {
+  list-style: none;
+}
+
+.wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.login {
+  margin-left: 550px;
+  width: 30%;
+  height: 600px;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h2 {
+  color: tomato;
+  font-size: 2em;
+}
+
+
+.login_id {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_id input {
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.login_pw {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_pw input {
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.login_etc {
+  padding: 10px;
+  width: 80%;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.submit {
+  margin-top: 50px;
+  width: 80%;
+}
+.submit input {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  outline: none;
+  border-radius: 40px;
+  background: linear-gradient(to left, rgb(255, 77, 46), rgb(255, 155, 47));
+  color: white;
+  font-size: 1.2em;
+  letter-spacing: 2px;
+}
+
+
+   table#loginTbl , table#snsloginTbl{
+      width: 40%;
+      border: solid 1px gray;
+      border-collapse: collapse;
+      margin-top: 20px;
+      
+   }
+   
+   table#loginTbl #th {
+      background-color: silver;
+      font-size: 14pt;
+      text-align: center;
+      height: 30px;
+   }
+   
+   table#loginTbl td {
+      border: solid 1px gray;
+      line-height: 30px;
+   }
+</style>
+
 <!-- Optional JavaScript -->
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
@@ -84,27 +209,15 @@
 
 </script>
 
-<form name="pwdFindFrm">
-   
-   <ul style="list-style-type: none">
-   		<li style="margin: 25px 0">
-   			<label for="userid" style="display: inline-block; width: 90px">아이디</label>
-   			<input type="text" name="userid" id="userid" size="25" placeholder="ID" autocomplete="off" required />
-   		</li>
-   		<li style="margin: 25px 0">
-   			<label for="userid" style="display: inline-block; width: 90px">이메일</label>
-   			<input type="text" name="email" id="email" size="25" placeholder="abc@def.com" autocomplete="off" required />
-   		</li>
-   </ul>
-   
-   <div class="my-3" id="div_btnFind">
-   	  <p class="text-center">
-   	  	<button type="button" class="btn btn-success" id="btnFind">찾기</button>
-   	  </p>	
-   </div>
 
-   <div class="my-3" id="div_findResult">
-   	  <p class="text-center">
+<form name="pwdFindFrm">
+       <table id="loginTbl">
+         <tbody>
+        <div class="login">
+            <h2 style="color: black;">비밀번호찾기</h2>
+            
+          <div class="my-3" id="div_findResult">
+   	  		<p class="text-center">
 		 <c:if test="${requestScope.isUserExist == false}">
 		 	<span style="color: red;">사용자 정보가 없습니다.</span>
 		 </c:if>
@@ -123,13 +236,26 @@
 		 
       </p>
    </div>   
+            <div class="login_id">
+                <input type="text" name="userid" id="userid" placeholder="아이디" autocomplete="off" required>
+            </div>
+            <div class="login_pw">
+                <input type="text" name="email" id="email" placeholder="abc@def.com" autocomplete="off" required>
+            </div>
+            <div class="login_etc" id="div_btnFind">
+            </div>
+              <button type="button" id="btnFind" class="btn btn-dark">찾기</button>
+        </div>
+    </div>
+         </tbody>
+       </table>
+   
       
-</form>
-
-<form name="verifyCertificationFrm">
+  </form>
+   
+   <form name="verifyCertificationFrm">
 	<input type="hidden" name="userid" />
 	<input type="hidden" name="userCertificationCode" />
 </form>
-
 
 
