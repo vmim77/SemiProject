@@ -55,7 +55,7 @@
 			
 			// update 를 위한 Action.java로 보냅니다.
 			
-			if( $("input[name=point]").val() == "" || !Number($("input[name=point]").val()) ){
+			if( $("input[name=point]").val() == "" || isNaN($("input[name=point]").val()) ){
 				alert("숫자만 입력하세요!");
 				return;
 			}

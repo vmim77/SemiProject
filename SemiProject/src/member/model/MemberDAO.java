@@ -622,8 +622,8 @@ public class MemberDAO implements InterMemberDAO {
 				
 				conn = ds.getConnection();
 				
-				String sql = " UPDATE TBL_MEMBER SET POINT = ?, STATUS = ?, IDLE = ? "
-						   + " WHERE USERID = ? ";
+				String sql = " update tbl_member set point = ?, status = ?, idle = ? "
+						   + " where userid = ? ";
 				
 				pstmt = conn.prepareStatement(sql);
 				
@@ -675,9 +675,11 @@ public class MemberDAO implements InterMemberDAO {
 				
 				rs = pstmt.executeQuery();
 				
-				rs.next();
+				if(rs.next()) {
+					totalPage = rs.getInt(1);
+				}
 				
-				totalPage = rs.getInt(1);
+				
 				
 			} finally {
 				close();
