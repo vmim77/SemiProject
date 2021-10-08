@@ -23,36 +23,125 @@
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
 
 <style>
-   #div_pwd {
-      width: 70%;
-      height: 15%;
-      margin-bottom: 5%;
-      margin-left: 10%;
-      position: relative;
+ 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+li {
+  list-style: none;
+}
+
+.wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.login {
+  margin-left: 650px;
+  width: 30%;
+  height: 600px;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h2 {
+  color: tomato;
+  font-size: 2em;
+}
+
+
+.login_id {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_id input {
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.login_pw {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_pw input {
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+.login_etc {
+  padding: 10px;
+  width: 80%;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.submit {
+  margin-top: 50px;
+  width: 80%;
+}
+.submit input {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  outline: none;
+  border-radius: 40px;
+  background: linear-gradient(to left, rgb(255, 77, 46), rgb(255, 155, 47));
+  color: white;
+  font-size: 1.2em;
+  letter-spacing: 2px;
+}
+
+
+   table#loginTbl , table#snsloginTbl{
+      width: 40%;
+      border: solid 1px gray;
+      border-collapse: collapse;
+      margin-top: 20px;
+      
    }
    
-   #div_pwd2 {
-      width: 70%;
-      height: 15%;
-      margin-bottom: 5%;
-      margin-left: 10%;
-      position: relative;
+   table#loginTbl #th {
+      background-color: silver;
+      font-size: 14pt;
+      text-align: center;
+      height: 30px;
    }
    
-   #div_updateResult {
-      width: 90%;
-      height: 15%;
-      margin-bottom: 5%;
-      margin-left: 10%;      
-      position: relative;
-   }
-   
-   #div_btnUpdate {
-      width: 70%;
-      height: 15%;
-      margin-bottom: 5%;
-      margin-left: 10%;
-      position: relative;
+   table#loginTbl td {
+      border: solid 1px gray;
+      line-height: 30px;
    }
 </style>
 
@@ -100,31 +189,38 @@
 
 </script>
 
-<form name="pwdUpdateEndFrm">
-   <div id="div_pwd" align="center">
+<form name="pwdFindFrm">
+ <table id="loginTbl">
+ <tbody>
+ <div class="login">
+            <h2 style="color: black;">비밀번호 변경</h2>
+            
+   <div id="login_id" align="center">
       <span style="color: blue; font-size: 12pt;">새암호</span><br/> 
       <input type="password" name="pwd" id="pwd" size="25" placeholder="PASSWORD" required />
    </div>
    
-   <div id="div_pwd2" align="center">
+   <div id="login_pw" align="center">
       <span style="color: blue; font-size: 12pt;">새암호확인</span><br/>
       <input type="password" id="pwd2" size="25" placeholder="PASSWORD" required />
    </div>
-   
+  
+   <br> 
    <input type="hidden" name="userid" value="${requestScope.userid}" />
    
    <c:if test="${requestScope.method == 'GET'}">
    	  <div id="div_btnUpdate" align="center">
-          <button type="button" class="btn btn-success" id="btnUpdate">암호변경하기</button>
+          <button type="button" class="btn btn-dark" id="btnUpdate" style="margin-bottom: 60px;">암호변경하기</button>
       </div>			
    </c:if>
-   
     <c:if test="${requestScope.method == 'POST' && requestScope.n == 1}">
 		<div id="div_updateResult" align="center">
            	사용자 ID ${requestScope.userid}님의 암호가 새로이 변경되었습니다.<br>
       	</div> 
    </c:if>
+</div>
    
    
-
+   </tbody>
+   </table>
 </form>

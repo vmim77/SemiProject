@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
 import member.model.MemberDAO;
 import member.model.MemberVO;
+import myshop.model.InterMemberDAO;
 
 
 public class MemberEditEndAction extends AbstractController {

@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.naming.*;
 import javax.sql.DataSource;
 
+import myshop.model.InterMemberDAO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -565,6 +566,45 @@ public class MemberDAO implements InterMemberDAO {
 		      
 		      return n;
 		   }
+		// 쿠폰 추가하기
+		@Override
+		public MemberVO membercoupon(String userid) throws SQLException {
+			
+			
+			MemberVO mvo = new MemberVO();
+			
+			 try {
+		            conn = ds.getConnection();
+		        
+		            
+		            String sql = " select couponnum,userid,coupondate,couponname,coupondiscount,couponlastday,status "+
+		            			 " from tbl_coupon "+
+		            			 " where userid = ? ";
+		            
+		            pstmt = conn.prepareStatement(sql);		
+		          
+		            pstmt.setString(1,userid);
+		            
+		            rs = pstmt.executeQuery();
+		            
+		            while(rs.next()) {
+		            	mvo.setCouponnum(rs.getInt(1));
+		            	mvo.setUserid(rs.getString(2));
+		            	mvo.setCoupondate(rs.getString(3));
+		            	mvo.setCouponname(rs.getString(4));
+		            	mvo.setCoupondiscount(rs.getInt(5));
+		            	mvo.setCouponlastday(rs.getString(6));
+		            	mvo.setStatus(rs.getInt(7));
+		            }
+		            
+			
 		
-		
+		} finally {
+			close();
+		}
+				
+			 return mvo;
+		}
 }
+			 
+		

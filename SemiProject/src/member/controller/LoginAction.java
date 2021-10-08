@@ -4,6 +4,7 @@ import java.util.*;
 import javax.servlet.http.*;
 import common.controller.AbstractController;
 import member.model.*;
+import myshop.model.InterMemberDAO;
 
 public class LoginAction extends AbstractController {
 

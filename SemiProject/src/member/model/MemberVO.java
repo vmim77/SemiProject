@@ -31,6 +31,16 @@ public class MemberVO {
 	   
 	   /////////////////////////////////////////////////////////////////////
 	   
+	   private int couponnum;
+	   private String coupondate;
+	   private String couponname;
+	   private int coupondiscount;
+	   private String couponlastday;
+	   
+	   
+	   
+	   /////////////////////////////////////////////////////////////////////
+	   
 	   public MemberVO() {}
 	   
 	   public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
@@ -219,5 +229,49 @@ public class MemberVO {
 	      
 	      return age;
 	   }  
+///////////////////////////////////////////////////////////////////
 
+		public int getCouponnum() {
+			return couponnum;
+		}
+	
+		public void setCouponnum(int couponnum) {
+			this.couponnum = couponnum;
+		}
+		
+		public String getCoupondate() {
+			return coupondate;
+		}
+	
+		public void setCoupondate(String coupondate) {
+			this.coupondate = coupondate;
+		}
+	
+		public String getCouponname() {
+			return couponname;
+		}
+	
+		public void setCouponname(String couponname) {
+			this.couponname = couponname;
+		}
+	
+		public int getCoupondiscount() {
+			return coupondiscount;
+		}
+	
+		public void setCoupondiscount(int coupondiscount) {
+			this.coupondiscount = coupondiscount;
+		}
+	
+		public String getCouponlastday() {
+			return couponlastday;
+		}
+	
+		public void setCouponlastday(String couponlastday) {
+			this.couponlastday = couponlastday;
+		}
+	
+	
+	
+	
 }

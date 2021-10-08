@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import common.controller.AbstractController;
 import member.model.*;
+import myshop.model.InterMemberDAO;
 
 public class MemberListAction extends AbstractController {
 	

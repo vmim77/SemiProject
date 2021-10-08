@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import member.model.*;
+import myshop.model.InterMemberDAO;
 
 public class PwdFindAction extends AbstractController {
 

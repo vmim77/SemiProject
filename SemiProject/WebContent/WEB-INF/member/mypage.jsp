@@ -79,7 +79,7 @@
     <div style="text-align: center; margin-top: 30px">
       <span><a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" style="text-decoration: none;">정보수정</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">주문내역</a></span> &nbsp;&nbsp;
-      <span><a href="" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
+      <span><a href="<%= ctxPath %>/member/calendar.sh" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">내가쓴게시물</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/member/memberdelete.sh" style="text-decoration: none;">회원탈퇴</a></span>
@@ -120,12 +120,52 @@
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:200px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
 				<img style="height:80px; padding-right:10px;" id="profile" src="../images/image_4.png"/>
 				<div style="font-size:9pt; margin-top:7px; margin-left: 20px;">
-					 <a href="<%= ctxPath %>/member/membercoupon.sh">쿠폰</a>
-				</div>
-				<div style="font-size:12pt; font-weight:bold; margin-left: 20px;">
-					 50장<!-- 값넣어야함  -->
-				</div>
-			</span>
+					 <%-- <a href="<%= ctxPath %>/member/memberCoupon.sh">쿠폰</a> --%>
+					 <!-- 	<!-- modal 구동 버튼 (trigger) -->
+		<button type="button" id="gobtn" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">
+		  	쿠폰
+		</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel" style="text-align: right;">쿠폰내역</h4>
+      </div>
+      
+      <div class="modal-body">
+        	<table border="1">
+        	 <tr>
+				<th scope="col" class="" style="height: 50px; width: 350px">쿠폰발급일자</th>
+                <th scope="col" class="" style="height: 50px; width: 350px">쿠폰명</th>
+                <th scope="col" class="" style="height: 50px; width: 150px">할인율</th>
+                <th scope="col" class="" style="height: 50px; width: 500px; text-align: center;" >유효기간</th>
+                <th scope="col" class="" style="height: 50px; width: 250px">상태</th>
+            </tr>
+            
+            <tr>
+            	<td>${requestScope.mvo.coupondate}</td>
+            	<td>${mvo.couponname}</td>
+            	<td>${mvo.coupondiscount}</td>
+            	<td style="text-align: center;">${mvo.couponlastday}</td>
+            	<td>사용가능</td>
+            </tr>
+       
+            
+        	</table>
+      </div>
+     		<div class="modal-footer">
+       		 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	  </div>
+	</div>
+		<div style="font-size:12pt; font-weight:bold; margin-left: 20px;">
+			 ${sessionScope.loginuser.couponnum}
+		</div>
+	</span>
 		</td>
 	</tr>
 </table><br>

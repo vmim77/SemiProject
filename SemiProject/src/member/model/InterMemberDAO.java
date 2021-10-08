@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import member.model.MemberVO;
+
 public interface InterMemberDAO {
 	
 
@@ -44,7 +46,10 @@ public interface InterMemberDAO {
 	// 회원 삭제 하기
 	int deleteMember(String userid, String pwd) throws SQLException;
 
+	// 쿠폰 추가하기
+	MemberVO membercoupon(String userid) throws SQLException;
 
+	
 	
 
 
