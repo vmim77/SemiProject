@@ -49,7 +49,6 @@
 		});// end of $("button#btnGoInsert").click(function(){})---------------------------------
 		
 		
-		
 	});// end of $(document).ready(function(){})------------------------------------
 	
 
@@ -88,6 +87,11 @@
 			<tr>
 				<td class="title">내용</td> <%-- 글내용은 200글자 제한이다. --%>
 				<td><textarea name="content" rows="5" cols="80" maxlength="190" wrap="hard" required  style="resize: none; width: 90%; border: none;"></textarea></td>
+			</tr>
+			
+			<tr>
+				<td class="title">파일첨부</td>
+				<td><input type="file" name="imgfilename" accept=".jpg, .png" /></td>
 			</tr>
 		</table>
 	</form>

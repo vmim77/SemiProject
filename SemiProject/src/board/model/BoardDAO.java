@@ -113,7 +113,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			String sql = " select boardno, fk_writer, title, content, "
 					+    " to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime "
-					+    ", viewcnt "
+					+    ", viewcnt, imgfilename "
 					   + " from tbl_notice_board "
 					   + " where boardno = ? ";
 			
@@ -133,6 +133,7 @@ public class BoardDAO implements InterBoardDAO {
 				bvo.setContent(rs.getString(4).replace("\r\n","<br>")); // 엔터까지 적용시키기 위해서 개행문자를 <br>로 치환시킨다.
 				bvo.setWritetime(rs.getString(5));
 				bvo.setViewcnt(rs.getInt(6));
+				bvo.setImgfilename(rs.getString(7));
 				
 				
 			}// end of while--------------------
@@ -154,14 +155,15 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_notice_board(boardno, fk_writer, title, content)"
-					+    " values(seq_tbl_notice.nextval, ?, ?, ?) ";
+			String sql = " insert into tbl_notice_board(boardno, fk_writer, title, content, imgfilename)"
+					+    " values(seq_tbl_notice.nextval, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paraMap.get("bvo").getFk_writer());
 			pstmt.setString(2, paraMap.get("bvo").getTitle());
 			pstmt.setString(3, paraMap.get("bvo").getContent());
+			pstmt.setString(4, paraMap.get("bvo").getImgfilename()); // 이미지를 첨부했다면 null이 아닌 이미지파일명이다.
 			
 			n = pstmt.executeUpdate();
 			
@@ -182,7 +184,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " update tbl_notice_board set fk_writer = ?, title = ?, content = ? "
+			String sql = " update tbl_notice_board set fk_writer = ?, title = ?, content = ?, imgfilename = ? "
 					+    " where boardno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -190,7 +192,8 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setString(1, bvo.getFk_writer());
 			pstmt.setString(2, bvo.getTitle());
 			pstmt.setString(3, bvo.getContent());
-			pstmt.setInt(4, bvo.getBoardno());
+			pstmt.setString(4, bvo.getImgfilename());
+			pstmt.setInt(5, bvo.getBoardno());
 			
 			n = pstmt.executeUpdate();
 			

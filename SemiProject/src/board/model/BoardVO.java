@@ -8,6 +8,7 @@ public class BoardVO {
 	private String content; // 글내용
 	private String writetime; // 글시간 - 기본값 sysdate
 	private int viewcnt; // 조회수
+	private String imgfilename; // 이미지파일 이름
 	
 	
 	// select 용 컬럼
@@ -70,6 +71,14 @@ public class BoardVO {
 
 	public void setCommentCnt(int commentCnt) {
 		CommentCnt = commentCnt;
+	}
+
+	public String getImgfilename() {
+		return imgfilename;
+	}
+
+	public void setImgfilename(String imgfilename) {
+		this.imgfilename = imgfilename;
 	}
 	
 	

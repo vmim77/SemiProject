@@ -1,5 +1,6 @@
 package board.controller;
 
+import java.io.File;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,17 +19,19 @@ public class NoticeWriteAction extends AbstractController {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
 		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
 			
 			String method = request.getMethod(); // "GET" or "POST"
 			
 			// 나중에는 ${sessionScope.loginuser.userid} 로 아이디가 'admin'이면 아래 기능들이 작동하게 할 예정!!
 			
-			if("post".equalsIgnoreCase(method)) { // "POST"로 들어왔다면 글을 쓰기위해서 정보를 입력하고 들어온 경우이다.
+			if("post".equalsIgnoreCase(method)) { // "POST"로 들어왔다면 글을 쓰기위해서 뷰페이지에서 정보를 입력하고 들어온 경우이다.
 				
-				String fk_writer = request.getParameter("fk_writer");
-				String title = request.getParameter("title");
-				String content = request.getParameter("content");
+				String fk_writer = request.getParameter("fk_writer"); // 글쓴이
+				String title = request.getParameter("title"); // 제목
+				String content = request.getParameter("content"); // 내용 
+				String imgfilename = request.getParameter("imgfilename"); // 이미지첨부하기를 했다면 null이 아닌 이미지 파일명이다.
 				
 				Map<String, BoardVO> paraMap = new HashMap<>();
 				
@@ -37,6 +40,7 @@ public class NoticeWriteAction extends AbstractController {
 				bvo.setFk_writer(fk_writer);
 				bvo.setTitle(title);
 				bvo.setContent(content);
+				bvo.setImgfilename(imgfilename);
 				
 				paraMap.put("bvo", bvo);
 				
@@ -47,16 +51,15 @@ public class NoticeWriteAction extends AbstractController {
 				String message = "";
 				String loc= "";
 				
-				if(n==1) {// update 성공
+				if(n==1) {// 게시글을 성공적으로 insert 한 경우이다.
 					message = "글쓰기 성공";
 					loc = request.getContextPath()+"/board/notice.sh";
-					
 				}
-				else {// update 실패
+				
+				else {// 게시글 insert 실패한 경우이다.
 					message = "글쓰기 실패";
 					loc = request.getContextPath()+"/index.sh";
 				}
-				
 				
 				request.setAttribute("message", message);
 				request.setAttribute("loc", loc);

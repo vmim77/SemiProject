@@ -116,7 +116,7 @@
 	
 	function goEdit(){ // 공지사항 글 수정하기
 		
-		var frm = document.boardEditFrm;
+		var frm = document.boardEditFrm
 		frm.action = "<%= ctxPath%>/board/noticeEdit.sh";
 		frm.method = "POST";
 		frm.submit();
@@ -196,6 +196,13 @@
 					<tr>
 						<td class="px-3"  colspan="6">
 							<p class="py-3">${requestScope.bvo.content}</p>
+							<c:choose>
+								<c:when test="${not empty requestScope.bvo.imgfilename}">
+									<p class="text-center">
+										<img src="<%= ctxPath%>/images/${requestScope.bvo.imgfilename}" class="my-5" style="width: 300px; height: 300px;" />
+									</p>
+								</c:when>
+							</c:choose>
 						</td>
 					</tr>
 				</tbody>
@@ -275,6 +282,7 @@
 		<input type="hidden" name="fk_writer" value="${requestScope.bvo.fk_writer}" />
 		<input type="hidden" name="title" value="${requestScope.bvo.title}" />
 		<input type="hidden" name="content" value="${requestScope.bvo.content}" />
+		<input type="hidden" name="imgfilename" value="${requestScope.bvo.imgfilename}" />
 	</form>
 	<%-- 글 수정하기를 위해서 보내는 기존 글정보 폼 정보입니다. --%>
 	

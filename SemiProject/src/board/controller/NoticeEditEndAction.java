@@ -34,6 +34,7 @@ public class NoticeEditEndAction extends AbstractController {
 				String title = request.getParameter("title");
 				String content = request.getParameter("content");
 				int boardno = Integer.parseInt(request.getParameter("boardno"));
+				String imgfilename = request.getParameter("imgfilename"); // 이미지를 바꿨다면 새로운 이미지파일명이고, 안바꿧다면 null
 				
 				Map<String, BoardVO> paraMap = new HashMap<>();
 				
@@ -43,6 +44,7 @@ public class NoticeEditEndAction extends AbstractController {
 				bvo.setTitle(title);
 				bvo.setContent(content);
 				bvo.setBoardno(boardno);
+				bvo.setImgfilename(imgfilename);
 				
 				InterBoardDAO mdao = new BoardDAO();
 				

@@ -357,3 +357,15 @@ from
     ) V
 ) T
 where rno between 16 and 20;
+
+
+select *
+from USER_TAB_COLUMNS
+where table_name = 'TBL_NOTICE_BOARD';
+
+alter table tbl_notice_board
+add imgfilename varchar2(200);
+-- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
+
+select * 
+from tbl_notice_board;
