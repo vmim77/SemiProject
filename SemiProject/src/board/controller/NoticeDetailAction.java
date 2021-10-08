@@ -51,7 +51,7 @@ public class NoticeDetailAction extends AbstractController {
 				if(n==1) {
 					
 					n = 0;
-					System.out.println("조회수를 1 올렸어요");
+					System.out.println("게시글 조회수를 1 올렸어요");
 					n = bdao.insertNoticeViewHistory(paraMap);
 					
 					if(n==1) {
@@ -63,7 +63,7 @@ public class NoticeDetailAction extends AbstractController {
 					}
 				}
 				else {
-					System.out.println("조회수 update 오류");
+					System.out.println("게시글 조회수 update 오류");
 					return;
 				}
 			}// end of 조회수 처리하기
