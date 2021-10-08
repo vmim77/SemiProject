@@ -351,7 +351,7 @@
                      }
                      else {
                         // 입력한 userid 가 DB 테이블에 존재하지 않는 경우라면
-                        $("span#idcheckResult").html($("input#userid").val()+"사용 가능합니다").css("color","green");
+                        $("span#idcheckResult").html($("input#userid").val()+ " 사용 가능합니다").css("color","green");
                      }
 
                   },

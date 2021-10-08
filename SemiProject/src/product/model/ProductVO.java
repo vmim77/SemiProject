@@ -1,7 +1,7 @@
 package product.model;
 
 public class ProductVO {
-
+//=====================================================================================
 	private String product_name;
 	private String product_front_p1;
 	private String product_back_p2;
@@ -9,9 +9,7 @@ public class ProductVO {
 	private String product_ceil_price;
 	private String product_first_p;
 	private String product_second_p;
-	
-	
-	
+//=====================================================================================		
 	public String getProduct_name() {
 		return product_name;
 	}
@@ -67,9 +65,5 @@ public class ProductVO {
 	public void setProduct_second_p(String product_second_p) {
 		this.product_second_p = product_second_p;
 	}
-	
-	
-	
+//=====================================================================================
 }
-
-

@@ -46,7 +46,9 @@ public interface InterMemberDAO {
 	// 특정회원을 조회해옵니다.
 	MemberVO selectOneUser(String userid) throws SQLException;
 	
-	
+	// 쿠폰 추가하기
+	MemberVO membercoupon(String userid) throws SQLException;
+
 	////////////////////////////////////////////////////////////////////////////////////
 	// 운영자 메소드
 	
