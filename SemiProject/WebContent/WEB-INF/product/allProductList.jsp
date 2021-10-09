@@ -810,7 +810,7 @@
 <ul id="imglist" style="margin-top: 80px; display:table; margin-left: auto; margin-right:auto; margin-bottom: 50px;">
 	<li id="img" style="text-align:center;" >     <!-- BEST 버튼은 현재 allProductList로 가게되어있음 -->
 		<form name="bestfrm" >
-			<input type="hidden" id="bestid" name="product_name" />
+			<input type="hidden" id="bestid" name="productname" />
 				<div id="best" >
 					<a href="allProductList.sh"><div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210804/f73628a78fca4fa78f4ccc9cb7d78b6e.jpg" id="imgmenu" ></div><span  class="listname">BEST</span></a>
 				</div>		
@@ -818,7 +818,7 @@
 	</li>
 	<li id="img" style="text-align:center;" >
 		<form name="dubbyfrm" >
-			<input type="hidden" value="dubby" name="product_name" />
+			<input type="hidden" value="dubby" name="productname" />
 				<div id="dubby">
 					<div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210804/56b8958fb641ce6f9f854ee98bf5df24.jpg" id="imgmenu" ></div><span  class="listname">더비</span>
 				</div>		
@@ -827,7 +827,7 @@
 	
 	<li id="img" style="text-align:center;" >
 		<form name="mulfrm" >
-			<input type="hidden" value="mul" name="product_name" />
+			<input type="hidden" value="mul" name="productname" />
 				<div id="mul" >
 					<div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210804/869c4b254f3b5356f128f2b64a04e384.jpg" id="imgmenu" ></div><span  class="listname">뮬</span>
 				</div>		
@@ -836,7 +836,7 @@
 	
 	<li id="img" style="text-align:center;" >
 		<form name="bootsfrm" >
-			<input type="hidden" value="boots" name="product_name" />
+			<input type="hidden" value="boots" name="productname" />
 				<div id="boots" >
 					<div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210804/1171a5fb41400cabe4cde966d418f3b3.jpg" id="imgmenu" ></div><span  class="listname">부츠</span>
 				</div>		
@@ -845,7 +845,7 @@
 	
 	<li id="img" style="text-align:center;" >
 		<form name="loperfrm" >
-			<input type="hidden" value="loper" name="product_name" />
+			<input type="hidden" value="loper" name="productname" />
 				<div id="loper" >
 					<div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210804/d6639c71e8b26845d4a372c31a92bc1c.jpg" id="imgmenu" ></div><span  class="listname">로퍼</span>
 				</div>		
@@ -855,7 +855,7 @@
 	
 	<li id="img" style="text-align:center;" >
 		<form name="oxpodefrm" >
-			<input type="hidden" value="oxpode" name="product_name" />
+			<input type="hidden" value="oxpode" name="productname" />
 				<div id="oxpode" >
 					<div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210825/d27954f804c1e3484a42cf3fb4476d6f.png" id="imgmenu" ></div><span  class="listname">옥스퍼드</span>
 				</div>		
@@ -864,7 +864,7 @@
 	
 	<li id="img" style="text-align:center;" >
 		<form name="mongkfrm" >
-			<input type="hidden" value="mongk" name="product_name" />
+			<input type="hidden" value="mongk" name="productname" />
 				<div id="mongk" >
 					<div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210825/0c5634ea9545afdc00e698a3c97f4efb.png" id="imgmenu" ></div><span  class="listname">몽크</span>
 				</div>		
@@ -873,7 +873,7 @@
 	
 	<li id="img" style="text-align:center;" >
 		<form name="sandlefrm" >
-			<input type="hidden" value="sandle" name="product_name" />
+			<input type="hidden" value="sandle" name="productname" />
 				<div id="sandle" >
 					<div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210804/7d76dc6c16a54153e3a37f72529236da.jpg" id="imgmenu" ></div><span  class="listname">샌들</span>
 				</div>		

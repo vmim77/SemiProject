@@ -32,26 +32,57 @@
 
 </head>
 <body>
-<!-- 	<!-- modal 구동 버튼 (trigger) -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-  Modal 띄우기
-</button> -->
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal 제목</h4>
-      </div>
-      <div class="modal-body">
-        Modal 내용
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-      </div>
+<div module="myshop_CouponList">
+    <!--@css(/css/module/myshop/couponList.css)-->
+    <!--
+        $product_list_url = coupon_product_list.html
+    -->
+    <div class="title">
+        <h3>마이 쿠폰 목록</h3>
+        <p>사용가능 쿠폰 : {$coupon_count}장</p>
     </div>
-  </div></div>
+    <div class="couponList">
+        <table border="1" summary="">
+            <caption>마이 쿠폰 목록</caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="no">번호</th>
+                    <th scope="col" class="coupon">쿠폰명</th>
+                    <th scope="col" class="product">쿠폰적용 상품</th>
+                    <th scope="col" class="price">구매금액</th>
+                    <th scope="col" class="payment">결제수단</th>
+                    <th scope="col" class="benefit">쿠폰 혜택</th>
+                    <th scope="col" class="period">사용가능 기간</th>
+                </tr>
+            </thead>
+            <tbody class="{$display_coupon_list|display}">
+                <tr>
+                    <td>{$coupon_no}</td>
+                    <td class="coupon"><strong>{$coupon_name}</strong></td>
+                    <td>{$coupon_use_product_icon}</td>
+                    <td>{$coupon_use_price}</td>
+                    <td class="payment">{$coupon_paymethod}</td>
+                    <td>{$coupon_benefit_result}</td>
+                    <td>{$coupon_start_end_date}</td>
+                </tr>
+                <tr>
+                    <td>{$coupon_no}</td>
+                    <td class="coupon"><strong>{$coupon_name}</strong></td>
+                    <td>{$coupon_use_product_icon}</td>
+                    <td>{$coupon_use_price}</td>
+                    <td class="payment">{$coupon_paymethod}</td>
+                    <td>{$coupon_benefit_result}</td>
+                    <td>{$coupon_start_end_date}</td>
+                </tr>
+            </tbody>
+            <tbody class="{$display_no_coupon_list|display}">
+                <tr>
+                    <td colspan="7" class="empty">보유하고 계신 쿠폰 내역이 없습니다</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p class="button {$coupon_mileage_display|display}"><img src="http://img.echosting.cafe24.com/skin/base_ko_KR/myshop/btn_coupon_use.gif" alt="사용하기" onclick="COUPON.useCoupon()" /></p>
+</div>
 </body>
 </html>

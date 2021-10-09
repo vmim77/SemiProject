@@ -79,7 +79,7 @@
     <div style="text-align: center; margin-top: 30px">
       <span><a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" style="text-decoration: none;">정보수정</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">주문내역</a></span> &nbsp;&nbsp;
-      <span><a href="<%= ctxPath %>/member/memberCalendar.sh" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
+      <span><a href="<%= ctxPath %>/memberCalendar.sh" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">내가쓴게시물</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/member/memberdelete.sh" style="text-decoration: none;">회원탈퇴</a></span>

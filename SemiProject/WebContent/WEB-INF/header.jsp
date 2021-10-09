@@ -125,12 +125,13 @@
 						<li class="nav-item dropdown"  style="opacity: 0.8;">
 							<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">SHOP</a>
 							<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
-								<a class="dropdown-item" href="#">Derby</a>
-								<a class="dropdown-item" href="#">Mule</a>
-								<a class="dropdown-item" href="#">Boots</a>
-								<a class="dropdown-item" href="#">Loafer</a>
-								<a class="dropdown-item" href="#">Oxford</a>
-								<a class="dropdown-item" href="#">Monk</a>
+								                        <a class="dropdown-item" href="<%= request.getContextPath()%>/productList.sh?productname=dubby">Derby</a>
+                        <a class="dropdown-item" href="<%= request.getContextPath()%>/productList.sh?productname=mul">Mule</a>
+                        <a class="dropdown-item" href="<%= request.getContextPath()%>/productList.sh?productname=boots">Boots</a>
+                        <a class="dropdown-item" href="<%= request.getContextPath()%>/productList.sh?productname=loper">Loafer</a>
+                        <a class="dropdown-item" href="<%= request.getContextPath()%>/productList.sh?productname=oxpode">Oxford</a>
+                        <a class="dropdown-item" href="<%= request.getContextPath()%>/productList.sh?productname=mongk">Monk</a>
+                        <a class="dropdown-item" href="<%= request.getContextPath()%>/productList.sh?productname=sandle">Sandle</a>
 							</div>
 						</li>
 						
@@ -147,7 +148,7 @@
 									<a class="dropdown-item" href="<%= ctxPath%>/member/memberRegister.sh">회원가입  </a>
 									<a class="dropdown-item" href="#">장바구니  </a>
 									<a class="dropdown-item" href="#">주문조회  </a>
-									<a class="dropdown-item" href="#">배송조회   </a>
+									<a class="dropdown-item" href="<%= ctxPath%>/delivery/delivery.sh">배송조회   </a>
 									<a class="dropdown-item" href="#">내정보수정</a>
 								</div>
 							</li>	
@@ -161,7 +162,7 @@
 									<a class="dropdown-item" href="<%= ctxPath%>/login/logout.sh">로그아웃  </a>
 									<a class="dropdown-item" href="#">장바구니  </a>
 									<a class="dropdown-item" href="#">주문조회  </a>
-									<a class="dropdown-item" href="#">배송조회   </a>
+									<a class="dropdown-item" href="<%= ctxPath%>/delivery/delivery.sh">배송조회   </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/member/mypage.sh">마이페이지</a>
 								</div>
 							</li>
