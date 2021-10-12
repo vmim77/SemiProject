@@ -5,6 +5,10 @@
    String ctxPath = request.getContextPath();
  
 %>   
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+
+
 <jsp:include page="../header.jsp" />
 
 <!-- Bootstrap CSS -->
@@ -78,7 +82,7 @@
 <div id="menu" class="container" style="width:1000px; margin:100px 300px; height:100px; font-family:맑은 고딕;">
     <div style="text-align: center; margin-top: 30px">
       <span><a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" style="text-decoration: none;">정보수정</a></span> &nbsp;&nbsp;
-      <span><a href="" style="text-decoration: none;">주문내역</a></span> &nbsp;&nbsp;
+      <span><a href="<%= ctxPath%>/delivery/order.sh"  style="text-decoration: none;">주문내역</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/memberCalendar.sh" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">내가쓴게시물</a></span> &nbsp;&nbsp;
@@ -118,7 +122,7 @@
 		</td>
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:200px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
-				<img style="height:80px; padding-right:10px;" id="profile" src="../images/image_4.png"/>
+				<img style="height:80px; padding-right:10px; margin-left: 13px;" id="profile" src="../images/image_4.png"/>
 				<div style="font-size:9pt; margin-top:7px; margin-left: 20px;">
 					 <%-- <a href="<%= ctxPath %>/member/memberCoupon.sh">쿠폰</a> --%>
 					 <!-- 	<!-- modal 구동 버튼 (trigger) -->
@@ -162,7 +166,7 @@
 	  </div>
 	  </div>
 	</div>
-		<div style="font-size:12pt; font-weight:bold; margin-left: 20px;">
+		<div style="font-size:12pt; font-weight:bold; margin-left: 40px;">
 			 ${sessionScope.loginuser.couponnum}
 		</div>
 	</span>
@@ -220,29 +224,37 @@
 
 	<div id="mp-board" class="xans-element- xans-myshop xans-myshop-boardpackage "><div class="title">
         <h3 style="text-align:left;  font-weight:bold; font-size:16pt; color:black;">최근등록게시물</h3>
-		<span class="more_view"><a href="/myshop/board_list.html">더보기</a></span>
     </div>
 		<table  style=" border: solid 2px gray; border-left: none; border-right: none;">
 		
 			<tr>
 				<th scope="col">번호</th>
-                <th scope="col">분류</th>
                 <th scope="col">제목</th>
                 <th scope="col">작성자</th>
                 <th scope="col">작성일</th>
                 <th scope="col">조회</th>
             </tr>
 	
+		<c:forEach  var= "bvo" items="${requestScope.list}" >
 			<tr>
-				<td class="noData" style="height: 200px; width: 100px">게시물이 없습니다.</td>
-                <td class="category" style="height: 200px; width: 200px"><a href=""></a>오징어!!</td>
-                <td class="subject" style="height: 200px; width: 900px"> <a href=""></a>길영이는 12시에일어났어요</td>
-                <td style="height: 200px; width: 100px">${sessionScope.loginuser.name }</td>
-                <td class="txtLess" style="height: 200px; width: 100px">2021-10-07</td>
-                <td class="txtLess" style="height: 200px; width: 100px">2</td>
+				<td class="" style="height: 200px; width: 300px;">${bvo.boardno}</td>
+                <td style="height: 200px; width: 400px">${bvo.title }</td> 
+                <td class="" style="height: 200px; width: 300px"> <a href=""></a>${bvo.fk_writer}</td>
+                <td class="" style="height: 200px; width: 400px">${bvo.writetime}</td>
+                <td class="" style="height: 200px; width: 100px">${bvo.viewcnt}</td>
             </tr>
+		</c:forEach>
+		
 </tbody>
 </table>
+
+	<div>
+			<p class="text-center">
+			    <span id="end" style="display:block; margin:20px; font-size: 14pt; font-weight: bold; color: red;"></span> 
+				<button type="button" class="btn btn-secondary btn-lg" id="btnMoreHIT" value="">더보기...</button>
+				<span id="totalHITCount">${requestScope.totalHITCount}</span>
+			</p>
+		</div>
 
 <br>
 

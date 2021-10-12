@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%
    String ctxPath = request.getContextPath();
  
@@ -10,7 +11,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-
 
 <style>
 * {
@@ -153,23 +153,11 @@ h2 {
    }
 </style>
 
-<script type="text/javascript">
-
- function godelivery() {
-	 
-	 
-	 
- }
-
-
-</script>
-
-
 <form name="loginFrm">
        <table id="loginTbl">
            <div class="wrap">
         <div class="login">
-            <h2 style="color: black;">운송장 번호로 조회</h2>
+            <h2 style="color: black;">주문 내역 조회</h2>
             <div class="login_id">
                 <input type="text" name="" id="" placeholder="예 01234567890, ‘-’를 제외한 숫자 11자리" maxlength="11" >
             </div>
@@ -183,40 +171,3 @@ h2 {
        </table>
    </form>
    
-   		
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel" style="text-align: right;">배송조회</h4>
-      </div>
-      
-      <div class="modal-body">
-        	<table border="1">
-        	 <tr>
-				<th scope="col" class="" style="height: 50px; width: 350px">주문일자</th>
-                <th scope="col" class="" style="height: 50px; width: 350px">주문자</th>
-                <th scope="col" class="" style="height: 50px; width: 350px">진행사항</th>
-                <th scope="col" class="" style="height: 50px; width: 250px">도착예정일</th>
-            </tr>
-            
-			
-			<tr>
-				<td>2021-10-13</td>
-				<td>금길영</td>
-				<td>배송준비중</td>
-				<td>2021-10-15</td>
-			</tr>            
-        	</table>
-      </div>
-     		<div class="modal-footer">
-       		 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-	      </div>
-	    </div>
-	  </div>
-	 </div>
-	   
-   
-<jsp:include page="../footer.jsp" />

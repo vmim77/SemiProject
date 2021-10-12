@@ -32,5 +32,8 @@ public interface InterBoardDAO {
 	// 검색타입과 검색어를 가지고 해당되는 공지사항을 검색한다.
 	List<BoardVO> searchNotice(Map<String, String> paraMap) throws SQLException;
 	
+	// 마이페이지 게시물 보기
+	List<BoardVO> selectmyboard(String userid) throws SQLException;
+	
 
 }

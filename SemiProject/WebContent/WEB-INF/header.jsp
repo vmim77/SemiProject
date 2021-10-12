@@ -147,9 +147,7 @@
 									<a class="dropdown-item" href="<%= ctxPath%>/login/login.sh">로그인     </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/member/memberRegister.sh">회원가입  </a>
 									<a class="dropdown-item" href="#">장바구니  </a>
-									<a class="dropdown-item" href="#">주문조회  </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/delivery/delivery.sh">배송조회   </a>
-									<a class="dropdown-item" href="#">내정보수정</a>
 								</div>
 							</li>	
 						</c:if>
@@ -161,7 +159,6 @@
 								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
 									<a class="dropdown-item" href="<%= ctxPath%>/login/logout.sh">로그아웃  </a>
 									<a class="dropdown-item" href="#">장바구니  </a>
-									<a class="dropdown-item" href="#">주문조회  </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/delivery/delivery.sh">배송조회   </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/member/mypage.sh">마이페이지</a>
 								</div>

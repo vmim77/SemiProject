@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.model.*;
-import comment.model.*;
 import common.controller.AbstractController;
 
 public class NoticeListAction extends AbstractController {
