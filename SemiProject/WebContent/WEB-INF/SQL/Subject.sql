@@ -368,7 +368,7 @@ add imgfilename varchar2(200);
 -- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
 
 select * 
-from tbl_loginhistory;
+from tbl_notice_comment;
 
 select * 
 from tbl_member;
@@ -379,6 +379,64 @@ where name like '%' || '아이유' || '%';
 commit;
 
 delete from tbl_notice_comment
-where fk_userid like '%' || 'iyou' || '%';
+where fk_commenter like '%' || 'iyou' || '%';
 
+---- *** 제품 테이블 : tbl_product *** ----
+-- drop table tbl_product purge; 
+create table tbl_product
+(pnum           number(8) not null       -- 제품번호(Primary Key)
+,pname          varchar2(100) not null   -- 제품명
+,fk_cnum        number(8)                -- 카테고리코드(Foreign Key)의 시퀀스번호 참조
+,pimage1        varchar2(100) default 'noimage.png' -- 제품이미지1   이미지파일명
+,pimage2        varchar2(100) default 'noimage.png' -- 제품이미지2   이미지파일명
+,pimage3        varchar2(100) default 'noimage.png'
+,pimage4        varchar2(100) default 'noimage.png'
+,pqty           number(8) default 0      -- 제품 재고량
+,price          number(8) default 0      -- 제품 정가
+,saleprice      number(8) default 0      -- 제품 판매가(할인해서 팔 것이므로)                                          
+,pinputdate     date default sysdate     -- 제품입고일자
+,constraint  PK_tbl_product_pnum primary key(pnum)
+,constraint  FK_tbl_product_fk_cnum foreign key(fk_cnum) references tbl_category(cnum)
+);
 
+-----------------------------------------------------------------
+create table tbl_category
+(cnum    number(8)     not null  -- 카테고리 대분류 번호
+,code    varchar2(20)  not null  -- 카테고리 코드
+,cname   varchar2(100) not null  -- 카테고리명
+,constraint PK_tbl_category_cnum primary key(cnum)
+,constraint UQ_tbl_category_code unique(code)
+);
+-----------------------------------------------------------------
+create sequence seq_category_cnum 
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-------------------------------------------------------------------
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '10000', 'dubby');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '20000', 'mul');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '30000', 'boots');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '40000', 'loper');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '50000', 'oxpode');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '60000', 'mongk');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '70000', 'sandle');
+
+commit;
+-------------------------------------------------------------------------------------------------
+
+select *
+from tab;
+
+select *
+from tbl_member;
+
+select *
+from USER_TAB_COLUMNS
+where table_name = 'TBL_CATEGORY';
+
+select * 
+from user_constraints
+where table_name = 'TBL_PRODUCT';

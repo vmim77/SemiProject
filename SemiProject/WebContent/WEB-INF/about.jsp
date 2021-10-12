@@ -47,48 +47,56 @@
 		<div class="container">
 			<div class="row">
 			
-				<div class="col-lg-2 col-md-4 ">
+				<div class="col-lg-3 col-sm-6">
 					<div class="sort w-100 text-center ftco-animate">
 						<div class="img" style="background-image: url(<%= ctxPath%>/images/Derby.jpg);"></div>
 						<h3>Derby</h3>
 					</div>
 				</div>
 				
-				<div class="col-lg-2 col-md-4 ">
+				<div class="col-lg-3 col-sm-6">
 					<div class="sort w-100 text-center ftco-animate">
 						<div class="img" style="background-image: url(<%= ctxPath%>/images/Mule.jpg);"></div>
 						<h3>Mule</h3>
 					</div>
 				</div>
 				
-				<div class="col-lg-2 col-md-4 ">
+				<div class="col-lg-3 col-sm-6">
 					<div class="sort w-100 text-center ftco-animate">
 						<div class="img" style="background-image: url(<%= ctxPath%>/images/Boots.jpg);"></div>
 						<h3>Boots</h3>
 					</div>
 				</div>
 				
-				<div class="col-lg-2 col-md-4 ">
+				<div class="col-lg-3 col-sm-6">
 					<div class="sort w-100 text-center ftco-animate">
 						<div class="img" style="background-image: url(<%= ctxPath%>/images/Loafer.jpg);"></div>
 						<h3>Loafer</h3>
 					</div>
 				</div>
-				
-				<div class="col-lg-2 col-md-4 ">
-					<div class="sort w-100 text-center ftco-animate">
-						<div class="img" style="background-image: url(<%= ctxPath%>/images/Oxford.jpg);"></div>
-						<h3>Oxford</h3>
+
+			</div>
+			<div class="row my-5 justify-content-center">
+					<div class="col-lg-3 col-sm-6">
+						<div class="sort w-100 text-center ftco-animate">
+							<div class="img" style="background-image: url(<%= ctxPath%>/images/Oxford.jpg);"></div>
+							<h3>Oxford</h3>
+						</div>
 					</div>
-				</div>
-				
-				<div class="col-lg-2 col-md-4 ">
-					<div class="sort w-100 text-center ftco-animate">
-						<div class="img" style="background-image: url(<%= ctxPath%>/images/Monk.jpg);"></div>
-						<h3>Monk</h3>
+					
+					<div class="col-lg-3 col-sm-6">
+						<div class="sort w-100 text-center ftco-animate">
+							<div class="img" style="background-image: url(<%= ctxPath%>/images/Monk.jpg);"></div>
+							<h3>Monk</h3>
+						</div>
 					</div>
-				</div>
-				
+					
+					<div class="col-lg-3 col-sm-6">
+						<div class="sort w-100 text-center ftco-animate">
+							<div class="img" style="background-image: url(<%= ctxPath%>/images/Sandle.jpg);"></div>
+							<h3>Sandle</h3>
+						</div>
+					</div>
 			</div>
 		</div>
 	</section>
