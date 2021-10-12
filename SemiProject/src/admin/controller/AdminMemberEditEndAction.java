@@ -17,6 +17,7 @@ public class AdminMemberEditEndAction extends AbstractController {
 		// 추후에 로그인한 유저정보가 '운영자'인지 아닌지 확인하는 if절을 걸어서 걸러낼겁니다.
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
 		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
 			
 			String method = request.getMethod();
@@ -43,7 +44,7 @@ public class AdminMemberEditEndAction extends AbstractController {
 				
 				if(n==1) { // UPDATE 성공한 경우
 					message = "회원정보 변경성공[운영자메뉴]";
-					loc = request.getContextPath()+"/admin/memberList.sh";
+					loc = request.getContextPath()+"/index.sh";
 				}
 			
 				else { // UPDATE 실패한 경우
@@ -68,7 +69,7 @@ public class AdminMemberEditEndAction extends AbstractController {
 		
 		else {
 			
-			String message = "잘못된 접근입니다.";
+			String message = "운영자 메뉴입니다.";
 			String loc = request.getContextPath()+"/index.sh";
 			
 			request.setAttribute("message", message);

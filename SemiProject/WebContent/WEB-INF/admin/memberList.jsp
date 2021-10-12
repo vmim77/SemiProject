@@ -64,13 +64,13 @@
 	$(document).ready(function(){
 		
 		
-		if("${requestScope.searchWord}" != "" ){
+		if("${requestScope.searchWord}" != "" ){ // 무언가 검색하고 다른 페이지로 갔다면 계속해서 검색했던 것을 보여주기 위해서 값을 찍어줍니다.
 			$("select#searchType").val("${requestScope.searchType}");
 			$("input#searchWord").val("${requestScope.searchWord}");
 		}
 		
 		
-		if("${requestScope.sizePerPage}" != "") {
+		if("${requestScope.sizePerPage}" != "") { // sizePerPage를 받아왔다는 것은 인원수 선택하고 다음페이지로 갔다는 것이여서 값을 찍어줍니다.
 			// sizePerPage가 뭔가 받아온 경우
 			$("select#sizePerPage").val("${requestScope.sizePerPage}");
 		}
@@ -108,10 +108,8 @@
 	           		"<li class='list-group-item'><span class='title'>가입일자</span> : "+ json.registerday +"</li>" +
 	              	"</ol>";
 	              	
-	              	$("div.modal-body").html(html);
-	              	$("#exampleModalLabel").html("<span style='font-weight:bold; font-size:16pt;'>"+userid+"님의 회원 상세정보</span>");
-	              	
-	              	
+	              	$("div.modal-body").html(html); // 모달창을 넣어줍니다.
+	              	$("#exampleModalLabel").html("<span style='font-weight:bold; font-size:16pt;'>"+userid+"님의 회원 상세정보</span>"); // 모달 상단 제목
 					
 				},
 				error: function(request, status, error) {
@@ -120,7 +118,7 @@
 				
 			});
 			
-			$("button#modalBtn").click();
+			$("button#modalBtn").click(); // 공용으로 쓰는 모달에 값을 갱신해서 넣어놨으니 보여주기 위해서 클릭을 해준다.
 			
 		});// end of $(document).on("click", "tr.memberInfo", function(){})----------------------
 		
@@ -152,7 +150,7 @@
 	    var url = "<%= ctxPath%>/admin/memberEdit.sh?userid="+userid; 
 	    // GET 방식으로 해당 유저의 아이디를 넘깁니다.
 	    
-	    var pop_width = 600;
+	    var pop_width = 600; 
 	    var pop_height = 300;
 	    
 	    var pop_left = Math.ceil((window.screen.width - pop_width)/2);

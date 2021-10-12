@@ -41,7 +41,7 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function(){
+	$(document).ready(function(){ // 마지막으로 글을 삭제할지 안할지 확인 메세지를 띄운다.
 		
 		$("button#yesDelete").click(function(){ // 삭제를 눌렀다면
 			var frm = document.goToDeleteFrm;
@@ -71,9 +71,10 @@
 			<button type="button" class="btn btn-primary btn-md" id="noDelete">아니요</button>
 		</div>
 	</div>
+	<%-- 삭제를 위해서 해당 공지사항 게시글번호를 보내준다. --%>
 	<form name="goToDeleteFrm">
 		<input type="hidden" name="boardno" value="${requestScope.boardno}">
 	</form>
-	
+	<%-- 삭제를 위해서 해당 공지사항 게시글번호를 보내준다. --%>
 </body>
 </html>

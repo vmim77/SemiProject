@@ -20,7 +20,7 @@
 								
 								<br>
 								<br>
-								<a href="#" class="btn btn-primary mx-3 py-2 px-4" style="opacity: 0.8;">VIEW MORE</a>
+								<a href="<%= request.getContextPath()%>/allProductList.sh" class="btn btn-primary mx-3 py-2 px-4" style="opacity: 0.8;">VIEW MORE</a>
 							</div>
 						</div>
 					</div>

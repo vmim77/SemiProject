@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원정보 수정하기[운영자]</title>
+<title>회원정보 수정하기[운영자]</title> <%-- 운영자는 회원의 포인트, 활동상태(탈퇴, 사용가능), 휴면상태(활동중, 휴면상태)를 변경할 수 있다. --%>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
@@ -53,9 +53,10 @@
 		
 		$("button#btnEditUserInfo").click(function(){ // 수정하기 버튼을 클릭하면
 			
-			// update 를 위한 Action.java로 보냅니다.
+			// update 를 위해서  Action.java로 수정할 값을 보냅니다.
 			
-			if( $("input[name=point]").val() == "" || isNaN($("input[name=point]").val()) ){
+			if( $("input[name=point]").val() == "" || isNaN($("input[name=point]").val()) ){ 
+				// 만약 point에 숫자가 아닌 문자열이나 이상한 것을 입력했다면
 				alert("숫자만 입력하세요!");
 				return;
 			}

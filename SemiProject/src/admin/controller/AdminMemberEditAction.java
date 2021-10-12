@@ -24,13 +24,12 @@ public class AdminMemberEditAction extends AbstractController {
 			MemberVO member = mdao.adminEditUserInfo(userid); // DAO에 넘겨서 기존 회원의 정보를 가져옵니다.
 			
 			
-			if(member != null) {
+			if(member != null) { // 수정하기 전에 기존 회원의 정보를 받아와서 찍어준다.
 				request.setAttribute("member", member);
 				// memberEdit.jsp에 가져가서 찍어줄 회원정보입니다.
 				
 				request.setAttribute("userid", userid);
 				// 새로운 정보를 입력받고 update로 넘길때 where절에 사용할 userid 입니다.
-				
 				super.setViewPage("/WEB-INF/admin/memberEdit.jsp");
 				
 			}
@@ -41,19 +40,16 @@ public class AdminMemberEditAction extends AbstractController {
 				super.setViewPage("/WEB-INF/msg.jsp");
 			}
 			
-			
 		}
 		
-		else {
-			
-			String message = "잘못된 접근입니다.";
+		else { // 운영자가 아닌 사용자가 URL로 들어오거나 했다면 막아준다.
+			String message = "관리자전용 메뉴입니다.";
 			String loc = request.getContextPath()+"/index.sh";
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
 			
 			super.setViewPage("/WEB-INF/msg.jsp");
-			
 		}
 		
 

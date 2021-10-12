@@ -21,6 +21,7 @@ public class AdminMemberDetailAction extends AbstractController {
 		// 추후에 로그인한 유저정보가 '운영자'인지 아닌지 확인하는 if절을 걸어서 걸러낼겁니다.
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
 		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
 			
 			String method = request.getMethod();
@@ -44,7 +45,7 @@ public class AdminMemberDetailAction extends AbstractController {
 			}
 			
 			else { // "GET"으로 들어오는 경우
-				String message = "일반회원이 사용할 수 없는 기능입니다!!";
+				String message = "잘못된 접근입니다.";
 				String loc = request.getContextPath()+"/index.sh";
 				
 				request.setAttribute("message", message);
@@ -55,9 +56,9 @@ public class AdminMemberDetailAction extends AbstractController {
 			
 		}
 		
-		else {
+		else { // 운영자가 아닌 사용자가 접근했다면
 			
-			String message = "잘못된 접근입니다.";
+			String message = "운영자 메뉴입니다.";
 			String loc = request.getContextPath()+"/index.sh";
 			
 			request.setAttribute("message", message);

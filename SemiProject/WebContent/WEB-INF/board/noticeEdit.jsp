@@ -44,8 +44,6 @@
 			}
 			
 			
-			
-			
 			var frm = document.noticeEditFrm;
 			frm.action="<%= ctxPath%>/board/noticeEditEnd.sh";
 			frm.method="POST";

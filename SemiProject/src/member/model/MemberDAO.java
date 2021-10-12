@@ -41,9 +41,11 @@ public class MemberDAO implements InterMemberDAO {
 		// 사용한 자원을 반납하는 close() 메소드 생성하기 
 		private void close() {
 			try {
+				
 				if(rs != null)    {rs.close();    rs=null;}
 				if(pstmt != null) {pstmt.close(); pstmt=null;}
 				if(conn != null)  {conn.close();  conn=null;}
+				
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
@@ -56,6 +58,7 @@ public class MemberDAO implements InterMemberDAO {
 			boolean isExists = false;
 			
 			try {
+				
 				conn = ds.getConnection();
 				
 				String sql = " select userid "
@@ -69,7 +72,6 @@ public class MemberDAO implements InterMemberDAO {
 				
 				isExists = rs.next(); // 행이 있으면 (중복된 userid) true,
 									  // 행이 없으면 (사용가능한 userid) false
-				
 				
 			} finally {
 				close();
@@ -87,6 +89,7 @@ public class MemberDAO implements InterMemberDAO {
 			boolean isExists = false;
 			
 			try {
+				
 				conn = ds.getConnection();
 				
 				String sql = " select email "
@@ -123,6 +126,7 @@ public class MemberDAO implements InterMemberDAO {
 			int n = 0;
 			
 			try {
+				
 				conn = ds.getConnection();
 				
 				String sql = " insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday, referral) "     
@@ -166,6 +170,7 @@ public class MemberDAO implements InterMemberDAO {
 		      MemberVO member = null;
 		      
 		      try {
+		    	  
 		         conn = ds.getConnection();
 		         
 		         String sql = "SELECT userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender "+
@@ -196,6 +201,7 @@ public class MemberDAO implements InterMemberDAO {
 		         rs = pstmt.executeQuery();
 		         
 		         if(rs.next()) {
+		        	 
 		            member = new MemberVO();
 		            
 		            member.setUserid(rs.getString(1));
@@ -480,7 +486,6 @@ public class MemberDAO implements InterMemberDAO {
 					
 				}// end of while()-----------------------
 				
-				
 			} finally {
 				close(); // 자원반납
 			}
@@ -675,9 +680,9 @@ public class MemberDAO implements InterMemberDAO {
 				
 				rs = pstmt.executeQuery();
 				
-				if(rs.next()) {
-					totalPage = rs.getInt(1);
-				}
+				rs.next();
+				
+				totalPage = rs.getInt(1);
 				
 				
 				
@@ -886,44 +891,44 @@ public class MemberDAO implements InterMemberDAO {
 		
 
 		// 쿠폰 추가하기
-				@Override
-				public MemberVO membercoupon(String userid) throws SQLException {
-					
-					
-					MemberVO mvo = new MemberVO();
-					
-					 try {
-				            conn = ds.getConnection();
-				        
-				            
-				            String sql = " select couponnum,userid,coupondate,couponname,coupondiscount,couponlastday,status "+
-				            			 " from tbl_coupon "+
-				            			 " where userid = ? ";
-				            
-				            pstmt = conn.prepareStatement(sql);		
-				          
-				            pstmt.setString(1,userid);
-				            
-				            rs = pstmt.executeQuery();
-				            
-				            while(rs.next()) {
-				            	mvo.setCouponnum(rs.getInt(1));
-				            	mvo.setUserid(rs.getString(2));
-				            	mvo.setCoupondate(rs.getString(3));
-				            	mvo.setCouponname(rs.getString(4));
-				            	mvo.setCoupondiscount(rs.getInt(5));
-				            	mvo.setCouponlastday(rs.getString(6));
-				            	mvo.setStatus(rs.getInt(7));
-				            }
-				            
-					
-				
-				} finally {
-					close();
-				}
-						
-					 return mvo;
-				}
+		@Override
+		public MemberVO membercoupon(String userid) throws SQLException {
+			
+			
+			MemberVO mvo = new MemberVO();
+			
+			 try {
+		            conn = ds.getConnection();
+		        
+		            
+		            String sql = " select couponnum,userid,coupondate,couponname,coupondiscount,couponlastday,status "+
+		            			 " from tbl_coupon "+
+		            			 " where userid = ? ";
+		            
+		            pstmt = conn.prepareStatement(sql);		
+		          
+		            pstmt.setString(1,userid);
+		            
+		            rs = pstmt.executeQuery();
+		            
+		            while(rs.next()) {
+		            	mvo.setCouponnum(rs.getInt(1));
+		            	mvo.setUserid(rs.getString(2));
+		            	mvo.setCoupondate(rs.getString(3));
+		            	mvo.setCouponname(rs.getString(4));
+		            	mvo.setCoupondiscount(rs.getInt(5));
+		            	mvo.setCouponlastday(rs.getString(6));
+		            	mvo.setStatus(rs.getInt(7));
+		            }
+		            
+			
+		
+		} finally {
+			close();
+		}
+		 return mvo;
+		 
+		}
 		
 		
 		

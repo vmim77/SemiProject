@@ -15,12 +15,6 @@ local.properties
 .loadpath
 .recommenders
 
-
-### MemberDAO, MemberVO, InterMemberDAO는 충돌이 너무 심해서 잠시 못올리게 하겠습니다!! ###
-MemberVO.java
-MemberDAO.java
-InterMemberDAO.java
-
 # External tool builders
 .externalToolBuilders/
 

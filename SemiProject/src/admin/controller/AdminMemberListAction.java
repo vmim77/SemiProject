@@ -24,6 +24,7 @@ public class AdminMemberListAction extends AbstractController {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
 		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
 			
 			Map<String, String> paraMap = new HashMap<>(); // DAO에 보낼 파라미터들을 담아줄 해쉬맵입니다.
@@ -147,7 +148,7 @@ public class AdminMemberListAction extends AbstractController {
 			
 		}
 		
-		else {
+		else { // 운영자가 아닌 회원이 접근했다면
 			
 			String message = "잘못된 접근입니다.";
 			String loc = request.getContextPath()+"/index.sh";

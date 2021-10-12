@@ -8,7 +8,7 @@
 <jsp:include page="../header.jsp" />
 
 <style>
-	.badge {
+	.badge { /* 댓글수정하기, 삭제하기 버튼에 마우스를 올리면 pointer 모양으로 바뀐다. */
 		cursor: pointer;
 	}
 	
@@ -27,14 +27,13 @@
 		
 		$(document).on("click","span#commentDelete", function(){ // 댓글 삭제하기
 			
-			commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호뽑기
-			var fk_commenter = $(this).parent().parent().find("td:nth-child(2)").text();
+			commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호 뽑기
+			var fk_commenter = $(this).parent().parent().find("td:nth-child(2)").text(); // 댓글작성자를 뽑는다.
 			
-			
-			if(loginuser == "admin"){
+			if(loginuser == "admin"){ // 운영자는 모든 회원의 댓글을 삭제할 수 있다.
 				alert("운영자 접근확인, 일반회원 및 본인의 댓글 삭제가 가능합니다.");
 			}
-			else if(loginuser != fk_commenter ){
+			else if(loginuser != fk_commenter ){ // 만약 로그인한 사람과 댓글 작성자가 다르면 삭제할 수 없다.
 				alert("다른 사용자의 댓글을 삭제할 수 없습니다.");
 				return;
 			}
@@ -54,27 +53,23 @@
 		
 		$(document).on("click","span#commentEdit", function(){ // 댓글 수정하기
 			
-			
-			
 			commentno = $(this).parent().parent().find("td:first-child").text(); // 댓글번호뽑기
-			var fk_commenter = $(this).parent().parent().find("td:nth-child(2)").text();
-			var comment_content = $(this).parent().parent().find("td:nth-child(3)").text();
+			var fk_commenter = $(this).parent().parent().find("td:nth-child(2)").text(); // 댓글 작성자를 뽑는다.
+			var comment_content = $(this).parent().parent().find("td:nth-child(3)").text(); // 댓글 내용을 뽑는다.
 			
-			
-			
-			if(loginuser == "admin"){
+			if(loginuser == "admin"){ // 운영자는 모든 회원의 댓글 내용을 수정할 수 있다.
 				alert("운영자 접근확인, 일반회원 및 본인의 댓글 수정이 가능합니다.");
 			}
-			else if(loginuser != fk_commenter ){
+			else if(loginuser != fk_commenter ){ // 만약 댓글작성자가 아니라면 댓글 내용을 수정할 수 없다.
 				alert("다른 사용자의 댓글을 수정할 수 없습니다.");
 				return;
 			}
 			
 			// alert(fk_commenter);
 			
-			$("input.forSubmit[name=commentno]").val(commentno);
-			$("input.forSubmit[name=fk_commenter]").val(fk_commenter);
-			$("input.forSubmit[name=comment_content]").val(comment_content);
+			$("input.forSubmit[name=commentno]").val(commentno); // 댓글내용을 수정하기위한 hidden 폼에 댓글 번호를 넣어준다.
+			$("input.forSubmit[name=fk_commenter]").val(fk_commenter); // 댓글내용을 수정하기위한 hidden 폼에 댓글 작성자를 넣어준다.
+			$("input.forSubmit[name=comment_content]").val(comment_content); // 댓글내용을 수정하기위한 hidden 폼에 댓글 내용을 넣어준다.
 			
 			var frm = document.commentEditFrm;
 			frm.action = "<%= ctxPath%>/comment/noticeCommentEdit.sh";
@@ -231,10 +226,9 @@
 							<td class="pl-3 py-3" style="width: 100px; border-right:solid 1px white;">${cvo.fk_commenter}</td>
 							<td class="pl-3 py-3" style="text-align: left;">${cvo.comment_content}</td>
 							<td class="pr-3 py-3" style="font-size: 10pt; text-align: right;">${cvo.registerdate}</td>
+							<%-- 수정하기, 삭제하기 버튼 --%>
 							<td style="width: 20px;"><span class="badge badge-pill badge-primary ml-2" id="commentEdit">수정하기</span></td>
 							<td style="width: 20px;"><span class="badge badge-pill badge-danger  mx-2" id="commentDelete">삭제하기</span></td>
-							<%-- 나중에는 ${loginuser.userid} == fk_commenter 인 댓글에만 수정하기, 삭제하기를 보여주게 한다. --%>
-							<%-- <c:if test="${sessionScope.loginuser.userid eq ${cvo.fk_commenter}"> --%>
 							<%-- 수정하기, 삭제하기 버튼 --%>
 						<tr>
 					</c:forEach>
@@ -248,7 +242,7 @@
 			<h2 class="pt-3">댓글 쓰기</h2>
 			<hr>
 			<div style="background-color: #343a40;">
-				<c:if test="${empty sessionScope.loginuser}">
+				<c:if test="${empty sessionScope.loginuser}"> <%-- 로그인이 되어있지 않다면 댓글쓰기 불가능 --%>
 					<div class="alert alert-warning" role="alert">
 					  	비회원은 댓글을 달 수 없습니다!
 					</div>
@@ -278,6 +272,7 @@
 	</div>
 	
 	<%-- 글 수정하기를 위해서 보내는 기존 글정보  폼 정보입니다. --%>
+	<%-- 글 수정하기를 누르면 이 폼이 전송된다. --%>
 	<form name="boardEditFrm">
 		<input type="hidden" name="boardno" value="${requestScope.bvo.boardno}" />
 		<input type="hidden" name="fk_writer" value="${requestScope.bvo.fk_writer}" />
@@ -286,6 +281,7 @@
 		<input type="hidden" name="imgfilename" value="${requestScope.bvo.imgfilename}" />
 	</form>
 	<%-- 글 수정하기를 위해서 보내는 기존 글정보 폼 정보입니다. --%>
+	
 	
 	<%-- 댓글 수정하기를 위해서 보내는 기존 댓글정보  폼 정보입니다. --%>
 	<form name="commentEditFrm">

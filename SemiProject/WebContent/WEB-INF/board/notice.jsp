@@ -22,7 +22,7 @@
 
 	$(document).ready(function(){
 		
-		$(document).on("click","tr.board",function(){ // 글 목록중 한 개를 클릭하면 글번호를 가지고 GET방식으로 전송됩니다. 이후 글의 자세한 내용을 보여줍니다.
+		$(document).on("click","tr.board",function(){ // 글 목록중 한 개를 클릭하면 글번호를  GET방식으로 전송됩니다. 이후 그 글번호의 자세한 내용을 보여줍니다.
 			
 			var boardno = $(this).find("td:first-child").text(); // 게시판번호를 따옵니다.
 			
@@ -52,7 +52,7 @@
 	// Function Declaration 
 	function goSearch() { // 검색창에 검색타입과 검색어를 입력하면 해당 회원들을 조회해서 찾아줍니다.
 		
-		if($("input#searchWord").val() == "") {
+		if($("input#searchWord").val() == "") { // 만약 검색어가 빈칸이라면 새로고침을 시킵니다.
 			location.reload(true);
 		}
 		
@@ -117,7 +117,7 @@
 			</tbody>
 		</table>
 		
-		<c:if test="${sessionScope.loginuser.userid eq 'admin' }">
+		<c:if test="${sessionScope.loginuser.userid eq 'admin' }"> <%-- 공지사항은 운영자만 쓸 수 있습니다. --%>
 			<p class="text-right">
 				<button class="btn btn-dark btn-md my-2" onclick="javascript:location.href='noticeWrite.sh'">글쓰기</button> <%-- tbl_notice_board insert --%>
 			</p>
@@ -133,8 +133,6 @@
 			   
 			<button type="button" class="btn btn-dark" onclick="goSearch();" style="margin-right: 30px;">검색</button>
 		</form>
-		
-		
 	</div>
 	<%-- 공지사항 글목록 --%>
 
