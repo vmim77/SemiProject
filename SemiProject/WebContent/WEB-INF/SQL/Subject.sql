@@ -440,3 +440,95 @@ where table_name = 'TBL_CATEGORY';
 select * 
 from user_constraints
 where table_name = 'TBL_PRODUCT';
+-------------------------------------------------------------------------------------
+create sequence seq_tbl_qna_board
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-- Sequence SEQ_TBL_QNA_BOARD이(가) 생성되었습니다.
+
+
+create table tbl_qna_board(
+boardno     number not null,
+fk_writer   varchar2(40),
+title       Nvarchar2(100) not null,
+content     Nvarchar2(200) not null,
+imgfilename varchar2(200),
+feedbackYN  varchar2(1) default 0,
+writetime   date default sysdate,
+fk_pnum     number(8),
+constraint PK_TBL_QNA_BOARD_BOARDNO primary key(boardno),
+constraint FK_TBL_QNA_BOARD_FK_WRITER foreign key (fk_writer) REFERENCES tbl_member(userid),
+constraint CK_TBL_QNA_BOARD_FEEDBACKYN check(feedbackYN in(1, 2)),
+constraint FK_TBL_QNA_BOARD_FK_PNUM foreign key(fk_pnum) references tbl_product(pnum)
+);
+-- Table TBL_QNA_BOARD이(가) 생성되었습니다.
+
+alter table tbl_qna_board
+drop column viewcnt;
+-- Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+alter table tbl_qna_board
+add imgfilename varchar2(200);
+-- Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+alter table tbl_qna_board
+modify feedbackYN varchar2(1) default 0;
+-- Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+alter table tbl_qna_board
+add constraint CK_TBL_QNA_BOARD_FEEDBACKYN check(feedbackYN in(1, 2));
+-- Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+alter table tbl_qna_board
+add fk_pnum number(8);
+-- Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+alter table tbl_qna_board
+add constraint FK_TBL_QNA_BOARD_FK_PNUM foreign key(fk_pnum) references tbl_product(pnum);
+-- Table TBL_QNA_BOARD이(가) 변경되었습니다.
+-------------------------------------------------------------------------------------
+create sequence seq_tbl_qna_comment
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-- Sequence SEQ_TBL_QNA_COMMENT이(가) 생성되었습니다.
+
+
+create table tbl_qna_comment(
+commentno           number,
+fk_boardno          number,
+fk_commenter        varchar2(40),
+comment_content     Nvarchar2(50),
+commentdate         date default sysdate,
+constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_notice_board(boardno),
+constraint FK_TBL_QNA_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES tbl_member(userid),
+constraint PK_TBL_QNA_COMMENT primary key(commentno)
+);
+-- Table TBL_QNA_COMMENT이(가) 생성되었습니다.
+
+
+select boardno, fk_writer, title, content, writetime, imgfilename, feedbackYN , fk_pnum
+from tbl_qna_board;
+
+select commentno, fk_boardno, fk_commenter, comment_content, commentdate
+from tbl_qna_comment;
+
+alter table tbl_qna_comment
+add commentdate date default sysdate;
+-- Table TBL_QNA_COMMENT이(가) 변경되었습니다.
+
+
+select * 
+from tbl_notice_board
+order by boardno desc;
+
+
+alter table tbl_notice_board
+add imgfilepath varchar2(200);

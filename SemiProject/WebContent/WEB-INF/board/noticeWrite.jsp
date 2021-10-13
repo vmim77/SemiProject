@@ -72,7 +72,8 @@
 <div class="container table-responsive py-3">
 
 	<%-- 글쓰기 폼태그 --%>
-	<form name="noticeWriteFrm">
+	
+	<form name="noticeWriteFrm" enctype="multipart/form-data">
 		<table class="table table-dark my-2" style="width: 100%">
 			
 			<tr>

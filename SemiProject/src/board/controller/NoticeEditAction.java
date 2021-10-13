@@ -24,6 +24,12 @@ public class NoticeEditAction extends AbstractController {
 			String fk_writer = request.getParameter("fk_writer");
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
+			
+			content = content.replaceAll("<", "&lt;");
+			content = content.replaceAll(">", "&gt;");
+			content = content.replaceAll("\r\n", "<br>");
+			
+			
 			String imgfilename = request.getParameter("imgfilename"); // 기존 글에 이미지가 없었다면 null 이다.
 			
 			content = content.replace("<br>", "\r\n"); // DB에 보낼때 <br>로 치환시켜둔 엔터를 다시 개행문자로 바꾼다.

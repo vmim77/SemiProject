@@ -195,7 +195,6 @@
 								<c:when test="${not empty requestScope.bvo.imgfilename}">
 									<p class="text-center">
 										<img src="<%= ctxPath%>/images/${requestScope.bvo.imgfilename}" class="my-5" style="width: 300px; height: 300px;" />
-										<%-- 경로는 반드시 /SemiProject/images 에 있는 파일이여야 한다. --%>
 									</p>
 								</c:when>
 							</c:choose>

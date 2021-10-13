@@ -120,6 +120,8 @@
 						<%-- 공지사항 메뉴입니다. --%>
 						<li class="nav-item"><a href="<%= ctxPath%>/board/notice.sh" class="nav-link">NOTICE</a></li>
 						
+						<%-- 문의게시판 --%>
+						<li class="nav-item"><a href="<%= ctxPath%>/board/QnA.sh" class="nav-link">Q&A</a></li>
 						
 						<%-- 카테고리 메뉴입니다. --%>
 						<li class="nav-item dropdown"  style="opacity: 0.8;">
@@ -137,6 +139,8 @@
 						
 						<%-- 오프라인 메장 메뉴입니다. --%>
 						<li class="nav-item"><a href="<%= ctxPath%>/store.sh" class="nav-link">STORE</a></li>
+						
+
 						
 						<%-- 회원 메뉴입니다. --%>
 						<!-- 로그인 전-->

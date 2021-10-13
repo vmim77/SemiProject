@@ -1,11 +1,16 @@
 package board.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import board.model.BoardDAO;
 import board.model.BoardVO;
@@ -30,11 +35,44 @@ public class NoticeEditEndAction extends AbstractController {
 			
 			if("post".equalsIgnoreCase(method)) { // 수정할 글내용과 제목등을 적고 수정하기버튼을 눌러야 POST로 들어올 수 있다.
 				
-				String fk_writer = request.getParameter("fk_writer");
-				String title = request.getParameter("title");
-				String content = request.getParameter("content");
+				//////////////////////////////////////////////////////////////////////////
+				MultipartRequest mtrequest = null;
+				
+				ServletContext svlCtx = session.getServletContext();
+				String uploadFileDir = svlCtx.getRealPath("/images");
+				
+				
+				try {
+					mtrequest = new MultipartRequest(request, 	// 리퀘스트 객체
+												 uploadFileDir, // 파일이 업로드될 경로명
+							                     10*1024*1024, 	// 10MB로 제한한다. (단위는 bite로 써야함)
+							                     "UTF-8", 		// 인코딩 타입
+							                     new DefaultFileRenamePolicy());
+				} catch(IOException e) {
+				    request.setAttribute("message", "파일 용량 초과로 인해서 업로드 실패함!");
+	                request.setAttribute("loc", request.getContextPath()+"/board/notice.sh"); 
+	                
+	                super.setViewPage("/WEB-INF/msg.jsp");
+	                return; 
+				}
+				//////////////////////////////////////////////////////////////////////////
+				
+				
+				
+				
+				
+				String fk_writer = mtrequest.getParameter("fk_writer"); // 글쓴이
+				String title = mtrequest.getParameter("title"); // 제목
+				String content = mtrequest.getParameter("content"); // 내용 
+				
+				content = content.replaceAll("<", "&lt;");
+				content = content.replaceAll(">", "&gt;");
+				content = content.replaceAll("\r\n", "<br>");
+				
+				
 				int boardno = Integer.parseInt(request.getParameter("boardno"));
-				String imgfilename = request.getParameter("imgfilename"); // 이미지를 바꿨다면 새로운 이미지파일명이고, 안바꿧다면 null
+				String imgfilename = mtrequest.getFilesystemName("imgfilename");
+				String imgfilepath = uploadFileDir+"/"+imgfilename;
 				
 				Map<String, BoardVO> paraMap = new HashMap<>();
 				
@@ -45,6 +83,7 @@ public class NoticeEditEndAction extends AbstractController {
 				bvo.setContent(content);
 				bvo.setBoardno(boardno);
 				bvo.setImgfilename(imgfilename);
+				bvo.setImgfilepath(imgfilepath);
 				
 				InterBoardDAO mdao = new BoardDAO();
 				
