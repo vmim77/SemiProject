@@ -4,17 +4,17 @@ from tab;
 select *
 from tbl_member;
 
+---------------------------- eXERD용 select 문 -----------------------------------------------
+
 select *
 from USER_TAB_COLUMNS
 where table_name = 'TBL_NOTICE_BOARD';
 
-alter table tbl_notice_comment
-modify comment_content Nvarchar2(50);
--- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
-
 select *
 from user_constraints
 where table_name = 'TBL_NOTICE_COMMENT';
+
+---------------------------- eXERD용 select 문 -----------------------------------------------
 
 
 
@@ -55,7 +55,7 @@ from tab;
 select seq_tbl_notice.nextval
 from dual;
 
-
+---------------------------- 공지사항 게시글 테이블 -----------------------------------------------
 create sequence seq_tbl_notice
 start with 1
 increment by 1
@@ -76,6 +76,8 @@ constraint PK_TBL_NOTICE_BOARD_BOARDNO primary key(boardno),
 constraint FK_TBL_NOTICE_BOARD_FK_WRITER foreign key (fk_writer) REFERENCES tbl_member(userid)
 );
 -- Table TBL_NOTICE_BOARD이(가) 생성되었습니다.
+
+---------------------------- 공지사항 게시글 테이블 -----------------------------------------------
 
 select to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime
 from tbl_notice_board;
@@ -111,6 +113,18 @@ commit;
 select *
 from tbl_notice_board;
 
+---------------------------- 공지사항 댓글 테이블 -----------------------------------------------
+
+create sequence seq_notice_comment
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-- Sequence SEQ_NOTICE_COMMENT이(가) 생성되었습니다.
+
+
 create table tbl_notice_comment(
 commentno           number,
 fk_boardno          number,
@@ -121,6 +135,8 @@ constraint FK_TBL_NOTICE_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES t
 constraint PK_TBL_NOTICE_COMMENT primary key(commentno)
 );
 -- Table TBL_NOTICE_COMMENT이(가) 생성되었습니다.
+
+---------------------------- 공지사항 댓글 테이블 -----------------------------------------------
 
 insert into tbl_notice_comment(fk_boardno, fk_commenter, comment_content)
 values(2, 'kangkc', '댓글테스트');
@@ -238,14 +254,7 @@ add commentno number default 0;
 select *
 from tbl_notice_comment;
 
-create sequence seq_notice_comment
-start with 1
-increment by 1
-nomaxvalue
-nominvalue
-nocycle
-nocache;
--- Sequence SEQ_NOTICE_COMMENT이(가) 생성되었습니다.
+
 
 alter table tbl_notice_comment
 add constraint PK_TBL_NOTICE_COMMENT primary key(commentno);
@@ -256,6 +265,7 @@ alter table tbl_notice_comment
 modify comment_content Nvarchar2(50);
 -- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.
 
+---------------------------- 공지사항 조회수 기록용 테이블 -----------------------------------------------
 create table tbl_notice_viewhistory(
 fk_boardno     number,
 fk_userid      varchar2(40),
@@ -266,6 +276,8 @@ constraint FK_NOTICE_H_USERID  foreign key(fk_userid)  references tbl_member(use
 constraint CK_NOTICE_H_VIEWCHECK check(viewcheck in(1, 2))
 )
 -- Table TBL_NOTICE_VIEWHISTORY이(가) 생성되었습니다.
+
+---------------------------- 공지사항 조회수 기록용 테이블 -----------------------------------------------
 
 alter table tbl_notice_viewhistory
 modify viewdate date default sysdate;
@@ -303,7 +315,7 @@ drop constraint UQ_TBL_MEMBER_EMAIL;
 -- Table TBL_MEMBER이(가) 변경되었습니다.
 
 
-
+---------------------------- 회원 삽입용 프로시저 -----------------------------------------------
 create or replace procedure pcd_member_insert
 (p_userid   IN     varchar2
 ,p_name     IN     varchar2
@@ -327,6 +339,12 @@ exec pcd_member_insert('seokj', '서강준', '1');
 -- PL/SQL 프로시저가 성공적으로 완료되었습니다.
 commit;
 -- 커밋 완료.
+
+---------------------------- 회원 삽입용 프로시저 -----------------------------------------------
+
+
+
+
 
 
 insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday)
@@ -381,7 +399,7 @@ commit;
 delete from tbl_notice_comment
 where fk_commenter like '%' || 'iyou' || '%';
 
----- *** 제품 테이블 : tbl_product *** ----
+---------------------------- 제품 테이블 -----------------------------------------------
 -- drop table tbl_product purge; 
 create table tbl_product
 (pnum           number(8) not null       -- 제품번호(Primary Key)
@@ -398,8 +416,9 @@ create table tbl_product
 ,constraint  PK_tbl_product_pnum primary key(pnum)
 ,constraint  FK_tbl_product_fk_cnum foreign key(fk_cnum) references tbl_category(cnum)
 );
+---------------------------- 제품 테이블 -----------------------------------------------
 
------------------------------------------------------------------
+---------------------------- 카테고리 테이블 -----------------------------------------------
 create table tbl_category
 (cnum    number(8)     not null  -- 카테고리 대분류 번호
 ,code    varchar2(20)  not null  -- 카테고리 코드
@@ -407,7 +426,7 @@ create table tbl_category
 ,constraint PK_tbl_category_cnum primary key(cnum)
 ,constraint UQ_tbl_category_code unique(code)
 );
------------------------------------------------------------------
+
 create sequence seq_category_cnum 
 start with 1
 increment by 1
@@ -415,17 +434,8 @@ nomaxvalue
 nominvalue
 nocycle
 nocache;
--------------------------------------------------------------------
-insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '10000', 'dubby');
-insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '20000', 'mul');
-insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '30000', 'boots');
-insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '40000', 'loper');
-insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '50000', 'oxpode');
-insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '60000', 'mongk');
-insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '70000', 'sandle');
+---------------------------- 카테고리 테이블 -----------------------------------------------
 
-commit;
--------------------------------------------------------------------------------------------------
 
 select *
 from tab;
@@ -441,6 +451,8 @@ select *
 from user_constraints
 where table_name = 'TBL_PRODUCT';
 -------------------------------------------------------------------------------------
+
+---------------------------- 문의사항 게시글 테이블 -----------------------------------------------
 create sequence seq_tbl_qna_board
 start with 1
 increment by 1
@@ -467,6 +479,8 @@ constraint FK_TBL_QNA_BOARD_FK_PNUM foreign key(fk_pnum) references tbl_product(
 );
 -- Table TBL_QNA_BOARD이(가) 생성되었습니다.
 
+---------------------------- 문의사항 게시글 테이블 -----------------------------------------------
+
 alter table tbl_qna_board
 drop column viewcnt;
 -- Table TBL_QNA_BOARD이(가) 변경되었습니다.
@@ -490,7 +504,9 @@ add fk_pnum number(8);
 alter table tbl_qna_board
 add constraint FK_TBL_QNA_BOARD_FK_PNUM foreign key(fk_pnum) references tbl_product(pnum);
 -- Table TBL_QNA_BOARD이(가) 변경되었습니다.
--------------------------------------------------------------------------------------
+
+
+---------------------------- 문의사항 댓글 테이블 -----------------------------------------------
 create sequence seq_tbl_qna_comment
 start with 1
 increment by 1
@@ -499,6 +515,7 @@ nominvalue
 nocycle
 nocache;
 -- Sequence SEQ_TBL_QNA_COMMENT이(가) 생성되었습니다.
+
 
 
 create table tbl_qna_comment(
@@ -512,6 +529,7 @@ constraint FK_TBL_QNA_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES tbl_
 constraint PK_TBL_QNA_COMMENT primary key(commentno)
 );
 -- Table TBL_QNA_COMMENT이(가) 생성되었습니다.
+---------------------------- 문의사항 댓글 테이블 -----------------------------------------------
 
 alter table tbl_qna_comment
 add constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_qna_board(boardno);
@@ -561,3 +579,6 @@ commit;
 
 update tbl_qna_board set feedbackYN = 1
 where boardno = 3;
+
+select * 
+from tbl_qna_comment;

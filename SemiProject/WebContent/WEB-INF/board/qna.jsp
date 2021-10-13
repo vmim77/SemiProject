@@ -9,7 +9,7 @@
 
 <style type="text/css">
 
-	.effect {
+	.effect { /* 문의사항 게시글 목록에서 특정항목에 마우스를 올리면 효과를 줍니다. */
 			background-color: white;
 			color: black;
 			font-weight: bold;
@@ -24,7 +24,7 @@
 		
 		$(document).on("click","tr.board",function(){ // 글 목록중 한 개를 클릭하면 글번호를  GET방식으로 전송됩니다. 이후 그 글번호의 자세한 내용을 보여줍니다.
 			
-			var boardno = $(this).find("td:first-child").text(); // 게시판번호를 따옵니다.
+			var boardno = $(this).find("td:first-child").text(); // 글번호를 따옵니다.
 			var fk_writer = $(this).find("td:nth-child(3)").text(); // 작성자를 따옵니다.
 			
 			// alert("boardno => " + boardno);
@@ -46,9 +46,6 @@
 		});// end of $(document).on("mouseout", "tr.memberInfo", function(){})--------------------------------
 		
 		
-		
-		
-		
 	});// end of $(document).ready(function(){})-----------------------------------
 	
 
@@ -61,7 +58,7 @@
 			<div class="container">
 				<div class="row no-gutters slider-text align-items-end justify-content-center">
 				<div class="col-md-9 ftco-animate mb-5 text-center">
-					<h2 class="mb-0 bread">문의사항</h2>
+					<h2 class="mb-0 bread">문의사항 게시판</h2>
 					<br><br>
 				</div>
 			</div>
@@ -69,7 +66,7 @@
 	</section>
 	<%-- 상단 이미지 --%>
 	
-	<%-- 공지사항 글목록 --%>
+	<%-- 문의사항 글목록 --%>
 	<div class="container table-responsive py-3">
 	
 		<table class="table table-dark my-2 text-center">
@@ -80,7 +77,8 @@
 					<th>글쓴이</th>
 					<th>작성시간</th>
 					<th>답변여부</th>
-					<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
+					
+					<c:if test="${sessionScope.loginuser.userid eq 'admin'}"> <%-- 처리여부는 운영자로 로그인했을때만 보입니다. 답변이 필요하면 답변필요!, 답변이 완료됐다면 처리완료로 뜹니다. --%>
 						<th>처리여부</th>
 					</c:if>
 				</tr>
@@ -94,14 +92,16 @@
 						<td>${bvo.writetime}</td>
 						<td>
 							<c:choose>
-								<c:when test="${bvo.feedbackYN eq 0}">
+								<c:when test="${bvo.feedbackYN eq 0}"> <%-- 답변을 안했다면 X 표시를 --%>
 									X
 								</c:when>
-								<c:otherwise>
+								<c:otherwise> <%-- 답변이 완료됐다면 O 표시를 합니다. --%>
 									O
 								</c:otherwise>
 							</c:choose>
 						</td>
+						
+						 <%-- 처리여부는 운영자로 로그인했을때만 보입니다. 답변이 필요하면 답변필요!, 답변이 완료됐다면 처리완료로 뜹니다. --%>
 						<c:if test="${sessionScope.loginuser.userid eq 'admin' && bvo.feedbackYN eq 0}">
 							<td>
 								<span class="badge badge-pill badge-warning ml-2">답변필요!</span>
@@ -113,6 +113,7 @@
 								<span class="badge badge-pill badge-success ml-2">처리완료</span>
 							</td>
 						</c:if>
+						 <%-- 처리여부는 운영자로 로그인했을때만 보입니다. 답변이 필요하면 답변필요!, 답변이 완료됐다면 처리완료로 뜹니다. --%>
 
 					</tr>
 				</c:forEach>
@@ -125,7 +126,7 @@
 			</p>
 		</c:if>
 	</div>
-	<%-- 공지사항 글목록 --%>
+	<%-- 문의사항 글목록 --%>
 
 
 <jsp:include page="../footer.jsp" />

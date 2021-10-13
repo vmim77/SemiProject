@@ -18,7 +18,6 @@
 		
 	});
 			
-	
 
 </script>	
 	
@@ -42,7 +41,7 @@
 	
 	<div class="container my-3 px-0 py-0" >
 		
-		<%-- 글내용부 --%>
+		<%-- 문의사항 내용부 --%>
 		<section>
 			<h2 class="pt-3">문의내용</h2>
 			<hr>
@@ -94,9 +93,9 @@
 				</tbody>
 			</table>
 		</section>
-		 <%-- 글내용부 --%>
+		<%-- 문의사항 내용부 --%>
 		
-	 	<%-- 댓글내용부 --%>
+	 	<%-- 답변 내용부 --%>
 		<section>
 			<hr>
 			<h2 class="pt-3">답변</h2>
@@ -105,7 +104,7 @@
 	
 				<c:if test="${empty requestScope.commentList}">
 					<tr>
-						<td class="pl-3 py-3" colspan="6" style="font-weight: bold">관리자가 확인중에 있습니다! 잠시만 기다려주세요...</td>
+						<td class="pl-3 py-3" colspan="6" style="font-weight: bold; color:orange;">관리자가 확인중에 있습니다! 잠시만 기다려주세요...</td>
 					</tr>
 				</c:if>
 	
@@ -124,7 +123,7 @@
 					</c:forEach>
 				</c:if>
 			</table>
-		<%-- 댓글내용부 --%>
+			<%-- 답변 내용부 --%>
 		 
 		 
 		 <c:if test="${sessionScope.loginuser.userid eq 'admin'}">
