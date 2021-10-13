@@ -77,7 +77,7 @@
 <div class="container table-responsive py-3">
 
 	<%-- 글수정하기 폼태그 --%>
-	<form name="noticeEditFrm">
+	<form name="noticeEditFrm" enctype="multipart/form-data">
 	
 		<input type="hidden" name="boardno" value="${requestScope.bvo.boardno}" />
 		

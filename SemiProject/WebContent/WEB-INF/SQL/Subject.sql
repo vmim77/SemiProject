@@ -480,7 +480,7 @@ modify feedbackYN varchar2(1) default 0;
 -- Table TBL_QNA_BOARD이(가) 변경되었습니다.
 
 alter table tbl_qna_board
-add constraint CK_TBL_QNA_BOARD_FEEDBACKYN check(feedbackYN in(1, 2));
+add constraint CK_TBL_QNA_BOARD_FEEDBACKYN check(feedbackYN in(0, 1));
 -- Table TBL_QNA_BOARD이(가) 변경되었습니다.
 
 alter table tbl_qna_board
@@ -507,11 +507,16 @@ fk_boardno          number,
 fk_commenter        varchar2(40),
 comment_content     Nvarchar2(50),
 commentdate         date default sysdate,
-constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_notice_board(boardno),
+constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_qna_board(boardno),
 constraint FK_TBL_QNA_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES tbl_member(userid),
 constraint PK_TBL_QNA_COMMENT primary key(commentno)
 );
 -- Table TBL_QNA_COMMENT이(가) 생성되었습니다.
+
+alter table tbl_qna_comment
+add constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_qna_board(boardno);
+-- Table TBL_QNA_COMMENT이(가) 변경되었습니다.
+
 
 
 select boardno, fk_writer, title, content, writetime, imgfilename, feedbackYN , fk_pnum
@@ -529,6 +534,30 @@ select *
 from tbl_notice_board
 order by boardno desc;
 
-
 alter table tbl_notice_board
-add imgfilepath varchar2(200);
+drop column imgfilepath;
+-- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
+
+select * 
+from tbl_qna_board;
+
+insert into tbl_qna_board(boardno, fk_writer, title, content, fk_pnum)
+values(seq_tbl_qna_board.nextval, '성현', 'test1', 'test1', 8);
+commit;
+
+select * 
+from tbl_qna_comment;
+
+insert into tbl_qna_comment(commentno, fk_boardno, fk_commenter, comment_content)
+values(seq_tbl_qna_comment.nextval, '2', 'admin', '답변 test');
+
+insert into tbl_qna_board(boardno, fk_writer, title, content, fk_pnum)
+values(seq_tbl_qna_board.nextval, '성현', 'test2', 'test2', 8);
+commit;
+
+insert into tbl_qna_comment(commentno, fk_boardno, fk_commenter, comment_content)
+values(seq_tbl_qna_comment.nextval, '3', 'admin', '답변 test2');
+commit;
+
+update tbl_qna_board set feedbackYN = 1
+where boardno = 3;

@@ -9,16 +9,18 @@ public class BoardVO {
 	private String writetime; // 글시간 - 기본값 sysdate
 	private int viewcnt; // 조회수
 	private String imgfilename; // 이미지파일 이름
-	private String imgfilepath; // 이미지파일 경로
 	
+	////////////////////////////////////////////////////////////////
 	
 	// select 용 컬럼
 	private int CommentCnt; // 해당 글의 댓글수
+	////////////////////////////////////////////////////////////////
 	
 	// 문의게시판용 컬럼
 	private String feedbackYN; // 문의사항 답변여부 0이면 미답변, 1이면 답변 //  CK 0 or 1
+	private int fk_pnum; // 어떤 상품에 대한 문의사항인지 알기 위한 필드
 	
-	
+	////////////////////////////////////////////////////////////////
 	
 	
 	public int getBoardno() {
@@ -93,13 +95,14 @@ public class BoardVO {
 		this.feedbackYN = feedbackYN;
 	}
 
-	public String getImgfilepath() {
-		return imgfilepath;
+	public int getFk_pnum() {
+		return fk_pnum;
 	}
 
-	public void setImgfilepath(String imgfilepath) {
-		this.imgfilepath = imgfilepath;
+	public void setFk_pnum(int fk_pnum) {
+		this.fk_pnum = fk_pnum;
 	}
+
 	
 	
 	

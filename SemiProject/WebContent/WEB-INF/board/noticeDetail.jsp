@@ -272,7 +272,7 @@
 	
 	<%-- 글 수정하기를 위해서 보내는 기존 글정보  폼 정보입니다. --%>
 	<%-- 글 수정하기를 누르면 이 폼이 전송된다. --%>
-	<form name="boardEditFrm">
+	<form name="boardEditFrm" enctype="multipart/form-data">
 		<input type="hidden" name="boardno" value="${requestScope.bvo.boardno}" />
 		<input type="hidden" name="fk_writer" value="${requestScope.bvo.fk_writer}" />
 		<input type="hidden" name="title" value="${requestScope.bvo.title}" />

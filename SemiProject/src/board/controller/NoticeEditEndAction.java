@@ -51,7 +51,7 @@ public class NoticeEditEndAction extends AbstractController {
 				} catch(IOException e) {
 				    request.setAttribute("message", "파일 용량 초과로 인해서 업로드 실패함!");
 	                request.setAttribute("loc", request.getContextPath()+"/board/notice.sh"); 
-	                
+	                e.printStackTrace();
 	                super.setViewPage("/WEB-INF/msg.jsp");
 	                return; 
 				}
@@ -70,9 +70,8 @@ public class NoticeEditEndAction extends AbstractController {
 				content = content.replaceAll("\r\n", "<br>");
 				
 				
-				int boardno = Integer.parseInt(request.getParameter("boardno"));
+				int boardno = Integer.parseInt(mtrequest.getParameter("boardno"));
 				String imgfilename = mtrequest.getFilesystemName("imgfilename");
-				String imgfilepath = uploadFileDir+"/"+imgfilename;
 				
 				Map<String, BoardVO> paraMap = new HashMap<>();
 				
@@ -83,7 +82,6 @@ public class NoticeEditEndAction extends AbstractController {
 				bvo.setContent(content);
 				bvo.setBoardno(boardno);
 				bvo.setImgfilename(imgfilename);
-				bvo.setImgfilepath(imgfilepath);
 				
 				InterBoardDAO mdao = new BoardDAO();
 				

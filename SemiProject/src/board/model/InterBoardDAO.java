@@ -33,9 +33,14 @@ public interface InterBoardDAO {
 	List<BoardVO> searchNotice(Map<String, String> paraMap) throws SQLException;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////
+	// 여기서부터는 문의사항 게시판!
+	
 	
 	// 모든 문의사항 게시글을 가져옵니다.
 	List<BoardVO> selectAllQnA() throws SQLException;
+	
+	 // 문의게시판에 대한 자세한 글정보를 받아옵니다.
+	BoardVO selectOneQnA(String boardno) throws SQLException;
 	
 
 }

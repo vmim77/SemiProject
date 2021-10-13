@@ -113,7 +113,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			String sql = " select boardno, fk_writer, title, content, "
 					+    " to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime "
-					+    ", viewcnt, imgfilename, imgfilepath "
+					+    ", viewcnt, imgfilename"
 					   + " from tbl_notice_board "
 					   + " where boardno = ? ";
 			
@@ -134,7 +134,6 @@ public class BoardDAO implements InterBoardDAO {
 				bvo.setWritetime(rs.getString(5));
 				bvo.setViewcnt(rs.getInt(6));
 				bvo.setImgfilename(rs.getString(7));
-				bvo.setImgfilepath(rs.getString(8));
 				
 				
 			}// end of while--------------------
@@ -156,8 +155,8 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_notice_board(boardno, fk_writer, title, content, imgfilename, imgfilepath)"
-					+    " values(seq_tbl_notice.nextval, ?, ?, ?, ?, ?) ";
+			String sql = " insert into tbl_notice_board(boardno, fk_writer, title, content, imgfilename)"
+					+    " values(seq_tbl_notice.nextval, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -165,7 +164,6 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setString(2, paraMap.get("bvo").getTitle());
 			pstmt.setString(3, paraMap.get("bvo").getContent());
 			pstmt.setString(4, paraMap.get("bvo").getImgfilename()); // 이미지를 첨부했다면 null이 아닌 이미지파일명이다.
-			pstmt.setString(5, paraMap.get("bvo").getImgfilepath()); // 이미지 파일의 실제 경로명
 			
 			n = pstmt.executeUpdate();
 			
@@ -186,7 +184,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " update tbl_notice_board set fk_writer = ?, title = ?, content = ?, imgfilename = ?, imgfilepath = ?  "
+			String sql = " update tbl_notice_board set fk_writer = ?, title = ?, content = ?, imgfilename = ? "
 					+    " where boardno = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -195,8 +193,7 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setString(2, bvo.getTitle());
 			pstmt.setString(3, bvo.getContent());
 			pstmt.setString(4, bvo.getImgfilename());
-			pstmt.setString(5, bvo.getImgfilepath());
-			pstmt.setInt(6, bvo.getBoardno());
+			pstmt.setInt(5, bvo.getBoardno());
 			
 			n = pstmt.executeUpdate();
 			
@@ -388,9 +385,10 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select boardno, fk_writer, title, content"
-					+ "  , to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, imgfilename " + 
-						 " from tbl_qna_board ";
+			String sql = " select boardno, fk_writer, title "
+					+ "  , to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, feedbackYN " + 
+						 " from tbl_qna_board "
+						 + " order by boardno desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -403,10 +401,8 @@ public class BoardDAO implements InterBoardDAO {
 				bvo.setBoardno(rs.getInt(1));
 				bvo.setFk_writer(rs.getString(2));
 				bvo.setTitle(rs.getString(3));
-				bvo.setContent(rs.getString(4));
-				bvo.setWritetime(rs.getString(5));
-				bvo.setImgfilename(rs.getString(6));
-				bvo.setFeedbackYN(rs.getString(7));
+				bvo.setWritetime(rs.getString(4));
+				bvo.setFeedbackYN(rs.getString(5));
 				list.add(bvo);
 				
 			}
@@ -420,6 +416,50 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return list;
 	}// end of public List<BoardVO> selectAllQnA()--------------------------
+	
+	
+	// 문의게시판에 대한 자세한 글정보를 받아옵니다.
+	@Override
+	public BoardVO selectOneQnA(String boardno) throws SQLException {
+		
+		BoardVO bvo = null;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select boardno, fk_writer, title, content"
+					+ "  , to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, imgfilename, feedbackYN, fk_pnum " + 
+						 " from tbl_qna_board "
+					   + " where boardno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, boardno);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				bvo = new BoardVO();
+				
+				bvo.setBoardno(rs.getInt(1));
+				bvo.setFk_writer(rs.getString(2));
+				bvo.setTitle(rs.getString(3));
+				bvo.setContent(rs.getString(4));
+				bvo.setWritetime(rs.getString(5));
+				bvo.setImgfilename(rs.getString(6));
+				bvo.setFeedbackYN(rs.getString(7));
+				bvo.setFk_pnum(rs.getInt(8));
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return bvo;
+	}// end of public BoardVO selectOneQnA(String boardno) ------------------------
 	
 	
 }

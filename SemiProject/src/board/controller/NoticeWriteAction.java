@@ -65,7 +65,6 @@ public class NoticeWriteAction extends AbstractController {
 				content = content.replaceAll("\r\n", "<br>");
 				
 				String imgfilename = mtrequest.getFilesystemName("imgfilename");
-				String imgfilepath = uploadFileDir+"\\"+imgfilename;
 				
 				
 				Map<String, BoardVO> paraMap = new HashMap<>();
@@ -76,7 +75,6 @@ public class NoticeWriteAction extends AbstractController {
 				bvo.setTitle(title);
 				bvo.setContent(content);
 				bvo.setImgfilename(imgfilename);
-				bvo.setImgfilepath(imgfilepath);
 				
 				
 				paraMap.put("bvo", bvo);

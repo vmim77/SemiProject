@@ -25,8 +25,12 @@
 		$(document).on("click","tr.board",function(){ // 글 목록중 한 개를 클릭하면 글번호를  GET방식으로 전송됩니다. 이후 그 글번호의 자세한 내용을 보여줍니다.
 			
 			var boardno = $(this).find("td:first-child").text(); // 게시판번호를 따옵니다.
+			var fk_writer = $(this).find("td:nth-child(3)").text(); // 작성자를 따옵니다.
 			
-			alert("boardno => " + boardno);
+			// alert("boardno => " + boardno);
+			// alert("fk_writer => " + fk_writer);
+			
+			location.href="<%= ctxPath%>/board/QnADetail.sh?boardno="+boardno+"&fk_writer="+fk_writer;
 			
 		});// end of $(document).on("click","tr.board",function(){})-----------------------------------
 		
@@ -76,6 +80,9 @@
 					<th>글쓴이</th>
 					<th>작성시간</th>
 					<th>답변여부</th>
+					<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
+						<th>처리여부</th>
+					</c:if>
 				</tr>
 			</thead>
 			<tbody>
@@ -85,7 +92,28 @@
 						<td>${bvo.title}</td>
 						<td>${bvo.fk_writer}</td>
 						<td>${bvo.writetime}</td>
-						<td>${bvo.feedbackYN}</td>
+						<td>
+							<c:choose>
+								<c:when test="${bvo.feedbackYN eq 0}">
+									X
+								</c:when>
+								<c:otherwise>
+									O
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<c:if test="${sessionScope.loginuser.userid eq 'admin' && bvo.feedbackYN eq 0}">
+							<td>
+								<span class="badge badge-pill badge-warning ml-2">답변필요!</span>
+							</td>
+						</c:if>
+						
+						<c:if test="${sessionScope.loginuser.userid eq 'admin' && bvo.feedbackYN eq 1}">
+							<td>
+								<span class="badge badge-pill badge-success ml-2">처리완료</span>
+							</td>
+						</c:if>
+
 					</tr>
 				</c:forEach>
 			</tbody>

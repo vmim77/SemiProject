@@ -180,4 +180,43 @@ public class CommentDAO implements InterCommentDAO {
 		return n;
 	}// end of public int editNoticeComment(CommentVO cvo)
 	
+	
+	// 문의사항에 답변을 모두 가져옵니다.
+	@Override
+	public List<CommentVO> selectQnaComment(String boardno) throws SQLException {
+		
+		List<CommentVO> commentList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select commentno, fk_commenter, comment_content, to_char(commentdate, 'yyyy-mm-dd hh24:mi') AS commentdate " + 
+						 " from tbl_qna_comment " + 
+						 " where fk_boardno = ? "
+						 + "order by commentno desc ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, boardno);
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				
+				CommentVO cvo = new CommentVO();
+				
+				cvo.setCommentno(rs.getInt(1));
+				cvo.setFk_commenter(rs.getString(2));
+				cvo.setComment_content(rs.getString(3));
+				cvo.setRegisterdate(rs.getString(4));
+				
+				commentList.add(cvo);
+			}// end of while------------------------------------
+		} finally {
+			close();
+		}
+		
+		return commentList;
+	}// end of public List<CommentVO> selectQnaComment(String boardno)---------------------------
+	
 }
