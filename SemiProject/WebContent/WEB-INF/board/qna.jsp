@@ -122,7 +122,7 @@
 		
 		<c:if test="${sessionScope.loginuser != null && sessionScope.loginuser.userid != 'admin' }"> <%-- 문의사항은 유저만 쓸 수 있으며, 로그인을 반드시 해야한다. --%>
 			<p class="text-right">
-				<button class="btn btn-dark btn-md my-2">문의사항 쓰기</button> 
+				<button class="btn btn-dark btn-md my-2" onclick="javascript:location.href='<%= ctxPath%>/board/QnAWrite.sh'">문의사항 쓰기</button> 
 			</p>
 		</c:if>
 	</div>

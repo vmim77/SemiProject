@@ -8,6 +8,7 @@
 <jsp:include page="../header.jsp" />
 
 <style>
+	#board > thead > tr th{ font-size: 13pt; font-weight: bold;}
 
 </style>
 	
@@ -17,7 +18,16 @@
 		
 		
 	});
-			
+	
+	
+	function goEdit(){ // 공지사항 글 수정하기
+		
+		var frm = document.boardEditFrm
+		frm.action = "<%= ctxPath%>/board/QnAEdit.sh";
+		frm.method = "POST";
+		frm.submit();
+		
+	}// end of function goEdit()----------------------------------------------------------
 
 </script>	
 	
@@ -51,13 +61,13 @@
 						<th class="px-3 pt-3" colspan="6">문의번호  : ${requestScope.bvo.boardno}</th>
 					</tr>
 					<tr>
-						<th class="px-3 pt-1"  colspan="6">상품일련번호  : ${requestScope.bvo.fk_pnum}</th>
+						<th class="px-3 pt-1"  colspan="6">문의상품명  : ${requestScope.bvo.pname}</th>
 					</tr>
 					<tr>
 						<th class="px-3 pt-1"  colspan="6">글제목  : ${requestScope.bvo.title}</th>
 					</tr>
-					<tr>
 						<th class="px-3 pt-1"  colspan="6">글쓴이   : ${requestScope.bvo.fk_writer}</th>
+					<tr>
 					</tr>
 					<tr>
 						<th class="px-3 pt-1"  colspan="6">작성시간 : ${requestScope.bvo.writetime}</th>
@@ -80,7 +90,7 @@
 					</tr>
 					<tr>
 						<td class="px-3"  colspan="6">
-							<p class="py-3">${requestScope.bvo.content}</p>
+							<p class="py-3" style="font-size: 14pt;">${requestScope.bvo.content}</p>
 							<c:choose>
 								<c:when test="${not empty requestScope.bvo.imgfilename}">
 									<p class="text-center">
@@ -96,7 +106,6 @@
 		<%-- 문의사항 내용부 --%>
 		
 	 	<%-- 답변 내용부 --%>
-		<section>
 			<hr>
 			<h2 class="pt-3">답변</h2>
 			<hr>
@@ -125,37 +134,32 @@
 			</table>
 			<%-- 답변 내용부 --%>
 		 
-		 
+		 <%-- 답변작성부 --%>
 		 <c:if test="${sessionScope.loginuser.userid eq 'admin'}">
-				<hr><%-- 댓글작성부 --%>
+				<hr>
 				<h2 class="pt-3">답변하기</h2>
 				<hr>
 				<div style="background-color: #343a40;">
-					<c:if test="${empty sessionScope.loginuser}"> <%-- 로그인이 되어있지 않다면 댓글쓰기 불가능 --%>
-						<div class="alert alert-warning" role="alert">
-						  	비회원은 댓글을 달 수 없습니다!
-						</div>
-					</c:if>
-					
-					<c:if test="${not empty sessionScope.loginuser}">
+					<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
 						<form name="commentFrm" class="text-center py-3 px-2" style="width: 100%; display: flex;">
 							<input type="hidden" name="fk_boardno" value="${requestScope.bvo.boardno}" />
-							<input type="text" name="fk_commenter" value="${sessionScope.loginuser.userid}" placeholder="로그인을해야 사용할 수 있습니다." class="flex-item" style="maring: auto;" readonly /> 
-							<input type="text" name="comment_content" placeholder="댓글내용" maxlength="50" class="flex-item mx-5" style="width: 65%;" />
+							<input type="text" name="fk_commenter" value="${sessionScope.loginuser.userid}"class="flex-item" style="maring: auto;" readonly /> 
+							<input type="text" name="comment_content" placeholder="답변내용" maxlength="50" class="flex-item mx-5" style="width: 65%;" />
 							<button class="btn btn-light btn-md flex-item mx-1" type="button" onclick="goInsertComment()">답변작성</button>
 						</form>
 					</c:if>
 				</div>
-			</section><%-- 댓글작성부 --%>
+			
 		 </c:if>
+		<%-- 답변작성부 --%>
 		
 		<hr>
 		
 		<p class="text-right">
 			<button type="button" class="btn btn-dark btn-md" onclick="javascript:location.href='<%= ctxPath%>/board/QnA.sh'">글목록</button>
-			<c:if test="${sessionScope.loginuser.userid eq 'admin' }">
-				<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">글 수정하기</button> <%-- tbl_notice_board update / 조건은 운영자만 수정할 수 있음 --%>
-				<button class="btn btn-dark btn-md my-2" onclick="goDelete()">글 삭제하기</button> <%-- tbl_notice_board delete / 조건은 운영자만 삭제할 수 있음, 또한 댓글도 다 삭제됨 --%>
+			<c:if test="${sessionScope.loginuser.userid eq requestScope.bvo.fk_writer or sessionScope.loginuser.userid eq 'admin'}">
+				<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">글 수정하기</button>
+				<button class="btn btn-dark btn-md my-2" onclick="goDelete()">글 삭제하기</button> 
 			</c:if>
 		</p>
 	</div>
@@ -168,6 +172,8 @@
 		<input type="hidden" name="title" value="${requestScope.bvo.title}" />
 		<input type="hidden" name="content" value="${requestScope.bvo.content}" />
 		<input type="hidden" name="imgfilename" value="${requestScope.bvo.imgfilename}" />
+		<input type="hidden" name="fk_pnum" value="${requestScope.bvo.fk_pnum}" />
+		<input type="hidden" name="pname" value="${requestScope.bvo.pname}" />
 	</form>
 	<%-- 글 수정하기를 위해서 보내는 기존 글정보 폼 정보입니다. --%>
 	

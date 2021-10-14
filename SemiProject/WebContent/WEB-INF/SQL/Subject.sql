@@ -69,7 +69,7 @@ create table tbl_notice_board(
 boardno     number not null,
 fk_writer   varchar2(40),
 title       Nvarchar2(100) not null,
-content     Nvarchar2(200) not null,
+content     Nvarchar2(400) not null,
 writetime   date default sysdate,
 viewcnt     number default '0',
 constraint PK_TBL_NOTICE_BOARD_BOARDNO primary key(boardno),
@@ -78,6 +78,9 @@ constraint FK_TBL_NOTICE_BOARD_FK_WRITER foreign key (fk_writer) REFERENCES tbl_
 -- Table TBL_NOTICE_BOARD이(가) 생성되었습니다.
 
 ---------------------------- 공지사항 게시글 테이블 -----------------------------------------------
+alter table tbl_notice_board
+modify content Nvarchar2(400);
+
 
 select to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime
 from tbl_notice_board;
@@ -462,12 +465,12 @@ nocycle
 nocache;
 -- Sequence SEQ_TBL_QNA_BOARD이(가) 생성되었습니다.
 
-
+---------------------------- 문의사항 게시글 테이블 -----------------------------------------------
 create table tbl_qna_board(
 boardno     number not null,
 fk_writer   varchar2(40),
 title       Nvarchar2(100) not null,
-content     Nvarchar2(200) not null,
+content     content Nvarchar2(400) not null,
 imgfilename varchar2(200),
 feedbackYN  varchar2(1) default 0,
 writetime   date default sysdate,
@@ -479,7 +482,11 @@ constraint FK_TBL_QNA_BOARD_FK_PNUM foreign key(fk_pnum) references tbl_product(
 );
 -- Table TBL_QNA_BOARD이(가) 생성되었습니다.
 
----------------------------- 문의사항 게시글 테이블 -----------------------------------------------
+alter table tbl_qna_board
+modify content Nvarchar2(400);
+
+delete from tbl_qna_board;
+commit;
 
 alter table tbl_qna_board
 drop column viewcnt;
@@ -532,9 +539,8 @@ constraint PK_TBL_QNA_COMMENT primary key(commentno)
 ---------------------------- 문의사항 댓글 테이블 -----------------------------------------------
 
 alter table tbl_qna_comment
-add constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_qna_board(boardno);
+add constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_qna_board(boardno) on delete cascade;
 -- Table TBL_QNA_COMMENT이(가) 변경되었습니다.
-
 
 
 select boardno, fk_writer, title, content, writetime, imgfilename, feedbackYN , fk_pnum
@@ -582,3 +588,29 @@ where boardno = 3;
 
 select * 
 from tbl_qna_comment;
+
+select * 
+from tbl_product
+order by fk_cnum;
+
+select *
+from tbl_qna_board;
+
+delete from tbl_qna_board;
+
+commit;
+
+select boardno, fk_writer, title, content, writetime, imgfilename, feedbackYN, fk_pnum, pname
+from 
+(
+    select boardno, fk_writer, title, content,
+    to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, imgfilename, feedbackYN, fk_pnum 
+    from tbl_qna_board
+    where boardno = 5
+) Q 
+join 
+(
+    select pnum, pname
+    from tbl_product
+) P
+ON Q.fk_pnum = P.pnum

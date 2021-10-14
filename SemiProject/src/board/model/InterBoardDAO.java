@@ -42,5 +42,11 @@ public interface InterBoardDAO {
 	 // 문의게시판에 대한 자세한 글정보를 받아옵니다.
 	BoardVO selectOneQnA(String boardno) throws SQLException;
 	
+	// 문의사항 게시글 작성하기
+	int writeQnA(BoardVO bvo) throws SQLException;
+	
+	// 문의사항 게시글 수정하기
+	int editQnA(BoardVO bvo) throws SQLException;
+	
 
 }

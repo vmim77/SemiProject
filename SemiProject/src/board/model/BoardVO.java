@@ -20,6 +20,9 @@ public class BoardVO {
 	private String feedbackYN; // 문의사항 답변여부 0이면 미답변, 1이면 답변 //  CK 0 or 1
 	private int fk_pnum; // 어떤 상품에 대한 문의사항인지 알기 위한 필드
 	
+	// select 용 컬럼
+	private String pname; // 문의사항 글 보기에서 출력용으로 쓰일 제품명
+	
 	////////////////////////////////////////////////////////////////
 	
 	
@@ -101,6 +104,14 @@ public class BoardVO {
 
 	public void setFk_pnum(int fk_pnum) {
 		this.fk_pnum = fk_pnum;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
 
 	

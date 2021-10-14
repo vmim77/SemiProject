@@ -375,6 +375,12 @@ public class BoardDAO implements InterBoardDAO {
 	
 	
 	
+	
+	
+	
+	/////////////////////////////////////////// QNA 게시판 ////////////////////////////////////////////
+	
+	
 	// 모든 문의사항 게시글을 가져옵니다.
 	@Override
 	public List<BoardVO> selectAllQnA() throws SQLException {
@@ -428,10 +434,21 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select boardno, fk_writer, title, content"
-					+ "  , to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, imgfilename, feedbackYN, fk_pnum " + 
-						 " from tbl_qna_board "
-					   + " where boardno = ? ";
+
+			String sql = " select boardno, fk_writer, title, content, writetime, imgfilename, feedbackYN, fk_pnum, pname "+
+						 " from "+
+						 " ( "+
+						 "     select boardno, fk_writer, title, content, "+
+						 "     to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, imgfilename, feedbackYN, fk_pnum "+
+						 "     from tbl_qna_board "+
+						 "     where boardno = ? "+
+						 " ) Q "+
+						 " join "+
+						 " ( "+
+						 "     select pnum, pname "+
+						 "     from tbl_product "+
+						 " ) P "+
+						 " ON Q.fk_pnum = P.pnum";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -451,6 +468,7 @@ public class BoardDAO implements InterBoardDAO {
 				bvo.setImgfilename(rs.getString(6));
 				bvo.setFeedbackYN(rs.getString(7));
 				bvo.setFk_pnum(rs.getInt(8));
+				bvo.setPname(rs.getString(9));
 				
 			}
 			
@@ -460,6 +478,69 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return bvo;
 	}// end of public BoardVO selectOneQnA(String boardno) ------------------------
+	
+	
+	// 문의사항 게시글 작성하기
+	@Override
+	public int writeQnA(BoardVO bvo) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_qna_board(boardno, fk_writer, title, content, imgfilename, fk_pnum) " + 
+					     " values(seq_tbl_qna_board.nextval, ?, ?, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bvo.getFk_writer());
+			pstmt.setString(2, bvo.getTitle());
+			pstmt.setString(3, bvo.getContent());
+			pstmt.setString(4, bvo.getImgfilename());
+			pstmt.setInt(5, bvo.getFk_pnum());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		
+		return n;
+	}// end of public int writeQnA(BoardVO bvo)---------------------------
+	
+	
+	// 문의사항 게시글 수정하기
+	@Override
+	public int editQnA(BoardVO bvo) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_qna_board set fk_writer = ?, title = ?, content = ?, imgfilename = ?, fk_pnum = ? "
+					+    " where boardno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, bvo.getFk_writer());
+			pstmt.setString(2, bvo.getTitle());
+			pstmt.setString(3, bvo.getContent());
+			pstmt.setString(4, bvo.getImgfilename());
+			pstmt.setInt(5, bvo.getFk_pnum());
+			pstmt.setInt(6, bvo.getBoardno());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return n;
+	}// end of public int editQnA(BoardVO bvo)------------------------
 	
 	
 }

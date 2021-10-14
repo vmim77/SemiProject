@@ -1,8 +1,7 @@
 package board.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,28 +11,38 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import board.model.BoardDAO;
-import board.model.BoardVO;
-import board.model.InterBoardDAO;
+import board.model.*;
 import common.controller.AbstractController;
-import member.model.MemberVO;
+import member.model.*;
+import product.model.*;
+import product.realmodel.*;
 
-public class NoticeEditEndAction extends AbstractController {
+public class QnAWriteAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
+		
+		if( loginuser != null && ! "admin".equalsIgnoreCase(loginuser.getUserid()) ) { // 로그인을 했으면서, 운영자가 아니면 문의사항 글을 쓸 수 있다.
 			
-			String method = request.getMethod();
+			String method = request.getMethod(); // "GET" or "POST"
 			
-			String message = "";
-			String loc= "";
 			
-			if("post".equalsIgnoreCase(method)) { // 수정할 글내용과 제목등을 적고 수정하기버튼을 눌러야 POST로 들어올 수 있다.
+			if(!"post".equalsIgnoreCase(method)) { // GET이면 문의사항 작성페이지로 
+				
+				// 제품번호와 제품명을 가져온다.
+				InterProductRealDAO pdao = new ProductRealDAO();
+				List<ProductRealVO> pvoList = pdao.getProdInfo();
+				
+				request.setAttribute("pvoList", pvoList);
+				
+				super.setViewPage("/WEB-INF/board/qnaWrite.jsp");
+			}
+			
+			else { // POST이면 문의사항 게시글 테이블에 insert를 해준 후에 결과를 출력
+				
 				
 				//////////////////////////////////////////////////////////////////////////
 				MultipartRequest mtrequest = null;
@@ -51,7 +60,7 @@ public class NoticeEditEndAction extends AbstractController {
 				} catch(IOException e) {
 				    request.setAttribute("message", "파일 용량 초과로 인해서 업로드 실패함!");
 	                request.setAttribute("loc", request.getContextPath()+"/board/notice.sh"); 
-	                e.printStackTrace();
+	                
 	                super.setViewPage("/WEB-INF/msg.jsp");
 	                return; 
 				}
@@ -60,67 +69,59 @@ public class NoticeEditEndAction extends AbstractController {
 				
 				
 				
+				String fk_writer = mtrequest.getParameter("fk_writer");
+				String title = mtrequest.getParameter("title");
+				String fk_pnum = mtrequest.getParameter("fk_pnum");
 				
-				String fk_writer = mtrequest.getParameter("fk_writer"); // 글쓴이
-				String title = mtrequest.getParameter("title"); // 제목
-				String content = mtrequest.getParameter("content"); // 내용 
+				String content = mtrequest.getParameter("content");
 				
 				content = content.replaceAll("<", "&lt;");
 				content = content.replaceAll(">", "&gt;");
 				content = content.replaceAll("\r\n", "<br>");
 				
-				
-				int boardno = Integer.parseInt(mtrequest.getParameter("boardno"));
 				String imgfilename = mtrequest.getFilesystemName("imgfilename");
-				
 				
 				BoardVO bvo = new BoardVO();
 				
 				bvo.setFk_writer(fk_writer);
 				bvo.setTitle(title);
+				bvo.setFk_pnum(Integer.parseInt(fk_pnum));
 				bvo.setContent(content);
-				bvo.setBoardno(boardno);
 				bvo.setImgfilename(imgfilename);
 				
-				InterBoardDAO mdao = new BoardDAO();
+				InterBoardDAO bdao = new BoardDAO();
 				
-				int n = mdao.editNotice(bvo);
+				int n = bdao.writeQnA(bvo);
 				
+				String message = "";
+				String loc = "";
+				
+				if(n==1) {
+					message="문의사항 작성 성공!!";
+					loc = request.getContextPath()+"/board/QnA.sh";
+				}
+				else {
+					message="문의사항 작성 실패!!";
+					loc = request.getContextPath()+"/board/QnA.sh";
+				}
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+				super.setViewPage("/WEB-INF/msg.jsp");
+			}
 
-				if(n==1) {// update 성공
-					message = "글 수정하기 성공";
-					loc = request.getContextPath()+"/board/noticeDetail.sh?boardno="+boardno;
-				}
-				else {// update 실패
-					message = "글 수정하기 실패";
-					loc = request.getContextPath()+"/index.sh";
-				}
-				
-			}
 			
-			else { // GET방식이나, URL 접근이다.
-				message = "잘못된 접근입니다.";
-				loc= request.getContextPath()+"/index.sh";
-				
-			}
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			super.setViewPage("/WEB-INF/msg.jsp");
 		}
 		
-		else {
+		else { // 운영자이거나 로그인을 안했거나
 			
-			String message = "잘못된 접근입니다.";
+			String message = "해당 서비스를 이용하기 위해서는 로그인을 하셔야 합니다!";
 			String loc = request.getContextPath()+"/index.sh";
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
 			
 			super.setViewPage("/WEB-INF/msg.jsp");
-			
 		}
-
 		
 	}
 

@@ -37,6 +37,7 @@ public class QnADetailAction extends AbstractController {
 				
 				BoardVO bvo = bdao.selectOneQnA(boardno); // 문의게시판에 대한 자세한 글정보를 받아옵니다.
 				
+				
 				request.setAttribute("bvo", bvo);
 				
 				if( bvo != null) { // 해당 글의 답변 조회해오기 (== 댓글)
@@ -55,7 +56,7 @@ public class QnADetailAction extends AbstractController {
 			else { // 글작성자 or 운영자가 아닌 경우입니다.
 				
 				message = "문의사항 글 열람은 작성자 본인만 할 수 있습니다!";
-				loc = request.getContextPath()+"/index.sh";
+				loc = request.getContextPath()+"/board/QnA.sh";
 				
 				request.setAttribute("message", message);
 				request.setAttribute("loc", loc);

@@ -16,6 +16,8 @@
 		display:inline-block;
 		vertical-align: middle;
 	}
+	
+	#board > thead > tr th{ font-size: 13pt; font-weight: bold;}
 </style>
 	
 <script type="text/javascript">
@@ -190,7 +192,7 @@
 					</tr>
 					<tr>
 						<td class="px-3"  colspan="6">
-							<p class="py-3">${requestScope.bvo.content}</p>
+							<p class="py-3" style="font-size: 14pt;">${requestScope.bvo.content}</p>
 							<c:choose>
 								<c:when test="${not empty requestScope.bvo.imgfilename}">
 									<p class="text-center">

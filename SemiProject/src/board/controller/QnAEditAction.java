@@ -1,6 +1,7 @@
 package board.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -10,19 +11,18 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import board.model.BoardVO;
+import board.model.*;
 import common.controller.AbstractController;
-import member.model.MemberVO;
+import member.model.*;
+import product.realmodel.*;
 
-public class NoticeEditAction extends AbstractController {
+public class QnAEditAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
+			HttpSession session = request.getSession();
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			
 			//////////////////////////////////////////////////////////////////////////
 			MultipartRequest mtrequest = null;
@@ -46,21 +46,20 @@ public class NoticeEditAction extends AbstractController {
 			}
 			//////////////////////////////////////////////////////////////////////////
 			
-			
-			
+			String fk_writer = mtrequest.getParameter("fk_writer"); // 작성자 확인용 
+
+			if( loginuser != null && fk_writer.equals(loginuser.getUserid()) ) {
 			
 			// 기존의 글정보들을 hidden 폼에서 보내준다.
 			// 기존의 글정보를 먼저 찍어주기위해서 다음과 같이 VO에 넣어준다.
 			int boardno = Integer.parseInt(mtrequest.getParameter("boardno"));
-			String fk_writer = mtrequest.getParameter("fk_writer");
 			String title = mtrequest.getParameter("title");
 			String content = mtrequest.getParameter("content");
+			String imgfilename = mtrequest.getParameter("imgfilename"); // 기존 글에 이미지가 없었다면 null 이다.
+			String fk_pnum = mtrequest.getParameter("fk_pnum");
+			String pname = mtrequest.getParameter("pname");
 			
 			content = content.replaceAll("<br>", "&#13;&#10;");
-			
-			String imgfilename = mtrequest.getParameter("imgfilename"); // 기존 글에 이미지가 없었다면 null 이다.
-			
-			content = content.replace("<br>", "\r\n"); // DB에 보낼때 <br>로 치환시켜둔 엔터를 다시 개행문자로 바꾼다.
 			
 			BoardVO bvo = new BoardVO();
 			
@@ -69,11 +68,18 @@ public class NoticeEditAction extends AbstractController {
 			bvo.setTitle(title);
 			bvo.setContent(content);
 			bvo.setImgfilename(imgfilename);
+			bvo.setFk_pnum(Integer.parseInt(fk_pnum));
+			bvo.setPname(pname);
 			
 			request.setAttribute("bvo", bvo); 
 			
+			InterProductRealDAO pdao = new ProductRealDAO();
+			List<ProductRealVO> pvoList = pdao.getProdInfo();
+			
+			request.setAttribute("pvoList", pvoList);
+			
 			// 글 수정을 위하여 새로운정보를 입력하도록 View 페이지로 이동한다.
-			super.setViewPage("/WEB-INF/board/noticeEdit.jsp");
+			super.setViewPage("/WEB-INF/board/qnaEdit.jsp");
 			
 		}
 		
@@ -90,5 +96,11 @@ public class NoticeEditAction extends AbstractController {
 		}
 		
 	}
-
+		
+		
+		
+		
+		
 }
+
+
