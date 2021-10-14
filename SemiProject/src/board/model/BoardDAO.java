@@ -543,4 +543,30 @@ public class BoardDAO implements InterBoardDAO {
 	}// end of public int editQnA(BoardVO bvo)------------------------
 	
 	
+	// 문의사항 게시글 삭제하기
+	@Override
+	public int deleteQnA(int boardno) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_qna_board "
+					+    " where boardno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, boardno);
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return n;
+	}
+	
+	
 }

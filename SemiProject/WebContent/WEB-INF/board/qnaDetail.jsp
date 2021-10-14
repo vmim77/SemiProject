@@ -20,7 +20,7 @@
 	});
 	
 	
-	function goEdit(){ // 공지사항 글 수정하기
+	function goEdit(){ // 문의사항 글 수정하기
 		
 		var frm = document.boardEditFrm
 		frm.action = "<%= ctxPath%>/board/QnAEdit.sh";
@@ -28,6 +28,26 @@
 		frm.submit();
 		
 	}// end of function goEdit()----------------------------------------------------------
+	
+	function goDelete(){ // 문의사항 글 삭제하기
+		
+		var boardno = "${requestScope.bvo.boardno}";
+		var fk_writer = "${requestScope.bvo.fk_writer}";
+		
+	    var pop_width = 600;
+	    var pop_height = 300;
+	    
+	    var pop_left = Math.ceil((window.screen.width - pop_width)/2);
+	    var pop_top = Math.ceil((window.screen.height - pop_height)/2); 
+		
+     	var url = "<%= ctxPath%>/board/QnADelete.sh?boardno="+boardno+"&fk_writer="+fk_writer;
+			
+        window.open(url, "checkDelete",
+	    		         "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
+		
+		
+	}// function goDelete()---------------------------------------------------------------
+	
 
 </script>	
 	
@@ -157,9 +177,11 @@
 		
 		<p class="text-right">
 			<button type="button" class="btn btn-dark btn-md" onclick="javascript:location.href='<%= ctxPath%>/board/QnA.sh'">글목록</button>
-			<c:if test="${sessionScope.loginuser.userid eq requestScope.bvo.fk_writer or sessionScope.loginuser.userid eq 'admin'}">
-				<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">글 수정하기</button>
-				<button class="btn btn-dark btn-md my-2" onclick="goDelete()">글 삭제하기</button> 
+			<c:if test="${sessionScope.loginuser.userid eq requestScope.bvo.fk_writer}">
+				<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">수정하기(작성자)</button>
+			</c:if>
+			<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
+				<button class="btn btn-dark btn-md my-2" onclick="goDelete()">삭제하기(운영자)</button> 
 			</c:if>
 		</p>
 	</div>

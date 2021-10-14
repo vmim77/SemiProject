@@ -48,5 +48,8 @@ public interface InterBoardDAO {
 	// 문의사항 게시글 수정하기
 	int editQnA(BoardVO bvo) throws SQLException;
 	
+	// 문의사항 게시글 삭제하기
+	int deleteQnA(int boardno) throws SQLException;
+	
 
 }
