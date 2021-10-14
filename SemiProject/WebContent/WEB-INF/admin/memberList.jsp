@@ -79,7 +79,7 @@
 			
 			// alert("행 클릭함");
 			
-			userid = $(this).find("td:nth-child(2)").text(); // 전체목록에서 특정 행을 클릭했다면 그 행의 유저아이디를 받아놓는다.
+			userid = $(this).find("td:nth-child(1)").text(); // 전체목록에서 특정 행을 클릭했다면 그 행의 유저아이디를 받아놓는다.
 			
 			
 			// alert("userid 확인용 => " + userid);
@@ -179,121 +179,116 @@
 
 </script>
 
-
-	<%-- 상단 이미지 --%>
-	<section class="hero-wrap hero-wrap-2" style="background-image: url('<%= ctxPath%>/images/about.jpg');" data-stellar-background-ratio="0.5">
-		<div class="overlay"></div>
-			<div class="container">
-				<div class="row no-gutters slider-text align-items-end justify-content-center">
-				<div class="col-md-9 ftco-animate mb-5 text-center">
-					<h2 class="mb-2 bread">관리자메뉴<br><br>전체회원 조회하기</h2>
-					<br><br>
+		<%-- 상단 이미지 --%>
+		<section class="hero-wrap hero-wrap-2" style="background-image: url('<%= ctxPath%>/images/about.jpg');" data-stellar-background-ratio="0.5">
+			<div class="overlay"></div>
+				<div class="container">
+					<div class="row no-gutters slider-text align-items-end justify-content-center">
+					<div class="col-md-9 ftco-animate mb-5 text-center">
+						<h2 class="mb-2 bread">관리자메뉴<br><br>전체회원 조회하기</h2>
+						<br><br>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<%-- 상단 이미지 --%>
-	
-	<div class="container table-responsive">
-	
-		<%-- 검색을 위한 정보를 보냅니다. --%>
-		<form name="memberFrm" class="text-center my-5"> 
-			<select id="searchType" name="searchType">
-				<option value="name">성명</option>
-				<option value="userid">아이디</option>
-			</select>
-			<input type="text" id="searchWord" name="searchWord" />
-			<input type="text" style="display: none;" />
-			   
-			<button type="button" class="btn btn-dark" onclick="goSearch();" style="margin-right: 30px;">검색</button>
+		</section>
+		<%-- 상단 이미지 --%>
+		
+		
+			<div class="container"> <%--  style="overflow: auto;" --%>
+				<%-- 검색을 위한 정보를 보냅니다. --%>
+				<form name="memberFrm" class="text-center my-5"> 
+					<select id="searchType" name="searchType">
+						<option value="name">성명</option>
+						<option value="userid">아이디</option>
+					</select>
+					<input type="text" id="searchWord" name="searchWord" />
+					<input type="text" style="display: none;" />
+					   
+					<button type="button" class="btn btn-dark" onclick="goSearch();" style="margin-right: 30px;">검색</button>
+					
+					<span style="font-weight: bold; font-size: 14pt;">페이지당 회원명수-</span>
+					<select id="sizePerPage" name="sizePerPage">
+					   <option value="0" selected>인원수 선택</option>
+					   <option value="3">3</option>
+					   <option value="5">5</option>
+					   <option value="10">10</option>
+					</select>
+				</form>
+				<%-- 검색을 위한 정보를 보냅니다. --%>
+				<%-- 검색어를 넣지 않고 검색하면 전체회원 조회 // 검색어를 넣고 검색하면 특정회원들 조회 --%>
 			
-			<span style="font-weight: bold; font-size: 14pt;">페이지당 회원명수-</span>
-			<select id="sizePerPage" name="sizePerPage">
-			   <option value="0" selected>인원수 선택</option>
-			   <option value="3">3</option>
-			   <option value="5">5</option>
-			   <option value="10">10</option>
-			</select>
-		</form>
-		<%-- 검색을 위한 정보를 보냅니다. --%>
-		<%-- 검색어를 넣지 않고 검색하면 전체회원 조회 // 검색어를 넣고 검색하면 특정회원들 조회 --%>
-	
-		
-
-	
-			<table class="table table table-dark my-5 text-center justify-content-center" style="width: 100%;">
-				<thead>
-					<tr>
-						<th scope="col">INDEX</th>
-						<th scope="col">아이디</th>
-						<th scope="col">성명</th>
-						<th scope="col">성별</th>
-						<th scope="col">가입일자</th>
-						<th scope="col">회원상태</th>
-						<th scope="col">휴면상태</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="mbr" items="${requestScope.mbrList}" varStatus="status">
-						<tr class="memberInfo">
-							<td scope="row">${status.count}</td>
-							<td>${mbr.userid}</td>
-							<td>${mbr.name}</td>
-							<td>${mbr.gender}</td>
-							
-							<td>${fn:substring(mbr.registerday, 0, 10)}</td> <%-- 시간은 짜르고 날짜만 가져옵니다. --%>
-							
-							<c:if test="${mbr.status == 1}">
-								<td>사용가능</td>
-							</c:if>
-							<c:if test="${mbr.status == 0}">
-								<td>탈퇴</td>
-							</c:if>
-							
-							<c:if test="${mbr.idle == 0}">
-								<td>활동</td>
-							</c:if>
-							<c:if test="${mbr.idle == 1}">
-								<td>휴면</td>
-							</c:if>
-						<tr>
-					</c:forEach>			
-				</tbody>
-			</table>
-			
-     <nav class="my-5 text-center">
-     	<div style="display: flex; width: 100%;">
-     		<%-- 여기에 페이징처리 while 반복문으로 차곡차곡 쌓아온 <li>들이 들어온다. --%>
-			<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
-    	</div>
-     </nav>	
-			
-		
-		<!-- Button trigger modal -->
-		<button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;">
-			회원상세정보
-		</button>
-		
-		<!-- 회원의 상세정보를 띄워주는 Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="width: 100%;">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title " id="exampleModalLabel"></h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body"></div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary" onclick="javascript:goEdit()">회원정보 수정하기</button> <%-- 운영자가 상세정보보기를 한 회원의 정보를 수정하게 합니다. --%>
-		        <button type="button" id="modalClose" class="btn btn-danger" data-dismiss="modal">나가기</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<!-- 회원의 상세정보를 띄워주는 Modal -->
-		
-	</div>
+				
+					<table class="table table-bordered table-dark my-5 text-center justify-content-center">
+						<thead>
+							<tr>
+								<th>아이디</th>
+								<th>성명</th>
+								<th>성별</th>
+								<th>가입일자</th>
+		 						<th>회원상태</th>
+								<th>휴면상태</th> 
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="mbr" items="${requestScope.mbrList}" varStatus="status">
+								<tr class="memberInfo">
+									<td>${mbr.userid}</td>
+									<td>${mbr.name}</td>
+									<td>${mbr.gender}</td>
+									
+									<td>${fn:substring(mbr.registerday, 0, 10)}</td> <%-- 시간은 짜르고 날짜만 가져옵니다. --%>
+									
+	 								<c:if test="${mbr.status == 1}">
+										<td>사용가능</td>
+									</c:if>
+									
+									<c:if test="${mbr.status == 0}">
+										<td>탈퇴</td>
+									</c:if>
+									
+									<c:if test="${mbr.idle == 0}">
+										<td>활동</td>
+									</c:if>
+									<c:if test="${mbr.idle == 1}">
+										<td>휴면</td>
+									</c:if> 
+								<tr>
+							</c:forEach>			
+						</tbody>
+					</table>
+					
+		     <nav class="my-5 text-center">
+		     	<div style="display: flex; width: 100%;">
+		     		<%-- 여기에 페이징처리 while 반복문으로 차곡차곡 쌓아온 <li>들이 들어온다. --%>
+					<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
+		    	</div>
+		     </nav>	
+					
+				
+				<!-- Button trigger modal -->
+				<button type="button" id="modalBtn" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;">
+					회원상세정보
+				</button>
+				
+				<!-- 회원의 상세정보를 띄워주는 Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" style="width: 100%;">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title " id="exampleModalLabel"></h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body"></div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-primary" onclick="javascript:goEdit()">회원정보 수정하기</button> <%-- 운영자가 상세정보보기를 한 회원의 정보를 수정하게 합니다. --%>
+				        <button type="button" id="modalClose" class="btn btn-danger" data-dismiss="modal">나가기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- 회원의 상세정보를 띄워주는 Modal -->
+			</div>
 
 <jsp:include page="/WEB-INF/footer.jsp" />

@@ -8908,7 +8908,6 @@ h1, h2, h3, h4, h5,
   overflow-x: scroll; }
 
 .table {
-  min-width: 1000px !important;
   width: 100%;
   background: #fff;
   -webkit-box-shadow: 0px 5px 12px -12px rgba(0, 0, 0, 0.29);
