@@ -31,11 +31,11 @@ public class MemberVO {
 	   
 	   /////////////////////////////////////////////////////////////////////
 	   
-	   private int couponnum;
 	   private String coupondate;
 	   private String couponname;
 	   private int coupondiscount;
 	   private String couponlastday;
+	   private String fk_userid;
 	   
 	   private int age;
 	   
@@ -238,13 +238,6 @@ public class MemberVO {
 	   }  
 ///////////////////////////////////////////////////////////////////
 
-		public int getCouponnum() {
-			return couponnum;
-		}
-	
-		public void setCouponnum(int couponnum) {
-			this.couponnum = couponnum;
-		}
 		
 		public String getCoupondate() {
 			return coupondate;
@@ -277,7 +270,17 @@ public class MemberVO {
 		public void setCouponlastday(String couponlastday) {
 			this.couponlastday = couponlastday;
 		}
+
+		public String getFk_userid() {
+			return fk_userid;
+		}
+
+		public void setFk_userid(String fk_userid) {
+			this.fk_userid = fk_userid;
+		}
 	
+		
+		
 	
 	
 	

@@ -129,6 +129,26 @@
 								</select>
 							</td>
 						</tr>
+						<tr>
+						<td class="title">쿠폰</td>
+						<td>
+							<select name="coupon">
+								<c:choose>
+									<c:when test="${requestScope.couponname}">
+										<option selected="selected" value="0">쿠폰없음</option>
+										<option value="1">사용완료</option>
+									</c:when>
+									<c:otherwise>
+										<option selected="selected" value="1">추천인쿠폰/3000원</option>
+										<option value="2">신규가입쿠폰/5000원</option>
+										<option value="3">이벤트쿠폰/10000원</option>
+										<option value="4">이벤트쿠폰(VIP)/20000원</option>
+									</c:otherwise>
+								</c:choose>
+							</select>
+							<button>추가</button>
+						</td>
+					</tr>
 					</table>
 			</form>
 		</div>

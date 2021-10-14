@@ -23,4 +23,7 @@ public interface InterProductDAO {
 	// 출석도장 저장
 	void Savemycheck(String savemycheck) throws SQLException;
 
+	// 배송조회하기
+	List<ProductDAO> myorder(String userid) throws SQLException;
+
 }

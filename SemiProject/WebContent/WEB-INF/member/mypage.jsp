@@ -73,6 +73,14 @@
 
 
 </style>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+
+		
+	}); // end of $(document).ready(function(){})-----------------------------
+</script>
 
     
 <div id="contents">
@@ -85,7 +93,6 @@
       <span><a href="<%= ctxPath%>/delivery/order.sh"  style="text-decoration: none;">주문내역</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/memberCalendar.sh" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
-      <span><a href="" style="text-decoration: none;">내가쓴게시물</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/member/memberdelete.sh" style="text-decoration: none;">회원탈퇴</a></span>
     </div>
 </div>
@@ -109,24 +116,58 @@
 				</div>
 			</span>
 		</td>
+		
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:200px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
 				<img style="height:80px; padding-right:10px;" id="profile" src="../images/image_3.png"/>
 				<div style="font-size:9pt; margin-top:7px; margin-left: 5px;">
-					내 적립금
-				</div>
-				<div style="font-size:12pt; font-weight:bold; margin-left: 5px;">
-					4,500원<!-- 값넣어야함  -->
-				</div>
-			</span>
-		</td>
+				<button type="button" id="gobtn2" class="btn btn-success" data-toggle="modal" data-target="#myModal2">
+		  			적립금
+				</button>
+				
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel" style="text-align: right;">포인트내역</h4>
+      </div>
+      
+      <div class="modal-body">
+        	<table border="1">
+        	 <tr>
+				<th scope="col" class="" style="height: 50px; width: 150px">적립일자</th>
+                <th scope="col" class="" style="height: 50px; width: 150px; text-align: center;">적립	금액</th>
+                <th scope="col" class="" style="height: 50px; width: 150px; text-align: center;">사용한포인트</th>
+                <th scope="col" class="" style="height: 50px; width: 150px; text-align: center;">사용가능포인트</th>
+            </tr>
+            
+        <c:forEach  var= "mvo" items="${requestScope.libo}" >
+			<tr>
+				<td class="" style="height: 50px; width: 150px;">${mvo.coupondate}</td>
+                <td style="height: 50px; width: 150px; text-align: center;">${mvo.couponname}</td> 
+                <td style="height: 50px; width: 150px; text-align: center;">${mvo.couponname}</td> 
+                <td class="" style="height: 50px; width: 150px; text-align: center;"> <a href=""></a>${mvo.coupondiscount}원</td>
+            </tr>
+		</c:forEach>
+        	</table>
+    		  </div>
+     		<div class="modal-footer">
+       		 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	  </div>
+	</div>
+	</span>
+	</td>
+		
+		
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:200px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
 				<img style="height:80px; padding-right:10px; margin-left: 13px;" id="profile" src="../images/image_4.png"/>
 				<div style="font-size:9pt; margin-top:7px; margin-left: 20px;">
-					 <%-- <a href="<%= ctxPath %>/member/memberCoupon.sh">쿠폰</a> --%>
 					 <!-- 	<!-- modal 구동 버튼 (trigger) -->
-		<button type="button" id="gobtn" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">
+		<button type="button" id="gobtn" class="btn btn-success" data-toggle="modal" data-target="#myModal">
 		  	쿠폰
 		</button>
 
@@ -142,19 +183,19 @@
         	<table border="1">
         	 <tr>
 				<th scope="col" class="" style="height: 50px; width: 350px">쿠폰발급일자</th>
-                <th scope="col" class="" style="height: 50px; width: 350px">쿠폰명</th>
-                <th scope="col" class="" style="height: 50px; width: 150px">할인율</th>
+                <th scope="col" class="" style="height: 50px; width: 350px; text-align: center;">쿠폰명</th>
+                <th scope="col" class="" style="height: 50px; width: 150px; text-align: center;">할인금액</th>
                 <th scope="col" class="" style="height: 50px; width: 500px; text-align: center;" >유효기간</th>
-                <th scope="col" class="" style="height: 50px; width: 250px">상태</th>
             </tr>
             
-            <tr>
-            	<td>${requestScope.mvo.coupondate}</td>
-            	<td>${mvo.couponname}</td>
-            	<td>${mvo.coupondiscount}</td>
-            	<td style="text-align: center;">${mvo.couponlastday}</td>
-            	<td>사용가능</td>
+        <c:forEach  var= "mvo" items="${requestScope.libo}" >
+			<tr>
+				<td class="" style="height: 50px; width: 300px;">${mvo.coupondate}</td>
+                <td style="height: 50px; width: 400px; text-align: center;">${mvo.couponname}</td> 
+                <td class="" style="height: 50px; width: 300px; text-align: center;"> <a href=""></a>${mvo.coupondiscount}원</td>
+                <td class="" style="height: 50px; width: 400px; text-align: center;">${mvo.couponlastday}</td>
             </tr>
+		</c:forEach>
        
             
         	</table>
@@ -166,9 +207,6 @@
 	  </div>
 	  </div>
 	</div>
-		<div style="font-size:12pt; font-weight:bold; margin-left: 40px;">
-			 ${sessionScope.loginuser.couponnum}
-		</div>
 	</span>
 		</td>
 	</tr>
@@ -181,41 +219,27 @@
 <table style="border: solid 2px gray; border-left: none; border-right: none;">
         <thead><tr>
 				<th scope="col" class="number" style="height: 50px; width: 150px">주문일자 [주문번호]</th>
-                <th scope="col" class="" style="height: 50px; width: 150px">이미지</th>
-                <th scope="col" class="" style="height: 50px; width: 650px">상품정보</th>
-                <th scope="col" class="quantity" style="height: 50px; width: 100px">수량</th>
-                <th scope="col" class="price" style="height: 50px; width: 150px">상품구매금액</th>
-                <th scope="col" class="state" style="height: 50px; width: 150px">주문처리상태</th>
+                <th scope="col" class="" style="height: 50px; width: 350px; text-align: center;">이미지</th>
+                <th scope="col" class="" style="height: 50px; width: 500px; text-align: center;">상품정보</th>
+                <th scope="col" class="quantity" style="height: 50px; width: 150px; text-align: left;">수량</th>
+                <th scope="col" class="price" style="height: 50px; width: 200px">상품구매금액</th>
                 <th scope="col" class="service" style="height: 50px; width: 150px">취소/교환/반품</th>
             </tr></thead>
 	<tbody class="displaynone">
 		<tr class="">
-			<td class="number displaynone">
-                 <a href="#none" class="btn_addr displaynone" onclick=""><span>주문취소</span></a>
-                 <a href="cancel.html" class="btn_addr displaynone button"><span>취소신청</span></a>
-                 <a href="exchange.html" class="btn_addr displaynone button"><span>교환신청</span></a>
-                 <a href="return.html" class="btn_addr displaynone button"><span>반품신청</span></a>
-           </td>
-           
-                <td class="thumb"><a href=""><img src="../images/image_6.PNG" alt=""></a></td>
+				<td class="number displaynone">
+                 <a href="" class="btn_addr displaynone"><span>2021-10-12</span></a>
+         		  </td>
+                <td class=""><a href=""><img src=""></a></td>
                 <td class="">
-					 오징어게임에 참가해보시겠어연 ?
                 </td>
-               		<td class="quantity">1</td>
-                	<td class="price"> 25,000원
+               		<td class=""></td>
+                	<td class=""> 
 					<strong></strong><div class="displaynone"></div>
 				</td>
-                <td class="state">
-                    <p></p>
-                    <p class="displaynone"><a href="" target=""></a></p>
-                    <a href="/board/product/write.html" class="btn_addr displaynone"><span>구매후기</span></a>
-                    <a href="#none" class="btn_addr displaynone" onclick=""><span>취소철회</span></a>
-                    <a href="#none" class="btn_addr displaynone" onclick=""><span>교환철회</span></a>
-                    <a href="#none" class="btn_addr displaynone" onclick=""><span>반품철회</span></a>
-                </td>
-                <td class="service">
-                    <p class="displaynone"><a href="#none" class="line" onclick="">[상세정보]</a></p>
-                </td>
+               <td class="number displaynone">
+                 <a href="<%=ctxPath %>/delivery/orderchange.sh" class="btn_addr displaynone" style="text-align: center;"><span>교환/환불</span></a>
+           		</td>
             </tr>
 </tbody>
 </table>
@@ -228,14 +252,15 @@
 		<table  style=" border: solid 2px gray; border-left: none; border-right: none;">
 		
 			<tr>
-				<th scope="col">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">작성자</th>
-                <th scope="col">작성일</th>
-                <th scope="col">조회</th>
+				<th scope="col" style="height: 50px; width: 300px;">번호</th>
+                <th scope="col" style="height: 50px; width: 400px">제목</th>
+                <th scope="col" style="height: 50px; width: 300px">작성자</th>
+                <th scope="col" style="height: 50px; width: 400px">작성일</th>
+                <th scope="col" style="height: 50px; width: 100px">조회</th>
             </tr>
 	
-		<c:forEach  var= "bvo" items="${requestScope.list}" >
+		<c:forEach  var= "bvo" items="${requestScope.list}" varStatus="status">
+			<c:if test="${status.index < 3}" >
 			<tr>
 				<td class="" style="height: 200px; width: 300px;">${bvo.boardno}</td>
                 <td style="height: 200px; width: 400px">${bvo.title }</td> 
@@ -243,20 +268,21 @@
                 <td class="" style="height: 200px; width: 400px">${bvo.writetime}</td>
                 <td class="" style="height: 200px; width: 100px">${bvo.viewcnt}</td>
             </tr>
+			</c:if>
 		</c:forEach>
 		
 </tbody>
 </table>
 
-	<div>
+		`<div>
 			<p class="text-center">
 			    <span id="end" style="display:block; margin:20px; font-size: 14pt; font-weight: bold; color: red;"></span> 
-				<button type="button" class="btn btn-secondary btn-lg" id="btnMoreHIT" value="">더보기...</button>
+				<button type="button" class="btn btn-secondary btn-lg" id="btnMoreHIT" value="">더보기</button>
 				<span id="totalHITCount">${requestScope.totalHITCount}</span>
 			</p>
 		</div>
 
-<br>
+	<br>
 
 <table style="border: solid 2px gray; border-left: none; border-right: none;">
 	<tr>

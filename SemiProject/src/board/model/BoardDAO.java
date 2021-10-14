@@ -381,7 +381,7 @@ public class BoardDAO implements InterBoardDAO {
 		 try {
 			 conn = ds.getConnection();
 			 
-			 String sql = " select boardno, fk_writer, title, content,writetime "+
+			 String sql = " select boardno, fk_writer, title, content,writetime,viewcnt "+
 					 	  " from tbl_notice_board "+
 					 	  " where fk_writer = ? "+
 					 	  " order by boardno desc ";
@@ -401,6 +401,7 @@ public class BoardDAO implements InterBoardDAO {
 					bvo.setTitle(rs.getString(3));
 					bvo.setContent(rs.getString(4));
 					bvo.setWritetime(rs.getString(5));
+					bvo.setViewcnt(rs.getInt(6));
 					
 					list.add(bvo);
 				 

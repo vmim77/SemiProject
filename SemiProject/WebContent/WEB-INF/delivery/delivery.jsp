@@ -199,7 +199,6 @@ h2 {
 				<th scope="col" class="" style="height: 50px; width: 350px">주문일자</th>
                 <th scope="col" class="" style="height: 50px; width: 350px">주문자</th>
                 <th scope="col" class="" style="height: 50px; width: 350px">진행사항</th>
-                <th scope="col" class="" style="height: 50px; width: 250px">도착예정일</th>
             </tr>
             
 			
@@ -207,7 +206,6 @@ h2 {
 				<td>2021-10-13</td>
 				<td>금길영</td>
 				<td>배송준비중</td>
-				<td>2021-10-15</td>
 			</tr>            
         	</table>
       </div>

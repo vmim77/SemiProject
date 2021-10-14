@@ -8,6 +8,7 @@ import java.util.*;
 import javax.naming.*;
 import javax.sql.DataSource;
 
+import board.model.BoardVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -143,6 +144,7 @@ public class MemberDAO implements InterMemberDAO {
 		        pstmt.setString(12, member.getReferral());
 		        
 		        n = pstmt.executeUpdate();
+		        
 				
 			} catch (GeneralSecurityException | UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -152,11 +154,6 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return n;
 		}// end of public int registerMember(MemberVO member) throws SQLException ===================================================
-		
-		
-		
-		
-		
 		
 
 		// 입력받은 paraMap 을 가지고 한 명의 회원정보를 리턴시켜주는 메소드(로그인 처리)
@@ -881,47 +878,51 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return member;
 		}// end of public MemberVO selectOneUser(String userid)--------------------------------------
+
+		// 쿠폰 조회하기
+		@Override
+		public List<MemberVO> mycoupon(String userid) throws SQLException {
+			
+			List<MemberVO> libo = new ArrayList<>();
+			
+			 try {
+				 conn = ds.getConnection();
+				 
+				 String sql = " select fk_userid,coupondate,couponname,coupondiscount,couponlastday,status "+
+						 	  " from tbl_coupon "+
+						 	  " where fk_userid = ? ";
+				 
+				 pstmt = conn.prepareStatement(sql);
+				 
+				 pstmt.setString(1, userid);
+				 
+				 rs = pstmt.executeQuery();
+				 
+				 while(rs.next()) {
+					 
+					 MemberVO mvo = new MemberVO();
+						
+						mvo.setFk_userid(rs.getString(1));
+						mvo.setCoupondate(rs.getString(2));
+						mvo.setCouponname(rs.getString(3));
+						mvo.setCoupondiscount(rs.getInt(4));
+						mvo.setCouponlastday(rs.getString(5));
+						mvo.setStatus(rs.getInt(6));
+						
+						libo.add(mvo);
+					 
+				 }
+				 
+			 } finally {
+				close();
+			}
+			
+			
+			return libo;
+		}
 		
 
-		// 쿠폰 추가하기
-				@Override
-				public MemberVO membercoupon(String userid) throws SQLException {
-					
-					
-					MemberVO mvo = new MemberVO();
-					
-					 try {
-				            conn = ds.getConnection();
-				        
-				            
-				            String sql = " select couponnum,userid,coupondate,couponname,coupondiscount,couponlastday,status "+
-				            			 " from tbl_coupon "+
-				            			 " where userid = ? ";
-				            
-				            pstmt = conn.prepareStatement(sql);		
-				          
-				            pstmt.setString(1,userid);
-				            
-				            rs = pstmt.executeQuery();
-				            
-				            while(rs.next()) {
-				            	mvo.setCouponnum(rs.getInt(1));
-				            	mvo.setUserid(rs.getString(2));
-				            	mvo.setCoupondate(rs.getString(3));
-				            	mvo.setCouponname(rs.getString(4));
-				            	mvo.setCoupondiscount(rs.getInt(5));
-				            	mvo.setCouponlastday(rs.getString(6));
-				            	mvo.setStatus(rs.getInt(7));
-				            }
-				            
-					
-				
-				} finally {
-					close();
-				}
-						
-					 return mvo;
-				}
+		
 		
 		
 		

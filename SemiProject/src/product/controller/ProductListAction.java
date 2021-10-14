@@ -10,7 +10,7 @@ public class ProductListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		  
-		String product_name = request.getParameter("productname");
+		String product_name = request.getParameter("product_name");
 		
 		if(product_name != null) {
 

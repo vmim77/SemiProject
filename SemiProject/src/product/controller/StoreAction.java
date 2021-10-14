@@ -40,7 +40,7 @@ public class StoreAction extends AbstractController {
 			request.setAttribute("jukrib", jukrib);
 			request.setAttribute("cartfinopt", cartfinopt);
 			
-			super.setViewPage("/WEB-INF/product/detailstore.jsp");
+			super.setViewPage("/WEB-INF/product/store.jsp");
 			
 		}
 		else {
