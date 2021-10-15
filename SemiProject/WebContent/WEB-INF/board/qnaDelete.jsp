@@ -52,7 +52,7 @@
 		
 		$("button#noDelete").click(function(){ // 삭제 취소를 눌렀다면
 			self.close();
-			opener.location.href="<%= ctxPath%>/board/QnADetail.sh?boardno="+${requestScope.boardno};
+			opener.location.href="<%= ctxPath%>/board/QnA.sh";
 		});
 		
 	});// end of $(document).ready(function(){})------------------------------------------------
