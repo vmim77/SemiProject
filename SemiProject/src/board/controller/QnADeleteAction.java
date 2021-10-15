@@ -17,14 +17,12 @@ public class QnADeleteAction extends AbstractController {
 
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		String fk_writer = request.getParameter("fk_writer");
 		
-		String fk_writer = request.getParameter("fk_writer"); // 작성자 확인용 
-		
-			if( loginuser != null && fk_writer.equals(loginuser.getUserid())) { // 작성자만 삭제할 수 있다.
+			if( loginuser != null && fk_writer.equals(loginuser.getUserid()) ) { // 작성자만 삭제할 수 있다.
 				
 				// 1. 글 상세보기에서 삭제를 누를때 1번 검사
 				// 2. 글 삭제하기 '예' 버튼을 누르면 또 1번 검사
-				
 				
 				String method = request.getMethod(); // "GET" OR "POST"
 				
@@ -33,12 +31,13 @@ public class QnADeleteAction extends AbstractController {
 					String boardno = request.getParameter("boardno");
 					
 					request.setAttribute("boardno", boardno);
+					request.setAttribute("fk_writer", fk_writer);
 					
 					super.setViewPage("/WEB-INF/board/qnaDelete.jsp");
 				}
 				
 				else {
-					
+						
 						int boardno = Integer.parseInt(request.getParameter("boardno"));
 						
 						InterBoardDAO bdao = new BoardDAO();

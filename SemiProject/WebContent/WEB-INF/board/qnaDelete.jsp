@@ -71,10 +71,11 @@
 			<button type="button" class="btn btn-primary btn-md" id="noDelete">아니요</button>
 		</div>
 	</div>
+	
 	<%-- 삭제를 위해서 해당 공지사항 게시글번호를 보내준다. --%>
 	<form name="goToDeleteFrm">
 		<input type="hidden" name="boardno" value="${requestScope.boardno}">
-		<input type="hidden" name="fk_writer" value="${sessionScope.loginuser.userid}">
+		<input type="hidden" name="fk_writer" value="${requestScope.fk_writer}">
 	</form>
 	<%-- 삭제를 위해서 해당 공지사항 게시글번호를 보내준다. --%>
 </body>
