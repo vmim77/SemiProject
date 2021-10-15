@@ -19,7 +19,6 @@
 		
 	});
 	
-	
 	function goEdit(){ // 문의사항 글 수정하기
 		
 		var frm = document.boardEditFrm
@@ -44,7 +43,6 @@
 			
         window.open(url, "checkDelete",
 	    		         "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
-		
 		
 	}// function goDelete()---------------------------------------------------------------
 	
@@ -179,9 +177,7 @@
 			<button type="button" class="btn btn-dark btn-md" onclick="javascript:location.href='<%= ctxPath%>/board/QnA.sh'">글목록</button>
 			<c:if test="${sessionScope.loginuser.userid eq requestScope.bvo.fk_writer}">
 				<button class="btn btn-dark btn-md my-2 mx-1" onclick="goEdit()">수정하기(작성자)</button>
-			</c:if>
-			<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
-				<button class="btn btn-dark btn-md my-2" onclick="goDelete()">삭제하기(운영자)</button> 
+				<button class="btn btn-dark btn-md my-2" onclick="goDelete()">삭제하기(작성자)</button> 
 			</c:if>
 		</p>
 	</div>

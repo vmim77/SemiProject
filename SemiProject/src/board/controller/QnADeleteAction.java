@@ -18,7 +18,12 @@ public class QnADeleteAction extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-			if( loginuser != null && "admin".equals(loginuser.getUserid())) { // 운영자이여야 삭제작업이 가능함.
+		String fk_writer = request.getParameter("fk_writer"); // 작성자 확인용 
+		
+			if( loginuser != null && fk_writer.equals(loginuser.getUserid())) { // 작성자만 삭제할 수 있다.
+				
+				// 1. 글 상세보기에서 삭제를 누를때 1번 검사
+				// 2. 글 삭제하기 '예' 버튼을 누르면 또 1번 검사
 				
 				
 				String method = request.getMethod(); // "GET" OR "POST"
@@ -63,7 +68,7 @@ public class QnADeleteAction extends AbstractController {
 					
 				}
 				
-			}/////////////////////// 운영자 if절
+			}/////////////////////// 작성자 if 절
 			
 			else {
 				

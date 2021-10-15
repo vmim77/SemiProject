@@ -29,7 +29,8 @@ public class QnADetailAction extends AbstractController {
 		String message = "";
 		String loc = "";
 		
-		if(loginuser != null) { // 일단 로그인을 해야합니다.
+		if(loginuser != null && fk_writer != null) { // 일단 로그인을 해야합니다.
+			
 			
 			if(fk_writer.equals(loginuser.getUserid()) || "admin".equals(loginuser.getUserid())) { // 글작성자 or 운영자가 아니면 열람할 수 없습니다.
 				
