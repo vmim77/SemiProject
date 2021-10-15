@@ -93,10 +93,10 @@
 						<td>
 							<c:choose>
 								<c:when test="${bvo.feedbackYN eq 0}"> <%-- 답변을 안했다면 X 표시를 --%>
-									X
+									<span class="badge badge-pill badge-warning ml-2">답변 대기중..</span>
 								</c:when>
 								<c:otherwise> <%-- 답변이 완료됐다면 O 표시를 합니다. --%>
-									O
+									<span class="badge badge-pill badge-success ml-2">처리 완료!</span>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -104,13 +104,13 @@
 						 <%-- 처리여부는 운영자로 로그인했을때만 보입니다. 답변이 필요하면 답변필요!, 답변이 완료됐다면 처리완료로 뜹니다. --%>
 						<c:if test="${sessionScope.loginuser.userid eq 'admin' && bvo.feedbackYN eq 0}">
 							<td>
-								<span class="badge badge-pill badge-warning ml-2">답변필요!</span>
+								<span class="badge badge-pill badge-warning ml-2">답변 필요!</span>
 							</td>
 						</c:if>
 						
 						<c:if test="${sessionScope.loginuser.userid eq 'admin' && bvo.feedbackYN eq 1}">
 							<td>
-								<span class="badge badge-pill badge-success ml-2">처리완료</span>
+								<span class="badge badge-pill badge-success ml-2">처리 완료!</span>
 							</td>
 						</c:if>
 						 <%-- 처리여부는 운영자로 로그인했을때만 보입니다. 답변이 필요하면 답변필요!, 답변이 완료됐다면 처리완료로 뜹니다. --%>

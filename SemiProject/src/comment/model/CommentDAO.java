@@ -219,4 +219,116 @@ public class CommentDAO implements InterCommentDAO {
 		return commentList;
 	}// end of public List<CommentVO> selectQnaComment(String boardno)---------------------------
 	
+	
+	
+	
+	// 문의사항 답변달기, feedbackYN 바꿔주기
+	@Override
+	public int insertQnAComment(CommentVO cvo) throws SQLException {
+		int n = 0;
+		
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_qna_comment(commentno, fk_boardno, fk_commenter, comment_content) " + 
+					     " values(seq_tbl_qna_comment.nextval, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, cvo.getFk_boardno());
+			pstmt.setString(2, cvo.getFk_commenter());
+			pstmt.setString(3, cvo.getComment_content());
+			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) { // insert 성공시 해당 글의 피드백여부도 업데이트
+				
+				sql = " update tbl_qna_board set feedbackYN = 1 "
+				    + " where boardno = ?  ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cvo.getFk_boardno());
+				
+				n += pstmt.executeUpdate();
+				
+			}
+			else {
+				System.out.println("문의사항 피드백여부 SQL 오류!!");
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return n;
+	}// end of public int insertQnAComment(CommentVO cvo)--------------------------------
+	
+	// 문의사항 답변 수정하기
+	@Override
+	public int editQnAComment(CommentVO cvo) throws SQLException {
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_qna_comment set comment_content = ? "
+					+    " where commentno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, cvo.getComment_content());
+			pstmt.setInt(2, cvo.getCommentno());
+			
+			n = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}// end of public int editQnAComment(CommentVO cvo) -----------------------------------------
+	
+	// 문의사항 답변 삭제하기
+	@Override
+	public int deleteQnAComment(CommentVO cvo) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_qna_comment"
+					+    " where commentno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, cvo.getCommentno());
+			
+			n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				n = 0; // 트랜잭션 확인용으로 초기화
+				sql = " update tbl_qna_board set feedbackYN = 0 "
+				    + " where boardno = ?  ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cvo.getFk_boardno());
+				
+				n = pstmt.executeUpdate();
+			}
+			else {
+				System.out.println("문의사항 피드백여부 SQL 오류!!");
+			}
+			
+		} finally {
+			close();
+		}
+		
+		
+		return n;
+	}// end of public int deleteQnAComment(int commentno)----------------------------------
+	
 }

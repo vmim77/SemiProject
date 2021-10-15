@@ -17,8 +17,46 @@
 	$(document).ready(function(){
 		
 		
+		$("span#commentEdit").click(function(){
+			
+			var commentno = $(this).parent().parent().parent().find("td:first-child").text();
+			var fk_commenter = $(this).parent().parent().parent().find("td:nth-child(2)").text();
+			var comment_content = $(this).parent().parent().parent().find("td:nth-child(3)").text();
+			
+		
+			$("input.forSubmit[name=commentno]").val(commentno);
+			$("input.forSubmit[name=fk_commenter]").val(fk_commenter);
+			$("input.forSubmit[name=comment_content]").val(comment_content);
+			
+			var frm = document.commentEditFrm;
+			frm.action = "<%= ctxPath%>/comment/QnACommentEdit.sh";
+			frm.method = "POST";
+			frm.submit();
+		});// end of $("span#commentEdit").click(function(){})-----------------------------
+		
+		$("span#commentDelete").click(function(){
+			
+			var commentno = $(this).parent().parent().parent().find("td:first-child").text();
+			
+			var bool = window.confirm("정말로 "+commentno+"번 답변을 삭제하시겠습니까?");
+			
+			if(bool){
+				$("input.forSubmit[name=commentno]").val(commentno);
+				var frm = document.commentEditFrm;
+				
+				frm.action="<%= ctxPath%>/comment/QnACommentDelete.sh";
+				frm.method="POST";
+				frm.submit();
+			}
+			else{
+				window.reload(true);
+			}
+			
+		});
+		
 	});
 	
+	// Function Declaration
 	function goEdit(){ // 문의사항 글 수정하기
 		
 		var frm = document.boardEditFrm
@@ -28,6 +66,7 @@
 		
 	}// end of function goEdit()----------------------------------------------------------
 	
+	// Function Declaration
 	function goDelete(){ // 문의사항 글 삭제하기
 		
 		var boardno = "${requestScope.bvo.boardno}";
@@ -44,7 +83,29 @@
         window.open(url, "checkDelete",
 	    		         "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 		
-	}// function goDelete()---------------------------------------------------------------
+	}//end of  function goDelete(){}---------------------------------------------------------------
+	
+	// Function Declaration
+	function goInsertComment(){
+		
+		
+		if($("input[name=comment_content]").val().trim() == ""){
+			alert("답변 내용을 작성해야 합니다.");
+			return;
+		}
+		
+		if( $("input[name=comment_content]").val().length > 50 ){
+			alert("답변은 50글자 미만으로 써야합니다.");
+			return;
+		}
+		
+		var frm = document.commentFrm;
+
+		frm.action = "<%= ctxPath%>/board/QnAComment.sh";
+		frm.method = "post";
+		frm.submit();
+		
+	}// end of function goInsertComment(){}--------------------------------------------
 	
 
 </script>	
@@ -142,10 +203,12 @@
 							<td class="pl-3 py-3" style="width: 100px; border-right:solid 1px white;">${cvo.fk_commenter}</td>
 							<td class="pl-3 py-3" style="text-align: left;">${cvo.comment_content}</td>
 							<td class="pr-3 py-3" style="font-size: 10pt; text-align: right;">${cvo.registerdate}</td>
-							<%-- 수정하기, 삭제하기 버튼 --%>
-							<td style="width: 20px;"><span class="badge badge-pill badge-primary ml-2" id="commentEdit">수정하기</span></td>
-							<td style="width: 20px;"><span class="badge badge-pill badge-danger  mx-2" id="commentDelete">삭제하기</span></td>
-							<%-- 수정하기, 삭제하기 버튼 --%>
+							<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
+								<%-- 수정하기, 삭제하기 버튼 --%>
+								<td style="width: 20px;"><span class="badge badge-pill badge-primary ml-2" id="commentEdit" style="cursor: pointer;">수정하기</span></td>
+								<td style="width: 20px;"><span class="badge badge-pill badge-danger  mx-2" id="commentDelete"style="cursor: pointer;">삭제하기</span></td>
+								<%-- 수정하기, 삭제하기 버튼 --%>
+							</c:if>
 						<tr>
 					</c:forEach>
 				</c:if>

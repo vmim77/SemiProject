@@ -614,3 +614,14 @@ join
     from tbl_product
 ) P
 ON Q.fk_pnum = P.pnum
+
+
+select *
+from tbl_qna_comment;
+
+select *
+from tbl_qna_board;
+
+select * 
+from user_sequences;
+

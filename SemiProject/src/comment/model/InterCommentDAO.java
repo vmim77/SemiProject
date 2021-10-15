@@ -18,7 +18,20 @@ public interface InterCommentDAO {
 	// 공지사항 댓글수정하기
 	int editNoticeComment(CommentVO cvo) throws SQLException;
 	
+	
+	
+	////////////////////////// 이 아래로는 문의사항
+	
 	 // 문의사항에 답변을 모두 가져옵니다.
 	List<CommentVO> selectQnaComment(String boardno) throws SQLException;
+	
+	// 문의사항 답변달기, feedbackYN 바꿔주기
+	int insertQnAComment(CommentVO cvo) throws SQLException;
+	
+	// 문의사항 답변 수정하기
+	int editQnAComment(CommentVO cvo) throws SQLException;
+	
+	// 문의사항 답변 삭제하기
+	int deleteQnAComment(CommentVO cvo) throws SQLException;
 
 }
