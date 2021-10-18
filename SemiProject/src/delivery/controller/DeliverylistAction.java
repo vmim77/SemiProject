@@ -10,6 +10,9 @@ import common.controller.AbstractController;
 import member.model.MemberVO;
 import product.model.InterProductDAO;
 import product.model.ProductDAO;
+import product.realmodel.InterProductRealDAO;
+import product.realmodel.ProductBuyVO;
+import product.realmodel.ProductRealDAO;
 
 public class DeliverylistAction extends AbstractController {
 
@@ -17,13 +20,15 @@ public class DeliverylistAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		HttpSession session = request.getSession();
-        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-        
-		InterProductDAO pdao = new ProductDAO();
+	    MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		String userid = loginuser.getUserid();
+	    String userid = loginuser.getUserid();
 		
-		List<ProductDAO> libo = pdao.myorder(userid); 
+		InterProductRealDAO prdao = new ProductRealDAO();
+		
+		List<ProductBuyVO> order = prdao.myorder(userid); 
+		
+		request.setAttribute("order", order);
 		
 		
 		

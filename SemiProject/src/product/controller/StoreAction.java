@@ -1,20 +1,27 @@
 package product.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import member.model.InterMemberDAO;
+import member.model.MemberDAO;
+import member.model.MemberVO;
 
 public class StoreAction extends AbstractController {
 //=========================================================================================
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String method = request.getMethod();
-		
-		if("POST".equalsIgnoreCase(method) ) {
+		// 로그인 확인
+		if(super.checkLogin(request)) {
 			
+			////////////////////////////////////////////////////////////////////
+			
+			// 내가 담은 내역
 			// 이미지명, 옵션1~4, 수량, 가격, 옵션가격
 			String product_front_p1 = request.getParameter("product_front_p1");
 			String cartname   = request.getParameter("cartname");
@@ -40,13 +47,35 @@ public class StoreAction extends AbstractController {
 			request.setAttribute("jukrib", jukrib);
 			request.setAttribute("cartfinopt", cartfinopt);
 			
-			super.setViewPage("/WEB-INF/product/store.jsp");
+			///////////////////////////////////////////////////////////////////
+			
+			// 내정보 불러오기를 위한 처리작업
+			HttpSession session = request.getSession();
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			
+			String userid = loginuser.getUserid();
+			
+			InterMemberDAO mado = new MemberDAO();
+		//	Map<String, String> paraMap = mado.SelectMyInfo(userid);
+			
+		//	request.setAttribute("paraMap", paraMap);
+					
+			////////////////////////////////////////////////////////////////////
+			
+			// 내 포인트 넘겨주기
+			InterMemberDAO mdao = new MemberDAO();
+		//	int mypoint = mdao.selectMyPoint(userid);
+		//	request.setAttribute("mypoint", mypoint);
+			
+			/////////////////////////////////////////////////////////////////////
+			
+			super.setViewPage("/WEB-INF/product/detailstore.jsp");
 			
 		}
 		else {
 			 
-			String message = "잘못된 경로 입니다.";
-			String loc = "/SemiProject/index.sh";
+			String message = "로그인 후 이용가능한 서비스 입니다";
+			String loc = "/SemiProject/login/login.sh";
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);

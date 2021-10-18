@@ -64,6 +64,9 @@ public interface InterMemberDAO {
 	// 운영자가 회원의 정보를 수정하는 것입니다.
 	int adminUpdateUser(MemberVO member) throws SQLException;
 
+	// 운영자가 회원 쿠폰 추가해주기
+	void couponudate(MemberVO member) throws SQLException;
+
 
 	
 	////////////////////////////////////////////////////////////////////////////////////

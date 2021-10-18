@@ -6,14 +6,15 @@
  
 %>   
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <jsp:include page="../header.jsp" />
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" >
 
 <style type="text/css">
 
@@ -77,6 +78,19 @@
 
 	$(document).ready(function(){
 		
+		$("button#trade").click(function(){
+			
+			 $("input#jumun_bunho").val($(this).next().val());
+			
+			
+			  var frm = document.change;
+		      frm.action = "<%= ctxPath%>/delivery/orderchange.sh";
+		      frm.method = "post";
+		      frm.submit(); 
+			
+			
+		}); //
+		
 
 		
 	}); // end of $(document).ready(function(){})-----------------------------
@@ -121,7 +135,7 @@
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:200px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
 				<img style="height:80px; padding-right:10px;" id="profile" src="../images/image_3.png"/>
 				<div style="font-size:9pt; margin-top:7px; margin-left: 5px;">
-				<button type="button" id="gobtn2" class="btn btn-success" data-toggle="modal" data-target="#myModal2">
+				<button type="button" id="gobtn2" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal2">
 		  			적립금
 				</button>
 				
@@ -167,7 +181,7 @@
 				<img style="height:80px; padding-right:10px; margin-left: 13px;" id="profile" src="../images/image_4.png"/>
 				<div style="font-size:9pt; margin-top:7px; margin-left: 20px;">
 					 <!-- 	<!-- modal 구동 버튼 (trigger) -->
-		<button type="button" id="gobtn" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+		<button type="button" id="gobtn" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal">
 		  	쿠폰
 		</button>
 
@@ -212,37 +226,90 @@
 	</tr>
 </table><br>
 
-	<div style="font-weight:bold; font-size:16pt; color:black;">
-		<h3>최근주문정보</h3>
-		<span class="" ><a href="" id="add">더보기</a></span>
-	</div>
-<table style="border: solid 2px gray; border-left: none; border-right: none;">
-        <thead><tr>
-				<th scope="col" class="number" style="height: 50px; width: 150px">주문일자 [주문번호]</th>
-                <th scope="col" class="" style="height: 50px; width: 350px; text-align: center;">이미지</th>
-                <th scope="col" class="" style="height: 50px; width: 500px; text-align: center;">상품정보</th>
-                <th scope="col" class="quantity" style="height: 50px; width: 150px; text-align: left;">수량</th>
-                <th scope="col" class="price" style="height: 50px; width: 200px">상품구매금액</th>
-                <th scope="col" class="service" style="height: 50px; width: 150px">취소/교환/반품</th>
-            </tr></thead>
-	<tbody class="displaynone">
-		<tr class="">
-				<td class="number displaynone">
-                 <a href="" class="btn_addr displaynone"><span>2021-10-12</span></a>
-         		  </td>
-                <td class=""><a href=""><img src=""></a></td>
-                <td class="">
-                </td>
-               		<td class=""></td>
-                	<td class=""> 
-					<strong></strong><div class="displaynone"></div>
-				</td>
-               <td class="number displaynone">
-                 <a href="<%=ctxPath %>/delivery/orderchange.sh" class="btn_addr displaynone" style="text-align: center;"><span>교환/환불</span></a>
-           		</td>
-            </tr>
-</tbody>
-</table>
+<!-- 여기서부터 디자인 시작 -->
+                <table>
+                  <tr style="font-size:13pt; font-weight:bold; height:50px; text-align:left; padding-bottm:15px;">
+                     <td colspan="7" style="padding-left:15px;">
+                        상품정보
+                     </td>
+                  </tr>
+                  <tr style="background-color:#f5f5ef; border-bottom:solid 1px #d0d0e2; border-top:solid 1px #d0d0e2;">                  
+                     <td style="width:200px; height:30px; font-size:10pt; color:black; text-align:center;">
+                        상품이미지
+                     </td>
+                     <td style="width:600px; font-size:10pt; color:black; text-align:center;">
+                        상품정보
+                     </td >
+                     <td style="width:200px; font-size:10pt; color:black; text-align:center;">
+                        수량
+                     </td>
+                     <td style="width:200px; font-size:10pt; color:black; text-align:center;">
+                        총 가격
+                     </td>
+                     <td style="width:100px; font-size:10pt; color:black; text-align:center;">
+                        주문번호
+                     </td>
+                     <td style="width:100px; font-size:10pt; color:black; text-align:center;">
+                        주문상태
+                     </td>
+                     <td style="width:100px; font-size:10pt; color:black; text-align:center;">
+                        환불/교환
+                     </td>
+                  </tr>
+                  <c:if test="${empty requestScope.buyList && requestScope.checkidnull ne 'no'}">
+                     <tr>
+                        <td colspan="7" style="height:200px; text-align:center; font-size:11pt;">
+                           고객님의 구매내역이 없습니다
+                        </td>
+                     </tr>   
+                  </c:if>
+                  <c:if test="${requestScope.checkidnull eq 'no'}">
+                     <tr>
+                        <td colspan="7" style="height:200px; text-align:center; font-size:11pt;">
+                           로그인 후 조회 가능합니다.
+                        </td>
+                     </tr>   
+                  </c:if>      
+                  <c:if test="${not empty requestScope.buyList && requestScope.checkidnull ne 'no'}">
+                     <c:forEach var="buyList" items="${requestScope.buyList}">
+                        <tr style="border-bottom:solid 1px gray;">                     
+                           <td style="width:200px; height:150px; font-size:10pt; color:black; text-align:center;">
+                              <img style="width:200px; height:150;" id="chun" src="${buyList.fk_pimage3}"/>
+                           </td>
+                           <td style="width:600px; font-size:10pt; color:black; text-align:left; padding-left:30px;">
+                              ${buyList.buy_opt_info}
+                           </td >
+                           <td style="width:200px; font-size:10pt; color:black; text-align:center;">
+                              ${buyList.buy_qty}
+                           </td>
+                           <td style="width:200px; font-size:10pt; color:black; text-align:center;">
+                              <fmt:formatNumber value="${buyList.buy_opt_price + buyList.buy_pro_price}" pattern="###,###" />원
+                           </td>
+                           <td style="width:100px; font-size:10pt; color:black; text-align:center;">
+                              ${buyList.jumun_bunho}
+                           </td>
+                           <td style="width:100px; font-size:10pt; color:black; text-align:center;">
+                              <c:choose>
+                                 <c:when test="${buyList.baesong_sangtae eq 0}">배송준비</c:when>
+                                 <c:when test="${buyList.baesong_sangtae eq 1}">배송중</c:when>
+                                 <c:when test="${buyList.baesong_sangtae eq 2}">배송완료</c:when>
+                                 <c:when test="${buyList.baesong_sangtae eq 3}">교환</c:when>
+                                 <c:otherwise>환불</c:otherwise>
+                              </c:choose>
+                           </td>
+                           <td style="width:100px; font-size:9pt; color:black; text-align:center;">
+                             		<button id="trade">환불/교환</button>
+                             		<input type="hidden" value="${buyList.jumun_bunho}">
+                           </td>
+                           
+                        </tr>
+                     </c:forEach>
+                  </c:if>
+               </table>
+<form name="change">
+	<input type="hidden" id="jumun_bunho" name="jumun_bunho" value="" />
+	<input style="display: none;">
+</form>
 
 <br>
 
@@ -260,7 +327,7 @@
             </tr>
 	
 		<c:forEach  var= "bvo" items="${requestScope.list}" varStatus="status">
-			<c:if test="${status.index < 3}" >
+			<c:if test="${status.index < 5}" >
 			<tr>
 				<td class="" style="height: 200px; width: 300px;">${bvo.boardno}</td>
                 <td style="height: 200px; width: 400px">${bvo.title }</td> 
@@ -274,28 +341,17 @@
 </tbody>
 </table>
 
-		`<div>
+		`<%-- <div>
 			<p class="text-center">
 			    <span id="end" style="display:block; margin:20px; font-size: 14pt; font-weight: bold; color: red;"></span> 
 				<button type="button" class="btn btn-secondary btn-lg" id="btnMoreHIT" value="">더보기</button>
 				<span id="totalHITCount">${requestScope.totalHITCount}</span>
 			</p>
-		</div>
+		</div> --%>
 
 	<br>
 
-<table style="border: solid 2px gray; border-left: none; border-right: none;">
-	<tr>
-		<td colspan="2" style="text-align:left; height:80px; font-weight:bold; font-size:16pt; color:black;">관심상품목록
-		<td style="text-align:right;"><button class="alert alert-light" style="border: solid 1px gray;">더보기 ></button>
-		</td>
-	</tr>
-	
-	<tr>
-	  <td colspan="2" style="height: 200px; width: 1300px" ></td>
-	  <td style="height: 200px; width: 200px" ></td>
-	</tr>
-</table>
+
 </div>
 </div>
 

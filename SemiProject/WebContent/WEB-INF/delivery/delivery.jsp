@@ -4,6 +4,9 @@
    String ctxPath = request.getContextPath();
  
 %>   
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <jsp:include page="../header.jsp" />
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -155,11 +158,29 @@ h2 {
 
 <script type="text/javascript">
 
- function godelivery() {
-	 
-	 
-	 
- }
+$(document).ready(function(){
+	
+	var flag = false;
+	
+	$("button#btnSubmit").click(function(){
+		
+		// 정규표현식
+		// 55555-55
+		// 위 조건 성립시 flag = true;
+		
+		if(flag ==false){	
+	  		var frm = document.change;
+	      frm.action = "<%= ctxPath%>/delivery/delivery.sh";
+	      frm.method = "post";
+	      frm.submit(); 
+		}
+		else{
+			alert("주문번호 형식에 맞지 않습니다.");
+		}
+		
+	}); //
+
+});
 
 
 </script>
@@ -171,13 +192,25 @@ h2 {
         <div class="login">
             <h2 style="color: black;">운송장 번호로 조회</h2>
             <div class="login_id">
-                <input type="text" name="" id="" placeholder="예 01234567890, ‘-’를 제외한 숫자 11자리" maxlength="11" >
+               <select id="selectjumun" style="width:200px; height:30px; margin-right:5px; padding:0px 5px; font-size:10pt;" onclick="flagjumunbunho();">
+         <option>주문번호 선택</option>
+         <c:if test="${empty requestScope.pdvo eq 'no'}">
+            <option disabled="disabled">조회 내역이 없습니다.</option>
+         </c:if>
+         
+         <c:if test="${not empty requestScope.pdvo ne 'no'}">
+            <c:forEach var="buyList" items="${requestScope.pdvo}">
+               <option>${pdvo.jumun_bunho}</option>
+            </c:forEach>
+         </c:if>
+      </select>
+                
             </div>
             <div class="login_pw">
             </div>
             <button type="button" id="btnSubmit" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
 		  	조회
-		</button>
+			</button>
       	  </div>
     	</div>
        </table>
@@ -191,6 +224,7 @@ h2 {
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel" style="text-align: right;">배송조회</h4>
+        
       </div>
       
       <div class="modal-body">
@@ -198,15 +232,19 @@ h2 {
         	 <tr>
 				<th scope="col" class="" style="height: 50px; width: 350px">주문일자</th>
                 <th scope="col" class="" style="height: 50px; width: 350px">주문자</th>
-                <th scope="col" class="" style="height: 50px; width: 350px">진행사항</th>
+                <th scope="col" class="" style="height: 50px; width: 350px">배송상황</th>
+                <th scope="col" class="" style="height: 50px; width: 350px">주문번호</th>
             </tr>
             
 			
+			<c:forEach  var= "pdvo" items="${requestScope.order}">
 			<tr>
-				<td>2021-10-13</td>
-				<td>금길영</td>
-				<td>배송준비중</td>
-			</tr>            
+				<td class="" style="height: 50px; width: 350px;">${pdvo.buy_date}</td>
+                <td style="height: 50px; width: 350px">${pdvo.fk_userid}</td> 
+                <td class="" style="height: 50px; width: 350px">${pdvo.baesong_sangtae}</td>
+                <td class="" style="height: 50px; width: 350px">${pdvo.jumun_bunho}</td>
+            </tr>
+		</c:forEach>           
         	</table>
       </div>
      		<div class="modal-footer">
@@ -215,6 +253,11 @@ h2 {
 	    </div>
 	  </div>
 	 </div>
+	 
+<form name="change">
+	<input id="jumun_bunho" name="jumun_bunho" value="" />
+	<input style="display: none;">
+</form>	 
 	   
    
 <jsp:include page="../footer.jsp" />

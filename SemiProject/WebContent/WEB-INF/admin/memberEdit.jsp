@@ -59,10 +59,10 @@
 				alert("숫자만 입력하세요!");
 				return;
 			}
-			
+			$("input#onlyinfo").val("onlyinfo");
 			var frm = document.adminEditUser;
 			frm.action="<%= ctxPath%>/admin/memberEditEnd.sh";
-			frm.method="POST"
+			frm.method="POST";
 			frm.submit();
 			
 		});// end of $("button#btnEditUserInfo").onclick(function(){})----------------------------------
@@ -70,6 +70,24 @@
 		$(window).on('beforeunload', function() { // 팝업창에서 수정하기를 누르지않고 X표시를 눌러서 끄면 부모창을 새로고침 해줍니다.
 			opener.location.reload(true); 
 		});
+		
+		
+		
+		$("button#coupon").click(function(){
+			
+			$("input#onlycoupon").val("onlycoupon");
+			
+			
+			var frm = document.adminEditUser;
+			frm.action="<%= ctxPath%>/admin/memberEditEnd.sh";
+			frm.method="POST";
+			frm.submit();		
+			
+			alert("추가되었습니다.");
+			
+		});//end of $("button#goCoupon").click(function()
+				
+		
 		
 		
 	});// end of $(document).ready(function(){})------------------------------------------------
@@ -83,6 +101,8 @@
 	<div class="container">
 		<div class="row justify-content-center">
 				<form name="adminEditUser" class="my-3">
+				<input type="hidden" name="onlycoupon" id="onlycoupon" value="test"/>
+				<input type="hidden" name="onlyinfo" id="onlyinfo" value="test"/>
 					<input type="hidden" name="userid" value="${requestScope.member.userid}"/> <%-- where절에 쓸 userid --%>
 					<table class="table-dark" >
 						<tr>
@@ -131,8 +151,8 @@
 						</tr>
 						<tr>
 						<td class="title">쿠폰</td>
-						<td>
-							<select name="coupon">
+							<td>
+						   <select name="couponname">
 								<c:choose>
 									<c:when test="${requestScope.couponname}">
 										<option selected="selected" value="0">쿠폰없음</option>
@@ -146,7 +166,7 @@
 									</c:otherwise>
 								</c:choose>
 							</select>
-							<button>추가</button>
+						  <button id="coupon">추가</button>
 						</td>
 					</tr>
 					</table>

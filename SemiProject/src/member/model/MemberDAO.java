@@ -910,6 +910,8 @@ public class MemberDAO implements InterMemberDAO {
 						mvo.setStatus(rs.getInt(6));
 						
 						libo.add(mvo);
+						
+						
 					 
 				 }
 				 
@@ -920,6 +922,58 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return libo;
 		}
+
+		// 운영자가 쿠폰 추가해주기
+		@Override
+		public void couponudate(MemberVO member) throws SQLException {
+			
+			member = new MemberVO();
+			
+			
+			int coupondiscount = 0;
+			String couponname = "";
+			
+			if(member.getCouponname() == "1"  ) {
+				coupondiscount = 3000;
+				couponname = "추천인쿠폰/3000원";
+			}
+			else if( member.getCouponname() == "2" ) {
+				coupondiscount = 5000;
+				couponname = "신규가입쿠폰/5000원";
+			}
+			else if( member.getCouponname() == "3" ) {
+				coupondiscount = 10000;
+				couponname = "이벤트쿠폰/10000원";
+			}
+			else if( member.getCouponname() == "4" ) {
+				coupondiscount = 20000;
+				couponname = "이벤트쿠폰(VIP)/20000원";
+			}
+			else {
+				coupondiscount = 0;
+				couponname = "쿠폰없음";
+			}
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status) "
+						   + " values(?, sysdate, ?, ?, sysdate+7, 1) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				 
+				pstmt.setString(1, member.getFk_userid());
+				pstmt.setString(2, couponname);
+				pstmt.setInt(3, coupondiscount);
+				
+				pstmt.executeUpdate();
+				
+			}finally {
+				close();
+			}
+			
+		}
+
+	
 		
 
 		
@@ -928,4 +982,6 @@ public class MemberDAO implements InterMemberDAO {
 		
 		
 		
+		
 }
+

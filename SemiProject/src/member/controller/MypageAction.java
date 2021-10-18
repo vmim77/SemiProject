@@ -14,12 +14,16 @@ import common.controller.AbstractController;
 import member.model.InterMemberDAO;
 import member.model.MemberDAO;
 import member.model.MemberVO;
+import product.realmodel.InterProductRealDAO;
+import product.realmodel.ProductBuyVO;
+import product.realmodel.ProductRealDAO;
 
 public class MypageAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		InterProductRealDAO prdao = new ProductRealDAO();
 		InterMemberDAO mdao = new MemberDAO();
 		InterBoardDAO bdao = new BoardDAO();
 		HttpSession session = request.getSession();
@@ -34,6 +38,15 @@ public class MypageAction extends AbstractController {
 		List<BoardVO> list = bdao.selectmyboard(userid); // DAO로 이동해서 tbl_notice_board의 대한 글목록을 받아옵니다.
 
 		request.setAttribute("list", list);
+		
+		// 리뷰를 작성안한 내 구매내역을 가져오기
+        List<ProductBuyVO> buyList = prdao.SelectMyPageBought(userid);
+        
+        request.setAttribute("buyList", buyList);
+        
+
+		
+	//	List<ProductBuyVO> buyList = prdao.SelectMyallBought(userid);
 		
 		
 		

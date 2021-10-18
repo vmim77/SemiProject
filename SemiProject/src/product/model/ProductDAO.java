@@ -6,7 +6,7 @@ import java.util.*;
 import javax.naming.*;
 import javax.sql.DataSource;
 
-import member.model.MemberVO;
+import product.realmodel.ProductBuyVO;
 import util.security.*;
 
 public class ProductDAO implements InterProductDAO {
@@ -340,24 +340,5 @@ public class ProductDAO implements InterProductDAO {
 		
 	}//end of public void Savemycheck() throws SQLException {
 //=====================================================================================	
-	// 배송조회하기
-	@Override
-	public List<ProductDAO> myorder(String userid) throws SQLException {
-		
-		List<ProductDAO> pdao = new ArrayList<>();
-		
-		try {
-			conn = ds.getConnection();
-			 
-			 String sql = "";
-			 
-			
-			
-		} finally {
-			close();
-		}
-		
-		
-		return pdao;
-	}
+
 }
