@@ -9,6 +9,7 @@ import javax.naming.*;
 import javax.sql.DataSource;
 
 import board.model.BoardVO;
+import product.realmodel.ProductBuyVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -927,25 +928,28 @@ public class MemberDAO implements InterMemberDAO {
 		@Override
 		public void couponudate(MemberVO member) throws SQLException {
 			
-			member = new MemberVO();
+			// member = new MemberVO(); // 깡통으로 덮어씌우는거에요 값을 받아온걸
 			
+		
 			
 			int coupondiscount = 0;
-			String couponname = "";
+			String couponname = member.getCouponname();
 			
-			if(member.getCouponname() == "1"  ) {
+			System.out.println(couponname);
+			
+			if("1".equals(couponname)  ) {
 				coupondiscount = 3000;
 				couponname = "추천인쿠폰/3000원";
 			}
-			else if( member.getCouponname() == "2" ) {
+			else if( "2".equals(couponname)   ) {
 				coupondiscount = 5000;
 				couponname = "신규가입쿠폰/5000원";
 			}
-			else if( member.getCouponname() == "3" ) {
+			else if( "3".equals(couponname)   ) {
 				coupondiscount = 10000;
 				couponname = "이벤트쿠폰/10000원";
 			}
-			else if( member.getCouponname() == "4" ) {
+			else if( "4".equals(couponname)   ) {
 				coupondiscount = 20000;
 				couponname = "이벤트쿠폰(VIP)/20000원";
 			}
@@ -961,7 +965,7 @@ public class MemberDAO implements InterMemberDAO {
 				
 				pstmt = conn.prepareStatement(sql);
 				 
-				pstmt.setString(1, member.getFk_userid());
+				pstmt.setString(1, member.getUserid());
 				pstmt.setString(2, couponname);
 				pstmt.setInt(3, coupondiscount);
 				
@@ -973,15 +977,45 @@ public class MemberDAO implements InterMemberDAO {
 			
 		}
 
-	
-		
+		// 회원 포인트 조회하기
+		@Override
+		public List<MemberVO> mypoint(String userid) throws SQLException {
+			
+			List<MemberVO> mbvo = new ArrayList<>();
+			
+			try {
+				
+				conn=ds.getConnection();
+				
+				String sql = " select point "+
+							 " from tbl_member "+
+							 " where userid = ?";
+							 		
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, userid);
+				
+				rs = pstmt.executeQuery();
+				 
+				 while(rs.next()) {
+					 
+					 MemberVO nvo = new MemberVO();
+					 
+					 nvo.setUserid(rs.getString(1));
+					 
+					 mbvo.add(nvo);
+						
+				 }
+				
+				
+			} finally {
+				close();
+			}
+			
+			
+			return mbvo;
+	}
 
-		
-		
-		
-		
-		
-		
-		
 }
 

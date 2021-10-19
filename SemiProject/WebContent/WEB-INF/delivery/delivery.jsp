@@ -194,12 +194,12 @@ $(document).ready(function(){
             <div class="login_id">
                <select id="selectjumun" style="width:200px; height:30px; margin-right:5px; padding:0px 5px; font-size:10pt;" onclick="flagjumunbunho();">
          <option>주문번호 선택</option>
-         <c:if test="${empty requestScope.pdvo eq 'no'}">
+         <c:if test="${empty requestScope.order eq 'no'}">
             <option disabled="disabled">조회 내역이 없습니다.</option>
          </c:if>
          
-         <c:if test="${not empty requestScope.pdvo ne 'no'}">
-            <c:forEach var="buyList" items="${requestScope.pdvo}">
+         <c:if test="${not empty requestScope.buyList ne 'no'}">
+            <c:forEach var="buyList" items="${requestScope.buyList}">
                <option>${pdvo.jumun_bunho}</option>
             </c:forEach>
          </c:if>

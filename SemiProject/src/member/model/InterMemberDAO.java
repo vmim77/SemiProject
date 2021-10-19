@@ -67,6 +67,9 @@ public interface InterMemberDAO {
 	// 운영자가 회원 쿠폰 추가해주기
 	void couponudate(MemberVO member) throws SQLException;
 
+	// 회원 포인트 조회하기
+	List<MemberVO> mypoint(String userid) throws SQLException;
+
 
 	
 	////////////////////////////////////////////////////////////////////////////////////

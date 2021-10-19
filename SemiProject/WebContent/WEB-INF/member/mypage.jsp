@@ -47,6 +47,7 @@
    	border-bottom: solid 1px gray;
    	border-left: none;
    	border-right: none;
+   	border-top:none;
    }
    
     .titleArea h2 {
@@ -89,7 +90,51 @@
 		      frm.submit(); 
 			
 			
-		}); //
+		}); 
+		
+		// 잠시 숨기기
+	      $("div#view_close").hide();
+	      // 전체리뷰개수
+	      var rvcnt = "${requestScope.Review_cnt}"*1;
+	      // 클릭갯수
+	      var ckcnt = 1;
+	      
+	      // 페이지 로드시 일정 갯수 이상의 리뷰는 숨겨주기
+	      for(var i=0; i<rvcnt; i++){
+	         if(i>2){
+	            $("tr#"+i).hide();
+	         }   
+	      }//end of for----------------------------------
+	      
+	      // view more 클릭시
+	      $("div#view_more").click(function(){
+	         // 끝까지 view more를 했다면
+	         if((ckcnt+1)*3>rvcnt){
+	            $("div#view_more").hide();
+	            $("div#view_close").show();
+	         }
+	         // 3개씩 끊어서 보여주기
+	         for(var i=0; i<(ckcnt+1)*3; i++){
+	            $("tr#"+i).show();
+	         }
+	         // 클릭 갯수 올리기
+	         ckcnt++;         
+	      });//end of $("div#view_more").click(function(){
+	         
+	      // view close 클릭시
+	      $("div#view_close").click(function(){
+	         // 초기화 해주기
+	         ckcnt = 1;
+	         // 보여준거 숨기기
+	         for(var i=0; i<rvcnt; i++){
+	            if(i>2){
+	               $("tr#"+i).hide();
+	            }   
+	         }//end of for----------------------------------
+	         // 다시 원래대로 돌리기
+	         $("div#view_more").show();
+	         $("div#view_close").hide();      
+	      });//end of $("div#view_more").click(function(){
 		
 
 		
@@ -126,7 +171,7 @@
 					총 주문액
 				</div>
 				<div style="font-size:12pt; font-weight:bold;">
-					200,000원<!-- 값넣어야함  -->
+					${requestScope.buy_pro_price }
 				</div>
 			</span>
 		</td>
@@ -135,45 +180,16 @@
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:200px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
 				<img style="height:80px; padding-right:10px;" id="profile" src="../images/image_3.png"/>
 				<div style="font-size:9pt; margin-top:7px; margin-left: 5px;">
-				<button type="button" id="gobtn2" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal2">
-		  			적립금
-				</button>
+				<div style="font-size:9pt; margin-top:7px;">
+					포인트
+				</div>
+				<div style="font-size:12pt; font-weight:bold;">
+					${sessionScope.loginuser.point}원
+				</div>
 				
-<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel" style="text-align: right;">포인트내역</h4>
-      </div>
-      
-      <div class="modal-body">
-        	<table border="1">
-        	 <tr>
-				<th scope="col" class="" style="height: 50px; width: 150px">적립일자</th>
-                <th scope="col" class="" style="height: 50px; width: 150px; text-align: center;">적립	금액</th>
-                <th scope="col" class="" style="height: 50px; width: 150px; text-align: center;">사용한포인트</th>
-                <th scope="col" class="" style="height: 50px; width: 150px; text-align: center;">사용가능포인트</th>
-            </tr>
-            
-        <c:forEach  var= "mvo" items="${requestScope.libo}" >
-			<tr>
-				<td class="" style="height: 50px; width: 150px;">${mvo.coupondate}</td>
-                <td style="height: 50px; width: 150px; text-align: center;">${mvo.couponname}</td> 
-                <td style="height: 50px; width: 150px; text-align: center;">${mvo.couponname}</td> 
-                <td class="" style="height: 50px; width: 150px; text-align: center;"> <a href=""></a>${mvo.coupondiscount}원</td>
-            </tr>
-		</c:forEach>
-        	</table>
-    		  </div>
-     		<div class="modal-footer">
-       		 <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-	      </div>
-	    </div>
-	  </div>
-	  </div>
-	</div>
-	</span>
-	</td>
+			</div>
+		</span>
+		</td>
 		
 		
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
@@ -271,7 +287,8 @@
                      </tr>   
                   </c:if>      
                   <c:if test="${not empty requestScope.buyList && requestScope.checkidnull ne 'no'}">
-                     <c:forEach var="buyList" items="${requestScope.buyList}">
+                     <c:forEach var="buyList" items="${requestScope.buyList}" varStatus="status">
+                     <c:if test="${status.index < 3}" >
                         <tr style="border-bottom:solid 1px gray;">                     
                            <td style="width:200px; height:150px; font-size:10pt; color:black; text-align:center;">
                               <img style="width:200px; height:150;" id="chun" src="${buyList.fk_pimage3}"/>
@@ -293,16 +310,16 @@
                                  <c:when test="${buyList.baesong_sangtae eq 0}">배송준비</c:when>
                                  <c:when test="${buyList.baesong_sangtae eq 1}">배송중</c:when>
                                  <c:when test="${buyList.baesong_sangtae eq 2}">배송완료</c:when>
-                                 <c:when test="${buyList.baesong_sangtae eq 3}">교환</c:when>
-                                 <c:otherwise>환불</c:otherwise>
+                                 <c:when test="${buyList.baesong_sangtae eq 3}">환불</c:when>
+                                 <c:when test="${buyList.baesong_sangtae eq 4}">교환</c:when>
                               </c:choose>
                            </td>
                            <td style="width:100px; font-size:9pt; color:black; text-align:center;">
                              		<button id="trade">환불/교환</button>
                              		<input type="hidden" value="${buyList.jumun_bunho}">
                            </td>
-                           
                         </tr>
+                        </c:if>
                      </c:forEach>
                   </c:if>
                </table>
@@ -325,33 +342,29 @@
                 <th scope="col" style="height: 50px; width: 400px">작성일</th>
                 <th scope="col" style="height: 50px; width: 100px">조회</th>
             </tr>
+		<c:if test="${empty requestScope.list ne 'no'}">
+                     <tr>
+                        <td colspan="5" style="height:200px; text-align:center; font-size:11pt;">
+                           작성된 글이 없습니다.
+                        </td>
+                     </tr>   
+                  </c:if>
 	
 		<c:forEach  var= "bvo" items="${requestScope.list}" varStatus="status">
-			<c:if test="${status.index < 5}" >
+			<c:if test="${status.index < 3}" >
 			<tr>
 				<td class="" style="height: 200px; width: 300px;">${bvo.boardno}</td>
-                <td style="height: 200px; width: 400px">${bvo.title }</td> 
-                <td class="" style="height: 200px; width: 300px"> <a href=""></a>${bvo.fk_writer}</td>
+                <td style="height: 200px; width: 400px">${bvo.title}</td> 
+                <td class="" style="height: 200px; width: 300px">${bvo.fk_writer}</td>
                 <td class="" style="height: 200px; width: 400px">${bvo.writetime}</td>
                 <td class="" style="height: 200px; width: 100px">${bvo.viewcnt}</td>
             </tr>
 			</c:if>
 		</c:forEach>
-		
-</tbody>
+	</tbody>
 </table>
 
-		`<%-- <div>
-			<p class="text-center">
-			    <span id="end" style="display:block; margin:20px; font-size: 14pt; font-weight: bold; color: red;"></span> 
-				<button type="button" class="btn btn-secondary btn-lg" id="btnMoreHIT" value="">더보기</button>
-				<span id="totalHITCount">${requestScope.totalHITCount}</span>
-			</p>
-		</div> --%>
-
 	<br>
-
-
 </div>
 </div>
 

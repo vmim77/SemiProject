@@ -17,25 +17,38 @@ public class OrderchangeAction extends AbstractController {
 		InterProductRealDAO prdao = new ProductRealDAO();
         
         String jumun_bunho = request.getParameter("jumun_bunho");
-        String baesong_sangtae = request.getParameter("baesong_sangtae");
         
         List<ProductBuyVO> orderList = prdao.SelectMyBought(jumun_bunho);
         
+        request.setAttribute("jumun_bunho", jumun_bunho);
+        
         request.setAttribute("orderList", orderList);
         
+        int th = 0;
+        String can = request.getParameter("can");
         
-        if( baesong_sangtae == "배송준비" ) {
-        	int ChangeList = prdao.Change(jumun_bunho);
-        	
-        	request.setAttribute("ChangeList", ChangeList);
-        }
-        else {
-        	
-        	
-        }
+        System.out.println("can => " + can);
+        System.out.println("th => " + th);
         
-		
-		
+        if( can != null ) {
+        	
+        	jumun_bunho = request.getParameter("retry_jumun_bunho");
+	        
+	        if("환불·취소".equals(can)) {
+	        	th = 3;
+	        	System.out.println("th => " + th);
+	        	System.out.println("jumun_bunho => " + jumun_bunho);
+	        	int ChangeList = prdao.Change(jumun_bunho,th);
+	        	request.setAttribute("ChangeList", ChangeList);
+	        }
+	        else {
+	        	th = 4;
+	        	int ChangeList = prdao.Change(jumun_bunho,th);
+	        	request.setAttribute("ChangeList", ChangeList);
+	        }
+        }
+        	
+        
 		super.setViewPage("/WEB-INF/delivery/orderchange.jsp");
 		
 	}

@@ -39,11 +39,57 @@
 }
 </style>
 <script>
+
+	var flag = false;
+
+	function gocancle() {
+		
+		if($("select#changetr").val() == "제품의 하실 것을 선택하시오." ){
+			flag = false;			
+		}
+		else {
+			flag = true;
+		}
+	}
+	
 	function change(){
 		
-		alert("교환되었습니다.");
-		
+		if(flag == false) {
+			alert("옵션을 제대로 선택해주세요.");	
+		}
+		else {
+			
+			
+			if($("select#changetr").val() == "교환"){
+				alert("교환되었습니다.");
+				$("input#can").val("교환");
+				var frm = document.changetrade;
+				frm.action = "<%= ctxPath%>/delivery/orderchange.sh";
+				frm.method = "post";
+				frm.submit();
+			}
+		}
 	}
+	
+	function cancelPay() {
+
+		if(flag == false) {
+			alert("옵션을 제대로 선택해주세요.");	
+		}
+		else {
+			
+			if($("select#changetr").val() == "환불·취소"){
+				alert("환불되었습니다.");
+				$("input#can").val("환불·취소");
+				var frm = document.changetrade;
+				frm.action = "<%= ctxPath%>/delivery/orderchange.sh";
+				frm.method = "post";
+				frm.submit();
+			}
+		}
+	}
+	
+	
 	
 
 	$(document).ready(function(){
@@ -52,7 +98,7 @@
 		$("div#hide2").hide();
 		$("button#change").hide();
 		
-		$("select#slt").click(function(){
+		$("select#changetr").click(function(){
 	
 			if($(this).val() == "제품의 하실 것을 선택하시오."){
 				$("div#hide1").hide();
@@ -73,11 +119,9 @@
 			
 		});//end of $("select#slt").click(function()
 				
-		$("button#cancel").cilck(function(){
-			
-			alert("환불되었습니다.");
-		});			
 				
+			
+			
 		
 	});// end of $(document).ready(function()
 	
@@ -141,7 +185,8 @@
                                  <c:when test="${orderList.baesong_sangtae eq 0}">배송준비</c:when>
                                  <c:when test="${orderList.baesong_sangtae eq 1}">배송중</c:when>
                                  <c:when test="${orderList.baesong_sangtae eq 2}">배송완료</c:when>
-                                 <c:when test="${orderList.baesong_sangtae eq 3}">교환</c:when>
+                                 <c:when test="${orderList.baesong_sangtae eq 3}">환불</c:when>
+                                 <c:when test="${orderList.baesong_sangtae eq 4}">교환</c:when>
                                  <c:otherwise>환불</c:otherwise>
                               </c:choose>
                            </td>
@@ -162,8 +207,8 @@
 
 		<tr>
 			<td>
-				<select id="slt" style="width:100%; height:30px; margin-right:5px; padding-right:5px; padding-bottom:5px; text-align:left;">
-					<option>제품의 하실 것을 선택하시오.</option>
+				<select id="changetr" style="width:100%; height:30px; margin-right:5px; padding-right:5px; padding-bottom:5px; text-align:left;" onclick="gocancle();">
+					<option disabled="disabled">제품의 하실 것을 선택하시오.</option>
 					<option>환불·취소</option>
 					<option>교환</option>	
 				</select>
@@ -187,16 +232,21 @@
 			<td>
 				<select style="width:100%; height:30px; margin-right:5px; padding-right:5px; padding-bottom:5px; text-align:left;">
 					<option>교환할 제품을 선택하세요.</option>
-					<option style="color:red;">화이트 250(품절)</option>
-					<option>화이트 240</option>
-					<option style="color:red;">화이트 230(품절)</option>
-					<option>화이트 220</option>
-					<option>화이트 210</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
 				</select>
 	     	</td>   
 		</tr>	
 	</table>
 </div>
+
+<form name="changetrade">
+	<input type="hidden" name="can" value="" id="can" />
+	<input type="hidden" name="retry_jumun_bunho" value="${requestScope.jumun_bunho }" />
+</form>
 
 
 <button style=" border: 2px solid gray;background-color:white;  margin-top: 50px; margin-bottom: 50px; " id="change" onclick="change()">교환하기</button>

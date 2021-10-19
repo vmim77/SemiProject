@@ -154,7 +154,7 @@
 							<td>
 						   <select name="couponname">
 								<c:choose>
-									<c:when test="${requestScope.couponname}">
+									<c:when test="${requestScope.couponname eq 0}">
 										<option selected="selected" value="0">쿠폰없음</option>
 										<option value="1">사용완료</option>
 									</c:when>

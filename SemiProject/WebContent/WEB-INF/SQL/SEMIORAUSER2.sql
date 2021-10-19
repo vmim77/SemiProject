@@ -109,6 +109,7 @@ from tbl_coupon
 commit;
 
 drop table tbl_coupon
+
 select *
 from tbl_coupon;
 
@@ -587,6 +588,9 @@ where couponname=''; /""
 select *
 from tbl_coupon
 
+select * 
+from tbl_buy
+where fk_userid='rnldual08';
 
 commit;
 
@@ -594,4 +598,47 @@ delete tbl_coupon
 where length(fk_userid) > 0;
 
 commit;
+
+select buy_date,fk_userid,baesong_sangtae,jumun_bunho
+from tbl_buy
+where fk_userid ='dong';
+
+select *
+from tbl_coupon;
+
+insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status)  values('dong',sysdate,'신규가입쿠폰', 3000, sysdate+7, 1);
+
+select buy_date,userid,point
+from
+(
+select userid,point
+from tbl_member
+where userid ='rnldual08'
+) A
+join
+select buy_date,fk_userid
+from tbl_buy
+where fk_userid ='rnldual08'
+) B
+on A.userid = B.fk_userid
+
+
+select buy_date,userid,point,buy_jeokrib_money
+from 
+(
+select buy_date,userid,point,buy_jeokrib_money
+from tbl_member a join tbl_buy b
+on a.userid = b.fk_userid and a.userid ='rnldual08'
+)
+
+select *
+from tbl_buy
+
+update tbl_buy set baesong_sangtae = '0'
+where jumun_bunho = '57757-99'
+
+commit;
+
+
+
 

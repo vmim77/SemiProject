@@ -273,9 +273,9 @@ public class ProductRealDAO implements InterProductRealDAO {
 	   }//end of public ProductRealVO SelectMyBought(String userid, String product_name)  throws SQLException{
 	
 //============================================================================================================	   
-	   
+	 // 환불/취소 선택시 환불처리로 변경되는 메소드 
 	@Override
-	public int Change(String jumun_bunho) throws SQLException {
+	public int Change(String jumun_bunho , int th) throws SQLException {
 		
 		int n = 0;
 		
@@ -283,13 +283,15 @@ public class ProductRealDAO implements InterProductRealDAO {
 			
 			conn=ds.getConnection();
 			
-			String sql = " update tbl_buy set baesong_sangtae = '1' "
+			String sql = " update tbl_buy set baesong_sangtae = ? "
 					   + " where jumun_bunho = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			
-			pstmt.setString(1, jumun_bunho);
+			pstmt.setInt(1, th);
+			pstmt.setString(2, jumun_bunho);
+			
 			
 			n = pstmt.executeUpdate();
 			
@@ -341,6 +343,47 @@ public class ProductRealDAO implements InterProductRealDAO {
 		
 		
 		return order;
+	}
+	
+	
+	// 마이페이지 총구매금액
+	@Override
+	public List<ProductBuyVO> SelectMyBuyMoney(String userid) throws SQLException {
+	
+		List<ProductBuyVO> buyMoney = new ArrayList<>();
+		
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select sum(buy_opt_price + buy_pro_price) "+
+						 " from tbl_buy "+
+						 " where fk_userid =? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ProductBuyVO mon = new ProductBuyVO();
+				
+				mon.setFk_userid(rs.getString(1));
+				
+				buyMoney.add(mon);
+			}
+			
+			
+			
+			
+		} finally {
+			close();
+		}
+		
+		return buyMoney;
 	}
 	
 	

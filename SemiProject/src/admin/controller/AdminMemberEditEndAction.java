@@ -29,10 +29,14 @@ public class AdminMemberEditEndAction extends AbstractController {
 				
 				// 수정하기 전
 				String userid = request.getParameter("userid");
+			
+				
 				int point = Integer.parseInt(request.getParameter("point"));
 				int status = Integer.parseInt(request.getParameter("status"));
 				int idle = Integer.parseInt(request.getParameter("idle"));
 				String couponname =  request.getParameter("couponname");
+				
+				
 				String onlyinfo = request.getParameter("onlyinfo");
 				String onlycoupon = request.getParameter("onlycoupon");
 	
@@ -43,20 +47,29 @@ public class AdminMemberEditEndAction extends AbstractController {
 				member.setStatus(status);
 				member.setIdle(idle);
 				member.setCouponname(couponname);
+			
 				
-				if( onlyinfo == "test" && onlycoupon == "onlycoupon") {
+				if( "test".equals(onlyinfo) && "onlycoupon".equals(onlycoupon)) {
 					
 					mdao.couponudate(member);
+					
+					message = " 쿠폰 추가 성공![운영자메뉴]";
+					loc = "javascript:history.back()";
+					request.setAttribute("message", message);
+					request.setAttribute("loc", loc);
+					super.setViewPage("/WEB-INF/msg.jsp");
 						
 				}
-				else if( onlyinfo == "onlyinfo" && onlycoupon == "test") {
+				else if( "onlyinfo".equals(onlyinfo) && "test".equals(onlycoupon)) {
+					
+					
 					
 					int n = mdao.adminUpdateUser(member);
 					
 					
 					if(n==1) { // UPDATE 성공한 경우
 						message = "회원정보 변경성공[운영자메뉴]";
-						loc = "self.close()"; // 팝업창 닫기;
+						loc = request.getContextPath()+"/index.sh";
 						request.setAttribute("message", message);
 						request.setAttribute("loc", loc);
 						super.setViewPage("/WEB-INF/msg.jsp");
