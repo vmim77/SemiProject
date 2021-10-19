@@ -626,7 +626,7 @@ select *
 from user_sequences;
 
 select *
-from tab;
+from TBL_PRODUCT_BOOTS;
 
 
 show user;

@@ -18,33 +18,40 @@ public class AdminMemberDetailAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		// 추후에 로그인한 유저정보가 '운영자'인지 아닌지 확인하는 if절을 걸어서 걸러낼겁니다.
+		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
+		if( loginuser != null && "admin".equals(loginuser.getUserid())) { // 회원 상세조회 기능은 운영자만 할 수 있는 기능이다.
 			
 			String method = request.getMethod();
 			// "GET" or "POST"
 			
-			if("POST".equalsIgnoreCase(method)) { // "POST" 로 전송된 정보라면
+			if("POST".equalsIgnoreCase(method)) { // AJAX를 통해 POST로 전송됐다면 기능이 작동한다.
 				
-				// 테이블에서 한 행을 클릭하면 그 행의 userid를 따옵니다. 그 유저아이디를 가지고 select where절을 돌려서 한 회원의 상세정보들을 가져옵니다.
+				// AJAX에서 전송해준 userid를 받아온다.
 				String userid = request.getParameter("userid");
 				
-				// 특정한 한 명의 회원의 상세정보를 가져옵니다.
+				// DAO를 통해서 select where로 해당 회원의 상세정보를 조회한다.
 				MemberVO member = mdao.adminSelectOneUser(userid);
 				
-				response.setContentType("text/html; charset=UTF-8");
+				if(member != null) { // 회원조회 SQL이 성공적으로 작동했다면 GSON을 통해서 JSON 형태로 바꾼다.
+					response.setContentType("text/html; charset=UTF-8");
+					PrintWriter out = response.getWriter();
+					out.print(new Gson().toJson(member));
+				}
 				
-				PrintWriter out = response.getWriter();
-				
-				// 성공적으로 가져왔다면 GSON을 이용해서 MemberVO member를 JSON 형태로 바꿔줍니다.
-				out.print(new Gson().toJson(member));
-				
+				else {
+					String message = "조회할 수 없는 회원입니다.";
+					String loc = request.getContextPath()+"/admin/memberList.sh";
+					
+					request.setAttribute("message", message);
+					request.setAttribute("loc", loc);
+					super.setViewPage("/WEB-INF/msg.jsp");
+				}
 			}
 			
-			else { // "GET"으로 들어오는 경우
+			else { // "GET"으로 들어오는 경우이다. 
 				String message = "잘못된 접근입니다.";
 				String loc = request.getContextPath()+"/index.sh";
 				
@@ -52,18 +59,15 @@ public class AdminMemberDetailAction extends AbstractController {
 				request.setAttribute("loc", loc);
 				super.setViewPage("/WEB-INF/msg.jsp");
 			}
-			
-			
 		}
 		
-		else { // 운영자가 아닌 사용자가 접근했다면
+		else { // 운영자가 아닌 사용자가 접근했다면 막아준다.
 			
 			String message = "운영자 메뉴입니다.";
 			String loc = request.getContextPath()+"/index.sh";
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
-			
 			super.setViewPage("/WEB-INF/msg.jsp");
 			
 		}

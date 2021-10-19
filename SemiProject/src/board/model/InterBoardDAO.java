@@ -54,5 +54,15 @@ public interface InterBoardDAO {
 	// 문의사항 게시글 삭제하기
 	int deleteQnA(int boardno) throws SQLException;
 	
+	///////////////////////////////////////////////////////////////////////////////////////////
+	// 여기서부터는 리뷰 게시판!
+	
+	// 내 리뷰 업데이트 하기
+	void UpdateMyReview(String userid, String content, String whatstar, String insertpicture, String product_name) throws SQLException;
+
+	// 페이지 로드시 모든 리뷰 가져오기
+	ReviewVO SelectAllReview(String product_name) throws SQLException;
+	
+	
 
 }

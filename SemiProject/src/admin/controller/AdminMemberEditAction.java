@@ -14,29 +14,38 @@ public class AdminMemberEditAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		// 추후에 로그인한 유저정보가 '운영자'인지 아닌지 확인하는 if절을 걸어서 걸러낼겁니다.
+	
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		// 먼저 운영자인지 아닌지를 판별한다.
 		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
 			
-			String userid = request.getParameter("userid"); // 모달창에서 팝업으로 GET으로 전송시킨 USERID입니다.
+			// 함수에서 GET으로 넘긴 유저의 아이디이다.
+			String userid = request.getParameter("userid");
 			
-			MemberVO member = mdao.adminEditUserInfo(userid); // DAO에 넘겨서 기존 회원의 정보를 가져옵니다.
+			// DAO에 파라미터로 전송하여 select where로 기존 회원의 정보를 조회해온다.
+			MemberVO member = mdao.adminEditUserInfo(userid);
 			
-			
-			if(member != null) { // 수정하기 전에 기존 회원의 정보를 받아와서 찍어준다.
-				request.setAttribute("member", member);
-				// memberEdit.jsp에 가져가서 찍어줄 회원정보입니다.
+			// 만약 조회된 회원이 없다면 member는 null이다.
+			if(member != null) { 
 				
+				// 기존의 회원정보를 request 영역에 담아서 넘긴다.
+				request.setAttribute("member", member);
+				
+				// 또한 정보를 변경하고 넘길때 update에서 where절에 사용할 userid도 같이 넘긴다.
 				request.setAttribute("userid", userid);
-				// 새로운 정보를 입력받고 update로 넘길때 where절에 사용할 userid 입니다.
+				
 				super.setViewPage("/WEB-INF/admin/memberEdit.jsp");
 				
 			}
 			
-			else {
-				String message = "SQL 오류로 인해 회원정보를 가져오지 못했습니다.";
+			else { // 조회된 회원이 없는 경우이다.
+				String message = "조회된 회원이 없습니다. 다시 확인바랍니다.";
 				String loc = "javascript:history.back()";
+				
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
 				super.setViewPage("/WEB-INF/msg.jsp");
 			}
 			
@@ -48,7 +57,6 @@ public class AdminMemberEditAction extends AbstractController {
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
-			
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
 		

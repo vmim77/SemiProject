@@ -638,6 +638,25 @@ create user semiorauser2 identified by cclass;
 grant connect, resource, create view, unlimited tablespace to semiorauser2;
 -- Grant을(를) 성공했습니다.
 
+select *
+from tab;
 
+desc TBL_NOTICE_COMMENT;
 
+select *
+from user_constraints
+where table_name = 'TBL_REVIEW_VIEWHISTORY';
 
+select *
+from TBL_PRODUCT_MONGK;
+
+select *
+from tbl_notice_viewhistory
+order by fk_boardno asc;
+
+update tbl_notice_viewhistory set viewdate = '21/10/18'
+where fk_boardno = 58;
+-- 1 행 이(가) 업데이트되었습니다.
+
+commit;
+-- 커밋 완료.

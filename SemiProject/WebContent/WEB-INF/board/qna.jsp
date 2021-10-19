@@ -69,7 +69,7 @@
 	<%-- 문의사항 글목록 --%>
 	<div class="container table-responsive py-3">
 	
-		<table class="table table-dark my-2 text-center">
+		<table class="table table-dark my-2 p-2 text-center">
 			<thead>
 				<tr>
 					<th>글번호</th>

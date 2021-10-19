@@ -9,9 +9,7 @@ public class MycartAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String method = request.getMethod();
-		
-		if("POST".equalsIgnoreCase(method)) {
+		if(super.checkLogin(request)) {
 			
 			// 이미지명, 옵션1~4, 수량, 가격, 옵션가격
 			String product_front_p1 = request.getParameter("product_front_p1");
@@ -35,8 +33,8 @@ public class MycartAction extends AbstractController {
 		}
 		else {
 			
-			String message = "잘못된 경로 입니다.";
-			String loc = "/SemiProject/index.sh";
+			String message = "로그인 후 이용가능한 서비스 입니다";
+			String loc = "/SemiProject/login/login.sh";
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);

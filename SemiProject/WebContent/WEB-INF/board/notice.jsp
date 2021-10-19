@@ -22,40 +22,37 @@
 
 	$(document).ready(function(){
 		
-		$(document).on("click","tr.board",function(){ // 글 목록중 한 개를 클릭하면 글번호를  GET방식으로 전송됩니다. 이후 그 글번호의 자세한 내용을 보여줍니다.
+		$(document).on("click","tr.board",function(){ 
+			// 글 목록중 한 개의 글을 선택하면 그 글의 자세한 내용을 보여준다.
 			
-			var boardno = $(this).find("td:first-child").text(); // 게시판번호를 따옵니다.
-			
-			// alert("boardno => " + boardno);
+			var boardno = $(this).find("td:first-child").text(); 
+			// 게시글 번호를 추출해온다.
 			
 			location.href="<%= ctxPath%>/board/noticeDetail.sh?boardno="+boardno;
+			// GET 방식으로 전송하여 게시글의 자세한 내용을 조회한다.
 			
 		});// end of $(document).on("click","tr.board",function(){})-----------------------------------
 		
-		
-		$(document).on("mouseover", "tr.board", function(){ // 행에 mouseover가 되면 나오는 CSS 효과
+		// 행에 mouseover가 되면 CSS 효과를 추가한다.
+		$(document).on("mouseover", "tr.board", function(){
 			$("tr.memberInfo").removeClass("effect");
 			$(this).addClass("effect");
 		});// end of $(document).on("mouseover", "tr.memberInfo", function(){})-------------------------------
 		
-		
-		$(document).on("mouseout", "tr.board", function(){ // 행에 mouseout이 되면 사라지는 CSS 효과
+		// 행에 mouseout이 되면 CSS 효과를 없앤다.
+		$(document).on("mouseout", "tr.board", function(){ 
 			$(this).removeClass("effect");
 		});// end of $(document).on("mouseout", "tr.memberInfo", function(){})--------------------------------
-		
-		
-		
-		
 		
 	});// end of $(document).ready(function(){})-----------------------------------
 	
 	// Function Declaration 
-	function goSearch() { // 검색창에 검색타입과 검색어를 입력하면 해당 회원들을 조회해서 찾아줍니다.
+	// 게시글 검색하기 - 제목, 내용 / 작성자는 'admin'만 있기 때문에 제외한다.
+	function goSearch() { 
 		
-		if($("input#searchWord").val() == "") { // 만약 검색어가 빈칸이라면 새로고침을 시킵니다.
+		if($("input#searchWord").val() == "") { // 만약 검색어가 빈 칸이라면 새로고침을 시킨다.
 			location.reload(true);
 		}
-		
 		
 		var frm = document.noticeFrm;
 	
@@ -86,7 +83,7 @@
 	<%-- 상단 이미지 --%>
 	
 	<%-- 공지사항 글목록 --%>
-	<div class="container table-responsive py-3">
+	<div class="container table-responsive p-1">
 	
 		<table class="table table-dark my-2 text-center">
 			<thead>

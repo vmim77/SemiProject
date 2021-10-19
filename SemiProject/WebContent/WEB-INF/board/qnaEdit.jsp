@@ -90,7 +90,7 @@
 		<table class="table table-dark my-2">
 			<tr>
 				<td class="title">글제목</td>
-				<td><input type="text" name="title" maxlength="100" placeholder="${requestScope.bvo.title}" autofocus /></td>
+				<td><input type="text" name="title" maxlength="100" size="105" placeholder="${requestScope.bvo.title}" autofocus /></td>
 			</tr>
 			<tr>
 				<td class="title">글쓴이</td>

@@ -16,7 +16,8 @@ public class NoticeListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		List<BoardVO> list = bdao.selectAllNotice(); // DAO로 이동해서 tbl_notice_board의 대한 글목록을 받아옵니다.
+		// header에서 [Notice] 메뉴를 클릭하면 모든 공지사항 글을 조회해온다.
+		List<BoardVO> list = bdao.selectAllNotice(); 
 		
 		request.setAttribute("list", list);
 		

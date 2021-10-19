@@ -13,7 +13,15 @@ public class ProductBuyVO {
 	private String buy_date = "";           // 구매날짜
 	private int baesong_sangtae = 0;        // 배송상태
 	private String buy_finish_date = "";    // 배송완료일자
-//======================================================================================
+	private String jumun_bunho = "";        // 배송번호 
+	private String fk_pimage3 = "";   // 사진을  꺼내오기 위해 만들었다.
+	//======================================================================================
+	public String getFk_pimage3() {
+		return fk_pimage3;
+	}
+	public void setFk_pimage3(String fk_pimage3) {
+		this.fk_pimage3 = fk_pimage3;
+	}
 	public int getFk_pnum() {
 		return fk_pnum;
 	}
@@ -73,6 +81,12 @@ public class ProductBuyVO {
 	}
 	public void setBuy_finish_date(String buy_finish_date) {
 		this.buy_finish_date = buy_finish_date;
+	}
+	public String getJumun_bunho() {
+		return jumun_bunho;
+	}
+	public void setJumun_bunho(String jumun_bunho) {
+		this.jumun_bunho = jumun_bunho;
 	}
 //================================================================================================================
 }

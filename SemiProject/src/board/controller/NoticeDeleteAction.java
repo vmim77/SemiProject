@@ -50,8 +50,7 @@ public class NoticeDeleteAction extends AbstractController {
 				
 			}
 			
-			else { // GET으로 왔다는 것은 운영자이면서 게시판 상세보기에서 삭제하기를 눌러서 처음 들어왔거나. 
-				   // 또는 사용자가 URL로 들어왔거나이다.
+			else { // GET으로 왔다는 것은 운영자이면서 게시판 상세보기에서 삭제하기를 눌러서 처음 들어온 것이다.
 				
 				String boardno = request.getParameter("boardno");
 				

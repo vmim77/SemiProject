@@ -51,14 +51,12 @@
 
 	$(document).ready(function(){
 		
-		$("button#btnEditUserInfo").click(function(){ // 수정하기 버튼을 클릭하면
+		$("button#btnEditUserInfo").click(function(){ // 정보를 변경한 후 수정하기 버튼을 클릭하면 발생하는 이벤트이다.
 			
-			// update 를 위해서  Action.java로 수정할 값을 보냅니다.
-			
+			// 만약 point에 숫자가 아닌 문자열이나 이상한 것을 입력했다면 유효성검사로 걸러준다.
 			if( $("input[name=point]").val() == "" || isNaN($("input[name=point]").val()) ){ 
-				// 만약 point에 숫자가 아닌 문자열이나 이상한 것을 입력했다면
-				alert("숫자만 입력하세요!");
-				return;
+				alert("포인트는 숫자만 입력하셔야 합니다!");
+				return; // 이벤트 종료
 			}
 			
 			var frm = document.adminEditUser;
@@ -68,10 +66,10 @@
 			
 		});// end of $("button#btnEditUserInfo").onclick(function(){})----------------------------------
 		
-		$(window).on('beforeunload', function() { // 팝업창에서 수정하기를 누르지않고 X표시를 눌러서 끄면 부모창을 새로고침 해줍니다.
+		// 팝업창에서 수정하기를 누르지않고 X표시를 눌러서 끄면 부모창을 새로고침 해줍니다.
+		$(window).on('beforeunload', function() {
 			opener.location.reload(true); 
 		});
-		
 		
 	});// end of $(document).ready(function(){})------------------------------------------------
 
@@ -84,11 +82,14 @@
 	<div class="container">
 		<div class="row justify-content-center">
 				<form name="adminEditUser" class="my-3">
-					<input type="hidden" name="userid" value="${requestScope.member.userid}"/> <%-- where절에 쓸 userid --%>
+				
+					 <%-- update를 할 때 조건절에 사용할 userid이다. --%>
+					<input type="hidden" name="userid" value="${requestScope.member.userid}"/>
 					<table class="table-dark" >
 						<tr>
 							<td class="title"><h4 style="color:white;">${requestScope.member.userid} 님의 회원정보 변경하기</h4></td>
 						</tr>
+						
 						<tr>
 							<td class="title">포인트</td>
 							<td>
@@ -96,16 +97,18 @@
 								<input type="text" name="point" value="${requestScope.member.point}" size="6" autocomplete="off" /><span> 원</span>
 							</td><%-- <fmt:formatNumber value='${requestScope.member.point}' pattern="###,###" />  --%>
 						</tr>
+						
 						<tr>
 							<td class="title">회원상태</td>
 							<td>
-								<select name="status"> <%-- DB에서 1이라면 '사용가능'이 먼저 올라와져있습니다. --%>
+								<select name="status"> <%-- DB에서 1이라면 '사용가능'을 출력해준다. --%>
 									<c:choose>
 										<c:when test="${requestScope.member.status eq 1}">
 											<option selected="selected" value="1">사용가능</option>
 											<option value="0">탈퇴</option>
 										</c:when>
-										<c:otherwise>
+										
+										<c:otherwise>  <%-- DB에서 0이라면 '탈퇴'를 출력해준다. --%>
 											<option value="1">사용가능</option>
 											<option selected="selected" value="0">탈퇴</option>
 										</c:otherwise>
@@ -113,16 +116,18 @@
 								</select>
 							</td>
 						</tr>
+						
 						<tr>
-							<td class="title">휴면처리</td> <%-- DB에서 0이라면 '활동중'이 먼저 올라와져있습니다. --%>
+							<td class="title">휴면처리</td> 
 							<td>
 								<select name="idle">
-									<c:choose>
+									<c:choose> <%-- DB에서 0이라면 '활동중'을 출력해준다. --%>
 										<c:when test="${requestScope.member.idle eq 0}">
 											<option selected="selected" value="0">활동중</option>
 											<option value="1">휴면처리</option>
 										</c:when>
-										<c:otherwise>
+										
+										<c:otherwise> <%-- DB에서 1이라면 '휴면처리'를 출력해준다. --%>
 											<option selected="selected" value="1">휴면처리</option>
 											<option value="0">활동중</option>
 										</c:otherwise>
@@ -137,6 +142,7 @@
 		<p class="text-center">
 			<button id="btnEditUserInfo" class="btn btn-dark btn-md">수정하기</button>
 		</p>
+		
 	</div>
 </body>
 

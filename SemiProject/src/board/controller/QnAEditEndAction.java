@@ -52,9 +52,7 @@ public class QnAEditEndAction extends AbstractController {
 				}
 				//////////////////////////////////////////////////////////////////////////
 				
-				
-				// 기존의 글정보들을 hidden 폼에서 보내준다.
-				// 기존의 글정보를 먼저 찍어주기위해서 다음과 같이 VO에 넣어준다.
+			
 				String fk_writer = mtrequest.getParameter("fk_writer"); // 작성자 확인용 
 				int boardno = Integer.parseInt(mtrequest.getParameter("boardno"));
 				String title = mtrequest.getParameter("title");

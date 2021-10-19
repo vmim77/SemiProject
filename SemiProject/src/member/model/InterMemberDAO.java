@@ -48,6 +48,16 @@ public interface InterMemberDAO {
 	
 	// 쿠폰 추가하기
 	MemberVO membercoupon(String userid) throws SQLException;
+	
+	
+	// 내 정보 불러오기
+	Map<String, String> SelectMyInfo(String userid) throws SQLException;
+	
+	// 내 포인트 불러오기
+	int selectMyPoint(String userid) throws SQLException;
+	
+	// by.jsp 에서 사용한 내 포인트 디비에 업데이트 하기
+	void UpdateMypoint(String userid, String dbpoint) throws SQLException;
 
 	////////////////////////////////////////////////////////////////////////////////////
 	// 운영자 메소드

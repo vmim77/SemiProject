@@ -262,7 +262,7 @@ public class ProductDAO implements InterProductDAO {
 //=====================================================================================
 	// 출석체크이벤트
 	@Override
-	public Map<String, String> choolcheckevent() throws SQLException {
+	public Map<String, String> choolcheckevent(String userid) throws SQLException {
 		
 		// 값 담아줄 용도
 		Map<String, String> paraMap = new HashMap<>();
@@ -273,18 +273,55 @@ public class ProductDAO implements InterProductDAO {
 		String year = "";
 		String month = "";
 		String day = "";
+		int cnt = 0;
 		
 		try {
  	         
 			conn = ds.getConnection();
 			////////////////////////////////////////////////////////////////////////
 			// 출첵했는지 확인용도
-			String sql = " select daynum "+
-					     " from choolcheck_test ";   	          
+			String sql = " select daynum "
+					    +" from tbl_chk_"+userid;
 			pstmt = conn.prepareStatement(sql);          
-			rs = pstmt.executeQuery();  	          
-			while(rs.next()) {
-				choolcheckday += rs.getString(1) + ",";	 
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				cnt++;
+			}
+			// 만약 처음 가입해서 처음 들어가는거라면 당연히 테이블에 값이 없다
+			// 따라서 오늘 날짜를 넣어주겠다
+			if(cnt==0) {
+				//////////////////////////////////////////////////
+				sql = " insert into tbl_chk_"+userid+"(daynum) "+
+					  " values( to_char(sysdate,'dd')*1) ";
+				// 매우중요
+				// 위처럼 'dd' 형식으로 넣으면 01 02 와 같이 숫자앞에 0 이 붙기 때문에
+				// *1 을 해서 한자리수로 만들어준다
+				pstmt = conn.prepareStatement(sql);
+				pstmt.executeUpdate();
+				//////////////////////////////////////////////////
+				// 그 후 select 로 값 뽑아주기
+				sql = " select daynum "
+					 +" from tbl_chk_"+userid;
+				pstmt = conn.prepareStatement(sql);          
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					choolcheckday += rs.getString(1) + ",";
+				}
+				///////////////////////////////////////////////////
+			}
+			else {
+				
+				// 출첵했는지 확인용도
+				sql = " select daynum "
+				     +" from tbl_chk_"+userid
+				     +" order by to_number(daynum) ";
+				pstmt = conn.prepareStatement(sql);          
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					choolcheckday += rs.getString(1) + ",";
+				}
+				
 			}
 		    ////////////////////////////////////////////////////////////////////////
 			// 이번달 시작 날짜
@@ -312,6 +349,7 @@ public class ProductDAO implements InterProductDAO {
 			paraMap.put("month", month);
 			paraMap.put("day", day);
 			paraMap.put("choolcheckday", choolcheckday);
+			
 		} finally {
 			close();
 		}
@@ -322,16 +360,93 @@ public class ProductDAO implements InterProductDAO {
 //=====================================================================================
 	// 출석도장 저장
 	@Override
-	public void Savemycheck(String savemycheck) throws SQLException {
+	public void Savemycheck(String savemycheck, String userid) throws SQLException {
+		
+		// 중복된 값이 있는지 확인하기
+		int cnt = 0;
+		// point 넣어주기 위한 내용
+		int pointcnt = 0;
 		
 		try {
-	         
+	        
 			conn = ds.getConnection();
-	
-			String sql = " insert into choolcheck_test(daynum) values('"+savemycheck+"') ";          
+			// 값 업데이트 하기
+			String sql = " insert into tbl_chk_"+userid+"(daynum) values('"+savemycheck+"') ";          
 			pstmt = conn.prepareStatement(sql);          
-			pstmt.executeUpdate();  	          
-		    
+			pstmt.executeUpdate();
+			
+			//////////////////////////////////////////////////////////////////////////
+			
+			// 혹시나 같은 값이 들어갔는지 확인해야한다
+			// 그 말은 다음달이 되었냐 라는 말과 같다
+			sql = " select daynum "+
+				  " from tbl_chk_"+userid+
+				  " where daynum = ? ";
+		
+			pstmt = conn.prepareStatement(sql);          
+			pstmt.setString(1, savemycheck);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				cnt++;
+			}
+			
+			// 같은 값이 있냐 없냐
+			if(cnt>=2) {
+				
+				// 만약에 똑같은 값이 있다면
+				// 전체테이블을 지워준다
+				sql = " delete tbl_chk_"+userid+
+				      " where length(daynum)>0 ";
+				pstmt = conn.prepareStatement(sql);          	          	          
+				pstmt.executeUpdate();
+				
+				// 그 후 다시 넣어준다
+				sql = " insert into tbl_chk_"+userid+"(daynum) values('"+savemycheck+"') ";          
+				pstmt = conn.prepareStatement(sql);          
+				pstmt.executeUpdate();
+				
+			}
+			// 없으면 그냥 인서트 하고 끝이다.
+			
+			///////////////////////////////////////////////////////////////////////////
+			// 몇번 출석 도장체크 시 포인트 지급하기
+			
+			// 우선 포인트를 지급 했는지 안했는지 찾아보기
+			sql = " select daynum "+
+				  " from tbl_chk_"+userid;
+				
+			pstmt = conn.prepareStatement(sql);          
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				pointcnt++;
+			}
+			
+			// 5일차를 지급했는가
+			if(pointcnt == 5) {
+				
+			}
+			// 10일차를 지급했는가
+			else if(pointcnt == 10) {
+							
+			}
+			// 15일차를 지급했는가
+			else if(pointcnt == 15) {
+				
+			}
+			// 20일차를 지급했는가
+			else if(pointcnt == 20) {
+				
+			}
+			// 25일차를 지급했는가
+			else if(pointcnt == 25) {
+				
+			}
+			
+			/////////////////////////////////////////////////////////////////
+			
 		} finally {
 			close();
 		}

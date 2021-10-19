@@ -57,7 +57,9 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select boardno, fk_writer, title, content, writetime, viewcnt, CommentCnt "+
+			String sql = " select boardno, fk_writer, "
+					+    " case when length(title) > 15 then substr(title, 0, 15) || '...' else title end AS title"
+					+    " , content, writetime, viewcnt, CommentCnt "+
 						 " from "+
 						 " ( "+
 						 "     select boardno, fk_writer, case when length(title) > 20 then substr(title, 1, 10) || '...' else title end AS title, content, to_char(writetime, 'yyyy-mm-dd hh24:mi') as writetime, viewcnt "+
@@ -111,7 +113,8 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select boardno, fk_writer, title, content, "
+			String sql = " select boardno, fk_writer, "
+					+    " title, content, "
 					+    " to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime "
 					+    ", viewcnt, imgfilename"
 					   + " from tbl_notice_board "
@@ -391,8 +394,9 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select boardno, fk_writer, title "
-					+ "  , to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, feedbackYN " + 
+			String sql = " select boardno, fk_writer"
+					+    " , case when length(title) > 15 then substr(title, 0, 15) || '...' else title end AS title "
+					+    " , to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, feedbackYN " + 
 						 " from tbl_qna_board "
 						 + " order by boardno desc ";
 			
@@ -566,7 +570,103 @@ public class BoardDAO implements InterBoardDAO {
 			close();
 		}
 		return n;
-	}
+	}// end of public int deleteQnA(int boardno)---------------------------------------------------------
 	
+	
+	//========================================================================================
+		// 내 리뷰 업데이트 하기
+		@Override
+		public void UpdateMyReview(String userid, String content, String whatstar, String insertpicture, String product_name)
+				throws SQLException {
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " insert into tbl_review "+
+						     " (reviewno "+
+						     " ,fk_pnum "+
+						     " ,fk_userid "+
+						     " ,review_content "+
+						     " ,review_picture "+
+						     " ,review_star "+
+						     " ,review_date "+
+						     " ,review_info) "+
+						     " values( "+
+						     " seq_tbl_review.nextval "+
+						     " ,(select pnum "+
+						     "  from tbl_product "+
+						     "  where pname = ?) "+
+						     " ,? "+
+						     " ,? "+
+						     " ,? "+
+						     " ,? "+
+						     " ,to_char(sysdate, 'yyyy-mm-dd') "+
+						     " ,(select buy_opt_info "+
+						     "  from tbl_buy "+
+						     "  where fk_userid = ? and fk_pnum = (select pnum "+
+						     "                                     from tbl_product "+
+						     "                                     where pname = ? ))) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, product_name);
+				pstmt.setString(2, userid);
+				pstmt.setString(3, content);
+				pstmt.setString(4, insertpicture);
+				pstmt.setString(5, whatstar);
+				pstmt.setString(6, userid);
+				pstmt.setString(7, product_name);
+				
+				pstmt.executeUpdate();
+				
+			} finally {
+				close();
+			}
+		
+		}//end of public void UpdateMyReview(String userid, String content, String whatstar, String insertpicture)
+	//========================================================================================	
+		// 페이지 로드시 모든 리뷰 가져오기
+		@Override
+		public ReviewVO SelectAllReview(String product_name) throws SQLException {
+			
+			ReviewVO rvo = new ReviewVO();
+			
+			try {
+				
+				conn = ds.getConnection();
+				 
+				String sql = " select reviewno,fk_pnum,fk_userid,review_content,review_picture,review_star,review_date,review_info "+
+						     " from tbl_review "+
+						     " where fk_pnum = (select pnum "+
+						     "                  from tbl_product "+
+						     "                  where pname = ?) "+
+						     " order by reviewno ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, product_name);
+				
+				rs = pstmt.executeQuery();
+									
+				// 만약 작성한지 일주일된 리뷰가 있다면
+				while(rs.next()) {
+					rvo.setReviewno(rs.getInt(1));
+					rvo.setFk_pnum(rs.getInt(2));
+					rvo.setFk_userid(rs.getString(3));
+					rvo.setReview_content(rs.getString(4));
+					rvo.setReview_picture(rs.getString(5));
+					rvo.setReview_star(rs.getString(6));
+					rvo.setReview_date(rs.getString(7));
+					rvo.setReviewno(rs.getInt(8));
+				}
+				
+			} finally {
+				close();
+			}
+			
+			return rvo;
+			
+		}//end of public ReviewVO SelectAllReview() throws SQLException {
+	//========================================================================================
 	
 }

@@ -196,7 +196,7 @@
 							<c:choose>
 								<c:when test="${not empty requestScope.bvo.imgfilename}">
 									<p class="text-center">
-										<img src="<%= ctxPath%>/images/${requestScope.bvo.imgfilename}" class="my-5" style="width: 300px; height: 300px;" />
+										<img src="<%= ctxPath%>/images/${requestScope.bvo.imgfilename}" class="my-5" style="width: 700px; height: 800px;" />
 									</p>
 								</c:when>
 							</c:choose>

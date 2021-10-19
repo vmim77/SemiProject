@@ -67,7 +67,7 @@
 			</tr>
 			
 			<tr>
-				<td><input type="text" name="comment_content" size="50" maxlength="50" placeholder="${requestScope.cvo.comment_content}" autofocus autocomplete="off" required /></td>
+				<td><input type="text" name="comment_content" size="100" maxlength="50" placeholder="${requestScope.cvo.comment_content}" autofocus autocomplete="off" required /></td>
 			</tr>
 		</table>
 	</form>

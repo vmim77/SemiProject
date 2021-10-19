@@ -18,9 +18,9 @@ public interface InterProductDAO {
 	ProductVO getOneProduct(String product_name) throws SQLException;
 
 	// 출석체크이벤트
-	Map<String, String> choolcheckevent() throws SQLException;
+	Map<String, String> choolcheckevent(String userid) throws SQLException;
 	
 	// 출석도장 저장
-	void Savemycheck(String savemycheck) throws SQLException;
+	void Savemycheck(String savemycheck, String userid) throws SQLException;
 
 }
