@@ -33,7 +33,8 @@ create table tbl_member
 );
 
 select *
-from tbl_member;
+from tbl_buy
+where buy_opt_price = 1;
 
 delete from tbl_member
 where userid ='shin';
@@ -633,12 +634,41 @@ on a.userid = b.fk_userid and a.userid ='rnldual08'
 
 select *
 from tbl_buy
+where fk_userid='admin';
 
 update tbl_buy set baesong_sangtae = '0'
-where jumun_bunho = '57757-99'
+where jumun_bunho = '49167-84'
 
 commit;
 
+select fk_userid,rank() over(order by fk_userid desc) AS 전체등수
+from tbl_buy
 
+select 
+from tbl_buy
+group by buy_pro_price
+
+select *
+from tbl_buy
+order by buy_date desc;
+
+select *
+from tab;
+
+select size_240,size_250,size_260,size_270,size_280,size_290
+from TBL_PRODUCT_SIZE
+where fk_pnum ='1'
+
+select *
+from tbl_product_size
+
+select buy_date,fk_userid,baesong_sangtae
+from tbl_buy
+where jumun_bunho = '49167-84';
+
+
+select *
+from tbl_buy
+where jumun_bunho = '23796-79';
 
 

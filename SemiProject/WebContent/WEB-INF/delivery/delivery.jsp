@@ -158,33 +158,49 @@ h2 {
 
 <script type="text/javascript">
 
+
+
+
 $(document).ready(function(){
 	
-	var flag = false;
+	//$("button#btnSubmit").hide()
 	
 	$("button#btnSubmit").click(function(){
+		var jumun_bunho = $("select#selectjumun").val();
 		
-		// 정규표현식
-		// 55555-55
-		// 위 조건 성립시 flag = true;
-		
-		if(flag ==false){	
-	  		var frm = document.change;
-	      frm.action = "<%= ctxPath%>/delivery/delivery.sh";
-	      frm.method = "post";
-	      frm.submit(); 
-		}
-		else{
-			alert("주문번호 형식에 맞지 않습니다.");
-		}
-		
-	}); //
-
+		$.ajax({
+			url:"<%=ctxPath%>/delivery/deliveryEnd.sh",
+				data:{"jumun_bunho":jumun_bunho}, 
+				dataType:"json",
+				success:function(json) {
+					
+					
+					// 댓글 넣어주기
+	                $.each(json, function(index, item){
+	                   
+	                	var ahtml = item.buy_date;
+	                	var bhtml = item.fk_userid;
+	                	var chtml = item.baesong_sangtae;
+		           
+	                	$("div#a").html(ahtml);
+	                	$("div#b").html(bhtml);
+		           		$("div#c").html(chtml);
+	              
+	                  }); //end of $.each(json)--------------------------------------
+					
+				},
+				error: function(request, status, error) {
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+		});
+	});
+	
+	
 });
 
 
-</script>
 
+</script>
 
 <form name="loginFrm">
        <table id="loginTbl">
@@ -192,29 +208,27 @@ $(document).ready(function(){
         <div class="login">
             <h2 style="color: black;">운송장 번호로 조회</h2>
             <div class="login_id">
-               <select id="selectjumun" style="width:200px; height:30px; margin-right:5px; padding:0px 5px; font-size:10pt;" onclick="flagjumunbunho();">
+               <select id="selectjumun" style="width:200px; height:30px; margin-right:5px; padding:0px 5px; font-size:10pt; margin-left: 110px; ">
          <option>주문번호 선택</option>
-         <c:if test="${empty requestScope.order eq 'no'}">
-            <option disabled="disabled">조회 내역이 없습니다.</option>
-         </c:if>
-         
-         <c:if test="${not empty requestScope.buyList ne 'no'}">
-            <c:forEach var="buyList" items="${requestScope.buyList}">
-               <option>${pdvo.jumun_bunho}</option>
-            </c:forEach>
-         </c:if>
+         <c:choose>
+		   <c:when test="${empty requestScope.order}"> 조회내역이 없습니다.
+            	<option disabled="disabled">조회 내역이 없습니다.</option>
+           </c:when>
+		    <c:when test="${not empty requestScope.order}">
+			     <c:forEach var="order" items="${requestScope.order}">
+			     <option value="${order.jumun_bunho}">${order.jumun_bunho}</option>			
+            	 </c:forEach>
+		    </c:when>     
+		</c:choose>
       </select>
-                
-            </div>
-            <div class="login_pw">
-            </div>
-            <button type="button" id="btnSubmit" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
-		  	조회
-			</button>
-      	  </div>
-    	</div>
-       </table>
-   </form>
+      </div>
+   	  </div>
+ 	</div>
+    </table>
+</form>
+   <button type='button' id='btnSubmit' class='btn btn-dark' data-toggle='modal' data-target='#myModal'>조회</button>
+   
+   
    
    		
 
@@ -229,22 +243,22 @@ $(document).ready(function(){
       
       <div class="modal-body">
         	<table border="1">
-        	 <tr>
+        	 <tr id="test">
 				<th scope="col" class="" style="height: 50px; width: 350px">주문일자</th>
                 <th scope="col" class="" style="height: 50px; width: 350px">주문자</th>
                 <th scope="col" class="" style="height: 50px; width: 350px">배송상황</th>
-                <th scope="col" class="" style="height: 50px; width: 350px">주문번호</th>
             </tr>
-            
-			
-			<c:forEach  var= "pdvo" items="${requestScope.order}">
 			<tr>
-				<td class="" style="height: 50px; width: 350px;">${pdvo.buy_date}</td>
-                <td style="height: 50px; width: 350px">${pdvo.fk_userid}</td> 
-                <td class="" style="height: 50px; width: 350px">${pdvo.baesong_sangtae}</td>
-                <td class="" style="height: 50px; width: 350px">${pdvo.jumun_bunho}</td>
-            </tr>
-		</c:forEach>           
+				<td>
+					<div id="a" style="text-align: left;"></div>
+				</td>
+				<td>
+					<div id="b" style="text-align: left;"></div>
+				</td>
+				<td>
+					<div id="c" style="text-align: left;"></div>
+				</td>
+			</tr>
         	</table>
       </div>
      		<div class="modal-footer">

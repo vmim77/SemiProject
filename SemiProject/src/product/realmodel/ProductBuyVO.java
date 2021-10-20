@@ -16,6 +16,11 @@ public class ProductBuyVO {
    private String jumun_bunho = "";        // 배송번호 
    private String fk_pimage3 = "";   // 사진을  꺼내오기 위해 만들었다.
    //======================================================================================
+   
+   
+   
+   
+   // ====================================================================
    public String getFk_pimage3() {
       return fk_pimage3;
    }
@@ -88,5 +93,10 @@ public class ProductBuyVO {
    public void setJumun_bunho(String jumun_bunho) {
       this.jumun_bunho = jumun_bunho;
    }
+   
+   
+   
+   
+   
 //================================================================================================================
 }

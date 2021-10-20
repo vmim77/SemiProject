@@ -51,7 +51,8 @@
    }
    
     .titleArea h2 {
-    padding: 5% 45% 12px;
+    padding-top: 80px;
+    padding-right:150px;
     color: #000;
     font-size: 30px;
     font-family: "arimo",mg;
@@ -149,7 +150,6 @@
 <div id="menu" class="container" style="width:1000px; margin:100px 300px; height:100px; font-family:맑은 고딕;">
     <div style="text-align: center; margin-top: 30px">
       <span><a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" style="text-decoration: none;">정보수정</a></span> &nbsp;&nbsp;
-      <span><a href="<%= ctxPath%>/delivery/order.sh"  style="text-decoration: none;">주문내역</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/memberCalendar.sh" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
       <span><a href="" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/member/memberdelete.sh" style="text-decoration: none;">회원탈퇴</a></span>
@@ -171,11 +171,11 @@
 					총 주문액
 				</div>
 				<div style="font-size:12pt; font-weight:bold;">
-					${requestScope.buy_pro_price }
+				<fmt:formatNumber value="${requestScope.buyMoney}" pattern="###,###" />원
 				</div>
 			</span>
 		</td>
-		
+	
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:200px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
 				<img style="height:80px; padding-right:10px;" id="profile" src="../images/image_3.png"/>
@@ -184,12 +184,12 @@
 					포인트
 				</div>
 				<div style="font-size:12pt; font-weight:bold;">
-					${sessionScope.loginuser.point}원
+				<fmt:formatNumber value="${sessionScope.loginuser.point}" pattern="###,###" />원
 				</div>
 				
 			</div>
 		</span>
-		</td>
+		</td> 
 		
 		
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
@@ -201,7 +201,6 @@
 		  	쿠폰
 		</button>
 
-<!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -245,21 +244,24 @@
 <!-- 여기서부터 디자인 시작 -->
                 <table>
                   <tr style="font-size:13pt; font-weight:bold; height:50px; text-align:left; padding-bottm:15px;">
-                     <td colspan="7" style="padding-left:15px;">
-                        상품정보
+                     <td colspan="8" style="padding-left:15px;">
+                        주문내역
                      </td>
                   </tr>
                   <tr style="background-color:#f5f5ef; border-bottom:solid 1px #d0d0e2; border-top:solid 1px #d0d0e2;">                  
+           			<td style="width:200px; height:30px; font-size:10pt; color:black; text-align:center;">
+                        주문일자
+                     </td>
                      <td style="width:200px; height:30px; font-size:10pt; color:black; text-align:center;">
                         상품이미지
                      </td>
                      <td style="width:600px; font-size:10pt; color:black; text-align:center;">
                         상품정보
                      </td >
-                     <td style="width:200px; font-size:10pt; color:black; text-align:center;">
+                     <td style="width:100px; font-size:10pt; color:black; text-align:center;">
                         수량
                      </td>
-                     <td style="width:200px; font-size:10pt; color:black; text-align:center;">
+                     <td style="width:100px; font-size:10pt; color:black; text-align:center;">
                         총 가격
                      </td>
                      <td style="width:100px; font-size:10pt; color:black; text-align:center;">
@@ -281,25 +283,28 @@
                   </c:if>
                   <c:if test="${requestScope.checkidnull eq 'no'}">
                      <tr>
-                        <td colspan="7" style="height:200px; text-align:center; font-size:11pt;">
+                        <td colspan="8" style="height:200px; text-align:center; font-size:11pt;">
                            로그인 후 조회 가능합니다.
                         </td>
                      </tr>   
                   </c:if>      
                   <c:if test="${not empty requestScope.buyList && requestScope.checkidnull ne 'no'}">
                      <c:forEach var="buyList" items="${requestScope.buyList}" varStatus="status">
-                     <c:if test="${status.index < 3}" >
-                        <tr style="border-bottom:solid 1px gray;">                     
+                     	<c:if test="${status.index < 3 }">
+                        <tr style="border-bottom:solid 1px gray;">            
+                        	<td style="width:200px; font-size:10pt; color:black; text-align:left; padding-left:30px;">
+                              ${buyList.buy_date}
+                           </td >
                            <td style="width:200px; height:150px; font-size:10pt; color:black; text-align:center;">
                               <img style="width:200px; height:150;" id="chun" src="${buyList.fk_pimage3}"/>
                            </td>
                            <td style="width:600px; font-size:10pt; color:black; text-align:left; padding-left:30px;">
                               ${buyList.buy_opt_info}
                            </td >
-                           <td style="width:200px; font-size:10pt; color:black; text-align:center;">
+                           <td style="width:100px; font-size:10pt; color:black; text-align:center;">
                               ${buyList.buy_qty}
                            </td>
-                           <td style="width:200px; font-size:10pt; color:black; text-align:center;">
+                           <td style="width:100px; font-size:10pt; color:black; text-align:center;">
                               <fmt:formatNumber value="${buyList.buy_opt_price + buyList.buy_pro_price}" pattern="###,###" />원
                            </td>
                            <td style="width:100px; font-size:10pt; color:black; text-align:center;">
@@ -315,19 +320,29 @@
                               </c:choose>
                            </td>
                            <td style="width:100px; font-size:9pt; color:black; text-align:center;">
-                             		<button id="trade">환불/교환</button>
-                             		<input type="hidden" value="${buyList.jumun_bunho}">
+                           		<button id="trade" class="btn btn-success">환불/교환</button>
+                           		<input type="hidden" value="${buyList.jumun_bunho}">
                            </td>
                         </tr>
                         </c:if>
                      </c:forEach>
                   </c:if>
                </table>
+               
+               
+  
+               
+               
 <form name="change">
 	<input type="hidden" id="jumun_bunho" name="jumun_bunho" value="" />
 	<input style="display: none;">
 </form>
 
+
+
+
+
+<%-- 최근등록게시물 ####################################################################################### --%>
 <br>
 
 	<div id="mp-board" class="xans-element- xans-myshop xans-myshop-boardpackage "><div class="title">
@@ -363,6 +378,8 @@
 		</c:forEach>
 	</tbody>
 </table>
+
+
 
 	<br>
 </div>

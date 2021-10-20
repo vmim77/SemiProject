@@ -27,8 +27,8 @@ public class DeliverylistAction extends AbstractController {
 		InterProductRealDAO prdao = new ProductRealDAO();
 		
 		List<ProductBuyVO> order = prdao.myorder(userid); 
-		
 		request.setAttribute("order", order);
+		
 		
 		
 		

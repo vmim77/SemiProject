@@ -119,7 +119,26 @@
 			
 		});//end of $("select#slt").click(function()
 				
-				
+		$("select#sizeChange").change(function(){
+			var size = $(this).val();
+			
+		//	alert(size);
+			
+			var origin = $("td#size").text();
+			
+		//	alert(origin);
+			
+			origin = origin.replace(origin.substring(0,3), size);
+			
+		//	alert(origin);
+			
+			$("td#size").html(origin);
+			
+			$("input[name=chan]").val(origin);
+			
+			
+			
+		});	
 			
 			
 		
@@ -136,6 +155,8 @@
 	
       <table>
                   <tr style="font-size:13pt; font-weight:bold; height:50px; text-align:left; padding-bottm:15px;">
+    
+    
                      <td colspan="7" style="padding-left:15px;">
                         상품정보
                      </td>
@@ -168,9 +189,7 @@
                            <td style="width:200px; height:150px; font-size:10pt; color:black; text-align:center;">
                               <img style="width:200px; height:150;" id="chun" src="${orderList.fk_pimage3}"/>
                            </td>
-                           <td style="width:600px; font-size:10pt; color:black; text-align:left; padding-left:30px;">
-                              ${orderList.buy_opt_info}
-                           </td >
+                           <td id="size" style="width:600px; font-size:10pt; color:black; text-align:left; padding-left:30px;">${orderList.buy_opt_info}</td >
                            <td style="width:200px; font-size:10pt; color:black; text-align:center;">
                               ${orderList.buy_qty}
                            </td>
@@ -230,13 +249,14 @@
 	<table style=" border: 2px solid gray;background-color:white; width: 100%;  margin-top: 50px; margin-bottom: 50px;">		
 		<tr>
 			<td>
-				<select style="width:100%; height:30px; margin-right:5px; padding-right:5px; padding-bottom:5px; text-align:left;">
+				<select id="sizeChange" style="width:100%; height:30px; margin-right:5px; padding-right:5px; padding-bottom:5px; text-align:left;">
 					<option>교환할 제품을 선택하세요.</option>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
+					<option>240</option>
+					<option>250</option>
+					<option>260</option>
+					<option>270</option>
+					<option>280</option>
+					<option>290</option>
 				</select>
 	     	</td>   
 		</tr>	
@@ -246,6 +266,7 @@
 <form name="changetrade">
 	<input type="hidden" name="can" value="" id="can" />
 	<input type="hidden" name="retry_jumun_bunho" value="${requestScope.jumun_bunho }" />
+	<input type="hidden" name="chan"  />
 </form>
 
 

@@ -6,8 +6,6 @@ import java.util.*;
 import javax.naming.*;
 import javax.sql.DataSource;
 
-import board.model.BoardVO;
-import product.model.ProductVO;
 import util.security.*;
 
 public class ProductRealDAO implements InterProductRealDAO {
@@ -193,10 +191,10 @@ public class ProductRealDAO implements InterProductRealDAO {
 	         
 	         conn = ds.getConnection();
 	         
-	         String sql = " select buy_opt_info, buy_qty, buy_opt_price, buy_pro_price, jumun_bunho, baesong_sangtae, fk_pimage3 "+
+	         String sql = " select buy_date,buy_opt_info, buy_qty, buy_opt_price, buy_pro_price, jumun_bunho, baesong_sangtae, fk_pimage3 "+
 	                    " from tbl_buy "+
-	                    " where fk_userid = ? ";
-
+	                    " where fk_userid = ? "+
+	         			" order by buy_date desc ";
 	         
 	         pstmt = conn.prepareStatement(sql);
 	         pstmt.setString(1, userid);
@@ -207,13 +205,14 @@ public class ProductRealDAO implements InterProductRealDAO {
 	            
 	            ProductBuyVO pbvo = new ProductBuyVO();
 	            
-	            pbvo.setBuy_opt_info(rs.getString(1));
-	            pbvo.setBuy_qty(rs.getInt(2));
-	            pbvo.setBuy_opt_price(rs.getString(3));
-	            pbvo.setBuy_pro_price(rs.getString(4));
-	            pbvo.setJumun_bunho(rs.getString(5));
-	            pbvo.setBaesong_sangtae(rs.getInt(6));
-	            pbvo.setFk_pimage3(rs.getString(7));
+	            pbvo.setBuy_date(rs.getString(1));
+	            pbvo.setBuy_opt_info(rs.getString(2));
+	            pbvo.setBuy_qty(rs.getInt(3));
+	            pbvo.setBuy_opt_price(rs.getString(4));
+	            pbvo.setBuy_pro_price(rs.getString(5));
+	            pbvo.setJumun_bunho(rs.getString(6));
+	            pbvo.setBaesong_sangtae(rs.getInt(7));
+	            pbvo.setFk_pimage3(rs.getString(8));
 	            
 	            buyList.add(pbvo);
 	            
@@ -275,28 +274,46 @@ public class ProductRealDAO implements InterProductRealDAO {
 //============================================================================================================	   
 	 // 환불/취소 선택시 환불처리로 변경되는 메소드 
 	@Override
-	public int Change(String jumun_bunho , int th) throws SQLException {
+	public int Change(String jumun_bunho , int th, String changeOpt) throws SQLException {
 		
 		int n = 0;
+		
+		System.out.println("##### " + changeOpt);
+		System.out.println("##### " + jumun_bunho);
+		System.out.println("##### " + th);
 		
 		try {
 			
 			conn=ds.getConnection();
 			
-			String sql = " update tbl_buy set baesong_sangtae = ? "
-					   + " where jumun_bunho = ? ";
+			String sql = " update tbl_buy set baesong_sangtae = ? ";
+			
+			if(changeOpt.length() > 0) {
+				sql += " , buy_opt_info = ? ";
+			}
+			
+			sql += " where jumun_bunho = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			
-			pstmt.setInt(1, th);
-			pstmt.setString(2, jumun_bunho);
-			
+			if(changeOpt.length() > 0) {
+				pstmt.setInt(1, th);
+				pstmt.setString(2, changeOpt);
+				pstmt.setString(3, jumun_bunho);
+				
+			}
+			else {
+				pstmt.setInt(1, th);
+				pstmt.setString(2, jumun_bunho);
+			}
 			
 			n = pstmt.executeUpdate();
 			
 			
-		}finally {
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
 			close();
 		}
 		
@@ -330,6 +347,7 @@ public class ProductRealDAO implements InterProductRealDAO {
 				pdvo.setBuy_date(rs.getString(1));
 				pdvo.setFk_userid(rs.getString(2));
 				pdvo.setBaesong_sangtae(rs.getInt(3));
+				pdvo.setJumun_bunho(rs.getString(4));
 				
 				order.add(pdvo);
 				
@@ -348,16 +366,17 @@ public class ProductRealDAO implements InterProductRealDAO {
 	
 	// 마이페이지 총구매금액
 	@Override
-	public List<ProductBuyVO> SelectMyBuyMoney(String userid) throws SQLException {
-	
-		List<ProductBuyVO> buyMoney = new ArrayList<>();
-		
+	public int SelectMyBuyMoney(String userid) throws SQLException {
+		// 총구매금액
+		int buyMoney = 0;
+		// 에러방지
+		int cnt = 0;
 		
 		try {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select sum(buy_opt_price + buy_pro_price) "+
+			String sql = " select buy_opt_price , buy_pro_price  "+
 						 " from tbl_buy "+
 						 " where fk_userid =? ";
 			
@@ -367,17 +386,15 @@ public class ProductRealDAO implements InterProductRealDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
-				
-				ProductBuyVO mon = new ProductBuyVO();
-				
-				mon.setFk_userid(rs.getString(1));
-				
-				buyMoney.add(mon);
+			if(rs.next()) {
+				cnt++;
 			}
 			
-			
-			
+			if(cnt>0) {
+				while(rs.next()) {
+					buyMoney += Integer.parseInt(rs.getString(1))+ Integer.parseInt(rs.getString(2));
+				}//end of while
+			}
 			
 		} finally {
 			close();
@@ -385,20 +402,44 @@ public class ProductRealDAO implements InterProductRealDAO {
 		
 		return buyMoney;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public List<ProductBuyVO> SelectJumun(String jumun_bunho) throws SQLException {
+		
+		List<ProductBuyVO> jumunList = new ArrayList<>();
+	      
+	      try {
+	         
+	         conn = ds.getConnection();
+	         
+	         String sql = " select to_char(buy_date,'yyyy-mm-dd'),fk_userid,baesong_sangtae "+
+	                      " from tbl_buy "+
+	                      " where jumun_bunho = ? ";
+
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, jumun_bunho);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         while(rs.next()) {
+	            
+	            ProductBuyVO pvo = new ProductBuyVO();
+	            
+	            pvo.setBuy_date(rs.getString(1));
+	            pvo.setFk_userid(rs.getString(2));
+	            pvo.setBaesong_sangtae(rs.getInt(3));
+	            
+	            jumunList.add(pvo);
+	            
+	         }//end of while(rs.next()) {-------------------------
+
+	      } finally {
+	         close();
+	      }
+	      
+	      return jumunList;
+	      
+	}
 	
 //=====================================================================================	
 }

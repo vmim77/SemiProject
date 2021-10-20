@@ -27,13 +27,17 @@ public interface InterProductRealDAO {
 	List<ProductBuyVO> SelectMyBought(String jumun_bunho) throws SQLException;
 	
 	// 환불 클릭시 업데이트 하기
-	int Change(String jumun_bunho, int th) throws SQLException;
+	int Change(String jumun_bunho, int th, String changeOpt) throws SQLException;
 	
 	// 배송조회
 	List<ProductBuyVO> myorder(String userid) throws SQLException;
 
 	// 마이페이지에서 구매금액 메소드
-	List<ProductBuyVO> SelectMyBuyMoney(String userid) throws SQLException;
+	int SelectMyBuyMoney(String userid) throws SQLException;
+
+	// 주문번호 조회
+	List<ProductBuyVO> SelectJumun(String jumun_bunho) throws SQLException;
+
 	
 	
 //======================================================================================

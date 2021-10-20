@@ -42,7 +42,6 @@ public class NoticeDetailAction extends AbstractController {
 			
 			int n = bdao.noticeViewCheck(paraMap); // 해당 글번호의 글을 이 유저가 조회한 적이 있나 없나 확인한다.
 			
-			System.out.println("내가 오늘 이 글을 봤나요? => "+ n);
 			
 			if(n != 1) { // 오늘 하룻동안 이 글을 본 적이 없는 것이다. 해당 게시글의 조회수를 올려주고, 조회기록에 넣어야 한다.
 				n = 0;
@@ -51,19 +50,15 @@ public class NoticeDetailAction extends AbstractController {
 				if(n==1) {
 					
 					n = 0;
-					System.out.println("조회수를 1 올렸어요");
 					n = bdao.insertNoticeViewHistory(paraMap);
 					
 					if(n==1) {
-						System.out.println("조회수 기록테이블에 기록을 넣었습니다.");
 					}
 					else {
-						System.out.println("조회수 기록 테이블 insert 오류");
 						return;
 					}
 				}
 				else {
-					System.out.println("조회수 update 오류");
 					return;
 				}
 			}// end of 조회수 처리하기

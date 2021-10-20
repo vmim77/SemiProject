@@ -52,15 +52,10 @@ public class MypageAction extends AbstractController {
         request.setAttribute("mbvo", mbvo);
         
         // 마이페이지 총구매금액 메소드
-        List<ProductBuyVO> buyMoney = prdao.SelectMyBuyMoney(userid);
+        int buyMoney = prdao.SelectMyBuyMoney(userid);
         
         request.setAttribute("buyMoney", buyMoney);
         
-		
-	//	  List<ProductBuyVO> buyList = prdao.SelectMyallBought(userid);
-		
-		
-		
     	//	super.setRedirect(false);
 		super.setViewPage("/WEB-INF/member/mypage.jsp");
         
