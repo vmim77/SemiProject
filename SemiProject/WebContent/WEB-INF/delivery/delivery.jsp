@@ -180,11 +180,25 @@ $(document).ready(function(){
 	                   
 	                	var ahtml = item.buy_date;
 	                	var bhtml = item.fk_userid;
-	                	var chtml = item.baesong_sangtae;
-		           
+	                	if(item.baesong_sangtae == 0){
+	                		$("div#c").text("배송준비");
+	                	}
+	                	if(item.baesong_sangtae == 1){
+	                		$("div#c").text("배송중");
+	                	}
+	                	if(item.baesong_sangtae == 2){
+	                		$("div#c").text("배송완료");
+	                	}
+	                	if(item.baesong_sangtae == 3){
+	                		$("div#c").text("환불");
+	                	}
+	                	if(item.baesong_sangtae == 4){
+	                		$("div#c").text("교환");
+	                	}
+	                	
 	                	$("div#a").html(ahtml);
 	                	$("div#b").html(bhtml);
-		           		$("div#c").html(chtml);
+		           		
 	              
 	                  }); //end of $.each(json)--------------------------------------
 					
@@ -221,12 +235,12 @@ $(document).ready(function(){
 		    </c:when>     
 		</c:choose>
       </select>
+   <button type='button' id='btnSubmit' class='btn btn-dark' data-toggle='modal' data-target='#myModal'>조회</button>
       </div>
    	  </div>
  	</div>
     </table>
 </form>
-   <button type='button' id='btnSubmit' class='btn btn-dark' data-toggle='modal' data-target='#myModal'>조회</button>
    
    
    

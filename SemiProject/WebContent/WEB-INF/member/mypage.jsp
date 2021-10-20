@@ -93,51 +93,6 @@
 			
 		}); 
 		
-		// 잠시 숨기기
-	      $("div#view_close").hide();
-	      // 전체리뷰개수
-	      var rvcnt = "${requestScope.Review_cnt}"*1;
-	      // 클릭갯수
-	      var ckcnt = 1;
-	      
-	      // 페이지 로드시 일정 갯수 이상의 리뷰는 숨겨주기
-	      for(var i=0; i<rvcnt; i++){
-	         if(i>2){
-	            $("tr#"+i).hide();
-	         }   
-	      }//end of for----------------------------------
-	      
-	      // view more 클릭시
-	      $("div#view_more").click(function(){
-	         // 끝까지 view more를 했다면
-	         if((ckcnt+1)*3>rvcnt){
-	            $("div#view_more").hide();
-	            $("div#view_close").show();
-	         }
-	         // 3개씩 끊어서 보여주기
-	         for(var i=0; i<(ckcnt+1)*3; i++){
-	            $("tr#"+i).show();
-	         }
-	         // 클릭 갯수 올리기
-	         ckcnt++;         
-	      });//end of $("div#view_more").click(function(){
-	         
-	      // view close 클릭시
-	      $("div#view_close").click(function(){
-	         // 초기화 해주기
-	         ckcnt = 1;
-	         // 보여준거 숨기기
-	         for(var i=0; i<rvcnt; i++){
-	            if(i>2){
-	               $("tr#"+i).hide();
-	            }   
-	         }//end of for----------------------------------
-	         // 다시 원래대로 돌리기
-	         $("div#view_more").show();
-	         $("div#view_close").hide();      
-	      });//end of $("div#view_more").click(function(){
-		
-
 		
 	}); // end of $(document).ready(function(){})-----------------------------
 </script>

@@ -295,13 +295,6 @@ public class MemberDAO implements InterMemberDAO {
 		}//end of public String findUserid(Map<String, String> paraMap)
 
 		
-		
-		
-		
-		
-		
-		
-		
 		// 비밀번호 찾기(아이디, 이메일을 입력받아서 해당 사용자의 비밀번호를 알려준다)
 		@Override
 		public boolean isUserExist(Map<String, String> paraMap) throws SQLException {
@@ -788,11 +781,6 @@ public class MemberDAO implements InterMemberDAO {
 		      
 		       try {
 		            conn = ds.getConnection();
-		            /*
-		            String sql = " select pwd "
-		                         + " from tbl_member " 
-		                         + " where userid = ? ";
-		            */
 		            
 		            String sql = " update tbl_member set status = 0" +
 		            			 " where userid = ? " ;

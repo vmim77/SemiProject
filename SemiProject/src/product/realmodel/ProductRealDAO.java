@@ -402,10 +402,15 @@ public class ProductRealDAO implements InterProductRealDAO {
 		
 		return buyMoney;
 	}
+	
+	// 배송조회시 주문번호 조회검색
 	@Override
 	public List<ProductBuyVO> SelectJumun(String jumun_bunho) throws SQLException {
 		
 		List<ProductBuyVO> jumunList = new ArrayList<>();
+		
+		
+		
 	      
 	      try {
 	         
@@ -428,6 +433,8 @@ public class ProductRealDAO implements InterProductRealDAO {
 	            pvo.setBuy_date(rs.getString(1));
 	            pvo.setFk_userid(rs.getString(2));
 	            pvo.setBaesong_sangtae(rs.getInt(3));
+	            
+	            
 	            
 	            jumunList.add(pvo);
 	            
