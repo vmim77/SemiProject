@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
    String ctxPath = request.getContextPath();
 %>    
@@ -13,8 +11,8 @@
 
 <style type="text/css">
 	
-	div{
-	/* 	    border:solid 1px red;  */    
+	table, tr, td{
+		  /*   border:solid 1px red;     */
 
 	}
 
@@ -50,8 +48,6 @@
 	var key = 0;
 	// 적립금 지역변수 방지
 	var jukrib = 0;
-	// 리뷰내용 작성했는지 확인
-	var flagtext = false;
 	// 옵션 선택시 실행해주는 메소드
 	function flag1(){
 		opt1 = $("select#optselect1").val();
@@ -87,26 +83,6 @@
 	// 수량 늘려주기
 	function flag5(){
 		num = $("input#num").val();
-	}
-	// 평점을 얼마나 적었는지
-	function flagstar(){
-		
-		if($("select#insertstar").val() == "★★★★★ 매우만족해요"){
-			$("input#whatstar").val("5");
-		}
-		else if($("select#insertstar").val() == "★★★★☆ 만족해요"){
-			$("input#whatstar").val("4");		
-		}
-		else if($("select#insertstar").val() == "★★★☆☆ 보통이에요"){
-			$("input#whatstar").val("3");
-		}
-		else if($("select#insertstar").val() == "★★☆☆☆ 불만족해요"){
-			$("input#whatstar").val("2");
-		}
-		else{
-			$("input#whatstar").val("1");
-		}
-	
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -225,6 +201,7 @@
 			var cartkey = $(this).parent().find(".cartkey").val();
 			console.log(cartkey);
 			// 장바구니를 선택한 태그 내의 내용을 옮겨주기 위하여 변수생성
+		 // var cartimg = $(this).parent().find(".upprice").val();
 			var cartopt123 = $("table#"+cartkey).parent().find(".cartopt123").text();
 			var cartopt4   = $("table#"+cartkey).parent().find(".cartopt4").text();
 			var cartnum    = $("table#"+cartkey).parent().find(".cartnum").val();
@@ -275,13 +252,15 @@
 		
 			// 키값을 가져오기 위함
 			var cartkey = $(this).parent().find(".cartkey").val();
-			
+			console.log(cartkey);
 			// 장바구니를 선택한 태그 내의 내용을 옮겨주기 위하여 변수생성
+		 // var cartimg = $(this).parent().find(".upprice").val();
 			var cartopt123 = $("table#"+cartkey).parent().find(".cartopt123").text();
 			var cartopt4   = $("table#"+cartkey).parent().find(".cartopt4").text();
 			var cartnum    = $("table#"+cartkey).parent().find(".cartnum").val();
 			var cartprice  = $("table#"+cartkey).parent().find(".cartprice").text();
 			var cartfinopt = $("table#"+cartkey).parent().find(".cartfinopt").text();
+			console.log(cartopt123);
 			// 장바구니로 넘겨주기 위한 hidden 타입의 input 태그 생성
 			// 넘기는 내용
 			// 이미지명, 옵션1~4, 수량, 가격, 옵션가격
@@ -293,7 +272,7 @@
 					    +"<input type='hidden' name='cartprice'  value='"+cartprice+"'/>"
 					    +"<input type='hidden' name='jukrib'  value='"+jukrib+"'/>"
 					    +"<input type='hidden' name='cartfinopt' value='"+cartfinopt+"'/>";
-					  				    
+					    
 			$("form#buyorcart").append(gocart);
 
 			var frm = document.gogocart;
@@ -320,73 +299,14 @@
 				return;
 			}
 			
-		});//end of $("input#text").keyup(function(){--------------------------------		
-	
-		//////////////////////////////////////////////////////////////////////////////
-		////////////////////////////// 여기서부터 리뷰 관련 기능 //////////////////////////////
-		 
-		// 리뷰내용 넣게하기
-		$("textarea#content").blur(function(){
-			
-			var bool = $(this).val();
-			
-			if(bool == ""){
-				flagtext = false;
-			}
-			else{	
-				flagtext = true;
-			}
-			
-		});//$("input#detailAddress").blur(function(){--------------------------------
+		});//end of $("input#text").keyup(function(){--------------------------------
 		
-		// 리뷰 보내기
-		$("button#insertreview").click(function(){
-			
-			var checkidnull = "${requestScope.checkidnull}";
-			
-			if(checkidnull == "no"){
-				alert("로그인 후 이용가능한 서비스 입니다");
-				location.href = "<%= ctxPath%>/login/login.sh";
-			}
-			else{
-				
-				// 제품 구매내역이 있다면
-				if("${requestScope.pbvo.checknull}" == "nonull"){
-				
-					if(flagtext == true){
-						// 보내기전 담아주기
-						$("input#content").val($("textarea#content").val());
-						
-						var frm = document.insertreview;
-						frm.action = "<%= ctxPath%>/buy.sh";
-						frm.method = "get";
-						frm.submit();
-					}
-					else{
-						alert("리뷰내용 작성 부탁드립니다.");
-						$("textarea#content").focus();
-						return;
-					}//end of if(flagtext == true){-------- 
-				
-				}
-				else{
-				
-					alert("리뷰를 작성 하셨거나 구매내역이 없습니다.");
-					
-				}//end of if("${requestScope.pbvo.checknull}" == "nonull"){
-					
-			}//end of if("{SessionScope.userid}" == ""){----------
-			 
-		});//end of $("button#isertreview").click(function(){----------------------- 	
-		 
-		
-			
-			
-	});//end of $(docunment).ready(function(){---------------------------------------
+	});//end of $(docunment).ready(function(){
 		
 
 	
 </script>
+
 <!-- 리뷰 및 게시판 들어가는 곳 -->
 <div id="container" style="width:1000px; margin:100px 300px; font-family:맑은 고딕;">
 	<!-- 구매창 넣기 -->
@@ -400,12 +320,12 @@
 							<span id="product_name">${pvo.product_name}</span><br>
 							<span id="product_ceil_price" style="font-size:13pt; color:red;">${pvo.product_ceil_price}</span>&nbsp;
 							<span style="font-size:10pt; color:gray;">/</span>
-							<span id="product_price" style="padding:10px; font-size:10pt; color:gray;"><del>${pvo.product_price}</del></span>
+							<span id="product_price" style="padding:10px; font-size:10pt; color:gray;"><del>${pvo.product_price}</del></span>		
 						</td>
 					</tr>
 					<tr style="height:50px;">
 						<td style="width:150px; text-align:left; font-size:10pt; color:black; padding-top:7px; padding-left:7px;">적립금</td>
-						<td style="width:300px; font-size:10pt; padding-left:20px; padding-top:5px;"><span id="pct" style="color:red; display:inline-block; width:200px;"></span></td>
+						<td style="width:300px; font-size:10pt; padding-left:20px; padding-top:5px;"><span id="pct" style="color:red; display:inline-block; width:200px;"></span><span style="margin-left:27px; font-size:9pt; color:gray; display:inline-block; width:100px;">포인트사용<img src="/SemiProject/images/point.png" style="width:40px; height:35px;"></span></td>
 					</tr>
 					<tr style="height:50px;">
 						<td style="width:150px; text-align:left; font-size:9pt; color:black; padding:0px 0px 0px 7px;">사이즈</td>
@@ -487,52 +407,45 @@
 	<hr style="border:solid 1px gray; margin:0px 0px 80px 0px;">
 	
 	<!-- 리뷰넣기 -->
-	<div style="margin-bottom:5px;">
-		<span style="text-aling:left; display:inline-block; width:880px; font-size:10pt; color:black; margin-bottom:5px;">REVIEW | 문의글 혹은 악의적인 비방글은 무통보 삭제됩니다</span>
-		<button id="btnpoint" type="button" style="font-size:10pt; background-color:#efeff5; width:110px; height:30px; text-align:center; font-size:9pt;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">구매내역 조회</button>
+	<div style="font-size:10pt; color:black;">
+		REVIEW | 문의글 혹은 악의적인 비방글은 무통보 삭제됩니다
 	</div>
 	
-	<form>
-		<textarea id="content" style="width:1000px; height:150px; border:solid 1px gray; resize:none;"></textarea>
-		<!-- 버튼 -->	
-		<div style="margin:20px 0px 15px 0px;">
-			<input type="file" id="insertpicture" name="insertpicture" style="display:inline-block; width:200px; height:29px; margin-right:5px; border:solid 1px gray; font-size:10pt;"/>
-			<select id="insertstar" style="width:550px; height:30px; margin-right:5px; padding:0px 5px; font-size:10pt;" onclick="flagstar();">
-				<option>★★★★★ 매우만족해요</option>
-				<option>★★★★☆ 만족해요</option>
-				<option>★★★☆☆ 보통이에요</option>
-				<option>★★☆☆☆ 불만족해요</option>
-				<option>★☆☆☆☆ 매우불만족해요</option>
-			</select>
-			<button id="insertreview" style="width:150px; height:28px; margin-right:5px; border:solid 1px gray; text-align:center; font-size:11pt; color:white; background-color:black;">
-				Confirm
-			</button>	
-			<span id="insertreviewword"></span>
-		</div>
-		<input id="whatstar" name="whatstar" type="hidden" value="5"/>
-		<input id="content" name="content" type="hidden" value=""/>
-		<input name="retry_product_name" type="hidden" value="${pvo.product_name}"/>
-		<!-- 무작정 주소치고 들어오는거 방지 -->
-		<input name="mujakjung" type="hidden" value="mujakjung"/>
-	</form>
+	<textarea id="text" style="width:1000px; height:150px; border:solid 1px gray; resize:none;"></textarea>
+	<!-- 버튼 -->	
+	<div id="buttons" style="margin:20px 0px 15px 0px;">
+		<input type="file" id="insertpicture" style="display:inline-block; width:200px; height:30px; margin-right:5px; border:solid 1px gray; font-size:10pt;"/>
+		<select id="insertstar" style="width:550px; height:30px; margin-right:5px; padding:0px 5px; text-align:left;">
+			<option>★★★★★&nbsp;매우만족해요</option>
+			<option>★★★★☆&nbsp;만족해요</option>
+			<option>★★★☆☆&nbsp;보통이에요</option>
+			<option>★★☆☆☆&nbsp;불만족해요</option>
+			<option>★☆☆☆☆&nbsp;매우불만족해요</option>
+		</select>
+		<span id="insertreview" style="display:inline-block; width:150px; height:30px; margin:0px 5px 0px 0px; border:solid 1px gray; text-align:center; font-size:12pt; color:white; background-color:black;">
+			Confirm
+		</span>
+		<span id="insertreviewword"></span>
+	</div>
 	
 	<!-- 리뷰관련 -->
-	<table id="review" style="border:solid 1px gray; height:150px;">
+	<table id="review" style="border:solid 1px gray;">
 		<tr>
 			<td id="ofreview1" style="width:150px; text-align:center; font-size:10pt;">
 				<div id="percent" style="background-color:black; color:white; font-size:35pt; width:100px; height:80px; margin:10px 30px 0px 30px; text-align:center;">0.0</div>
-				<div id="jumsu" style="text-align:center; font-size:10pt; color:black; margin-top:5px;">n개의 리뷰평점</div>
+				<div id="jumsu" style="text-align:center; font-size:10pt; color:black;">n개의 리뷰평점</div>
 			</td>
 			<td id="ofreview2" style="width:500px; margin:0px 10px; color:black;">
 				<div id="5stars">5 Stars<img><br><span></span></div>
-				<div id="4stars" style="margin-top:5px;">4 Stars<img><br><span></span></div>
-				<div id="3stars" style="margin-top:5px;">3 Stars<img><br><span></span></div>
-				<div id="2stars" style="margin-top:5px;">2 Stars<img><br><span></span></div>
-				<div id="1stars" style="margin-top:5px;">1 Stars<img><br><span></span></div>
+				<div id="4stars">4 Stars<img><br><span></span></div>
+				<div id="3stars">3 Stars<img><br><span></span></div>
+				<div id="2stars">2 Stars<img><br><span></span></div>
+				<div id="1stars">1 Stars<img><br><span></span></div>
 			</td>
 			<td id="ofreview3" style="width:350px;">
-				<div></div>
-				<div id="reviewandphoto" style="text-align:center; font-size:10pt;">이 상품의 포토/동영상 모아보기</div>
+				<img><img><img><img><br>
+				<img><img><img><img>
+				<div id="reviewandphoto" style="text-align:center;">이 상품의 포토/동영상 모아보기</div>
 			</td>
 		</tr>
 	</table>
@@ -541,43 +454,27 @@
 	
 	<table style="width:1000px;">
 		<tr>
-			<td colspan="2" style="height:40px; border-bottom:solid 1px gray;"><span id="newreview" style="font-size:10pt;">최신순리뷰</span>&nbsp;|&nbsp;<span id="goodreview" style="font-size:10pt;">추천순리뷰</span></td>
+			<td colspan="2" style="height:40px; border-bottom:solid 1px gray;"><span id="newreview">최신순리뷰</span>&nbsp;|&nbsp;<span id="goodreview">추천순리뷰</span></td>
 		</tr>
-		<%-- <c:forEach var="productvo" items="${requestScope.rvo}"> --%>
-			<c:if test="${empty requestScope.rvo.review_content}">
-				<tr>
-					<td style="width:100px; height:200px; font-size:10pt; text-align:center; border-bottom:solid 1px gray;">
-						등록된 리뷰가 없습니다.<br>
-						첫 리뷰를 작성 해보세요!
-					</td>
-				</tr>
-			</c:if>
-			<c:if test="${not empty requestScope.rvo.review_content}">
-			<tr style="border-bottom:solid 1px gray;">
-				<td style="height:150px; width:800px; font-size:10pt; color:black; padding-left:10px;">
-					<div>
-						리뷰내용 호호호 잘썻어요
-					</div>
-					<div>
-						| 1개의 댓글이 있습니다. |
-					</div>
-				</td>
-				<td style="height:150px; width:200px; font-size:10pt;">
-					<div id="writer" style="margin-top:10px;">작성자 : 누구</div>
-					<div id="writeday" style="margin-top:10px;">작성일자 : 언제</div>
-					<div id="writewhat" style="margin-top:10px;">제품속성 : 무엇</div>
-				</td>
-			</tr>
-			</c:if>	
-		<%-- </c:forEach> --%>
+		<tr style="border-bottom:solid 1px gray;">
+			<td style="height:210px; width:800px;">
+				<div style="font-size:10pt; color:black;">
+					리뷰내용 호호호 잘썻어요
+				</div>
+				<div style="font-size:10pt; color:black;">
+					| 1개의 댓글이 있습니다. |
+				</div>
+			</td>
+			<td>
+				<div id="writer">작성자 : 누구</div>
+				<div id="writeday">작성일자 : 언제</div>
+				<div id="writewhat">제품속성 : 무엇</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align:center; height:100px;"><span id="num1">1</span>&nbsp;<span id="num2">2</span>&nbsp;<span id="num3">3</span></td>
+		</tr>
 	</table>
-	
-	<c:if test="${not empty requestScope.rvo.review_content}">
-		<div style="text-align:center; font-size:13pt; font-weight:bold; margin-top:20px;">
-			view more
-		</div>
-	</c:if>
-	
 </div>	
 
 <!-- 장바구니 또는 구매 할 때 잠시 값을 저장시켜 주는 곳 -->
@@ -588,99 +485,6 @@
 <!-- 리뷰 작성 할 때 잠시 값을 저장시켜 주는 곳 -->
 <form id="goreview" name="gogoreview">
 	
-</form>	
-	
-<!-- 모달 꾸미기 -->
-<!-- //////////////////////////////////////////////////////////////////////// -->		
-<div class="modal fade" id="exampleModal">
-	<div class="modal-dialog">
-		<div class="modal-content" style="width:1000px; margin-left:-250px">      
-			<!-- Modal header -->
-		    <div class="modal-header">
-		    	<h5 class="modal-title">내 구매내역 조회</h5>
-		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		    </div>
-		    <!-- Modal body -->
-		    <div class="modal-body">
-		    	<div id="container" style="text-align:center;">
-			    	<!-- 여기서부터 디자인 시작 -->
-			    	<table>
-						<tr style="font-size:10pt; height:50px; text-align:left; padding-bottm:15px;">
-							<td colspan="7" style="padding-left:15px;">
-								상품정보
-							</td>
-						</tr>
-						<tr style="background-color:#f5f5ef; border-bottom:solid 1px #d0d0e2; border-top:solid 1px #d0d0e2;">						
-							<td style="width:100px; height:30px; font-size:10pt; color:black; text-align:center;">
-								상품이미지
-							</td>
-							<td style="width:400px; font-size:10pt; color:black; text-align:center;">
-								상품정보
-							</td >
-							<td style="width:100px; font-size:10pt; color:black; text-align:center;">
-								수량
-							</td>
-							<td style="width:100px; font-size:10pt; color:black; text-align:center;">
-								총 가격
-							</td>
-							<td style="width:100px; font-size:10pt; color:black; text-align:center;">
-								주문번호
-							</td>
-							<td style="width:100px; font-size:10pt; color:black; text-align:center;">
-								주문상태
-							</td>
-						</tr>
-						<c:if test="${empty requestScope.buyList && requestScope.checkidnull ne 'no'}">
-							<tr>
-								<td colspan="7" style="height:200px; text-align:center; font-size:11pt;">
-									고객님의 구매내역이 없습니다
-								</td>
-							</tr>	
-						</c:if>
-						<c:if test="${requestScope.checkidnull eq 'no'}">
-							<tr>
-								<td colspan="6" style="height:200px; text-align:center; font-size:11pt;">
-									로그인 후 조회 가능합니다.
-								</td>
-							</tr>	
-						</c:if>		
-						<c:if test="${not empty requestScope.buyList && requestScope.checkidnull ne 'no'}">
-							<c:forEach var="buyList" items="${requestScope.buyList}">
-								<tr>							
-									<td style="width:120px; height:150px; font-size:10pt; color:black; text-align:center;">
-										<img style="width:100px; height:150;" id="chun" src="${buyList.fk_pimage3}"/>
-									</td>
-									<td style="width:420px; font-size:10pt; color:black; text-align:left; padding-left:30px;">
-										${buyList.buy_opt_info}
-									</td >
-									<td style="width:120px; font-size:10pt; color:black; text-align:center;">
-										${buyList.buy_qty}
-									</td>
-									<td style="width:120px; font-size:10pt; color:black; text-align:center;">
-										<fmt:formatNumber value="${buyList.buy_opt_price + buyList.buy_pro_price}" pattern="###,###" />원
-									</td>
-									<td style="width:120px; font-size:10pt; color:black; text-align:center;">
-										${buyList.jumun_bunho}
-									</td>
-									<td style="width:100px; font-size:10pt; color:black; text-align:center;">
-										<c:choose>
-											<c:when test="${buyList.baesong_sangtae eq 0}">배송준비</c:when>
-											<c:when test="${buyList.baesong_sangtae eq 1}">배송중</c:when>
-											<c:when test="${buyList.baesong_sangtae eq 2}">배송완료</c:when>
-											<c:when test="${buyList.baesong_sangtae eq 3}">교환</c:when>
-											<c:otherwise>환불</c:otherwise>
-										</c:choose>
-									</td>
-								</tr>
-							</c:forEach>
-						</c:if>
-					</table>
-		    	</div>
-	    	</div>
-		    <!-- 여기서부터 디자인 끝 -->
-		</div>
-	</div>
-</div>	
-<!-- //////////////////////////////////////////////////////////////////////// -->	
-	
+</form>
+		
 <jsp:include page="/WEB-INF/footer.jsp" />

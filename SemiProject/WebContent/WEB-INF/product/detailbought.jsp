@@ -28,24 +28,12 @@
 <script type="text/javascript">
 					
 	$(document).ready(function(){
-		document.onkeydown = noRefresh ;
+	
+			
+			
 	}); //end of $(document).ready(function(){-----------------------------------
 		
-	// 새로고침 방지
-	function noRefresh(){
-	    /* CTRL + N키 막음. */
-	    if ((event.keyCode == 78) && (event.ctrlKey == true)) {
-	        event.keyCode = 0;
-	        return false;
-	    }
-	    /* F5 번키 막음. */
-	    if(event.keyCode == 116) {
-	        event.keyCode = 0;
-	        return false;
-	    }
-	}//end of function noRefresh(){------------------------------------------------
 
-	
 		
 </script>
 
@@ -64,7 +52,7 @@
 				최종결제금액
 			</td>
 			<td style="font-size:9pt; padding-left:10px;">
-				<fmt:formatNumber value="${requestScope.cartfinopt + cartprice - jibulpoint}" pattern="###,###" />원
+				<fmt:formatNumber value="${requestScope.cartfinopt + cartprice}" pattern="###,###" />원
 			</td>
 		</tr>
 		<tr style="border-top:solid 1px #d0d0e2; border-bottom:solid 1px #d0d0e2;">
@@ -104,14 +92,14 @@
 				주문처리상태
 			</td>
 			<td style="font-size:9pt; padding-left:10px;">
-				배송준비중
+				
 			</td>
 		</tr>
 	</table>	
  
-	<table style="width:1000px; margin-top:30px;">
+	<table style="width:1100px; margin-top:30px;">
 		<tr>
-			<td colspan="7" style="height:40px; width:1000px; font-size:14pt; text-align:left;">
+			<td colspan="7" style="height:40px; width:1100px; font-size:14pt; text-align:left;">
 				주문 상품 정보
 			</td>
 		</tr>	
@@ -119,7 +107,7 @@
 			<td style="width:100px; height:50px; font-size:9pt; color:black; text-align:center;">
 				상품이미지
 			</td>
-			<td style="width:400px; height:50px; font-size:9pt; color:black; text-align:center;">
+			<td style="width:500px; height:50px; font-size:9pt; color:black; text-align:center;">
 				상품정보
 			</td >
 			<td style="width:100px; height:50px; font-size:9pt; color:black; text-align:center;">
@@ -140,9 +128,9 @@
 		</tr>
 		<tr style="border-bottom:solid 1px #d0d0e2;">						
 			<td style="width:100px; height:150px; font-size:9pt; color:black; text-align:center;">
-				<img style="height:150px; width:100px;" id="chun" src="${requestScope.product_front_p1}"/>
+				<img style="height:150px; width:120px;" id="chun" src="${requestScope.product_front_p1}"/>
 			</td>
-			<td style="width:400px; height:150px; font-size:9pt; color:black; text-align:left; padding-left:30px;">
+			<td style="width:500px; height:150px; font-size:9pt; color:black; text-align:left; padding-left:30px;">
 				${requestScope.cartname}<br>
 				${requestScope.cartopt123}<br>
 				${requestScope.cartopt4}

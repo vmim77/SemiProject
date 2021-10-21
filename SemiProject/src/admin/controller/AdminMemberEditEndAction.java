@@ -30,29 +30,51 @@ public class AdminMemberEditEndAction extends AbstractController {
 			// 수정하기는 POST를 통해서만 폼이 전송되어진다.
 			if("POST".equalsIgnoreCase(method)) {
 				
-				String userid = request.getParameter("userid"); // 조건절에 사용할 유저아이디
-				int point = Integer.parseInt(request.getParameter("point")); // 변경된 포인트
-				int status = Integer.parseInt(request.getParameter("status")); // 변경된 회원상태
-				int idle = Integer.parseInt(request.getParameter("idle")); // 변경된 휴면여부
-
+				String userid = request.getParameter("userid"); 				// 조건절에 사용할 유저아이디
+				int point = Integer.parseInt(request.getParameter("point")); 	// 변경된 포인트
+				int status = Integer.parseInt(request.getParameter("status")); 	// 변경된 회원상태
+				int idle = Integer.parseInt(request.getParameter("idle")); 		// 변경된 휴면여부
+				String couponname =  request.getParameter("couponname"); 		// 쿠폰이름
+				
+				String onlyinfo = request.getParameter("onlyinfo");
+				String onlycoupon = request.getParameter("onlycoupon");
+				
 				MemberVO member = new MemberVO();
 				
 				member.setUserid(userid);
 				member.setPoint(point);
 				member.setStatus(status);
 				member.setIdle(idle);
+				member.setCouponname(couponname);
 				
-				int n = mdao.adminUpdateUser(member);
+				if( "test".equals(onlyinfo) && "onlycoupon".equals(onlycoupon)) {
+					
+					mdao.couponudate(member);
+					
+					message = " 쿠폰 추가 성공![운영자메뉴]";
+					loc = "javascript:history.back()";
+					request.setAttribute("message", message);
+					request.setAttribute("loc", loc);
+					super.setViewPage("/WEB-INF/msg.jsp");
+						
+				}
 				
-				if(n==1) { // UPDATE 성공한 경우
-					message = "[운영자메뉴]회원정보 변경성공";
-					loc = request.getContextPath()+"/admin/memberList.sh";
-				}
-			
-				else { // UPDATE 실패한 경우
-					message = "[운영자메뉴]회원정보 변경실패";
-					loc = request.getContextPath()+"/index.sh";
-				}
+				else if( "onlyinfo".equals(onlyinfo) && "test".equals(onlycoupon)) {
+					
+					int n = mdao.adminUpdateUser(member);
+					
+					if(n==1) { // UPDATE 성공한 경우
+						message = "[운영자메뉴]회원정보 변경성공";
+						loc = request.getContextPath()+"/admin/memberList.sh";
+					}
+					
+					else { // UPDATE 실패한 경우
+						message = "[운영자메뉴]회원정보 변경실패";
+						loc = request.getContextPath()+"/index.sh";
+					}
+					
+				}//end of if( onlyinfo == "test" && onlycoupon == "onlycoupon") {
+				
 				
 			}
 			

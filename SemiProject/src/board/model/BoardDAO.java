@@ -378,6 +378,50 @@ public class BoardDAO implements InterBoardDAO {
 	
 	
 	
+	// 마이페이지 게시물 보기
+	@Override
+	public List<BoardVO> selectmyboard(String userid) throws SQLException {
+		
+		List<BoardVO> list = new ArrayList<>();
+		
+		
+		 try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " select boardno, fk_writer, title, content,writetime,viewcnt "+
+					 	  " from tbl_notice_board "+
+					 	  " where fk_writer = ? "+
+					 	  " order by boardno desc ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, userid);
+			 
+			 rs = pstmt.executeQuery();
+			 
+			 while(rs.next()) {
+				 
+					BoardVO bvo = new BoardVO();
+					
+					bvo.setBoardno(rs.getInt(1));
+					bvo.setFk_writer(rs.getString(2));
+					bvo.setTitle(rs.getString(3));
+					bvo.setContent(rs.getString(4));
+					bvo.setWritetime(rs.getString(5));
+					bvo.setViewcnt(rs.getInt(6));
+					
+					list.add(bvo);
+				 
+			 }
+			 
+		 } finally {
+			close();
+		}
+		 
+		
+		return list;
+	}// end of public List<BoardVO> selectmyboard(String userid)---------------------------------
+	
 	
 	
 	

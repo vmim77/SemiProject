@@ -17,8 +17,8 @@
 	              <ul>
 	                <li><span>CEO : Seo yeonghak</span></li>
 	                <li><span>Address : 서울특별시 마포구 서교동 447-5 2,3,4층</span></li>
-	                <li><span>Phone : </span></li>
-	                <li><span>email : </span></li>
+	                <li><span>Phone : 010-1234-4567</span></li>
+	                <li><span>email : Thisman@naver.com</span></li>
 	              </ul>
 	            </div>
             </div>

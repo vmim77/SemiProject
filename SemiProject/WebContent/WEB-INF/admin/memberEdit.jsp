@@ -59,6 +59,7 @@
 				return; // 이벤트 종료
 			}
 			
+			$("input#onlyinfo").val("onlyinfo");
 			var frm = document.adminEditUser;
 			frm.action="<%= ctxPath%>/admin/memberEditEnd.sh";
 			frm.method="POST"
@@ -70,6 +71,20 @@
 		$(window).on('beforeunload', function() {
 			opener.location.reload(true); 
 		});
+		
+		$("button#coupon").click(function(){
+			
+			$("input#onlycoupon").val("onlycoupon");
+			
+			
+			var frm = document.adminEditUser;
+			frm.action="<%= ctxPath%>/admin/memberEditEnd.sh";
+			frm.method="POST";
+			frm.submit();		
+			
+			alert("추가되었습니다.");
+			
+		}); //end of $("button#goCoupon").click(function(){})------------------------------------------
 		
 	});// end of $(document).ready(function(){})------------------------------------------------
 
@@ -84,6 +99,8 @@
 				<form name="adminEditUser" class="my-3">
 				
 					 <%-- update를 할 때 조건절에 사용할 userid이다. --%>
+					<input type="hidden" name="onlycoupon" id="onlycoupon" value="test"/>
+					<input type="hidden" name="onlyinfo" id="onlyinfo" value="test"/>
 					<input type="hidden" name="userid" value="${requestScope.member.userid}"/>
 					<table class="table-dark" >
 						<tr>
@@ -135,6 +152,29 @@
 								</select>
 							</td>
 						</tr>
+						<tr>
+							<td class="title">쿠폰</td>
+								<td>
+							   <select name="couponname">
+									<c:choose>
+										<c:when test="${requestScope.couponname eq 0}">
+											<option selected="selected" value="0">쿠폰없음</option>
+											<option value="1">사용완료</option>
+										</c:when>
+										<c:otherwise>
+											<option selected="selected" value="1">추천인쿠폰/3000원</option>
+											<option value="2">신규가입쿠폰/5000원</option>
+											<option value="3">이벤트쿠폰/10000원</option>
+											<option value="4">이벤트쿠폰(VIP)/20000원</option>
+										</c:otherwise>
+									</c:choose>
+								</select>
+							  <button id="coupon">추가</button>
+							</td>
+						</tr>
+						
+						
+						
 					</table>
 			</form>
 		</div>

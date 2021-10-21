@@ -129,7 +129,7 @@ public class DetailboughtAction extends AbstractController {
 			// 형변환 해주기
 			dbpoint = intdbpoint + "";
 			
-			mdao.UpdateMypoint(userid, dbpoint); 
+			// mdao.UpdateMypoint(userid, dbpoint); 
 			
 		}
 		else {

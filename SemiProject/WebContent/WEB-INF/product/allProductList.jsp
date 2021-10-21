@@ -810,7 +810,7 @@
 <ul id="imglist" style="margin-top: 80px; display:table; margin-left: auto; margin-right:auto; margin-bottom: 50px;">
 	<li id="img" style="text-align:center;" >     <!-- BEST 버튼은 현재 allProductList로 가게되어있음 -->
 		<form name="bestfrm" >
-			<input type="hidden" id="bestid" name="product_name" />
+			<input type="hidden" id="bestid" name="productname" />
 				<div id="best" >
 					<a href="allProductList.sh"><div><img src="http://www.romanticmove.com/web/upload/NNEditor/20210804/f73628a78fca4fa78f4ccc9cb7d78b6e.jpg" id="imgmenu" ></div><span  class="listname">BEST</span></a>
 				</div>		

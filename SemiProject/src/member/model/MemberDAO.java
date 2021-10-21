@@ -303,13 +303,6 @@ public class MemberDAO implements InterMemberDAO {
 		}//end of public String findUserid(Map<String, String> paraMap)
 
 		
-		
-		
-		
-		
-		
-		
-		
 		// 비밀번호 찾기(아이디, 이메일을 입력받아서 해당 사용자의 비밀번호를 알려준다)
 		@Override
 		public boolean isUserExist(Map<String, String> paraMap) throws SQLException {
@@ -343,12 +336,6 @@ public class MemberDAO implements InterMemberDAO {
 		}// end of public boolean isUserExist(Map<String, String> paraMap)
 
 		
-		
-		
-		
-		
-		
-		
 		// 암호 변경하기
 		@Override
 		public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
@@ -374,12 +361,6 @@ public class MemberDAO implements InterMemberDAO {
 			return n;
 		}// end of public int pwdUpdate(Map<String, String> paraMap) ------------------------------------------------
 
-		
-		
-		
-		
-		
-		
 		
 		// DB에 코인 및 포인트 증가하기
 		@Override
@@ -409,9 +390,6 @@ public class MemberDAO implements InterMemberDAO {
 			return n;
 		}// end of public int coinUpdate(Map<String, String> paraMap)==================================================
 
-		
-		
-		
 		
 		// [ 운영자 메뉴 ]
 		// 전체회원을 조회한 후에 반복문으로 VO 객체를 생성해서 각각의 정보를 넣어서 가져옵니다. 
@@ -560,10 +538,6 @@ public class MemberDAO implements InterMemberDAO {
 		
 		
 		
-		
-		
-		
-		
 		// [ 운영자 메뉴 ]
 		// 운영자가 회원정보 수정하기 전에 기존정보를 출력하기 위한 select where SQL문
 		@Override
@@ -607,9 +581,6 @@ public class MemberDAO implements InterMemberDAO {
 		
 		
 		
-		
-		
-		
 		// [ 운영자 메뉴 ]
 		// 운영자가 변경한 회원정보를 가지고 회원정보를 update를 한다.
 		@Override
@@ -639,8 +610,6 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return n;
 		}// end of public int adminUpdateUser(MemberVO member)------------------------------------------------------
-		
-		
 		
 		
 		
@@ -883,152 +852,147 @@ public class MemberDAO implements InterMemberDAO {
 			return member;
 		}// end of public MemberVO selectOneUser(String userid)--------------------------------------
 		
-
-		// 쿠폰 추가하기
+		
+		
+		
+		// 쿠폰 조회하기
 		@Override
-		public MemberVO membercoupon(String userid) throws SQLException {
+		public List<MemberVO> mycoupon(String userid) throws SQLException {
 			
-			
-			MemberVO mvo = new MemberVO();
+			List<MemberVO> libo = new ArrayList<>();
 			
 			 try {
-		            conn = ds.getConnection();
-		        
-		            
-		            String sql = " select couponnum,userid,coupondate,couponname,coupondiscount,couponlastday,status "+
-		            			 " from tbl_coupon "+
-		            			 " where userid = ? ";
-		            
-		            pstmt = conn.prepareStatement(sql);		
-		          
-		            pstmt.setString(1,userid);
-		            
-		            rs = pstmt.executeQuery();
-		            
-		            while(rs.next()) {
-		            	mvo.setCouponnum(rs.getInt(1));
-		            	mvo.setUserid(rs.getString(2));
-		            	mvo.setCoupondate(rs.getString(3));
-		            	mvo.setCouponname(rs.getString(4));
-		            	mvo.setCoupondiscount(rs.getInt(5));
-		            	mvo.setCouponlastday(rs.getString(6));
-		            	mvo.setStatus(rs.getInt(7));
-		            }
-		            
+				 conn = ds.getConnection();
+				 
+				 String sql = " select fk_userid,coupondate,couponname,coupondiscount,couponlastday,status "+
+						 	  " from tbl_coupon "+
+						 	  " where fk_userid = ? ";
+				 
+				 pstmt = conn.prepareStatement(sql);
+				 
+				 pstmt.setString(1, userid);
+				 
+				 rs = pstmt.executeQuery();
+				 
+				 while(rs.next()) {
+					 
+					 MemberVO mvo = new MemberVO();
+						
+						mvo.setFk_userid(rs.getString(1));
+						mvo.setCoupondate(rs.getString(2));
+						mvo.setCouponname(rs.getString(3));
+						mvo.setCoupondiscount(rs.getInt(4));
+						mvo.setCouponlastday(rs.getString(5));
+						mvo.setStatus(rs.getInt(6));
+						
+						libo.add(mvo);
+						
+						
+					 
+				 }
+				 
+			 } finally {
+				close();
+			}
+			
+			
+			return libo;
+		}// end of public List<MemberVO> mycoupon(String userid)-----------------------------------
+
+		// 운영자가 쿠폰 추가해주기
+		@Override
+		public void couponudate(MemberVO member) throws SQLException {
+			
+			// member = new MemberVO(); // 깡통으로 덮어씌우는거에요 값을 받아온걸
 			
 		
-		} finally {
-			close();
-		}
-		 return mvo;
-		 
-		}
+			
+			int coupondiscount = 0;
+			String couponname = member.getCouponname();
+			
+			System.out.println(couponname);
+			
+			if("1".equals(couponname)  ) {
+				coupondiscount = 3000;
+				couponname = "추천인쿠폰/3000원";
+			}
+			else if( "2".equals(couponname)   ) {
+				coupondiscount = 5000;
+				couponname = "신규가입쿠폰/5000원";
+			}
+			else if( "3".equals(couponname)   ) {
+				coupondiscount = 10000;
+				couponname = "이벤트쿠폰/10000원";
+			}
+			else if( "4".equals(couponname)   ) {
+				coupondiscount = 20000;
+				couponname = "이벤트쿠폰(VIP)/20000원";
+			}
+			else {
+				coupondiscount = 0;
+				couponname = "쿠폰없음";
+			}
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status) "
+						   + " values(?, sysdate, ?, ?, sysdate+7, 1) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				 
+				pstmt.setString(1, member.getUserid());
+				pstmt.setString(2, couponname);
+				pstmt.setInt(3, coupondiscount);
+				
+				pstmt.executeUpdate();
+				
+			}finally {
+				close();
+			}
+			
+		}// end of public void couponudate(MemberVO member) ---------------------------------
 		
 		//=======================================================================================
-		// 내정보 가져오기
+		
+		// 회원 포인트 조회하기
 		@Override
-		public Map<String, String> SelectMyInfo(String userid) throws SQLException {
+		public List<MemberVO> mypoint(String userid) throws SQLException {
 			
-			Map<String, String> paraMap = new HashMap<>();
+			List<MemberVO> mbvo = new ArrayList<>();
 			
 			try {
-	            
-				conn = ds.getConnection();
-	            
-				String sql = " select name,postcode,address,extraaddress,detailaddress,mobile,email "+
-						     " from tbl_member "+
-						     " where userid = ? ";
 				
-				pstmt = conn.prepareStatement(sql);		
-	          
-	            pstmt.setString(1,userid);
-	            
-	            rs = pstmt.executeQuery();
-	            
-	            if(rs.next()) {
-	            	
-	            	paraMap.put("name",rs.getString(1));
-	            	paraMap.put("postcode",rs.getString(2));
-	            	paraMap.put("address",rs.getString(3));
-	            	// 주소 정제작업
-	            	String detailAddress = rs.getString(4) + " " + rs.getString(5);  
-	            	paraMap.put("detailAddress",detailAddress);
-	            	// 번호 정제작업
-	            	String hp1 = aes.decrypt(rs.getString(6)).substring(0,3);
-	            	String hp2 = aes.decrypt(rs.getString(6)).substring(3,7);
-	            	String hp3 = aes.decrypt(rs.getString(6)).substring(7,11);
-	            	paraMap.put("hp1",hp1);	
-	            	paraMap.put("hp2",hp2);	
-	            	paraMap.put("hp3",hp3);	
-	            	// 이메일정제작업
-	            	String firstemail = aes.decrypt(rs.getString(7)).substring(0, aes.decrypt(rs.getString(7)).indexOf("@",0));
-	            	String secondemail = aes.decrypt(rs.getString(7)).substring(aes.decrypt(rs.getString(7)).indexOf("@",0)+1);
-	            	paraMap.put("firstemail",firstemail);	
-	            	paraMap.put("secondemail",secondemail);
-	            	
-	            }//end of while--------------------
-
-			} catch(GeneralSecurityException | UnsupportedEncodingException e) {	
-				e.printStackTrace();
-			} finally {
-				close(); // 자원반납
-			}
-			
-			return paraMap;
-			
-		}//end of public Map<String, String> SelectMyInfo(String userid) {-------------------
-	//=======================================================================================
-		// 내 포인트 조회하기
-		@Override
-		public int selectMyPoint(String userid) throws SQLException{
-			
-			int mypoint = 0;
-			
-			try {
-	            conn = ds.getConnection();
-	            
-	            String sql = " select point "+
-	            			 " from tbl_member "+
-	            			 " where userid = ? ";
-	            
-	            pstmt = conn.prepareStatement(sql);		
-	            pstmt.setString(1,userid);
-	            rs = pstmt.executeQuery();
-	            
-	            while(rs.next()) {
-	            	mypoint = rs.getInt(1);
-	            }
-
+				conn=ds.getConnection();
+				
+				String sql = " select point "+
+							 " from tbl_member "+
+							 " where userid = ?";
+							 		
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, userid);
+				
+				rs = pstmt.executeQuery();
+				 
+				 while(rs.next()) {
+					 
+					 MemberVO nvo = new MemberVO();
+					 
+					 nvo.setUserid(rs.getString(1));
+					 
+					 mbvo.add(nvo);
+						
+				 }
+				
+				
 			} finally {
 				close();
 			}
 			
-			return mypoint;
 			
-		}//end of public int selectMyPoint(String userid) {----------------------------------
-	//=======================================================================================	
-		// by.jsp 에서 사용한 내 포인트 디비에 업데이트 하기
-		@Override
-		public void UpdateMypoint(String userid, String dbpoint) throws SQLException {
-		
-			try {
-	            conn = ds.getConnection();
-	            
-	            String sql = " update tbl_member set point = ? "+
-	            		     " where userid = ? ";
-	            
-	            pstmt = conn.prepareStatement(sql);		
-	            pstmt.setString(1,dbpoint);
-	            pstmt.setString(2,userid);
-	            pstmt.executeUpdate();
+			return mbvo;
+	}// end of public List<MemberVO> mypoint(String userid)------------------------------------
 
-			} finally {
-				close();
-			}
-			
-		}//end of public void UpdateMypoint(String userid) throws SQLException {-------------
-	//=======================================================================================
-		
-		
 		
 }

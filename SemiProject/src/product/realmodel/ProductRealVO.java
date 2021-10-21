@@ -5,7 +5,6 @@ public class ProductRealVO {
 	// 제품 테이블 //
 	private int pnum = 0;           		// 제품번호(Primary Key)
 	private String pname = "";      		// 제품명
-	private int fk_cnum = 0;        		// 카테고리코드(Foreign Key)의 시퀀스번호 참조
 	private String pimage1 = "";    		// 호버 전    
 	private String pimage2 = "";    		// 호버 후   
 	private String pimage3 = "";    		// 제품사진   
@@ -14,7 +13,16 @@ public class ProductRealVO {
 	private String price = "";      		// 제품 정가 (159,000 형식으로 저장 되어있음)
 	private String saleprice = "";  		// 제품 판매가(159,000 형식으로 저장 되어있음)                                          
 	private String pinputdate = "";	 		// 제품입고일자
+	
+	// *** //
+	private CategoryVO categvo;             // 카테고리코드(Foreign Key)의 시퀀스번호 참조
 //======================================================================================
+	public CategoryVO getCategvo() {
+		return categvo;
+	}
+	public void setCategvo(CategoryVO categvo) {
+		this.categvo = categvo;
+	}
 	public int getPnum() {
 		return pnum;
 	}
@@ -26,12 +34,6 @@ public class ProductRealVO {
 	}
 	public void setPname(String pname) {
 		this.pname = pname;
-	}
-	public int getFk_cnum() {
-		return fk_cnum;
-	}
-	public void setFk_cnum(int fk_cnum) {
-		this.fk_cnum = fk_cnum;
 	}
 	public String getPimage1() {
 		return pimage1;

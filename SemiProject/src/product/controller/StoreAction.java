@@ -56,16 +56,16 @@ public class StoreAction extends AbstractController {
 			String userid = loginuser.getUserid();
 			
 			InterMemberDAO mado = new MemberDAO();
-			Map<String, String> paraMap = mado.SelectMyInfo(userid);
+			// Map<String, String> paraMap = mado.SelectMyInfo(userid);
 			
-			request.setAttribute("paraMap", paraMap);
+			// request.setAttribute("paraMap", paraMap);
 					
 			////////////////////////////////////////////////////////////////////
 			
 			// 내 포인트 넘겨주기
 			InterMemberDAO mdao = new MemberDAO();
-			int mypoint = mdao.selectMyPoint(userid);
-			request.setAttribute("mypoint", mypoint);
+			// int mypoint = mdao.selectMyPoint(userid);
+			// request.setAttribute("mypoint", mypoint);
 			
 			/////////////////////////////////////////////////////////////////////
 			

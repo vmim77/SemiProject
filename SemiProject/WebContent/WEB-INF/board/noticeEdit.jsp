@@ -84,7 +84,7 @@
 		<table class="table table-dark my-2">
 			<tr>
 				<td class="title">글제목</td>
-				<td><input type="text" name="title" maxlength="100" placeholder="${requestScope.bvo.title}" autofocus /></td>
+				<td><input type="text" name="title" size="105" maxlength="100" placeholder="${requestScope.bvo.title}" autofocus /></td>
 			</tr>
 			<tr>
 				<td class="title">글쓴이</td> <%-- 나중에는 value를 ${sessionScope.loginuser.userid}로 잡아준다. 만약 'admin'이 아니면 안되게 유효성검사 --%>

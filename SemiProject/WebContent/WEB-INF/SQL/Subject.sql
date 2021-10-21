@@ -2,7 +2,7 @@ select *
 from tab;
 
 select *
-from tbl_member;
+from TBL_COUPON;
 
 ---------------------------- eXERD용 select 문 -----------------------------------------------
 
@@ -660,3 +660,51 @@ where fk_boardno = 58;
 
 commit;
 -- 커밋 완료.
+
+------------------------------------------------------------------
+-- 10월 21일 
+
+-- 주문내역 조회하기
+select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, buy_jeokrib_money, buy_date, baesong_sangtae, fk_pimage3
+from
+(
+    select fk_pnum, fk_userid, buy_opt_info, buy_qty, buy_opt_price, buy_pro_price, buy_jeokrib_money, buy_date, baesong_sangtae, jumun_bunho, fk_pimage3
+    from tbl_buy
+) A
+JOIN 
+( 
+    select pnum, pname
+    from tbl_product
+) B
+on A.fk_pnum = B.pnum;
+
+select count(*)
+from tbl_buy;
+
+select DISTINCT jumun_bunho
+from tbl_buy;
+
+
+select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, buy_jeokrib_money, buy_date, baesong_sangtae, fk_pimage3 
+from
+(    
+    select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, buy_jeokrib_money, buy_date, baesong_sangtae, fk_pimage3,
+    rownum AS RNO 
+    from 
+    ( 
+        select fk_pnum, fk_userid, buy_opt_info, buy_qty, buy_opt_price, buy_pro_price, buy_jeokrib_money, buy_date, baesong_sangtae, jumun_bunho, fk_pimage3 
+        from tbl_buy 
+    ) A 
+    JOIN 
+    (  
+        select pnum, pname 
+        from tbl_product 
+    ) B 
+    on A.fk_pnum = B.pnum
+) T
+where rno between 70 and 80;
+
+
+select buy_finish_date, baesong_sangtae
+from tbl_buy
+where jumun_bunho = '53060-27' and fk_pnum = 2;

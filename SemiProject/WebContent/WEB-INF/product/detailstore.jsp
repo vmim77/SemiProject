@@ -29,14 +29,6 @@
 	var flagh3 = false;
 	var flagfirstemail = false;
 	var flagsecondemail = false;
-	// 내가 얼마나 사용했는지 보이는 포인트
-	var jibulpoint = 0;
-	// 남은포인트
-	var nampoint = 0;
-	// 포인트 사용을 위한 깃발
-	var pointfalg = false;
-	// db에 저장을 위한 point 값
-	var dbpoint = 0;
 					
 	$(document).ready(function(){
 		
@@ -227,57 +219,19 @@
 			
 		////////////////////////////////////////////////////////////////////////
 		
-		// 데이터베이스에 내 정보 불러오기
+		<%-- // 데이터베이스에 내 정보 불러오기
 		$("input#introduce").click(function(){
 			
-			// 체크여부
-			var bool = $(this).is(":checked");
-			
-			if(bool){
-				// 값 넣기
-				$("input#name").val("${paraMap.name}");
-				$("input#postcode").val("${paraMap.postcode}");
-				$("input#address").val("${paraMap.address}");
-				$("input#detailAddress").val("${paraMap.detailAddress}");
-				$("input#hp1").val("${paraMap.hp1}");
-				$("input#hp2").val("${paraMap.hp2}");
-				$("input#hp3").val("${paraMap.hp3}");
-				$("input#firstemail").val("${paraMap.firstemail}");
-				$("input#secondemail").val("${paraMap.secondemail}");
-				// true 로 바꿔 전송을 위함
-				flagname = true;
-				flagpostcode = true;
-				flagaddress = true;
-				flagdetailAddress = true;
-				flagh2 = true;
-				flagh3 = true;
-				flagfirstemail = true;
-				flagsecondemail = true;
+			// 체크하면
+			if($(this).prop("checked",true)){
+				location.href="<%= request.getContextPath()%>/introduce.sh";
 			}
 			// 체크취소
 			else{
-				// 값 초기화
-				$("input#name").val("");
-				$("input#postcode").val("");
-				$("input#address").val("");
-				$("input#detailAddress").val("");
-				$("input#hp1").val("");
-				$("input#hp2").val("");
-				$("input#hp3").val("");
-				$("input#firstemail").val("");
-				$("input#secondemail").val("");
-				// false로 다시 바꿔 전송을 막는다
-				flagname = false;
-				flagpostcode = false;
-				flagaddress = false;
-				flagdetailAddress = false;
-				flagh2 = false;
-				flagh3 = false;
-				flagfirstemail = false;
-				flagsecondemail = false;
+				$("table#container:input").val("");
 			}
 			
-		});//end of $("input#introduce").click(function(){----------------------
+		});//end of $("input#introduce").click(function(){ --%>
 			
 		////////////////////////////////////////////////////////////////////////	
 		
@@ -295,193 +249,7 @@
 			
 		});//end of $("input#text").keyup(function(){----------------------------
 		
-		/////////////////////////////////////////////////////////////////////////////
-		///////////////////////////  여기서부터 부트스트랩 모달창 기능  /////////////////////////
-		
-		// 일단 숨기기
-		$("div#thishide").hide();
-		// 매 클릭마다 이벤트 처리를 위함
-		var udcnt = 0;
-		// 자세히 보기 이벤트처리
-		$("div#updown").click(function(){
-			
-			// 0일때 보이기
-			if(udcnt == 0){
-				$("div#thishide").show();
-				udcnt = 1;
-				// 이름 바꿔주기
-				$("div#updown").text("자세히 보기 △");
-			}
-			// 1일때 보이기
-			else{
-				$("div#thishide").hide();
-				udcnt = 0;
-				// 이름 바꿔주기
-				$("div#updown").text("자세히 보기 ▽");
-			}
-			
-		});//end of $("div#updown").click(function(){
-		
-		//////////////////////////////////////////////////////////////////////////////	
-		
-		// 포인트 모달창 띄우기
-		$("button#btnpoint").click(function(){
-			
-			// 이 플래그는 사용하기 버튼을 누르고 재 사용을 위해 다시 들어오는
-			// 고객을 위해 작성한 깃발이다
-			if(pointfalg){
-				$("div#mypoint").text(nampoint+"P");
-				$("div#errmsg").text("");
-				$("input#howmany").val("");
-			}
-			else{
-				// 만약을 대비하여 다시 열었을 때 다 지워주기
-				$("div#mypoint").text("${requestScope.mypoint}" + "P");
-				jibulpoint = 0;
-				dbpoint = 0;
-				$("input#dbpoint").val("0");
-				$("input#jibulpoint").val("0");
-				$("div#errmsg").text("");
-				$("input#howmany").val("");
-			}
-			
-		});//end of $("button#btnpoint").click(function(){---------------------------	
-			
-		/////////////////////////////////////////////////////////////////////////////	
-		
-		// 포인트 사용 버튼 클릭시	
-		$("button#jibul").click(function(){
-			
-			// 포인트는 10000포인트를 모았을 때 부터 사용 가능하다
-			if("${requestScope.mypoint}"<10000){
-				$("div#errmsg").text("10000포인트 부터 이용 가능합니다.");
-			}
-			// 포인트 변수에 담아두기
-			else{
-				// 담기
-				nampoint = $("div#mypoint").text().replace("P","")*1 - $("input#howmany").val()*1;
-				$("div#mypoint").text(nampoint);
-				// 전송을 위해 담기
-				// 내 잔액 포인트
-				dbpoint = nampoint;
-				
-				// 보유 포인트 보다 많이 사용시
-				if(nampoint<0){
-					$("div#errmsg").text("보유 포인트금액을 초과 하셨습니다.");
-					$("div#mypoint").text("${requestScope.mypoint}"+"P");
-					$("input#howmany").val("");
-					// 사용포인트 지우기
-					$("td#pthis").text("");
-					$("td#pthis2").html("<fmt:formatNumber value='${requestScope.cartfinopt}' pattern='###,###' />원");
-					$("td#pthis3").html("<fmt:formatNumber value='${requestScope.cartprice + cartfinopt}' pattern='###,###' />원");	
-					// 저장한 값들 다 초기화
-					jibulpoint = 0;
-					dbpoint = 0;
-					$("input#dbpoint").val("0");
-					$("input#jibulpoint").val("0");
-				}
-				// 성공적인 사용
-				else if(nampoint>=0){
-					$("div#mypoint").text(nampoint+"P");
-					$("div#errmsg").text("");
-					// 사용한 포인트 담아주기
-					jibulpoint += $("input#howmany").val()*1;
-					$("input#howmany").val("");
-					pointfalg = true;
-					// 전송을 위한 값 담아주기
-					$("input#dbpoint").val(dbpoint);
-					$("input#jibulpoint").val(jibulpoint);
-					// 콤마 넣기
-					var regexp = /\B(?=(\d{3})+(?!\d))/g;
-					var pthis = jibulpoint.toString().replace(regexp, ',');
-					// 내 포인트 얼마나 썻는지
-					$("td#pthis").text("-"+pthis+"원");
-					// 부가옵션 - 내 포인트
-					var minuspoint = "${requestScope.cartfinopt}"-jibulpoint;
-					// 콤마 넣기
-					var regexp = /\B(?=(\d{3})+(?!\d))/g;
-					var mpoint = minuspoint.toString().replace(regexp, ',');
-					// 값 넣어주기
-					$("td#pthis2").text(mpoint+"원");
-					// 전체 결제금액
-					// 지역변수 방지
-					var finalpoint = 0;
-					// 우선-인지 아닌지 보기
-					if(minuspoint<=0){
-						finalpoint = "${requestScope.cartprice}" - jibulpoint;
-						var regexp = /\B(?=(\d{3})+(?!\d))/g;
-						var finpoint = finalpoint.toString().replace(regexp, ',');
-						$("td#pthis3").text(finpoint+"원");
-					}
-					else{
-						finalpoint = "${requestScope.cartprice}"*1 + "${requestScope.cartfinopt}"*1 - jibulpoint;
-						var regexp = /\B(?=(\d{3})+(?!\d))/g;
-						var finpoint = finalpoint.toString().replace(regexp, ',');
-						$("td#pthis3").text(finpoint+"원");
-					}//end of if(minuspoint<=0){---------------------------------- 
-
-					// 구매 가격보다 포인트 많이 사용시
-					if(finalpoint < 0){
-						$("div#errmsg").text("구매 가격을 초과 하셨습니다");
-						$("div#mypoint").text("${requestScope.mypoint}"+"P");
-						$("input#howmany").val("");
-						// 사용포인트 지우기
-						$("td#pthis").text("");
-						$("td#pthis2").html("<fmt:formatNumber value='${requestScope.cartfinopt}' pattern='###,###' />원");
-						$("td#pthis3").html("<fmt:formatNumber value='${requestScope.cartprice + cartfinopt}' pattern='###,###' />원");	
-						// 저장한 값들 다 초기화
-						jibulpoint = 0;
-						dbpoint = 0;
-						$("input#dbpoint").val("0");
-						$("input#jibulpoint").val("0");
-					}//end of if(finalpoint < 0){---------------------------------------
-						
-				}
-				// 문자 입력시
-				else{
-					$("div#errmsg").text("숫자만 입력 해주세요");
-					$("div#mypoint").text("${requestScope.mypoint}"+"P");
-					$("input#howmany").val("");
-					// 사용포인트 지우기
-					$("td#pthis").text("");
-					$("td#pthis2").html("<fmt:formatNumber value='${requestScope.cartfinopt}' pattern='###,###' />원");
-					$("td#pthis3").html("<fmt:formatNumber value='${requestScope.cartprice + cartfinopt}' pattern='###,###' />원");	
-					// 저장한 값들 다 초기화
-					jibulpoint = 0;
-					dbpoint = 0;
-					$("input#dbpoint").val("0");
-					$("input#jibulpoint").val("0");
-					
-				}//end of if(nampoint<0){----------------------------
-					
-			}//end of if("${requestScope.mypoint}"<10000){-----------
-			
-		});//end of $("button#jibul").click(function(){------------------------------
-		
-		/////////////////////////////////////////////////////////////////////////////
-		
-		// 사용취소 버튼 클릭시
-		$("button#cancle").click(function(){
-			
-			// 포인트 원래금액으로 돌려두기
-			$("div#mypoint").text("${requestScope.mypoint}"+"P");
-			// 에러메시지 숨기기
-			$("div#errmsg").text("");
-			// 작성한 포인트 지우기
-			$("input#howmany").val("");
-			// 사용포인트 지우기
-			$("td#pthis").text("");
-			$("td#pthis2").html("<fmt:formatNumber value='${requestScope.cartfinopt}' pattern='###,###' />원");
-			$("td#pthis3").html("<fmt:formatNumber value='${requestScope.cartprice + cartfinopt}' pattern='###,###' />원");	
-			// 저장한 값들 다 초기화
-			jibulpoint = 0;
-			dbpoint = 0;
-			$("input#dbpoint").val("0");
-			$("input#jibulpoint").val("0");
-			
-		});//end of $("button#jibul").click(function(){------------------------------
-			
-	});//end of $(document).ready(function(){------------------------------------		
+	});//end of $(document).ready(function(){------------------------------------
 			
 	/////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
@@ -500,10 +268,9 @@
 		else{
 			alert("필수기재 사항을 입력해야합니다.");
 			$("input#name").focus();
-			return;
 		}
 		
-		if("${requestScope.error}" != "noerror"){
+		if(flag){
 			
 			// 값을 보내기 위해 꺼놨던 인풋을 다시 켜준다.
 			$("input#postcode").prop("disabled", false);
@@ -512,7 +279,7 @@
 		
 			var frm = document.fordetailbought;
 			frm.action = "<%= ctxPath%>/detailbought.sh";
-			frm.method = "post";
+			frm.method = "get";
 			frm.submit();
 		}
 		
@@ -522,12 +289,46 @@
 
 <div id="container" style="width:1200px; height:1600px; margin-left:200px; font-family:맑은 고딕;">
 	<form name="fordetailbought"> 
-		<table style="margin-top:80px;">
-			<tr style="font-size:14pt; height:40px; text-align:left; padding-bottom:5px;">
-				<td>
-					상품정보
+		<!-- 내정보 -->
+		<table style="width:1200px; height:100px; margin-top:30px;">
+			<tr>
+				<td colspan="2" style="text-align:center; height:80px; font-weight:bold; font-size:12pt; color:black;">ORDER</td>
+			</tr>
+			<tr>
+				<td style="text-align:left; height:120px; background-color:#f5f5ef;">
+					<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:600px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
+						<img style="height:80px; padding-right:10px;" id="profile" src="/SemiProject/images/profile.PNG"/>
+						님은 [화이트] 회원입니다
+					</span>
+				</td>
+				<td style="background-color:#f5f5ef; height:120px; text-algin:center;">
+					<table style="background-color:#f5f5ef; height:100px; width:600px;">
+						<tr>
+							<td style="text-align:center; width:300px;">
+								<img style="height:20px;" id="jukrib" src="/SemiProject/images/jukrib.png"/>
+								<div style="font-size:9pt; margin-top:7px;">
+									내 적립금
+								</div>
+								<div style="font-size:12pt; font-weight:bold;">
+									4,500원
+								</div>
+							</td>
+							<td style="text-align:center; width:300px;">
+								<img style="height:20px;" id="coopon" src="/SemiProject/images/coopon.png"/>
+								<div style="font-size:9pt; margin-top:7px;">
+									내 쿠폰
+								</div>
+								<div style="font-size:12pt; font-weight:bold;">
+									3장
+								</div>
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
+		</table>
+		<!-- 컬럼명 -->
+		<table style="margin-top:30px;">
 			<tr style="background-color:#f5f5ef; border-bottom:solid 1px #d0d0e2; border-top:solid 1px #d0d0e2;">						
 				<td style="width:100px; height:50px; font-size:10pt; color:black; text-align:center;">
 					상품이미지
@@ -573,7 +374,7 @@
 					<fmt:formatNumber value="${requestScope.cartfinopt}" pattern="###,###" />원
 				</td>
 				<td style="width:100px; height:150px; font-size:10pt; color:black; text-align:center;">
-					<fmt:formatNumber value="${requestScope.jukrib}" pattern="###,###" />원	
+					<fmt:formatNumber value="${requestScope.jukrib}" pattern="###,###" />원			
 				</td>
 				<td style="width:100px; height:150px; font-size:10pt; color:black; text-align:center;">
 					[기본배송]<br>
@@ -688,14 +489,8 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="width:1200px;">
+				<td style="width:300px;">
 					<table style="width:1200px; height:240px; font-size:9.5pt; border:solid 1px #d0d0e2;">
-						<tr style="border:solid 1px white; border-bottom:solid 1px #d0d0e2;">
-							<td colspan='5' style="width:1200px; height:50px;">
-								<button id="btnpoint" type="button" style="font-size:10pt; background-color:#efeff5; width:118px; height:40px; text-align:center;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">POINT</button>
-								<button id="btnpoint" type="button" style="font-size:10pt; background-color:#efeff5; width:118px; height:40px; text-align:center;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">COUPON</button>
-							</td>
-						</tr>
 						<tr style="border:solid 1px #d0d0e2;">
 							<td style="text-align:center; width:300px; height:40px; background-color:#efeff5;">
 								주문 금액
@@ -714,32 +509,32 @@
 							</td>
 						</tr>
 						<tr style="border:solid 1px #d0d0e2;">
-							<td style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:17pt;">
+							<td style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:19pt;">
 								<fmt:formatNumber value="${requestScope.cartprice}" pattern="###,###" />원
 							</td>
-							<td id="pthis" style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:17pt; border:solid 1px #d0d0e2;">
-								
+							<td style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:19pt; border:solid 1px #d0d0e2;">
+								-0
 							</td>
-							<td style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:17pt; border:solid 1px #d0d0e2;">
+							<td style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:19pt; border:solid 1px #d0d0e2;">
 								<fmt:formatNumber value="${requestScope.cartfinopt}" pattern="###,###" />원
 							</td>
-							<td id="pthis2" style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:17pt; border:solid 1px #d0d0e2;">
-								<fmt:formatNumber value="${requestScope.cartfinopt}" pattern="###,###" />원
+							<td style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:19pt; border:solid 1px #d0d0e2;">
+								+50,000
 							</td>
-							<td id="pthis3" style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:17pt;">
-								<fmt:formatNumber value="${requestScope.cartprice + cartfinopt}" pattern="###,###" />원
+							<td style="text-align:center; width:300px; height:80px; font-weight:bold; font-size:19pt;">
+								=159,000
 							</td>
 						</tr>
 						<tr style="border:solid 1px #d0d0e2;">
-							<td colspan="4" style="width:1200px; padding-left:15px; font-size:10pt; height:40px; width:150px; border:solid 1px #d0d0e2;">
+							<td colspan="4" style="padding-left:15px; font-size:10pt; height:40px; width:150px; border:solid 1px #d0d0e2;">
 								이용약관
 							</td>	
-							<td id="buynow" style="width:300px; height:40px; font-size:12pt; text-align:center; background-color:black; color:white; border:solid 1px black;" onclick="godetailbought();">
+							<td id="buynow" style="height:40px; font-size:12pt; text-align:center; background-color:black; color:white; border:solid 1px black;" onclick="godetailbought();">
 								BUY NOW
 							</td>
 						</tr>
 						<tr style="border:solid 1px #d0d0e2;">	
-							<td colspan="4" rowspan="2" style="height:40px; width:1200px; border:solid 1px #d0d0e2;">
+							<td colspan="4" rowspan="2" style="height:40px; width:150px; border:solid 1px #d0d0e2;">
 								<div style="padding-left:10px; font-size:8pt;">
 									- 무이자할부가 적용되지 않은 상품과 무이자할부가 가능한 상품을 동시에 구매할 경우 전체 주문 상품 금액에 대해 무이자할부가 적용되지 않습니다.
 								</div>
@@ -747,12 +542,12 @@
 									- 무이자할부를 원하시는 경우 장바구니에서 무이자할부 상품만 선택하여 주문하여 주시기 바랍니다.
 								</div>
 							</td>	
-							<td style="height:40px; width:300px; text-align:center; background-color:#efeff5;">
+							<td style="height:40px; text-align:center; background-color:#efeff5;">
 								포인트적립금
 							</td>
 						</tr>
 						<tr style="border:solid 1px #d0d0e2;">	
-							<td colspan="4" style="text-align:center; height:40px; width:300px; border:solid 1px #d0d0e2;">
+							<td colspan="4" style="text-align:center; height:40px; width:150px; border:solid 1px #d0d0e2;">
 								<fmt:formatNumber value="${requestScope.jukrib}" pattern="###,###" />원
 							</td>	
 						</tr>
@@ -769,68 +564,10 @@
 		<input type="hidden" name="cartprice" value="${requestScope.cartprice}"/>
 		<input type="hidden" name="jukrib" value="${requestScope.jukrib}"/>
 		<input type="hidden" name="cartfinopt" value="${requestScope.cartfinopt}"/>
-		<!-- 값 대입을 위하여 아이디 지정 -->
-		<input id="dbpoint" type="hidden" name="dbpoint" value="0"/>
-		<input id="jibulpoint" type="hidden" name="jibulpoint" value="0"/>
 	</form> 
 </div>
 
-<!-- 모달 꾸미기 -->
-<!-- //////////////////////////////////////////////////////////////////////// -->		
-<div class="modal fade" id="exampleModal">
-	<div class="modal-dialog">
-		<div class="modal-content">      
-			<!-- Modal header -->
-		    <div class="modal-header">
-		    	<h5 class="modal-title">내 포인트 조회</h5>
-		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		    </div>
-		    <!-- Modal body -->
-		    <div class="modal-body">
-		    	<div id="container" style="text-align:center;">
-			    	<!-- 여기서부터 디자인 시작 -->
-			    	<div id="phere" style="font-size:10pt;">
-			    		MY 포인트 : ${requestScope.mypoint}P
-			    	</div>
-			    	<div id="mypoint" style="font-size:20pt; margin-bottom:10px;">
-			    	</div>
-			    	<div>
-			    		<input id="howmany" type="text" style="width:100px;"/>
-			    		<div id="errmsg" style="margin:10px 0px 10px 0px; color:red; font-size:10pt;"></div>
-			    		<button id="jibul" style="font-size:10pt; border:solid 1px black; background-color:black; color:white;">
-			    			사용하기
-			    		</button>&nbsp;
-			    		<button id="cancle" style="font-size:10pt; border:solid 1px black; background-color:white; color:black;">
-			    			사용취소
-			    		</button>
-			    	</div>
-			    	<div id="updown" style="font-size:9pt; margin:30px 0px 0px 10px; text-align:left;">
-			    		자세히 보기 ▽
-			    	</div>
-			    	<!-- 하이드로 숨겨둔 곳 -->
-			    	<div id="thishide" style="font-size:8pt; text-align:left; margin-top:10px;">
-			    		<div style="padding-left:20px; border-top:solid 1px gray; border-bottom:solid 1px gray;">
-			    			이용약관
-			    		</div>	
-						<ul style="border-bottom:solid 1px gray;">
-							<li>포인트는 총구매 액(옵션가 제외)의 10%가 적립됩니다</li>	
-		    				<li>포인트 사용은 10,000포인트 부터 사용 가능합니다</li>
-		    				<li>그말은 즉슨 최소 100,000원을 써라 그런말입니다</li>
-		    				<li>뭐 어쩌겠습니까 저희도 먹고살자고 그러는겁니다</li>
-		    				<li>아무튼 구두나 많이 구매좀 해주십쇼</li>
-		    			</ul>
-			    	</div>
-		    		<span style="font-size:11pt;">출석체크 하셨나요?</span>
-		    		<a href="<%= request.getContextPath()%>/memberCalendar.sh">
-		    			<img src="/SemiProject/images/choolcheck.jpeg" style="width:50px; height:50px;">
-		    		</a>
-		    	</div>
-	    	</div>
-		    <!-- 여기서부터 디자인 끝 -->
-		</div>
-	</div>
-</div>	
-<!-- //////////////////////////////////////////////////////////////////////// -->
+	
 
 
 <jsp:include page="/WEB-INF/footer.jsp" />

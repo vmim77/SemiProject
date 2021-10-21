@@ -359,7 +359,7 @@
 										+"</tr>"
 										+"<tr style='height:50px;'>"
 											+"<td style='width:150px; text-align:left; font-size:10pt; color:black; padding-top:7px; padding-left:7px;'>적립금</td>"
-											+"<td style='width:300px; font-size:10pt; padding-left:20px; padding-top:5px;'><span id='pct' style='color:red; display:inline-block; width:200px;'></span></td>"
+											+"<td style='width:300px; font-size:10pt; padding-left:20px; padding-top:5px;'><span id='pct' style='color:red; display:inline-block; width:200px;'></span><span style='margin-left:27px; font-size:9pt; color:gray; display:inline-block; width:100px;'>포인트사용<img src='/SemiProject/images/point.png' style='width:40px; height:35px;'></span></td>"
 										+"</tr>"
 										+"<tr style='height:50px;'>"
 											+"<td style='width:150px; text-align:left; font-size:9pt; color:black; padding:0px 0px 0px 7px;'>사이즈</td>"

@@ -23,16 +23,16 @@ public class NoticeDetailAction extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		String boardno = request.getParameter("boardno"); // GET으로 전송되어온 글번호
+		String boardno = request.getParameter("boardno"); 	// GET으로 전송되어온 글번호
 		
 		if(loginuser != null && !( "admin".equalsIgnoreCase(loginuser.getUserid()) ) ) { // 운영자가 아니면 조회수 검사, 조회수 업데이트, 조회수기록 넣기를 실시한다.
 			
 			Map<String, String> paraMap = new HashMap<>();
 			
-			paraMap.put("boardno", boardno); // 공지사항 게시글번호
-			paraMap.put("userid", loginuser.getUserid()); // 로그인한 유저의 아이디
+			paraMap.put("boardno", boardno); 				// 공지사항 게시글번호
+			paraMap.put("userid", loginuser.getUserid()); 	// 로그인한 유저의 아이디
 			
-			Date now = new Date(); // 현재 시각을 추출
+			Date now = new Date(); 							// 현재 시각을 추출
 			
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd");
 			
@@ -41,9 +41,10 @@ public class NoticeDetailAction extends AbstractController {
 			paraMap.put("now",strnow);
 			
 			
-			// 조회수 처리하기
-			//////////////////////////////////////////////////////////////////////////////////
-			int n = bdao.noticeViewCheck(paraMap); // 해당 글번호의 글을 이 유저가 오늘 조회한 적이 있나 없나 확인한다.
+			// [ 조회수 처리하기 ]
+			//////////////////////////////////////////////////////////////////////////////////////
+			
+			int n = bdao.noticeViewCheck(paraMap); 	// 해당 글번호의 글을 이 유저가 오늘 조회한 적이 있나 없나 확인한다.
 			
 			// System.out.println("내가 오늘 이 글을 봤나요? => "+ n);
 			// 내가 오늘 이 글을 봤다면 1
@@ -58,9 +59,11 @@ public class NoticeDetailAction extends AbstractController {
 					
 					n = 0; // 트랜잭션을 위해서 0으로 초기화
 					// System.out.println("게시글 조회수를 1 올렸어요");
+					
 					n = bdao.insertNoticeViewHistory(paraMap);
 					
 					if(n==1) { // 조회수 기록 테이블에 성공적으로 들어갔다면 n은 다시 1이다.
+						
 						// System.out.println("조회수 기록테이블에 기록을 넣었습니다.");
 					}
 					else {
@@ -68,22 +71,21 @@ public class NoticeDetailAction extends AbstractController {
 						return;
 					}
 				}
+				
 				else {
 					// System.out.println("게시글 조회수 update 오류");
 					return;
 				}
 			}// end of 조회수 처리하기
+			
 			//////////////////////////////////////////////////////////////////////////////////
 		}
 		
-		// System.out.println(boardno);
 		
-		BoardVO bvo = bdao.selectOneNotice(boardno); // 특정 글을 조회해옵니다. 조회된 글이 없다면 NULL
+		BoardVO bvo = bdao.selectOneNotice(boardno); 	// 특정 글을 조회해옵니다. 조회된 글이 없다면 NULL
 		
-		// System.out.println("게시판 조회하기 성공");
-		
-		request.setAttribute("boardno", boardno); // 글번호
-		request.setAttribute("bvo", bvo); // 해당 공지사항 게시글의 정보가 들어가있다.
+		request.setAttribute("boardno", boardno); 		// 글번호
+		request.setAttribute("bvo", bvo); 				// 해당 공지사항 게시글의 정보가 들어가있다.
 		
 		if( bvo != null) { // 조회된 글이 있으니 댓글도 조회해옵니다.
 			
