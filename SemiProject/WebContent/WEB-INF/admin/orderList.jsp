@@ -76,8 +76,8 @@
 				
 			    var url = "<%= ctxPath%>/admin/orderChange.sh";
 			    
-			    var pop_width = 600; 
-			    var pop_height = 400;
+			    var pop_width = 500; 
+			    var pop_height = 300;
 			    
 			    var pop_left = Math.ceil((window.screen.width - pop_width)/2);
 			    var pop_top = Math.ceil((window.screen.height - pop_height)/2); 

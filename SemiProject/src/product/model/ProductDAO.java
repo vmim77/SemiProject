@@ -53,7 +53,7 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			 conn = ds.getConnection();
 			 
-			 String sql = " select * "+
+			 String sql = " select distinct * "+
                           " from tbl_product_"+product_name+" order by product_ceil_price desc ";
 			
 			 pstmt = conn.prepareStatement(sql);

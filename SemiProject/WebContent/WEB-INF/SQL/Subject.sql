@@ -647,3 +647,39 @@ alter table point
 
 select *
 from tbl_chk_test;
+
+select *
+from tbl_member
+where userid = 'vmim77'
+
+select *
+from tbl_buy
+where fk_userid = 'vmim77';
+
+select *
+from tbl_product
+
+select *
+from tbl_cart
+
+select * 
+from tbl_member;
+
+select *
+from tbl_coupon;
+
+select *
+from tab;
+
+select P.pname, P.pimage1, replace(p.saleprice,',','') AS saleprice, C.cartno, C.cart_opt_info , C.cart_opt_price, replace(p.saleprice,',','') + C.cart_opt_price AS saleprice_optprice, C.fk_userid, C.cart_qty, P.pnum, cnt
+from tbl_product P join tbl_cart C
+on P.pnum = C.fk_pnum
+Left join (select fk_userid, count(*) as cnt from tbl_coupon group by fk_userid) M
+on C.fk_userid = M.fk_userid
+where fk_userid = ?
+
+select *
+from tbl_notice_board;
+
+select *
+from tbl_member;

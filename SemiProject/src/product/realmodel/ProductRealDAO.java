@@ -1045,7 +1045,7 @@ public class ProductRealDAO implements InterProductRealDAO {
 					
 					conn = ds.getConnection();
 					
-					String sql = " select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, buy_jeokrib_money, to_char(buy_date, 'yyyy-mm-dd hh24:mi') AS buy_date, baesong_sangtae, fk_pimage3 "+
+					String sql = " select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, trunc(buy_jeokrib_money) AS buy_jeokrib_money , to_char(buy_date, 'yyyy-mm-dd hh24:mi') AS buy_date, baesong_sangtae, fk_pimage3 "+
 		                      " from "+
 		                      " (     "+
 		                      "     select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, buy_jeokrib_money, buy_date, baesong_sangtae, fk_pimage3, "+
