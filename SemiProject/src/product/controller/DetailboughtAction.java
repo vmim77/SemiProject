@@ -52,6 +52,7 @@ public class DetailboughtAction extends AbstractController {
 			String jukrib = request.getParameter("jukrib");
 			String cartprice  = request.getParameter("cartprice");
 			String jibulpoint  = request.getParameter("jibulpoint");
+			String coupon = request.getParameter("coupon");
 			
 			request.setAttribute("product_front_p1", product_front_p1);
 			request.setAttribute("cartname", cartname);
@@ -62,6 +63,7 @@ public class DetailboughtAction extends AbstractController {
 			request.setAttribute("jukrib", jukrib);
 			request.setAttribute("cartprice", cartprice);
 			request.setAttribute("jibulpoint", jibulpoint);
+			request.setAttribute("coupon", coupon);
 			
 			// 주문번호 랜덤으로 만들기
 			Random rnd = new Random();
@@ -129,7 +131,12 @@ public class DetailboughtAction extends AbstractController {
 			// 형변환 해주기
 			dbpoint = intdbpoint + "";
 			
-			// mdao.UpdateMypoint(userid, dbpoint); 
+			mdao.UpdateMypoint(userid, dbpoint); 
+			
+			////////////////////////////////////////////////////////////////////
+			
+			// 사용한 쿠폰 디비에 없애기
+			mdao.ByeCoupon(userid, coupon);
 			
 		}
 		else {

@@ -672,9 +672,9 @@ public class BoardDAO implements InterBoardDAO {
 	//========================================================================================	
 		// 페이지 로드시 모든 리뷰 가져오기
 		@Override
-		public ReviewVO SelectAllReview(String product_name) throws SQLException {
+		public List<ReviewVO> SelectAllReview(String product_name) throws SQLException {
 			
-			ReviewVO rvo = new ReviewVO();
+			List<ReviewVO> reviewList = new ArrayList<>();
 			
 			try {
 				
@@ -692,8 +692,10 @@ public class BoardDAO implements InterBoardDAO {
 				
 				rs = pstmt.executeQuery();
 									
-				// 만약 작성한지 일주일된 리뷰가 있다면
 				while(rs.next()) {
+					
+					ReviewVO rvo = new ReviewVO();
+					
 					rvo.setReviewno(rs.getInt(1));
 					rvo.setFk_pnum(rs.getInt(2));
 					rvo.setFk_userid(rs.getString(3));
@@ -701,16 +703,212 @@ public class BoardDAO implements InterBoardDAO {
 					rvo.setReview_picture(rs.getString(5));
 					rvo.setReview_star(rs.getString(6));
 					rvo.setReview_date(rs.getString(7));
-					rvo.setReviewno(rs.getInt(8));
+					rvo.setReview_info(rs.getString(8));
+					
+					reviewList.add(rvo);
+					
 				}
 				
 			} finally {
 				close();
 			}
 			
-			return rvo;
+			return reviewList;
 			
 		}//end of public ReviewVO SelectAllReview() throws SQLException {
 	//========================================================================================
-	
+		//========================================================================================
+		// 전체 리뷰 평점 가져오기
+		@Override
+		public Map<String, String> selectStar(String product_name) throws SQLException {
+
+			Map<String, String> starMap = new HashMap<>();
+			
+			// 총 리뷰갯수
+			double allstars = 0;
+			// 평점 5점
+			double fistars = 0;
+			// 평점 4점
+			double fostars = 0;
+			// 평점 3점
+			double thstars = 0;
+			// 평점 2점
+			double twstars = 0;
+			// 평점 1점
+			double wostars = 0;
+			
+			try {
+				
+				conn = ds.getConnection();
+
+				// 우선 해당 리뷰의 총 개수
+				String sql = " select review_star "+
+						     " from tbl_review "+
+						     " where fk_pnum = (select pnum "+
+						     "                  from tbl_product "+
+						     "                  where pname = ?) ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, product_name);
+				rs = pstmt.executeQuery();			
+				// 총 리뷰갯수
+				while(rs.next()) {
+					allstars++;
+				}
+				///////////////////////////////////////////////////
+				// 해당 리뷰의 5점 개수
+				sql = " select review_star "+
+				      " from tbl_review "+
+				      " where fk_pnum = (select pnum "+
+					  "                  from tbl_product "+
+					  "                  where pname = ?) "+
+					  "and review_star = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, product_name);
+				pstmt.setInt(2, 5);
+				rs = pstmt.executeQuery();			
+				// 총 리뷰갯수
+				while(rs.next()) {
+					fistars++;
+				}
+				///////////////////////////////////////////////////
+				// 해당 리뷰의 4점 개수
+				sql = " select review_star "+
+					  " from tbl_review "+
+					  " where fk_pnum = (select pnum "+
+					  "                  from tbl_product "+
+					  "                  where pname = ?) "+
+					  " and review_star = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, product_name);
+				pstmt.setInt(2, 4);
+				rs = pstmt.executeQuery();			
+				// 총 리뷰갯수
+				while(rs.next()) {
+					fostars++;
+				}
+				///////////////////////////////////////////////////
+				// 해당 리뷰의 3점 개수
+				sql = " select review_star "+
+					  " from tbl_review "+
+				      " where fk_pnum = (select pnum "+
+					  "                  from tbl_product "+
+					  "                  where pname = ?) "+
+					  " and review_star = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, product_name);
+				pstmt.setInt(2, 3);
+				rs = pstmt.executeQuery();			
+				// 총 리뷰갯수
+				while(rs.next()) {
+					thstars++;
+				}
+				///////////////////////////////////////////////////
+				// 해당 리뷰의 2점 개수
+				sql = " select review_star "+
+					  " from tbl_review "+
+					  " where fk_pnum = (select pnum "+
+					  "                  from tbl_product "+
+					  "                  where pname = ?) "+
+					  " and review_star = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, product_name);
+				pstmt.setInt(2, 2);
+				rs = pstmt.executeQuery();			
+				// 총 리뷰갯수
+				while(rs.next()) {
+					twstars++;
+				}
+				///////////////////////////////////////////////////
+				// 해당 리뷰의 1점 개수
+				sql = " select review_star "+
+					  " from tbl_review "+
+					  " where fk_pnum = (select pnum "+
+					  "                  from tbl_product "+
+					  "                  where pname = ?) "+
+					  " and review_star = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, product_name);
+				pstmt.setInt(2, 1);
+				rs = pstmt.executeQuery();			
+				// 총 리뷰갯수
+				while(rs.next()) {
+					wostars++;
+				}
+				///////////////////////////////////////////////////
+				
+				// 별점
+				String five_stars = Math.round(fistars/allstars*100) + "";
+				String four_stars = Math.round(fostars/allstars*100) + "";
+				String three_stars = Math.round(thstars/allstars*100) + "";
+				String two_stars = Math.round(twstars/allstars*100) + "";
+				String won_stars = Math.round(wostars/allstars*100) + "";
+
+				// 별점 넘겨주기
+				starMap.put("five_stars", five_stars);
+				starMap.put("four_stars", four_stars);
+				starMap.put("three_stars", three_stars);
+				starMap.put("two_stars", two_stars);
+				starMap.put("won_stars", won_stars);
+				
+			} finally {
+				close();
+			}
+			
+			return starMap;
+			
+		}//end of public Map<String, String> selectStar(String product_name) throws SQLException {
+	//=============================================================================
+		// 내 리뷰 업데이트 하기
+		@Override
+		public void UpdateMyReview(String userid, String content, String whatstar, String insertpicture, String product_name, String jumun_bunho)
+				throws SQLException {
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = "insert into tbl_review "+
+						" (reviewno "+
+						" ,fk_pnum "+
+						" ,fk_userid "+
+						" ,review_content "+
+						" ,review_picture "+
+						" ,review_star "+
+						" ,review_date "+
+						" ,review_info) "+
+						" values( "+
+						" seq_tbl_review.nextval "+
+						" ,(select pnum "+
+						" from tbl_product "+
+						" where pname = ?) "+
+						" ,? "+
+						" ,? "+
+						" ,? "+
+						" ,? "+
+						" ,to_char(sysdate, 'yyyy-mm-dd') "+
+						" ,(select buy_opt_info "+
+						"   from tbl_buy "+
+						"   where fk_userid = ? and fk_pnum = (select pnum "+
+						"                                      from tbl_product "+
+						"				                       where pname = ? )"+
+						"						and jumun_bunho = ? )) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, product_name);
+				pstmt.setString(2, userid);
+				pstmt.setString(3, content);
+				pstmt.setString(4, insertpicture);
+				pstmt.setString(5, whatstar);
+				pstmt.setString(6, userid);
+				pstmt.setString(7, product_name);
+				pstmt.setString(8, jumun_bunho);
+				
+				pstmt.executeUpdate();
+				
+			} finally {
+				close();
+			}
+		
+		}//end of public void UpdateMyReview(String userid, String content, String whatstar, String insertpicture)
 }

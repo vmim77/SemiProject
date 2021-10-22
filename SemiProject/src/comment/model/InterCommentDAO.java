@@ -34,4 +34,10 @@ public interface InterCommentDAO {
 	// 문의사항 답변 삭제하기
 	int deleteQnAComment(CommentVO cvo) throws SQLException;
 
+	// 댓글 작성한 내용 업데이트
+	void UpdateDatgle(String review_text, String userid, String what_reviewno) throws SQLException;
+
+	// 리뷰 번호에 맞게 댓글들 가져오기
+	List<ReviewCommentVO> SelectAllComment(String what_reviewno) throws SQLException;
+	
 }

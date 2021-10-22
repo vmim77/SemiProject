@@ -55,7 +55,7 @@
 <title>[운영자]주문상태 변경하기</title>
 </head>
 <body>
-	<div class="container">
+	<div class="container" style="width: 90%;">
 		<h1 class="text-center">${requestScope.map.userid} 님의 현재 주문정보</h1>
 		<table class="table table-dark text-center">
 			<thead>
@@ -79,6 +79,7 @@
 						<form name="changeStatusFrm">
 							<input type="hidden" name="odrcode"  value="${requestScope.map.odrcode}" />
 							<input type="hidden" name="pnum"  value="${requestScope.map.pnum}" />
+							<input type="hidden" name="userid"  value="${requestScope.map.userid}" />
 							<select name="changeStatus">
 								<c:if test="${requestScope.map.status eq '배송준비중'}">
 									<option value="1">배송시작</option>

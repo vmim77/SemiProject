@@ -10,7 +10,7 @@ import common.controller.AbstractController;
 import member.model.*;
 
 public class PwdFindAction extends AbstractController {
-
+//=============================================================================================
    @Override
    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
       
@@ -94,5 +94,5 @@ public class PwdFindAction extends AbstractController {
    //   super.setRedirect(false);
       super.setViewPage("/WEB-INF/login/pwdFind.jsp");
    }
-
+//=============================================================================================
 }

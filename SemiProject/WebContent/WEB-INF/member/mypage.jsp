@@ -93,51 +93,6 @@
 			
 		}); 
 		
-		// 잠시 숨기기
-	      $("div#view_close").hide();
-	      // 전체리뷰개수
-	      var rvcnt = "${requestScope.Review_cnt}"*1;
-	      // 클릭갯수
-	      var ckcnt = 1;
-	      
-	      // 페이지 로드시 일정 갯수 이상의 리뷰는 숨겨주기
-	      for(var i=0; i<rvcnt; i++){
-	         if(i>2){
-	            $("tr#"+i).hide();
-	         }   
-	      }//end of for----------------------------------
-	      
-	      // view more 클릭시
-	      $("div#view_more").click(function(){
-	         // 끝까지 view more를 했다면
-	         if((ckcnt+1)*3>rvcnt){
-	            $("div#view_more").hide();
-	            $("div#view_close").show();
-	         }
-	         // 3개씩 끊어서 보여주기
-	         for(var i=0; i<(ckcnt+1)*3; i++){
-	            $("tr#"+i).show();
-	         }
-	         // 클릭 갯수 올리기
-	         ckcnt++;         
-	      });//end of $("div#view_more").click(function(){
-	         
-	      // view close 클릭시
-	      $("div#view_close").click(function(){
-	         // 초기화 해주기
-	         ckcnt = 1;
-	         // 보여준거 숨기기
-	         for(var i=0; i<rvcnt; i++){
-	            if(i>2){
-	               $("tr#"+i).hide();
-	            }   
-	         }//end of for----------------------------------
-	         // 다시 원래대로 돌리기
-	         $("div#view_more").show();
-	         $("div#view_close").hide();      
-	      });//end of $("div#view_more").click(function(){
-		
-
 		
 	}); // end of $(document).ready(function(){})-----------------------------
 </script>
@@ -150,19 +105,18 @@
 <div id="menu" class="container" style="width:1000px; margin:100px 300px; height:100px; font-family:맑은 고딕;">
     <div style="text-align: center; margin-top: 30px">
       <span><a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" style="text-decoration: none;">정보수정</a></span> &nbsp;&nbsp;
-      <span><a href="<%= ctxPath%>/delivery/order.sh"  style="text-decoration: none;">주문내역</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/memberCalendar.sh" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
-      <span><a href="" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
+      <span><a href="<%= ctxPath %>/cart.sh" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/member/memberdelete.sh" style="text-decoration: none;">회원탈퇴</a></span>
     </div>
 </div>
 
-<table id="" style="border: solid 2px gray; width: 1200px;">
+<table id="" style="border: solid 2px gray; width: 1200px; ">
 	<tr>
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:900px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
 				<img style="height:80px; padding-right:10px;" id="profile" src="../images/image_1.png"/>
-				${(sessionScope.loginuser.name)}님은 [화이트] 회원입니다.<br>
+				${(sessionScope.loginuser.name)}님 환영합니다<br>
 			</span>
 		</td>
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
@@ -243,7 +197,7 @@
 </table><br>
 
 <!-- 여기서부터 디자인 시작 -->
-                <table>
+                <table style="overflow: auto;">
                   <tr style="font-size:13pt; font-weight:bold; height:50px; text-align:left; padding-bottm:15px;">
                      <td colspan="8" style="padding-left:15px;">
                         주문내역

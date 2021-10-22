@@ -5,6 +5,8 @@ import java.sql.*;
 import java.util.*;
 import javax.naming.*;
 import javax.sql.DataSource;
+
+import product.realmodel.ProductRealVO;
 import util.security.*;
 
 public class ProductDAO implements InterProductDAO {
@@ -52,7 +54,7 @@ public class ProductDAO implements InterProductDAO {
 			 conn = ds.getConnection();
 			 
 			 String sql = " select * "+
-					      " from tbl_product_"+product_name;
+                          " from tbl_product_"+product_name+" order by product_ceil_price desc ";
 			
 			 pstmt = conn.prepareStatement(sql);
 			 
@@ -91,26 +93,30 @@ public class ProductDAO implements InterProductDAO {
 			
 			conn = ds.getConnection();
 			 
-			String sql = " select* "+
-						" from tbl_product_dubby "+
-						" UNION ALL "+
-						" select* "+
-						" from tbl_product_mul "+
-						" UNION ALL "+
-						" select* "+
-						" from tbl_product_boots "+
-						" UNION ALL"+
-						" select*"+
-						" from tbl_product_loper "+
-						" UNION ALL "+
-						" select* "+
-						" from tbl_product_oxpode "+
-						" UNION ALL "+
-						" select * "+
-						" from tbl_product_mongk "+
-						" UNION ALL "+
-						" select* "+
-						" from tbl_product_sandle ";
+			String sql = " select * "+
+	                  " from "+
+	                  " ( "+
+	                  "    select*  "+
+	                  "     from tbl_product_dubby  "+
+	                  "     UNION  "+
+	                  "     select*  "+
+	                  "     from tbl_product_mul  "+
+	                  "     UNION   "+
+	                  "     select*  "+
+	                  "     from tbl_product_boots  "+
+	                  "     UNION  "+
+	                  "     select* "+
+	                  "     from tbl_product_loper  "+
+	                  "     UNION   "+
+	                  "     select* "+
+	                  "     from tbl_product_oxpode  "+
+	                  "     UNION   "+
+	                  "     select *  "+
+	                  "     from tbl_product_mongk  "+
+	                  "     UNION   "+
+	                  "     select*  "+
+	                  "     from tbl_product_sandle )V "+
+	                  "     order by product_ceil_price desc ";
 			
 			 pstmt = conn.prepareStatement(sql);
 			 
@@ -360,8 +366,10 @@ public class ProductDAO implements InterProductDAO {
 //=====================================================================================
 	// 출석도장 저장
 	@Override
-	public void Savemycheck(String savemycheck, String userid) throws SQLException {
+	public int Savemycheck(String savemycheck, String userid) throws SQLException {
 		
+		//넘겨줄 결과값
+		int result = 0;
 		// 중복된 값이 있는지 확인하기
 		int cnt = 0;
 		// point 넣어주기 위한 내용
@@ -411,9 +419,8 @@ public class ProductDAO implements InterProductDAO {
 			// 없으면 그냥 인서트 하고 끝이다.
 			
 			///////////////////////////////////////////////////////////////////////////
-			// 몇번 출석 도장체크 시 포인트 지급하기
 			
-			// 우선 포인트를 지급 했는지 안했는지 찾아보기
+			// 단계 날짜 별 포인트 지급을 위해 검색
 			sql = " select daynum "+
 				  " from tbl_chk_"+userid;
 				
@@ -421,29 +428,40 @@ public class ProductDAO implements InterProductDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				// 몇일이나 출석했는지 확인하는 카운트
 				pointcnt++;
 			}
 			
-			// 5일차를 지급했는가
-			if(pointcnt == 5) {
+			// 해당유저의 포인트를 먼저 찾는다
+			sql = " select point "+
+			      " from tbl_member "+
+			      " where userid = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			rs = pstmt.executeQuery();
+			int userpoint = 0;
+			if(rs.next()) {
+				userpoint = rs.getInt(1);
+			}
+			
+			// 5,10..25 일차 마다 포인트를 지급해준다
+			for(int i=5; i<=25; i+=5) {
 				
-			}
-			// 10일차를 지급했는가
-			else if(pointcnt == 10) {
-							
-			}
-			// 15일차를 지급했는가
-			else if(pointcnt == 15) {
+				// 5,10..25 일차이라면
+				if(i==pointcnt) {
+					// 포인트 지급
+					result = i*200; 
+					// 포인트 업데이트 하기
+					sql = " update tbl_member set point = ? "+
+						  " where userid = ? ";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, userpoint + result);
+					pstmt.setString(2, userid);
+					pstmt.executeUpdate();
+					
+				}//end of if(i==pointcnt) {
 				
-			}
-			// 20일차를 지급했는가
-			else if(pointcnt == 20) {
-				
-			}
-			// 25일차를 지급했는가
-			else if(pointcnt == 25) {
-				
-			}
+			}//end of for(int i=5; i<=25; i+=5) {
 			
 			/////////////////////////////////////////////////////////////////
 			
@@ -451,6 +469,179 @@ public class ProductDAO implements InterProductDAO {
 			close();
 		}
 		
+		return result;
+		
 	}//end of public void Savemycheck() throws SQLException {
 //=====================================================================================	
+   // ***** 제품목록(Category)을 보여줄 메소드 생성하기 ***** //
+   @Override
+   public List<Map<String, String>> getCategoryList() throws SQLException {
+      List<Map<String, String>> categoryList = new ArrayList<>();
+      
+      try {
+         
+         conn = ds.getConnection();
+         
+         String sql = " select cnum, code, cname " + 
+                    " from tbl_category " + 
+                   " order by cnum asc ";
+         
+         pstmt = conn.prepareStatement(sql);
+         
+         rs = pstmt.executeQuery();
+         
+         while(rs.next()) {
+
+            Map<String, String> map = new HashMap<>();
+            
+            map.put("cnum", rs.getString(1));
+            map.put("code", rs.getString(2));
+            map.put("cname", rs.getString(3));
+            
+            categoryList.add(map);
+            
+         }// end of while(rs.next()) -----------------------------
+         
+      } finally {
+         close();
+      }
+      
+      return categoryList;
+      
+   }
+   
+   
+   //=====================================================================================   
+   
+   
+   // 제품번호 채번 해오기
+   @Override
+   public int getPnumOfProduct() throws SQLException {
+      
+      int pnum = 0;
+         
+         try {
+             conn = ds.getConnection();
+             
+             String sql = " select seq_tbl_product_pnum.nextval AS PNUM " +
+                        " from dual ";
+                     
+             pstmt = conn.prepareStatement(sql);
+             rs = pstmt.executeQuery();
+                       
+             rs.next();
+             pnum = rs.getInt(1);
+         
+         } finally {
+            close();
+         }
+         
+         return pnum;
+   }
+   
+   
+   //=====================================================================================      
+   
+   
+   
+   
+   //tbl_product 테이블에 제품정보 insert 하기   
+   @Override
+   public int productInsert(ProductRealVO prvo) throws SQLException {
+      
+      int result = 0;
+         
+         try {
+            conn = ds.getConnection();
+            
+            String sql = " insert into tbl_product(pnum, pname, fk_cnum,  pimage1, pimage2, pimage3, pimage4, pqty, price, saleprice ) " +  
+                       " values(?,?,?,?,?,?,?,?,?,?)";
+            
+            pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setInt(1, prvo.getPnum());
+            pstmt.setString(2, prvo.getPname());
+            pstmt.setInt(3, prvo.getFk_cnum());
+            pstmt.setString(4, prvo.getPimage1());    
+            pstmt.setString(5, prvo.getPimage2());
+            pstmt.setString(6, prvo.getPimage3());    
+            pstmt.setString(7, prvo.getPimage4());
+            pstmt.setInt(8, prvo.getPqty()); 
+            pstmt.setString(9, prvo.getPrice());
+            pstmt.setString(10, prvo.getSaleprice());
+
+               
+            result = pstmt.executeUpdate();
+            
+         } finally {
+            close();
+         }
+         
+         return result;
+      
+   }// end of public int productInsert(ProductRealVO prvo) throws SQLException------------------------
+//=====================================================================================   
+   // 카테고리 이름 알아오기
+   @Override
+   public String getCname(String fk_cnum) throws SQLException {
+      
+      String getcname = "";
+      
+      try {
+         
+         conn = ds.getConnection();
+         
+         String sql = " select cname "+
+               " from tbl_category "+
+               " where cnum = ? ";
+         
+         pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, fk_cnum);
+         
+         rs = pstmt.executeQuery();
+         
+         if(rs.next()) {
+            getcname = rs.getString(1);
+         }
+         
+      } finally {
+         close();
+      }
+      
+      return getcname;
+   }// end of public String getCname(String fk_cnum) throws SQLException -----------------------------------
+//========================================================================================
+ //나눠진 제품 테이블에서 insert 하기
+   @Override
+   public int selectproductInsert(ProductRealVO prvo, String cname) throws SQLException{
+      
+      
+        int result = 0;
+         
+         try {
+            conn = ds.getConnection();
+            
+            String sql = " insert into tbl_product_"+cname+"(PRODUCT_NAME , PRODUCT_FRONT_P1 , PRODUCT_BACK_P2 ,  PRODUCT_PRICE , PRODUCT_CEIL_PRICE , PRODUCT_FIRST_P , PRODUCT_SECOND_P) " +  
+                       " values(?,?,?,?,?,?,?)";
+            
+            pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setString(1, prvo.getPname());
+            pstmt.setString(2, prvo.getPimage1());   
+            pstmt.setString(3, prvo.getPimage2());
+            pstmt.setString(4, prvo.getPrice());
+            pstmt.setString(5, prvo.getSaleprice());
+            pstmt.setString(6, prvo.getPimage3());    
+            pstmt.setString(7, prvo.getPimage4());
+
+               
+            result = pstmt.executeUpdate();
+            
+         } finally {
+            close();
+         }
+         
+         return result;
+   }
+//=========================================================================================   
 }

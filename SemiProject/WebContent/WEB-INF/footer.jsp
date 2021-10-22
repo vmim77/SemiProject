@@ -39,7 +39,7 @@
      <div id="kakaodiv" class="py-2">
      	<span><img id="kakaoimg"  src="<%= ctxPath%>/images/kakao.png" /></span><span class="ml-2">카카오톡</span>
      </div>
-     <div id="toTop" style="border-radius:100%; background-color:white; text-align:center;"><a href="#" style="text-decoration: none;"><h4>↑</h4></a></div>
+     <div id="toTop" style="border-radius:80%; background-color:white;"><a href="#"><h4>↑</h4></a></div>
     </footer>
      <%-- 카카오톡 링크 --%>
      

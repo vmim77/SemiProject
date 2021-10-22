@@ -330,5 +330,73 @@ public class CommentDAO implements InterCommentDAO {
 		
 		return n;
 	}// end of public int deleteQnAComment(int commentno)----------------------------------
-	
+	//===================================================================================
+		// 댓글 작성한 내용 업데이트
+		@Override
+		public void UpdateDatgle(String review_text, String userid, String what_reviewno) throws SQLException{
+			
+			int review_no = Integer.parseInt(what_reviewno);
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " insert into tbl_review_comment(fk_reviewno, review_text, fk_userid) "
+						   + " values(?, ?, ?) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, review_no);
+				pstmt.setString(2, review_text);
+				pstmt.setString(3, userid);
+				
+				pstmt.executeUpdate();
+				
+			} finally {
+				close();
+			}
+			
+		}//end of public void UpdateDatgle(String datgle, String userid) {---------------
+	//===================================================================================	
+		// 리뷰 번호에 맞게 댓글들 가져오기
+		@Override
+		public List<ReviewCommentVO> SelectAllComment(String what_reviewno) throws SQLException {
+
+			int reviewno = Integer.parseInt(what_reviewno);
+			
+			List<ReviewCommentVO> commentList = new ArrayList<>();
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select fk_reviewno, review_text, fk_userid "+
+						     " from tbl_review_comment "+
+						     " where fk_reviewno = ? ";       
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, reviewno);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					ReviewCommentVO rcvo = new ReviewCommentVO();
+					
+					rcvo.setFk_reviewno(rs.getInt(1));
+					rcvo.setReview_text(rs.getString(2));
+					rcvo.setFk_userid(rs.getString(3));
+					
+					commentList.add(rcvo);
+					
+				}
+				
+			} finally {
+				close();
+			}
+			
+			return commentList;
+			
+		}//end of public List<ReviewCommentVO> SelectAllComment(String product_name) throws SQLException {
+	//================================================================
 }

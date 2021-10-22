@@ -189,7 +189,7 @@ h2 {
 
 </script>
 
-<form name="pwdFindFrm">
+<form name="pwdUpdateEndFrm">
  <table id="loginTbl">
  <tbody>
  <div class="login">
@@ -215,7 +215,7 @@ h2 {
    </c:if>
     <c:if test="${requestScope.method == 'POST' && requestScope.n == 1}">
 		<div id="div_updateResult" align="center">
-           	사용자 ID ${requestScope.userid}님의 암호가 새로이 변경되었습니다.<br>
+           	사용자 ID ${requestScope.userid}님의 암호가 변경되었습니다.<br>
       	</div> 
    </c:if>
 </div>

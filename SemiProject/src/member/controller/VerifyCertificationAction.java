@@ -7,13 +7,12 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 
 public class VerifyCertificationAction extends AbstractController {
-
+//====================================================================================
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String userid = request.getParameter("userid");
 		String userCertificationCode = request.getParameter("userCertificationCode");
-		
 		
 		HttpSession session = request.getSession();// 세션불러오기
 		String certificationCode = (String)session.getAttribute("certificationCode");
@@ -34,16 +33,13 @@ public class VerifyCertificationAction extends AbstractController {
 		request.setAttribute("message", message);
 		request.setAttribute("loc", loc);
 		
-	//	super.setRedirect(false);
 		super.setViewPage("/WEB-INF/msg.jsp");
 		
 		// 중요중요아주중요!!!
 		// 세션에 저장된 인증코드가 맞는지 아닌지 알아봤으니 다썼으면 세션에 저장되있는 코드를 삭제해야한다.
 		// 세션 지우는 2가지 방법 LogoutAction 확인하기
-		
 		session.removeAttribute("certificationCode");
 		
-		
-	}
-
+	}//end of public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//====================================================================================
 }

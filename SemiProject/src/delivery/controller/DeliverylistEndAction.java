@@ -14,19 +14,16 @@ import product.realmodel.ProductBuyVO;
 import product.realmodel.ProductRealDAO;
 
 public class DeliverylistEndAction extends AbstractController {
-
+//==================================================================================================
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		
 		InterProductRealDAO prdao = new ProductRealDAO();
         
         String jumun_bunho = request.getParameter("jumun_bunho");
 		
         List<ProductBuyVO> jumunList = prdao.SelectJumun(jumun_bunho);
-        System.out.println("sss"+jumunList);
 		
-        
         JSONArray jsonArr = new JSONArray();
         
         for(ProductBuyVO rcvo : jumunList) {
@@ -47,11 +44,6 @@ public class DeliverylistEndAction extends AbstractController {
         
         super.setViewPage("/WEB-INF/jsonview.jsp");
         
-		
-		
-		
-		
-		
-	}
-
+	}//end of public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//==================================================================================================
 }

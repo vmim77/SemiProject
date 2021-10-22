@@ -270,7 +270,7 @@ public class MemberVO {
 		public void setCouponlastday(String couponlastday) {
 			this.couponlastday = couponlastday;
 		}
-	
+
 		public String getFk_userid() {
 			return fk_userid;
 		}
@@ -278,6 +278,9 @@ public class MemberVO {
 		public void setFk_userid(String fk_userid) {
 			this.fk_userid = fk_userid;
 		}
+	
+		
+		
 	
 	
 	

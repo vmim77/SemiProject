@@ -1,5 +1,6 @@
 package product.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class StoreAction extends AbstractController {
 			String cartprice  = request.getParameter("cartprice");
 			String jukrib  = request.getParameter("jukrib");
 			String cartfinopt = request.getParameter("cartfinopt");   
+			
 			// , 넣어주기
 			cartprice = cartprice.replace("원","");
 			
@@ -56,19 +58,25 @@ public class StoreAction extends AbstractController {
 			String userid = loginuser.getUserid();
 			
 			InterMemberDAO mado = new MemberDAO();
-			// Map<String, String> paraMap = mado.SelectMyInfo(userid);
+			Map<String, String> paraMap = mado.SelectMyInfo(userid);
 			
-			// request.setAttribute("paraMap", paraMap);
+			request.setAttribute("paraMap", paraMap);
 					
 			////////////////////////////////////////////////////////////////////
 			
 			// 내 포인트 넘겨주기
 			InterMemberDAO mdao = new MemberDAO();
-			// int mypoint = mdao.selectMyPoint(userid);
-			// request.setAttribute("mypoint", mypoint);
+			int mypoint = mdao.selectMyPoint(userid);
+			request.setAttribute("mypoint", mypoint);
 			
 			/////////////////////////////////////////////////////////////////////
 			
+			// 쿠폰 넘겨받기
+	        List<MemberVO> libo = mdao.mycoupon(userid); 
+	        request.setAttribute("libo", libo);
+	        
+	        /////////////////////////////////////////////////////////////////////
+	        
 			super.setViewPage("/WEB-INF/product/detailstore.jsp");
 			
 		}

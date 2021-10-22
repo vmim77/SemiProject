@@ -66,8 +66,13 @@ public interface InterBoardDAO {
 	void UpdateMyReview(String userid, String content, String whatstar, String insertpicture, String product_name) throws SQLException;
 
 	// 페이지 로드시 모든 리뷰 가져오기
-	ReviewVO SelectAllReview(String product_name) throws SQLException;
+	List<ReviewVO> SelectAllReview(String product_name) throws SQLException;
 	
+	// 내 리뷰 업데이트 하기
+	void UpdateMyReview(String userid, String content, String whatstar, String insertpicture, String product_name, String jumun_bunho) throws SQLException;
+
+	// 전체 리뷰 평점 가져오기
+	Map<String, String> selectStar(String product_name) throws SQLException;
 	
 
 }

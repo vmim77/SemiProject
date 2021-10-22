@@ -61,9 +61,13 @@
 		$(".orderInfo").click(function(){
 			
 			var odrcode = $(this).find("td:first-child").text();
-			var userid = $(this).find("td:nth-child(4)").text();
+			var userid = $(this).find("td:nth-child(4)").text().trim();
 			var pnum = $(this).find("span.pnum").text();
 			var status = $(this).find("td:nth-child(7)").text().trim(); // 배송완료, 교환, 환불인 경우에는 더 이상 처리가 불가능하게 한다.
+			
+			alert(userid);
+			alert(odrcode);
+			alert(pnum);
 			
 			
 			if(status == '배송준비중' || status == '배송시작'){
@@ -82,6 +86,7 @@
        				   "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 				
 				var frm = document.changeStatusFrm;
+				
 				$("input[name=odrcode]").val(odrcode);
 				$("input[name=userid]").val(userid);
 				$("input[name=pnum]").val(pnum);
@@ -203,7 +208,7 @@
     
     <form name="changeStatusFrm">
     	<input type="hidden" name="odrcode" />
-    	<input type="hidden" name="userid"/>
+    	<input type="hidden" class="submitId" name="userid"/>
     	<input type="hidden" name="pnum"/>
     	<input type="hidden" name="status"/>
     

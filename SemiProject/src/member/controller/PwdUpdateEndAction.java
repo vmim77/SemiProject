@@ -6,14 +6,12 @@ import common.controller.*;
 import member.model.*;
 
 public class PwdUpdateEndAction extends AbstractController {
-
+//====================================================================================
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String userid = request.getParameter("userid");
-		
+		String userid = request.getParameter("userid");		
 		String method = request.getMethod();
-		// "GET" or "POST"
 		
 		if("POST".equalsIgnoreCase(method)) {
 			String pwd = request.getParameter("pwd");
@@ -28,12 +26,11 @@ public class PwdUpdateEndAction extends AbstractController {
 			request.setAttribute("n", n);
 		}
 		
-		request.setAttribute("userid", userid);
-		
+		request.setAttribute("userid", userid);		
 		request.setAttribute("method", method);
-		
-	//	super.setRedirect(false);
-		super.setViewPage("/WEB-INF/login/pwdUpdateEnd.jsp");
-	}
 
+		super.setViewPage("/WEB-INF/login/pwdUpdateEnd.jsp");
+		
+	}//end of public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//====================================================================================
 }

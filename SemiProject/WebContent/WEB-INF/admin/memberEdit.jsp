@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원정보 수정하기[운영자]</title> <%-- 운영자는 회원의 포인트, 활동상태(탈퇴, 사용가능), 휴면상태(활동중, 휴면상태)를 변경할 수 있다. --%>
+<title>회원정보 수정하기[운영자]</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
@@ -51,26 +51,27 @@
 
 	$(document).ready(function(){
 		
-		$("button#btnEditUserInfo").click(function(){ // 정보를 변경한 후 수정하기 버튼을 클릭하면 발생하는 이벤트이다.
+		$("button#btnEditUserInfo").click(function(){ // 수정하기 버튼을 클릭하면
 			
-			// 만약 point에 숫자가 아닌 문자열이나 이상한 것을 입력했다면 유효성검사로 걸러준다.
-			if( $("input[name=point]").val() == "" || isNaN($("input[name=point]").val()) ){ 
-				alert("포인트는 숫자만 입력하셔야 합니다!");
-				return; // 이벤트 종료
+			// update 를 위한 Action.java로 보냅니다.
+			
+			if( $("input[name=point]").val() == "" || !Number($("input[name=point]").val()) ){
+				alert("숫자만 입력하세요!");
+				return;
 			}
-			
 			$("input#onlyinfo").val("onlyinfo");
 			var frm = document.adminEditUser;
 			frm.action="<%= ctxPath%>/admin/memberEditEnd.sh";
-			frm.method="POST"
+			frm.method="POST";
 			frm.submit();
 			
 		});// end of $("button#btnEditUserInfo").onclick(function(){})----------------------------------
 		
-		// 팝업창에서 수정하기를 누르지않고 X표시를 눌러서 끄면 부모창을 새로고침 해줍니다.
-		$(window).on('beforeunload', function() {
+		$(window).on('beforeunload', function() { // 팝업창에서 수정하기를 누르지않고 X표시를 눌러서 끄면 부모창을 새로고침 해줍니다.
 			opener.location.reload(true); 
 		});
+		
+		
 		
 		$("button#coupon").click(function(){
 			
@@ -84,7 +85,10 @@
 			
 			alert("추가되었습니다.");
 			
-		}); //end of $("button#goCoupon").click(function(){})------------------------------------------
+		});//end of $("button#goCoupon").click(function()
+				
+		
+		
 		
 	});// end of $(document).ready(function(){})------------------------------------------------
 
@@ -97,16 +101,13 @@
 	<div class="container">
 		<div class="row justify-content-center">
 				<form name="adminEditUser" class="my-3">
-				
-					 <%-- update를 할 때 조건절에 사용할 userid이다. --%>
-					<input type="hidden" name="onlycoupon" id="onlycoupon" value="test"/>
-					<input type="hidden" name="onlyinfo" id="onlyinfo" value="test"/>
-					<input type="hidden" name="userid" value="${requestScope.member.userid}"/>
+				<input type="hidden" name="onlycoupon" id="onlycoupon" value="test"/>
+				<input type="hidden" name="onlyinfo" id="onlyinfo" value="test"/>
+					<input type="hidden" name="userid" value="${requestScope.member.userid}"/> <%-- where절에 쓸 userid --%>
 					<table class="table-dark" >
 						<tr>
 							<td class="title"><h4 style="color:white;">${requestScope.member.userid} 님의 회원정보 변경하기</h4></td>
 						</tr>
-						
 						<tr>
 							<td class="title">포인트</td>
 							<td>
@@ -114,18 +115,16 @@
 								<input type="text" name="point" value="${requestScope.member.point}" size="6" autocomplete="off" /><span> 원</span>
 							</td><%-- <fmt:formatNumber value='${requestScope.member.point}' pattern="###,###" />  --%>
 						</tr>
-						
 						<tr>
 							<td class="title">회원상태</td>
 							<td>
-								<select name="status"> <%-- DB에서 1이라면 '사용가능'을 출력해준다. --%>
+								<select name="status"> <%-- DB에서 1이라면 '사용가능'이 먼저 올라와져있습니다. --%>
 									<c:choose>
 										<c:when test="${requestScope.member.status eq 1}">
 											<option selected="selected" value="1">사용가능</option>
 											<option value="0">탈퇴</option>
 										</c:when>
-										
-										<c:otherwise>  <%-- DB에서 0이라면 '탈퇴'를 출력해준다. --%>
+										<c:otherwise>
 											<option value="1">사용가능</option>
 											<option selected="selected" value="0">탈퇴</option>
 										</c:otherwise>
@@ -133,18 +132,16 @@
 								</select>
 							</td>
 						</tr>
-						
 						<tr>
-							<td class="title">휴면처리</td> 
+							<td class="title">휴면처리</td> <%-- DB에서 0이라면 '활동중'이 먼저 올라와져있습니다. --%>
 							<td>
 								<select name="idle">
-									<c:choose> <%-- DB에서 0이라면 '활동중'을 출력해준다. --%>
+									<c:choose>
 										<c:when test="${requestScope.member.idle eq 0}">
 											<option selected="selected" value="0">활동중</option>
 											<option value="1">휴면처리</option>
 										</c:when>
-										
-										<c:otherwise> <%-- DB에서 1이라면 '휴면처리'를 출력해준다. --%>
+										<c:otherwise>
 											<option selected="selected" value="1">휴면처리</option>
 											<option value="0">활동중</option>
 										</c:otherwise>
@@ -153,28 +150,25 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="title">쿠폰</td>
-								<td>
-							   <select name="couponname">
-									<c:choose>
-										<c:when test="${requestScope.couponname eq 0}">
-											<option selected="selected" value="0">쿠폰없음</option>
-											<option value="1">사용완료</option>
-										</c:when>
-										<c:otherwise>
-											<option selected="selected" value="1">추천인쿠폰/3000원</option>
-											<option value="2">신규가입쿠폰/5000원</option>
-											<option value="3">이벤트쿠폰/10000원</option>
-											<option value="4">이벤트쿠폰(VIP)/20000원</option>
-										</c:otherwise>
-									</c:choose>
-								</select>
-							  <button id="coupon">추가</button>
-							</td>
-						</tr>
-						
-						
-						
+						<td class="title">쿠폰</td>
+							<td>
+						   <select name="couponname">
+								<c:choose>
+									<c:when test="${requestScope.couponname eq 0}">
+										<option selected="selected" value="0">쿠폰없음</option>
+										<option value="1">사용완료</option>
+									</c:when>
+									<c:otherwise>
+										<option selected="selected" value="1">추천인쿠폰/3000원</option>
+										<option value="2">신규가입쿠폰/5000원</option>
+										<option value="3">이벤트쿠폰/10000원</option>
+										<option value="4">이벤트쿠폰(VIP)/20000원</option>
+									</c:otherwise>
+								</c:choose>
+							</select>
+						  <button id="coupon">추가</button>
+						</td>
+					</tr>
 					</table>
 			</form>
 		</div>
@@ -182,7 +176,6 @@
 		<p class="text-center">
 			<button id="btnEditUserInfo" class="btn btn-dark btn-md">수정하기</button>
 		</p>
-		
 	</div>
 </body>
 

@@ -7,10 +7,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-import board.model.*;
+import board.model.BoardDAO;
+import board.model.BoardVO;
+import board.model.InterBoardDAO;
 import common.controller.AbstractController;
-import member.model.*;
-import product.realmodel.*;
+import member.model.InterMemberDAO;
+import member.model.MemberDAO;
+import member.model.MemberVO;
+import product.realmodel.InterProductRealDAO;
+import product.realmodel.ProductBuyVO;
+import product.realmodel.ProductRealDAO;
 
 public class MypageAction extends AbstractController {
 
@@ -22,7 +28,6 @@ public class MypageAction extends AbstractController {
 		InterBoardDAO bdao = new BoardDAO();
 		HttpSession session = request.getSession();
         MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-        
         String userid = loginuser.getUserid();
 //======================================================================================================
         // 쿠폰 넘겨받기
@@ -47,10 +52,6 @@ public class MypageAction extends AbstractController {
 //=======================================================================================================        
     	//	super.setRedirect(false);
 		super.setViewPage("/WEB-INF/member/mypage.jsp");
-        
-		
-		
-
 	}
 
 }

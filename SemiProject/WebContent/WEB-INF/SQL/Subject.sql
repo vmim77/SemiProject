@@ -1,20 +1,145 @@
+create user SEMIORAUSER2 identified by cclass;
+-- User MYMVC_USER이(가) 생성되었습니다.
+
+grant connect, resource, create view, unlimited tablespace to SEMIORAUSER2;
+
+show user;
+
+----- **** 회원 테이블 생성 **** ------
+
+create table tbl_member
+(userid             varchar2(40)   not null  -- 회원아이디
+,pwd                varchar2(200)  not null  -- 비밀번호 (SHA-256 암호화 대상)
+,name               varchar2(30)   not null  -- 회원명
+,email              varchar2(200)  not null  -- 이메일 (AES-256 암호화/복호화 대상)
+,mobile             varchar2(200)            -- 연락처 (AES-256 암호화/복호화 대상) 
+,postcode           varchar2(5)              -- 우편번호
+,address            varchar2(200)            -- 주소
+,detailaddress      varchar2(200)            -- 상세주소
+,extraaddress       varchar2(200)            -- 참고항목
+,gender             varchar2(1)              -- 성별   남자:1  / 여자:2
+,birthday           varchar2(10)             -- 생년월일
+,referral           varchar2(50)             -- 추천인
+,point              number default 0         -- 포인트 
+,registerday        date default sysdate     -- 가입일자 
+,lastpwdchangedate  date default sysdate     -- 마지막으로 암호를 변경한 날짜  
+,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
+,idle               number(1) default 0 not null     -- 휴면유무      0 : 활동중  /  1 : 휴면중 
+,constraint PK_tbl_member_userid primary key(userid)
+,constraint UQ_tbl_member_email  unique(email)
+,constraint CK_tbl_member_gender check( gender in('1','2') )
+,constraint CK_tbl_member_status check( status in(0,1) )
+,constraint CK_tbl_member_idle check( idle in(0,1) )
+);
+
+insert into tbl_chk_rnldual08(daynum) values(9);
+
+delete tbl_chk_rnldual08 where daynum = 21;
+commit;
+select *
+from tbl_chk_rnldual08;
+select point
+from tbl_member
+where userid = 'rnldual08';
+delete from tbl_member
+where userid ='shin';
+
+rollback;
+
+commit;
+
+create table tbl_loginhistory
+(fk_userid   varchar2(40) not null 
+,logindate   date default sysdate not null
+,clientip    varchar2(20) not null
+,constraint FK_tbl_loginhistory foreign key(fk_userid) 
+                                references tbl_member(userid)  
+);
+
+select *
+from tbl_loginhistory;
+
+
+String sql = "delete from tbl_member\n"+
+"where userid ='dong';";
+
+
+
+select *
+from tbl_member;
+
+delete from tbl_member
+where userid ='소녀장현걸';
+
+delete from tbl_loginhistory
+where fk_userid ='소녀장현걸';
+
+
+
+update tbl_member set status ='1'
+where userid = '소녀장현걸';
+
+commit;
+
+create table tbl_coupon
+(fk_userid        varchar2(50) not null
+,coupondate       varchar2(50) not null
+,couponname       varchar2(50) not null
+,coupondiscount   number
+,couponlastday    varchar2(50) not null
+,status           number(1) default 1     -- 유효기간   1: 사용가능(기간남아있음) / 0:사용불능(기간만료)   
+,constraint FK_tbl_coupon foreign key(fk_userid) 
+                                references tbl_member(userid) 
+,constraint CK_tbl_coupon_status check( status in(0,1) )                                
+);
+
+create sequence seq_tbl_coupon_couponnum
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+
+insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status)  values('dong',sysdate,'신규가입쿠폰', 3000, sysdate+7, 1);
+insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status)  values('dong',sysdate,'기념일쿠폰', 5000, sysdate+7, 1);
+insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status)  values('dong',sysdate,'2조할인쿠폰', 9999999, sysdate+7, 1);
+
+delete from tbl_coupon
+where couponname='송지현쿠폰';
+
+select *
+from tbl_coupon
+
+
+commit;
+
+drop table tbl_coupon
+
+select *
+from tbl_coupon;
+
+select *
+from seq_tbl_coupon_couponnum
+
+
 select *
 from tab;
 
 select *
-from TBL_COUPON;
-
----------------------------- eXERD용 select 문 -----------------------------------------------
+from tbl_member;
 
 select *
 from USER_TAB_COLUMNS
 where table_name = 'TBL_NOTICE_BOARD';
 
+alter table tbl_notice_comment
+modify comment_content Nvarchar2(50);
+-- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
+
 select *
 from user_constraints
 where table_name = 'TBL_NOTICE_COMMENT';
-
----------------------------- eXERD용 select 문 -----------------------------------------------
 
 
 
@@ -55,7 +180,7 @@ from tab;
 select seq_tbl_notice.nextval
 from dual;
 
----------------------------- 공지사항 게시글 테이블 -----------------------------------------------
+
 create sequence seq_tbl_notice
 start with 1
 increment by 1
@@ -69,18 +194,13 @@ create table tbl_notice_board(
 boardno     number not null,
 fk_writer   varchar2(40),
 title       Nvarchar2(100) not null,
-content     Nvarchar2(400) not null,
+content     Nvarchar2(200) not null,
 writetime   date default sysdate,
 viewcnt     number default '0',
 constraint PK_TBL_NOTICE_BOARD_BOARDNO primary key(boardno),
 constraint FK_TBL_NOTICE_BOARD_FK_WRITER foreign key (fk_writer) REFERENCES tbl_member(userid)
 );
 -- Table TBL_NOTICE_BOARD이(가) 생성되었습니다.
-
----------------------------- 공지사항 게시글 테이블 -----------------------------------------------
-alter table tbl_notice_board
-modify content Nvarchar2(400);
-
 
 select to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime
 from tbl_notice_board;
@@ -116,18 +236,6 @@ commit;
 select *
 from tbl_notice_board;
 
----------------------------- 공지사항 댓글 테이블 -----------------------------------------------
-
-create sequence seq_notice_comment
-start with 1
-increment by 1
-nomaxvalue
-nominvalue
-nocycle
-nocache;
--- Sequence SEQ_NOTICE_COMMENT이(가) 생성되었습니다.
-
-
 create table tbl_notice_comment(
 commentno           number,
 fk_boardno          number,
@@ -138,8 +246,6 @@ constraint FK_TBL_NOTICE_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES t
 constraint PK_TBL_NOTICE_COMMENT primary key(commentno)
 );
 -- Table TBL_NOTICE_COMMENT이(가) 생성되었습니다.
-
----------------------------- 공지사항 댓글 테이블 -----------------------------------------------
 
 insert into tbl_notice_comment(fk_boardno, fk_commenter, comment_content)
 values(2, 'kangkc', '댓글테스트');
@@ -257,7 +363,14 @@ add commentno number default 0;
 select *
 from tbl_notice_comment;
 
-
+create sequence seq_notice_comment
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-- Sequence SEQ_NOTICE_COMMENT이(가) 생성되었습니다.
 
 alter table tbl_notice_comment
 add constraint PK_TBL_NOTICE_COMMENT primary key(commentno);
@@ -268,7 +381,6 @@ alter table tbl_notice_comment
 modify comment_content Nvarchar2(50);
 -- Table TBL_NOTICE_COMMENT이(가) 변경되었습니다.
 
----------------------------- 공지사항 조회수 기록용 테이블 -----------------------------------------------
 create table tbl_notice_viewhistory(
 fk_boardno     number,
 fk_userid      varchar2(40),
@@ -279,8 +391,6 @@ constraint FK_NOTICE_H_USERID  foreign key(fk_userid)  references tbl_member(use
 constraint CK_NOTICE_H_VIEWCHECK check(viewcheck in(1, 2))
 )
 -- Table TBL_NOTICE_VIEWHISTORY이(가) 생성되었습니다.
-
----------------------------- 공지사항 조회수 기록용 테이블 -----------------------------------------------
 
 alter table tbl_notice_viewhistory
 modify viewdate date default sysdate;
@@ -318,7 +428,7 @@ drop constraint UQ_TBL_MEMBER_EMAIL;
 -- Table TBL_MEMBER이(가) 변경되었습니다.
 
 
----------------------------- 회원 삽입용 프로시저 -----------------------------------------------
+
 create or replace procedure pcd_member_insert
 (p_userid   IN     varchar2
 ,p_name     IN     varchar2
@@ -343,12 +453,6 @@ exec pcd_member_insert('seokj', '서강준', '1');
 commit;
 -- 커밋 완료.
 
----------------------------- 회원 삽입용 프로시저 -----------------------------------------------
-
-
-
-
-
 
 insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday)
 values('kimys', '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382', '김유신', 'qiLx8/Odd/4geV1BxitYbZgPX/Y4b6G0cFcMt/t/BU8=', 'h691zYcMu1s+kfHCP/HroA==', '22675', '인천 계양구 계산동 한국아파트', '101동 1201호', ' (계산동)', '1', '1995-09-29');
@@ -357,7 +461,7 @@ insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, deta
 values('youjs', '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382', '유재석', 'qiLx8/Odd/4geV1BxitYbZgPX/Y4b6G0cFcMt/t/BU8=', 'h691zYcMu1s+kfHCP/HroA==', '22675', '인천 계양구 계산동 한국아파트', '101동 1201호', ' (계산동)', '1', '1995-09-29');
 
 
-select ceil(count(*)/3)
+select ceil(count(*)/?)
 from tbl_member
 where userid != 'admin';
 
@@ -380,29 +484,12 @@ from
 where rno between 16 and 20;
 
 
-select *
-from USER_TAB_COLUMNS
-where table_name = 'TBL_NOTICE_BOARD';
+select boardno, fk_writer, title, content,writetime
+from tbl_notice_board
+where fk_writer = 'admin'
+order by boardno desc;
 
-alter table tbl_notice_board
-add imgfilename varchar2(200);
--- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
-
-select * 
-from tbl_notice_comment;
-
-select * 
-from tbl_member;
-
-delete from tbl_member
-where name like '%' || '아이유' || '%';
-
-commit;
-
-delete from tbl_notice_comment
-where fk_commenter like '%' || 'iyou' || '%';
-
----------------------------- 제품 테이블 -----------------------------------------------
+---- *** 제품 테이블 : tbl_product *** ----
 -- drop table tbl_product purge; 
 create table tbl_product
 (pnum           number(8) not null       -- 제품번호(Primary Key)
@@ -419,9 +506,8 @@ create table tbl_product
 ,constraint  PK_tbl_product_pnum primary key(pnum)
 ,constraint  FK_tbl_product_fk_cnum foreign key(fk_cnum) references tbl_category(cnum)
 );
----------------------------- 제품 테이블 -----------------------------------------------
 
----------------------------- 카테고리 테이블 -----------------------------------------------
+-----------------------------------------------------------------
 create table tbl_category
 (cnum    number(8)     not null  -- 카테고리 대분류 번호
 ,code    varchar2(20)  not null  -- 카테고리 코드
@@ -429,7 +515,7 @@ create table tbl_category
 ,constraint PK_tbl_category_cnum primary key(cnum)
 ,constraint UQ_tbl_category_code unique(code)
 );
-
+-----------------------------------------------------------------
 create sequence seq_category_cnum 
 start with 1
 increment by 1
@@ -437,274 +523,127 @@ nomaxvalue
 nominvalue
 nocycle
 nocache;
----------------------------- 카테고리 테이블 -----------------------------------------------
+-------------------------------------------------------------------
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '10000', 'dubby');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '20000', 'mul');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '30000', 'boots');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '40000', 'loper');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '50000', 'oxpode');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '60000', 'mongk');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '70000', 'sandle');
 
+commit;
+-------------------------------------------------------------------------------------------------
+
+---- *** 제품 테이블 : tbl_product *** ----
+-- drop table tbl_product purge; 
+create table tbl_product
+(pnum           number(8) not null       -- 제품번호(Primary Key)
+,pname          varchar2(100) not null   -- 제품명
+,fk_cnum        number(8)                -- 카테고리코드(Foreign Key)의 시퀀스번호 참조
+,pimage1        varchar2(100) default 'noimage.png' -- 제품이미지1   이미지파일명
+,pimage2        varchar2(100) default 'noimage.png' -- 제품이미지2   이미지파일명
+,pimage3        varchar2(100) default 'noimage.png'
+,pimage4        varchar2(100) default 'noimage.png'
+,pqty           number(8) default 0      -- 제품 재고량
+,price          number(8) default 0      -- 제품 정가
+,saleprice      number(8) default 0      -- 제품 판매가(할인해서 팔 것이므로)                                          
+,pinputdate     date default sysdate     -- 제품입고일자
+,constraint  PK_tbl_product_pnum primary key(pnum)
+,constraint  FK_tbl_product_fk_cnum foreign key(fk_cnum) references tbl_category(cnum)
+);
+
+-----------------------------------------------------------------
+create table tbl_category
+(cnum    number(8)     not null  -- 카테고리 대분류 번호
+,code    varchar2(20)  not null  -- 카테고리 코드
+,cname   varchar2(100) not null  -- 카테고리명
+,constraint PK_tbl_category_cnum primary key(cnum)
+,constraint UQ_tbl_category_code unique(code)
+);
+-----------------------------------------------------------------
+create sequence seq_category_cnum 
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-------------------------------------------------------------------
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '10000', 'dubby');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '20000', 'mul');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '30000', 'boots');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '40000', 'loper');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '50000', 'oxpode');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '60000', 'mongk');
+insert into tbl_category(cnum, code, cname) values(seq_category_cnum.nextval, '70000', 'sandle');
+
+commit;
+-------------------------------------------------------------------------------------------------
+
+--- 쿠폰 -------------------
+
+insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status)  values('dong',sysdate,'신규가입쿠폰', 3000, sysdate+7, 1);
+insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status)  values('dong',sysdate,'기념일쿠폰', 5000, sysdate+7, 1);
+insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status)  values('admin',sysdate,'관리자쿠폰', 50000, sysdate+7, 1);
+
+
+delete from tbl_coupon
+where couponname=''; /""
 
 select *
-from tab;
+from tbl_coupon
 
-select *
+select * 
 from tbl_member;
 
-select *
-from USER_TAB_COLUMNS
-where table_name = 'TBL_CATEGORY';
-
-select * 
-from user_constraints
-where table_name = 'TBL_PRODUCT';
--------------------------------------------------------------------------------------
-
----------------------------- 문의사항 게시글 테이블 -----------------------------------------------
-create sequence seq_tbl_qna_board
-start with 1
-increment by 1
-nomaxvalue
-nominvalue
-nocycle
-nocache;
--- Sequence SEQ_TBL_QNA_BOARD이(가) 생성되었습니다.
-
----------------------------- 문의사항 게시글 테이블 -----------------------------------------------
-create table tbl_qna_board(
-boardno     number not null,
-fk_writer   varchar2(40),
-title       Nvarchar2(100) not null,
-content     content Nvarchar2(400) not null,
-imgfilename varchar2(200),
-feedbackYN  varchar2(1) default 0,
-writetime   date default sysdate,
-fk_pnum     number(8),
-constraint PK_TBL_QNA_BOARD_BOARDNO primary key(boardno),
-constraint FK_TBL_QNA_BOARD_FK_WRITER foreign key (fk_writer) REFERENCES tbl_member(userid),
-constraint CK_TBL_QNA_BOARD_FEEDBACKYN check(feedbackYN in(1, 2)),
-constraint FK_TBL_QNA_BOARD_FK_PNUM foreign key(fk_pnum) references tbl_product(pnum)
-);
--- Table TBL_QNA_BOARD이(가) 생성되었습니다.
-
-alter table tbl_qna_board
-modify content Nvarchar2(400);
-
-delete from tbl_qna_board;
 commit;
 
-alter table tbl_qna_board
-drop column viewcnt;
--- Table TBL_QNA_BOARD이(가) 변경되었습니다.
-
-alter table tbl_qna_board
-add imgfilename varchar2(200);
--- Table TBL_QNA_BOARD이(가) 변경되었습니다.
-
-alter table tbl_qna_board
-modify feedbackYN varchar2(1) default 0;
--- Table TBL_QNA_BOARD이(가) 변경되었습니다.
-
-alter table tbl_qna_board
-add constraint CK_TBL_QNA_BOARD_FEEDBACKYN check(feedbackYN in(0, 1));
--- Table TBL_QNA_BOARD이(가) 변경되었습니다.
-
-alter table tbl_qna_board
-add fk_pnum number(8);
--- Table TBL_QNA_BOARD이(가) 변경되었습니다.
-
-alter table tbl_qna_board
-add constraint FK_TBL_QNA_BOARD_FK_PNUM foreign key(fk_pnum) references tbl_product(pnum);
--- Table TBL_QNA_BOARD이(가) 변경되었습니다.
-
-
----------------------------- 문의사항 댓글 테이블 -----------------------------------------------
-create sequence seq_tbl_qna_comment
-start with 1
-increment by 1
-nomaxvalue
-nominvalue
-nocycle
-nocache;
--- Sequence SEQ_TBL_QNA_COMMENT이(가) 생성되었습니다.
-
-
-
-create table tbl_qna_comment(
-commentno           number,
-fk_boardno          number,
-fk_commenter        varchar2(40),
-comment_content     Nvarchar2(50),
-commentdate         date default sysdate,
-constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_qna_board(boardno),
-constraint FK_TBL_QNA_COMMNET_FK_CT  foreign key (fk_commenter)  REFERENCES tbl_member(userid),
-constraint PK_TBL_QNA_COMMENT primary key(commentno)
-);
--- Table TBL_QNA_COMMENT이(가) 생성되었습니다.
----------------------------- 문의사항 댓글 테이블 -----------------------------------------------
-
-alter table tbl_qna_comment
-add constraint FK_TBL_QNA_COMMENT_FK_BNO foreign key (fk_boardno) REFERENCES tbl_qna_board(boardno) on delete cascade;
--- Table TBL_QNA_COMMENT이(가) 변경되었습니다.
-
-
-select boardno, fk_writer, title, content, writetime, imgfilename, feedbackYN , fk_pnum
-from tbl_qna_board;
-
-select commentno, fk_boardno, fk_commenter, comment_content, commentdate
-from tbl_qna_comment;
-
-alter table tbl_qna_comment
-add commentdate date default sysdate;
--- Table TBL_QNA_COMMENT이(가) 변경되었습니다.
-
-
-select * 
-from tbl_notice_board
-order by boardno desc;
-
-alter table tbl_notice_board
-drop column imgfilepath;
--- Table TBL_NOTICE_BOARD이(가) 변경되었습니다.
-
-select * 
-from tbl_qna_board;
-
-insert into tbl_qna_board(boardno, fk_writer, title, content, fk_pnum)
-values(seq_tbl_qna_board.nextval, '성현', 'test1', 'test1', 8);
-commit;
-
-select * 
-from tbl_qna_comment;
-
-insert into tbl_qna_comment(commentno, fk_boardno, fk_commenter, comment_content)
-values(seq_tbl_qna_comment.nextval, '2', 'admin', '답변 test');
-
-insert into tbl_qna_board(boardno, fk_writer, title, content, fk_pnum)
-values(seq_tbl_qna_board.nextval, '성현', 'test2', 'test2', 8);
-commit;
-
-insert into tbl_qna_comment(commentno, fk_boardno, fk_commenter, comment_content)
-values(seq_tbl_qna_comment.nextval, '3', 'admin', '답변 test2');
-commit;
-
-update tbl_qna_board set feedbackYN = 1
-where boardno = 3;
-
-select * 
-from tbl_qna_comment;
-
-select * 
-from tbl_product
-order by fk_cnum;
-
-select *
-from tbl_qna_board;
-
-delete from tbl_qna_board;
+delete tbl_coupon
+where length(fk_userid) > 0;
 
 commit;
 
-select boardno, fk_writer, title, content, writetime, imgfilename, feedbackYN, fk_pnum, pname
-from 
-(
-    select boardno, fk_writer, title, content,
-    to_char(writetime, 'yyyy-mm-dd hh24:mi') AS writetime, imgfilename, feedbackYN, fk_pnum 
-    from tbl_qna_board
-    where boardno = 5
-) Q 
-join 
-(
-    select pnum, pname
-    from tbl_product
-) P
-ON Q.fk_pnum = P.pnum
-
-
-select *
-from tbl_qna_comment;
-
-select *
-from tbl_qna_board;
-
-select * 
-from user_sequences;
-
-select *
-from tab;
-
-
-show user;
--- USER이(가) "SYS"입니다.
-
-create user semiorauser2 identified by cclass;
--- User SEMIORAUSER2이(가) 생성되었습니다.
-
-grant connect, resource, create view, unlimited tablespace to semiorauser2;
--- Grant을(를) 성공했습니다.
-
-select *
-from tab;
-
-desc TBL_NOTICE_COMMENT;
-
-select *
-from user_constraints
-where table_name = 'TBL_REVIEW_VIEWHISTORY';
-
-select *
-from TBL_PRODUCT_MONGK;
-
-select *
-from tbl_notice_viewhistory
-order by fk_boardno asc;
-
-update tbl_notice_viewhistory set viewdate = '21/10/18'
-where fk_boardno = 58;
--- 1 행 이(가) 업데이트되었습니다.
-
-commit;
--- 커밋 완료.
-
-------------------------------------------------------------------
--- 10월 21일 
-
--- 주문내역 조회하기
-select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, buy_jeokrib_money, buy_date, baesong_sangtae, fk_pimage3
-from
-(
-    select fk_pnum, fk_userid, buy_opt_info, buy_qty, buy_opt_price, buy_pro_price, buy_jeokrib_money, buy_date, baesong_sangtae, jumun_bunho, fk_pimage3
-    from tbl_buy
-) A
-JOIN 
-( 
-    select pnum, pname
-    from tbl_product
-) B
-on A.fk_pnum = B.pnum;
-
-select count(*)
-from tbl_buy;
-
-select DISTINCT jumun_bunho
-from tbl_buy;
-
-
-select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, buy_jeokrib_money, buy_date, baesong_sangtae, fk_pimage3 
-from
-(    
-    select jumun_bunho, pname, pnum, fk_userid, buy_pro_price, buy_opt_price, buy_pro_price + buy_opt_price AS saleprice, buy_jeokrib_money, buy_date, baesong_sangtae, fk_pimage3,
-    rownum AS RNO 
-    from 
-    ( 
-        select fk_pnum, fk_userid, buy_opt_info, buy_qty, buy_opt_price, buy_pro_price, buy_jeokrib_money, buy_date, baesong_sangtae, jumun_bunho, fk_pimage3 
-        from tbl_buy 
-    ) A 
-    JOIN 
-    (  
-        select pnum, pname 
-        from tbl_product 
-    ) B 
-    on A.fk_pnum = B.pnum
-) T
-where rno between 70 and 80;
-
-
-select buy_finish_date, baesong_sangtae
+select buy_date,fk_userid,baesong_sangtae,jumun_bunho
 from tbl_buy
-where jumun_bunho = '53060-27' and fk_pnum = 2;
+where fk_userid ='dong';
+
+select *
+from tbl_coupon;
+
+insert into tbl_coupon(fk_userid,coupondate, couponname, coupondiscount, couponlastday, status)  values('dong',sysdate,'신규가입쿠폰', 3000, sysdate+7, 1);
+
+select buy_date,userid,point
+from
+(
+select userid,point
+from tbl_member
+where userid ='rnldual08'
+) A
+join
+select buy_date,fk_userid
+from tbl_buy
+where fk_userid ='rnldual08'
+) B
+on A.userid = B.fk_userid
+
+select *
+from tbl_coupon;
+		
+select rank()over(order by      
+select *
+from tbl_review
+group by fk_pnum) AS 등수, fk_pnum
+from tbl_review;
+
+select count(*),fk_pnum, rank()over(order by count(*) desc)
+from tbl_review
+group by fk_pnum
+
+select *
+from tbl_chk_rnldual08;
+
+alter table point 
+
+select *
+from tbl_chk_test;
