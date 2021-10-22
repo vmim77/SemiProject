@@ -14,32 +14,31 @@ public class AdminMemberEditEndAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		// 추후에 로그인한 유저정보가 '운영자'인지 아닌지 확인하는 if절을 걸어서 걸러낼겁니다.
+	
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		String message = "";
-		String loc = "";
-		
+		// 먼저 운영자인지 아닌지를 검사한다.
 		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
 			
 			String method = request.getMethod();
+			// "GET" or "POST"
 			
-			if("POST".equalsIgnoreCase(method)) { // POST로 들어오는 경우
-				
-				// 수정하기 전
-				String userid = request.getParameter("userid");
+			String message = "";
+			String loc = "";
 			
+			// 수정하기는 POST를 통해서만 폼이 전송되어진다.
+			if("POST".equalsIgnoreCase(method)) {
 				
-				int point = Integer.parseInt(request.getParameter("point"));
-				int status = Integer.parseInt(request.getParameter("status"));
-				int idle = Integer.parseInt(request.getParameter("idle"));
-				String couponname =  request.getParameter("couponname");
-				
+				String userid = request.getParameter("userid"); 				// 조건절에 사용할 유저아이디
+				int point = Integer.parseInt(request.getParameter("point")); 	// 변경된 포인트
+				int status = Integer.parseInt(request.getParameter("status")); 	// 변경된 회원상태
+				int idle = Integer.parseInt(request.getParameter("idle")); 		// 변경된 휴면여부
+				String couponname =  request.getParameter("couponname"); 		// 쿠폰이름
 				
 				String onlyinfo = request.getParameter("onlyinfo");
 				String onlycoupon = request.getParameter("onlycoupon");
-	
+				
 				MemberVO member = new MemberVO();
 				
 				member.setUserid(userid);
@@ -47,7 +46,6 @@ public class AdminMemberEditEndAction extends AbstractController {
 				member.setStatus(status);
 				member.setIdle(idle);
 				member.setCouponname(couponname);
-			
 				
 				if( "test".equals(onlyinfo) && "onlycoupon".equals(onlycoupon)) {
 					
@@ -60,58 +58,48 @@ public class AdminMemberEditEndAction extends AbstractController {
 					super.setViewPage("/WEB-INF/msg.jsp");
 						
 				}
+				
 				else if( "onlyinfo".equals(onlyinfo) && "test".equals(onlycoupon)) {
-					
-					
 					
 					int n = mdao.adminUpdateUser(member);
 					
-					
 					if(n==1) { // UPDATE 성공한 경우
-						message = "회원정보 변경성공[운영자메뉴]";
-						loc = request.getContextPath()+"/index.sh";
-						request.setAttribute("message", message);
-						request.setAttribute("loc", loc);
-						super.setViewPage("/WEB-INF/msg.jsp");
+						message = "[운영자메뉴]회원정보 변경성공";
+						loc = request.getContextPath()+"/admin/memberList.sh";
 					}
-				
+					
 					else { // UPDATE 실패한 경우
-						message = "회원정보 변경실패[운영자메뉴]";
+						message = "[운영자메뉴]회원정보 변경실패";
 						loc = request.getContextPath()+"/index.sh";
-						request.setAttribute("message", message);
-						request.setAttribute("loc", loc);
-						super.setViewPage("/WEB-INF/msg.jsp");
-						
 					}
 					
 				}//end of if( onlyinfo == "test" && onlycoupon == "onlycoupon") {
 				
+				
 			}
-			else { // "GET" 으로 들어오는 경우
-				
-				message = "일반회원이 사용할 수 없는 기능입니다!!";
+			
+			else { // "GET" 으로 들어오는 경우이다.
+				message = "잘못된 접근입니다!!";
 				loc = request.getContextPath()+"/index.sh";
-				
-				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
-				super.setViewPage("/WEB-INF/msg.jsp");
-				
-			}//end of if("POST".equalsIgnoreCase(method)) { // POST로 들어오는 경우
-			
-		}
-		else {
-			
-			message = "잘못된 접근입니다.";
-			loc = request.getContextPath()+"/index.sh";
+			}
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
-			
 			super.setViewPage("/WEB-INF/msg.jsp");
 			
-		}//end of if( loginuser != null && "admin".equals(loginuser.getUserid())) {
+		}
+		
+		else {
+			String message = "운영자 메뉴입니다. 잘못된 접근입니다!!";
+			String loc = request.getContextPath()+"/index.sh";
 			
-	}//end of public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	
-}
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+			super.setViewPage("/WEB-INF/msg.jsp");
+		}
+		
 
+		
+	}
+
+}

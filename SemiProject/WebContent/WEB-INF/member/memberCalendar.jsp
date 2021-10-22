@@ -68,8 +68,6 @@
 		
 	$(document).ready(function(){
 		
-		//
-		var cnt = 0;
 		// 영어 달이름
 		var monthname = "";
 		// 년도
@@ -198,7 +196,7 @@
 			if( (startnum+i) >= 36){
 				$("tr#hide").show();
 			}
-			cnt++;
+		
 		}//end of if----------------------------------
 		
 		/////////////////////////////////////////////////////////////
@@ -217,7 +215,7 @@
 				// 히든타입 인풋 넣어주기
 				$("span#img"+(startnum+i)).append(inputhtml);
 			}//end of for-----------------------------
-			cnt++;
+	
 		} //end of if----------------------------------
 		
 		/////////////////////////////////////////////////////////////
@@ -225,7 +223,6 @@
 		// 시작시 그동안 해던체크 보여주기
 		// j로 for문 작성한 이유는 위의 i가 지역변수가 아니기 때문
 		for(var j=0; j<choolcheckday.length; j++){
-			console.log((startnum+(choolcheckday[j]*1)));
 			// 사진넣어주기
 			$("span#img"+(startnum+(choolcheckday[j]*1)-1)).empty();
 			$("span#img"+(startnum+(choolcheckday[j]*1)-1)).html(chghtml);
@@ -249,16 +246,21 @@
 		 		$.ajax({
 		 			url:"<%= ctxPath%>/memberCalendar.sh",
 		 			data:{"savemycheck":savemycheck},
+		 			dataType:"JSON",
 		 			success: function(json){
 		 		 	
-		 				// 값이 잘 저장 되었다면
-		 				alert("출석체크 성공!");
+		 				// 5~25일 째 출석체크를 했다면
+		 				if(json.result != 0){
+		 					alert(json.result + "포인트가 지급 되었습니다");
+		 				}
+		 				else{
+		 					alert("출석체크 성공!");
+		 				} 
 		 				
 		 				},
 		 				error: function(request, status, error){
 							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error); 
 					}
-		 			
 		
 		 		});//end of $.ajax({-------------------------------------
 		 			
@@ -266,7 +268,7 @@
 			else{
 				alert("오늘은 "+<%= today%>+"일 출석체크 입니다.");
 			}
-	 		 	
+	 		
 		});//end of $(document).on("click",function(){
 		
 		/////////////////////////////////////////////////////////////
@@ -279,10 +281,6 @@
 		});//end of $(document).on("click",function(){
 		
 		/////////////////////////////////////////////////////////////
-		
-		
-		
-		
 		
 	});//end of $(docunment).ready(function(){
 		

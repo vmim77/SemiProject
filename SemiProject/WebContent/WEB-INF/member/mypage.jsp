@@ -106,17 +106,17 @@
     <div style="text-align: center; margin-top: 30px">
       <span><a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" style="text-decoration: none;">정보수정</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/memberCalendar.sh" style="text-decoration: none;">출석체크</a></span> &nbsp;&nbsp;
-      <span><a href="" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
+      <span><a href="<%= ctxPath %>/cart.sh" style="text-decoration: none;">장바구니</a></span> &nbsp;&nbsp;
       <span><a href="<%= ctxPath %>/member/memberdelete.sh" style="text-decoration: none;">회원탈퇴</a></span>
     </div>
 </div>
 
-<table id="" style="border: solid 2px gray; width: 1200px;">
+<table id="" style="border: solid 2px gray; width: 1200px; ">
 	<tr>
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
 			<span style="background-color:#f5f5ef; display:inline-block; height:100px; width:900px; padding-top:10px; padding-left:40px; font-size:10pt; border-right:solid 1px #d0d0e2;">
 				<img style="height:80px; padding-right:10px;" id="profile" src="../images/image_1.png"/>
-				${(sessionScope.loginuser.name)}님은 [화이트] 회원입니다.<br>
+				${(sessionScope.loginuser.name)}님 환영합니다<br>
 			</span>
 		</td>
 		<td style="text-align:left; height:120px; background-color:#f5f5ef;">
@@ -197,7 +197,7 @@
 </table><br>
 
 <!-- 여기서부터 디자인 시작 -->
-                <table>
+                <table style="overflow: auto;">
                   <tr style="font-size:13pt; font-weight:bold; height:50px; text-align:left; padding-bottm:15px;">
                      <td colspan="8" style="padding-left:15px;">
                         주문내역

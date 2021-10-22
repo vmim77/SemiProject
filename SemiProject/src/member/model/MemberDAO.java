@@ -145,7 +145,13 @@ public class MemberDAO implements InterMemberDAO {
 		        pstmt.setString(12, member.getReferral());
 		        
 		        n = pstmt.executeUpdate();
+		        /////////////////////////////////////////////
+		        sql = " create table tbl_chk_"+member.getUserid()+
+		                " (daynum  varchar2(30) "+
+		                " ,point   number(5) default 0) ";
 		        
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.executeUpdate();
 				
 			} catch (GeneralSecurityException | UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -1004,6 +1010,208 @@ public class MemberDAO implements InterMemberDAO {
 			
 			return mbvo;
 	}
+		
+		//=======================================================================================
+/*		// 쿠폰 추가하기
+		@Override
+		public MemberVO membercoupon(String userid) throws SQLException {
+			
+			
+			MemberVO mvo = new MemberVO();
+			
+			 try {
+		            conn = ds.getConnection();
+		        
+		            
+		            String sql = " select couponnum,userid,coupondate,couponname,coupondiscount,couponlastday,status "+
+		            			 " from tbl_coupon "+
+		            			 " where userid = ? ";
+		            
+		            pstmt = conn.prepareStatement(sql);		
+		          
+		            pstmt.setString(1,userid);
+		            
+		            rs = pstmt.executeQuery();
+		            
+		            while(rs.next()) {
+		            	mvo.setCouponnum(rs.getInt(1));
+		            	mvo.setUserid(rs.getString(2));
+		            	mvo.setCoupondate(rs.getString(3));
+		            	mvo.setCouponname(rs.getString(4));
+		            	mvo.setCoupondiscount(rs.getInt(5));
+		            	mvo.setCouponlastday(rs.getString(6));
+		            	mvo.setStatus(rs.getInt(7));
+		            }
+		            
+			
+		
+		} finally {
+			close();
+		}
+				
+			 return mvo;
+		}*/
+	//=======================================================================================
+		// 내정보 가져오기
+		@Override
+		public Map<String, String> SelectMyInfo(String userid) throws SQLException {
+			
+			Map<String, String> paraMap = new HashMap<>();
+			
+			try {
+	            
+				conn = ds.getConnection();
+	            
+				String sql = " select name,postcode,address,extraaddress,detailaddress,mobile,email "+
+						     " from tbl_member "+
+						     " where userid = ? ";
+				
+				pstmt = conn.prepareStatement(sql);		
+	          
+	            pstmt.setString(1,userid);
+	            
+	            rs = pstmt.executeQuery();
+	            
+	            if(rs.next()) {
+	            	
+	            	paraMap.put("name",rs.getString(1));
+	            	paraMap.put("postcode",rs.getString(2));
+	            	paraMap.put("address",rs.getString(3));
+	            	// 주소 정제작업
+	            	String detailAddress = rs.getString(4) + " " + rs.getString(5);  
+	            	paraMap.put("detailAddress",detailAddress);
+	            	// 번호 정제작업
+	            	String hp1 = aes.decrypt(rs.getString(6)).substring(0,3);
+	            	String hp2 = aes.decrypt(rs.getString(6)).substring(3,7);
+	            	String hp3 = aes.decrypt(rs.getString(6)).substring(7,11);
+	            	paraMap.put("hp1",hp1);	
+	            	paraMap.put("hp2",hp2);	
+	            	paraMap.put("hp3",hp3);	
+	            	// 이메일정제작업
+	            	String firstemail = aes.decrypt(rs.getString(7)).substring(0, aes.decrypt(rs.getString(7)).indexOf("@",0));
+	            	String secondemail = aes.decrypt(rs.getString(7)).substring(aes.decrypt(rs.getString(7)).indexOf("@",0)+1);
+	            	paraMap.put("firstemail",firstemail);	
+	            	paraMap.put("secondemail",secondemail);
+	            	
+	            }//end of while--------------------
 
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) {	
+				e.printStackTrace();
+			} finally {
+				close(); // 자원반납
+			}
+			
+			return paraMap;
+			
+		}//end of public Map<String, String> SelectMyInfo(String userid) {-------------------
+	//=======================================================================================
+		// 내 포인트 조회하기
+		@Override
+		public int selectMyPoint(String userid) throws SQLException{
+			
+			int mypoint = 0;
+			
+			try {
+	            conn = ds.getConnection();
+	            
+	            String sql = " select point "+
+	            			 " from tbl_member "+
+	            			 " where userid = ? ";
+	            
+	            pstmt = conn.prepareStatement(sql);		
+	            pstmt.setString(1,userid);
+	            rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+	            	mypoint = rs.getInt(1);
+	            }
+
+			} finally {
+				close();
+			}
+			
+			return mypoint;
+			
+		}//end of public int selectMyPoint(String userid) {----------------------------------
+	//=======================================================================================	
+		// by.jsp 에서 사용한 내 포인트 디비에 업데이트 하기
+		@Override
+		public void UpdateMypoint(String userid, String dbpoint) throws SQLException {
+		
+			try {
+	            conn = ds.getConnection();
+	            
+	            String sql = " update tbl_member set point = ? "+
+	            		     " where userid = ? ";
+	            
+	            pstmt = conn.prepareStatement(sql);		
+	            pstmt.setString(1,dbpoint);
+	            pstmt.setString(2,userid);
+	            pstmt.executeUpdate();
+
+			} finally {
+				close();
+			}
+			
+		}//end of public void UpdateMypoint(String userid) throws SQLException {-------------
+	//=======================================================================================	
+	      // 문자발송용 전화번호와 이름 가져오기
+	      @Override
+	      public MemberVO getUserInfo(String userid) throws SQLException {
+	         
+	         MemberVO mvo = null;
+	         
+	         try {
+	            
+	            conn=ds.getConnection();
+	            
+	            String sql = " select name, mobile "+
+	                      " from tbl_member "+
+	                      " where userid = ?";
+	                            
+	            
+	            pstmt = conn.prepareStatement(sql);
+	            
+	            pstmt.setString(1, userid);
+	            
+	            rs = pstmt.executeQuery();
+	             
+	             if(rs.next()) {
+	               mvo = new MemberVO();
+	               mvo.setName(rs.getString(1));
+	               mvo.setMobile(aes.decrypt(rs.getString(2)));
+	             }
+	         } catch(GeneralSecurityException | UnsupportedEncodingException e) {   
+	            e.printStackTrace();
+	         }  finally {
+	            close();
+	         }
+	         
+	         
+	         // TODO Auto-generated method stub
+	         return mvo;
+	      }// end of public MemberVO getUserInfo(String userid)----------------------
+//==========================================================================================
+	// 사용한 쿠폰 없애기
+	@Override
+	public void ByeCoupon(String userid, String coupon) throws SQLException {
+		
+		try {
+            conn = ds.getConnection();
+            
+            String sql = " delete tbl_coupon " +
+    				     " where fk_userid = ? and coupondiscount = ? ";
+            
+            pstmt = conn.prepareStatement(sql);		
+            pstmt.setString(1,userid);
+            pstmt.setString(2,coupon);
+            pstmt.executeUpdate();
+
+		} finally {
+			close();
+		}
+		
+	}//end of public void ByeCoupon(String userid, String coupon) throws SQLException {
+//==========================================================================================
 }
 

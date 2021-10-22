@@ -28,7 +28,6 @@ public class MypageAction extends AbstractController {
 		InterBoardDAO bdao = new BoardDAO();
 		HttpSession session = request.getSession();
         MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-        
         String userid = loginuser.getUserid();
 //======================================================================================================
         // 쿠폰 넘겨받기
@@ -53,10 +52,6 @@ public class MypageAction extends AbstractController {
 //=======================================================================================================        
     	//	super.setRedirect(false);
 		super.setViewPage("/WEB-INF/member/mypage.jsp");
-        
-		
-		
-
 	}
 
 }

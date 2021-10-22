@@ -15,6 +15,7 @@ public class NoticeDeleteAction extends AbstractController {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
 		if( loginuser != null && "admin".equals(loginuser.getUserid())) {
 			String method = request.getMethod(); // "GET" OR "POST"
 			
@@ -49,7 +50,7 @@ public class NoticeDeleteAction extends AbstractController {
 				
 			}
 			
-			else { // GET으로 왔다는 것은 운영자이면서!!, 게시판 상세보기에서 삭제하기를 누른 것이다. 또는 URL로 들어왔거나
+			else { // GET으로 왔다는 것은 운영자이면서 게시판 상세보기에서 삭제하기를 눌러서 처음 들어온 것이다.
 				
 				String boardno = request.getParameter("boardno");
 				
@@ -62,7 +63,7 @@ public class NoticeDeleteAction extends AbstractController {
 			
 		}
 		
-		else {
+		else { // 운영자가 아닌 사용자가 접근했다면
 			
 			String message = "잘못된 접근입니다.";
 			String loc = request.getContextPath()+"/index.sh";

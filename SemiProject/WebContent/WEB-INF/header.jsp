@@ -120,6 +120,8 @@
 						<%-- 공지사항 메뉴입니다. --%>
 						<li class="nav-item"><a href="<%= ctxPath%>/board/notice.sh" class="nav-link">NOTICE</a></li>
 						
+						<%-- 문의게시판 --%>
+                  <li class="nav-item"><a href="<%= ctxPath%>/board/QnA.sh" class="nav-link">Q&A</a></li>
 						
 						<%-- 카테고리 메뉴입니다. --%>
 						<li class="nav-item dropdown"  style="opacity: 0.8;">
@@ -146,7 +148,7 @@
 								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
 									<a class="dropdown-item" href="<%= ctxPath%>/login/login.sh">로그인     </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/member/memberRegister.sh">회원가입  </a>
-									<a class="dropdown-item" href="#">장바구니  </a>
+									<a class="dropdown-item" href="<%= ctxPath%>/cartList.sh">장바구니  </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/delivery/delivery.sh">배송조회   </a>
 								</div>
 							</li>	
@@ -158,7 +160,7 @@
 								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#fff; font-size: 10pt;" >${sessionScope.loginuser.name} 님</a>
 								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
 									<a class="dropdown-item" href="<%= ctxPath%>/login/logout.sh">로그아웃  </a>
-									<a class="dropdown-item" href="#">장바구니  </a>
+									<a class="dropdown-item" href="<%= ctxPath%>/cartList.sh">장바구니  </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/delivery/delivery.sh">배송조회   </a>
 									<a class="dropdown-item" href="<%= ctxPath%>/member/mypage.sh">마이페이지</a>
 								</div>
@@ -166,16 +168,17 @@
 						</c:if>
 						
 						<%-- 관리자 메뉴입니다. --%>
-						<c:if test="${sessionScope.loginuser.userid eq 'admin' }">
-							<li class="nav-item dropdown" style="opacity: 0.8;">
-								<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN MENU</a>
-								<div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
-									<a class="dropdown-item" href="<%= ctxPath%>/admin/memberList.sh">회원목록      </a>
-									<a class="dropdown-item" href="#">제품등록      </a>
-									<a class="dropdown-item" href="#">전체주문내역</a>
-								</div>
-							</li>
-						</c:if>
+						               <%-- 관리자 메뉴입니다. --%>
+                  <c:if test="${sessionScope.loginuser.userid eq 'admin' }">
+                     <li class="nav-item dropdown" style="opacity: 0.8;">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN MENU</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04" style="text-align:center;">
+                           <a class="dropdown-item" href="<%= ctxPath%>/admin/memberList.sh">회원목록      </a>
+                           <a class="dropdown-item" href="<%= ctxPath%>/admin/orderList.sh">전체주문내역</a>
+                           <a class="dropdown-item" href="<%= ctxPath%>/admin/productRegister.sh">제품등록</a>
+                        </div>
+                     </li>
+                  </c:if>
 						
 
 						

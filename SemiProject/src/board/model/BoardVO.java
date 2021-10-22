@@ -8,12 +8,22 @@ public class BoardVO {
 	private String content; // 글내용
 	private String writetime; // 글시간 - 기본값 sysdate
 	private int viewcnt; // 조회수
+	private String imgfilename; // 이미지파일 이름
 	
+	////////////////////////////////////////////////////////////////
 	
 	// select 용 컬럼
 	private int CommentCnt; // 해당 글의 댓글수
+	////////////////////////////////////////////////////////////////
 	
+	// 문의게시판용 컬럼
+	private String feedbackYN; // 문의사항 답변여부 0이면 미답변, 1이면 답변 //  CK 0 or 1
+	private int fk_pnum; // 어떤 상품에 대한 문의사항인지 알기 위한 필드
 	
+	// select 용 컬럼
+	private String pname; // 문의사항 글 보기에서 출력용으로 쓰일 제품명
+	
+	////////////////////////////////////////////////////////////////
 	
 	
 	public int getBoardno() {
@@ -71,6 +81,39 @@ public class BoardVO {
 	public void setCommentCnt(int commentCnt) {
 		CommentCnt = commentCnt;
 	}
+
+	public String getImgfilename() {
+		return imgfilename;
+	}
+
+	public void setImgfilename(String imgfilename) {
+		this.imgfilename = imgfilename;
+	}
+
+	public String getFeedbackYN() {
+		return feedbackYN;
+	}
+
+	public void setFeedbackYN(String feedbackYN) {
+		this.feedbackYN = feedbackYN;
+	}
+
+	public int getFk_pnum() {
+		return fk_pnum;
+	}
+
+	public void setFk_pnum(int fk_pnum) {
+		this.fk_pnum = fk_pnum;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
 	
 	
 	

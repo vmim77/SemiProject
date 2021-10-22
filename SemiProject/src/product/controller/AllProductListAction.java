@@ -24,8 +24,6 @@ public class AllProductListAction extends AbstractController {
 		//super.setRedirect(false);
 		super.setViewPage("/WEB-INF/product/allProductList.jsp");
 		
-		
-		
 	}
 
 }

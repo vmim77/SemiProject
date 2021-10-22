@@ -15,7 +15,7 @@ import product.realmodel.ProductBuyVO;
 import product.realmodel.ProductRealDAO;
 
 public class DeliverylistAction extends AbstractController {
-
+//====================================================================================================
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -29,11 +29,8 @@ public class DeliverylistAction extends AbstractController {
 		List<ProductBuyVO> order = prdao.myorder(userid); 
 		request.setAttribute("order", order);
 		
-		
-		
-		
 		super.setViewPage("/WEB-INF/delivery/delivery.jsp");
 		
-	}
-
+	}//end of public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//====================================================================================================
 }

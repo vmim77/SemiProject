@@ -32,9 +32,15 @@ create table tbl_member
 ,constraint CK_tbl_member_idle check( idle in(0,1) )
 );
 
-select *
-from tbl_member;
+insert into tbl_chk_rnldual08(daynum) values(9);
 
+delete tbl_chk_rnldual08 where daynum = 21;
+commit;
+select *
+from tbl_chk_rnldual08;
+select point
+from tbl_member
+where userid = 'rnldual08';
 delete from tbl_member
 where userid ='shin';
 
@@ -621,5 +627,23 @@ where fk_userid ='rnldual08'
 ) B
 on A.userid = B.fk_userid
 
+select *
+from tbl_coupon;
 		
+select rank()over(order by      
+select *
+from tbl_review
+group by fk_pnum) AS 등수, fk_pnum
+from tbl_review;
 
+select count(*),fk_pnum, rank()over(order by count(*) desc)
+from tbl_review
+group by fk_pnum
+
+select *
+from tbl_chk_rnldual08;
+
+alter table point 
+
+select *
+from tbl_chk_test;

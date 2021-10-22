@@ -11,26 +11,22 @@ import product.realmodel.ProductBuyVO;
 import product.realmodel.ProductRealDAO;
 
 public class OrderchangeAction extends AbstractController {
-
+//===============================================================================================
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		InterProductRealDAO prdao = new ProductRealDAO();
         
         String jumun_bunho = request.getParameter("jumun_bunho");
         
-        List<ProductBuyVO> orderList = prdao.SelectMyBought(jumun_bunho);
+        List<ProductBuyVO> orderList = prdao.Mychange(jumun_bunho);
         
-        request.setAttribute("jumun_bunho", jumun_bunho);
-        
+        request.setAttribute("jumun_bunho", jumun_bunho);        
         request.setAttribute("orderList", orderList);
-        
         
         int th = 0;
         String can = request.getParameter("can");
-        
-        System.out.println("can => " + can);
-        System.out.println("th => " + th);
-        
+
         if( can != null ) {
         	
         	jumun_bunho = request.getParameter("retry_jumun_bunho");
@@ -48,13 +44,14 @@ public class OrderchangeAction extends AbstractController {
 	        	
 	        	if(ChangeList==1) {
 	        		System.out.println("sql 성공 ");
-	        	}
-	        }
-        }
+	        	}//end of if(ChangeList==1) {
+	        	
+	        }//end of if("환불·취소".equals(can)) {
+	        
+        }//end of if( can != null ) {
         	
-        
 		super.setViewPage("/WEB-INF/delivery/orderchange.jsp");
 		
-	}
-
+	}//end of public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//===============================================================================================
 }
